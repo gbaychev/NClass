@@ -1,0 +1,172 @@
+Version 2.04 (06-Jun-2011)
+--------------------------
++ Optional parameters are supported
++ New AssemblyImporter plugin using NReflect
+* NClass sometimes eat the value 0 (zero) of enum values - fixed
+* Fixed a bug which lead to exceptions while exporting to PDF
+* Fixed a bug which crashed NClass when exporting a PDF while the file is opened by another process
+
+Version 2.03 (30-Jul-2010)
+--------------------------
++ PDFExport plugin by Malte Ried
++ Support for nullable types
+* Fixed a bug when reversing an association
+* Fixed a bug in solution file generation
+* Print settings are remembered
+* Fixed some UI issues in dialogs
+
+Version 2.02 (26-Aug-2009)
+--------------------------
++ Aggregation relationships can be generated in reverse engineering
++ Scroll horizontally with the mouse wheel while pressing the Shift key
+* Fixed a page margin bug when printing
+* Print dialog remembers last page settings
+* Projects and diagrams are renameable with the F2 key
+* Fixed a crash when using older version of Mono
+
+Version 2.01 (13-Aug-2009)
+--------------------------
++ Better keyboard support
++ Menu command to reverse an association relationship
++ Option for using ClearType fonts in exported images
++ Inline comment editing
+* Double click now opens the floating editor and focuses it
+* Delete button removes the selected member if only one class is selected
+* Better initial positioning of relationships
+* Fixed a relationship routing problem
+* Fixed a critical bug when using the clipboard or implementing an interface
+* Fixed a printing bug due to bad font scaling
+* Fixed a bug when resizing classes
+* Transparent shadows are disabled for printing
+* Further minor UI changes
+
+Version 2.0 (30-Jul-2009)
+-------------------------
++ Tabbed document interface
++ Project-model hierarchy for multiple diagrams
++ Name, role and multiplicity labels on relationships
++ Model Explorer
++ Diagram Navigator
++ Inline class editor
++ Chinese translation added (thanks to Zhang Jie)
++ Option for using ClearType for screen fonts
++ Code Generator provides solution file generation with handling of multiple projects
++ Option for throwing NotImplementedException as default implementation in generated methods
++ Vertical and diagonal gradient modes for type headers
+* Tons of bugs fixed
+* Newly created classes are positioned by the user
+* Enhanced way of creating relationships
+* Updated clipboard functions
+* New Vista-like slider button for the Zoom control
+* Application settings are saved in the Application Data directory (Vista compatibility)
+* Relationship bend points now snap to all bend points of selected relationships
+* Sharp arrows are visualized with beveled line joins
+* Supports high resolution icons for Vista
+- Diagram styles from previous versions are incompatible with this version
+
+Version 1.09 (unreleased)
+-------------------------
++ Zooming (via trackbar like in Office 2007)
++ Mono framework support (with Mono 1.2.5+)
++ Enhanced and more flexible routing algorithm
++ Printing to multiple pages (with online preview - disabled in Mono)
++ Printing only the selected elements
++ Trimming texts with ellipsis
++ Collapse/Expand shapes
++ Shadows
++ Auto resize
++ Dragging with the middle mouse button
++ Option to save the diagram to transparent PNG image
+* Lots of bug fixes in AssemblyImport plugin
+* Printed icons of class members were blurred
+* Fixed bug when saving a generic class
+* Several bug fixes with delegates
+* Copy to clipboard as image copies only the selected elements
+* Structures can now create properties and events
+- Clipboard functions are not working
+- Creating relationships with a very primitive and buggy way
+
+Version 1.08 (25-Aug-2007)
+--------------------------
++ Russian translation by VRS
++ Language files can be added dinamically
++ Check for translation updates
+* Fixed backward compatibility problem
+* Fixed code generation of an interface property
+* Fixed a critical bug that caused super classes not to be bases
+* Fixed a bug with loading of multiple plugins
+* AssemblyImport plugin was missing in the installer
+
+Version 1.07 (11-Jul-2007)
+--------------------------
++ Plugin system
++ Source code generation
++ Reverse engineering (AssemblyImport plugin by Malte Ried)
++ Brazilian Portuguese transation (thanks to Alessandro Binhara)
++ Exporting image to Enhanced Metafile Format (EMF)
++ 'New' and 'Volatile' modifiers added
++ '@' prefix character to enable keywords to be used as identifiers in C#
++ Automatic selection of a class' name after creating it
+* Comment diagram elements were duplicated
+* Unified way of adding modifiers to class members
+* Multidimensional arrays (rectangular and jagged) are now supported
+* Operator true and false were missing
+* In structure, inherited methods from Object are now overridable
+* The 'ref' keyword were ignored in C# parameter declarations
+* Many, many small bugfixes
+
+Version 1.06 (28-Dec-2006)
+--------------------------
++ Spanish language added (thanks to Pedro J. Molina) 
++ Relation context menu added 
+* License is changed to LGPL, little architecture modifications needed 
+* 'ref' parameter modifier changed to 'inout' (in accordance with the UML syntax)
+* Fixed bug: indexers cannot have static modifiers 
+* Fixed relation selection bug 
+* Fixed file 'dirty' flag bug (when class access is modified) 
+* Fixed a critical clipboard problem 
+
+Version 1.05 (21-Nov-2006)
+--------------------------
++ 'Check for Updates' menu 
+* Fixed critical Cut and Paste bugs 
+* Fixed bug when a property is set to an indexer 
+* Fixed JavaInterface constructor bug, Java example file can now be opened 
+* Properties and event can now be added in structs 
+* Relations are now drawn when diagram is saved as image 
+* Default horizontal printout 
+
+Version 1.04 (05-Nov-2006)
+--------------------------
++ New menu items: Cut, Paste and Select All in Edit menu 
+* Fixed diagram offset problem in saving 
+* Fixed permission bug when saving with unauthorized file access 
+* Fixed class modifier vanishing bug 
+* Comment relation lines are now dashed 
+
+Version 1.03 (01-Nov-2006)
+--------------------------
+* Stricter file format verifying 
+* Stricter type access and modifier controlling 
+* Fixed bug in selecting a dependency or comment relation 
+* Fixed bug in creating invalid comment relation 
+* Fixed saving enum initial values 
+* Constructor and destructor names are always automatically updated 
+
+Version 1.02 (23-Oct-2006)
+--------------------------
++ Every class has an implicit Object base 
++ Methods are grouped by base in Override Members dialog 
++ Overridden methods are not showed in Override Members dialog 
++ Implemented methods are not showed in Implementing dialog 
++ Option for explicitly implementing 
+* Inherited interface members were not showed in Implementing dialog 
+* Access modifier must be Default in explicitly implemented member 
+* Interface operations were not showed as abstract 
+* Modified class members were not updated correctly 
+* File format changed a bit 
+* Fixed several other bugs 
+
+Version 1.01 (15-Oct-2006)
+--------------------------
++ First release

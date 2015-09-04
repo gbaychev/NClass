@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F52A7548-E60A-485B-9C84-1D2871416DB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NClass.DiagramEditor</RootNamespace>
+    <AssemblyName>NClass.DiagramEditor</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbsoluteMouseEventArgs.cs" />
+    <Compile Include="ClassDiagram\ChevronMode.cs" />
+    <Compile Include="ClassDiagram\Connections\Connection.cs" />
+    <Compile Include="ClassDiagram\Connections\Association.cs" />
+    <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
+    <Compile Include="ClassDiagram\Connections\BendPointEventArgs.cs" />
+    <Compile Include="ClassDiagram\Connections\LineOrientation.cs" />
+    <Compile Include="ClassDiagram\Connections\Dependency.cs" />
+    <Compile Include="ClassDiagram\Connections\Nesting.cs" />
+    <Compile Include="ClassDiagram\Connections\CommentConnection.cs" />
+    <Compile Include="ClassDiagram\Connections\Generalization.cs" />
+    <Compile Include="ClassDiagram\Connections\Realization.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\BlankContextMenu.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\DiagramContextMenu.cs" />
+    <Compile Include="ClassDiagram\ConnectionCreator.cs" />
+    <Compile Include="ClassDiagram\ClearTypeMode.cs" />
+    <Compile Include="ClassDiagram\Editors\FloatingEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\CommentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\CommentEditor.Designer.cs">
+      <DependentUpon>CommentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\ElementContainer.cs" />
+    <Compile Include="ClassDiagram\DiagramDynamicMenu.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\DiagramDynamicMenu.designer.cs">
+      <DependentUpon>DiagramDynamicMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\AssociationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\AssociationDialog.Designer.cs">
+      <DependentUpon>AssociationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\DelegateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\EditCommentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\EditCommentDialog.Designer.cs">
+      <DependentUpon>EditCommentDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\EnumDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\ImplementDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\ListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\ListDialog.Designer.cs">
+      <DependentUpon>ListDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\MembersDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\MembersDialog.designer.cs">
+      <DependentUpon>MembersDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\OverrideDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\DiagramPrintDialog.cs" />
+    <Compile Include="ClassDiagram\Dialogs\DiagramPrintDialog.Designer.cs">
+      <DependentUpon>DiagramPrintDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\TreeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Dialogs\TreeDialog.Designer.cs">
+      <DependentUpon>TreeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\BorderedTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\ParameterEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\EnumValueEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\TypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\EditorWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GdiGraphics.cs" />
+    <Compile Include="IGraphics.cs" />
+    <Compile Include="IClipboardItem.cs" />
+    <Compile Include="EditorControlEventArgs.cs" />
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="PopupWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\CompositeTypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\CompositeTypeEditor.Designer.cs">
+      <DependentUpon>CompositeTypeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\DelegateEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\DelegateEditor.Designer.cs">
+      <DependentUpon>DelegateEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\EnumEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\EnumEditor.Designer.cs">
+      <DependentUpon>EnumEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\ItemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\ItemEditor.Designer.cs">
+      <DependentUpon>ItemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\MemberEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\MemberEditor.Designer.cs">
+      <DependentUpon>MemberEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\ElementList.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\AssociationContextMenu.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\ContextMenus\CommentShapeContextMenu.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\ContextMenus\ConnectionContextMenu.cs">
+    </Compile>
+    <Compile Include="ContextMenu.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\GeneralContextMenu.cs">
+    </Compile>
+    <Compile Include="Intersector.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\ShapeContextMenu.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\ContextMenus\TypeShapeContextMenu.cs">
+    </Compile>
+    <Compile Include="IEditable.cs" />
+    <Compile Include="DynamicMenu.cs">
+    </Compile>
+    <Compile Include="DocumentMovedEventArgs.cs" />
+    <Compile Include="IDocumentVisualizer.cs" />
+    <Compile Include="IDocument.cs" />
+    <Compile Include="DocumentEventArgs.cs" />
+    <Compile Include="DocumentManager.cs" />
+    <Compile Include="ClassDiagram\MoveEventArgs.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ImageCreator.cs" />
+    <Compile Include="ClassDiagram\Diagram.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\Connections\BendPoint.cs" />
+    <Compile Include="Clipboard.cs" />
+    <Compile Include="ClassDiagram\Shapes\ResizeEventArgs.cs" />
+    <Compile Include="ToolStripSimplifiedRenderer.cs">
+    </Compile>
+    <Compile Include="ClassDiagram\DiagramElement.cs" />
+    <Compile Include="ClassDiagram\Icons.cs" />
+    <Compile Include="MonoHelper.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Shapes\Shape.cs" />
+    <Compile Include="Style.cs" />
+    <Compile Include="IPrintable.cs" />
+    <Compile Include="OrderedList.cs" />
+    <Compile Include="Canvas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Canvas.Designer.cs">
+      <DependentUpon>Canvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Shapes\ClassShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\CommentShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\CompositeTypeShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\DelegateShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\EnumShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\InterfaceShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
+    <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Canvas.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Canvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\AssociationDialog.resx">
+      <DependentUpon>AssociationDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\EditCommentDialog.resx">
+      <DependentUpon>EditCommentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\ListDialog.resx">
+      <DependentUpon>ListDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\MembersDialog.resx">
+      <DependentUpon>MembersDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\DiagramPrintDialog.resx">
+      <DependentUpon>DiagramPrintDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Dialogs\TreeDialog.resx">
+      <DependentUpon>TreeDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\CommentEditor.resx">
+      <DependentUpon>CommentEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\CompositeTypeEditor.resx">
+      <DependentUpon>CompositeTypeEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\DelegateEditor.resx">
+      <DependentUpon>DelegateEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\EnumEditor.resx">
+      <DependentUpon>EnumEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\ItemEditor.resx">
+      <DependentUpon>ItemEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\MemberEditor.resx">
+      <DependentUpon>MemberEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
+      <Project>{BE60D62D-E757-44F4-A342-5388742F5986}</Project>
+      <Name>CodeGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{8CF10505-3C2E-4E45-AB90-21613237B412}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Translations\Translations.csproj">
+      <Project>{B3B7D798-3D52-47F0-B1A7-A91BC5FE184F}</Project>
+      <Name>Translations</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

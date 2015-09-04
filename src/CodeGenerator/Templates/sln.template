@@ -1,0 +1,5 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version ${VersionNumber}
+# ${VersionString}
+Project("{}") = "${ProjectName}", "${ProjectFile}", "{}"
+EndProject

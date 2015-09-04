@@ -1,0 +1,1127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ErrorInvalidDeclaration" xml:space="preserve">
+    <value>Declaração inválido.</value>
+  </data>
+  <data name="Modifier" xml:space="preserve">
+    <value>Modificador:</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>&amp;Opções...</value>
+  </data>
+  <data name="Nesting" xml:space="preserve">
+    <value>Nesting</value>
+  </data>
+  <data name="ErrorCannotSetModifier" xml:space="preserve">
+    <value>Não pode definir o modificador.</value>
+  </data>
+  <data name="MenuComposition" xml:space="preserve">
+    <value>C&amp;omposição</value>
+  </data>
+  <data name="MenuNew" xml:space="preserve">
+    <value>&amp;Novo </value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="MenuGenerateCode" xml:space="preserve">
+    <value>&amp;Generação de  Codigo...</value>
+  </data>
+  <data name="ErrorType" xml:space="preserve">
+    <value>O tipo não pode ser  {0}.</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Associação</value>
+  </data>
+  <data name="ErrorCannotAddSameInterface" xml:space="preserve">
+    <value>Não pode adicionar a mesma interface.</value>
+  </data>
+  <data name="ReturnType" xml:space="preserve">
+    <value>Tipos retornados:</value>
+    <comment>The return type of a delegate</comment>
+  </data>
+  <data name="ErrorCannotAddSameBaseInterface" xml:space="preserve">
+    <value>Não pode adicinar a mesma interface base.</value>
+  </data>
+  <data name="MenuDelete" xml:space="preserve">
+    <value>&amp;Deletar</value>
+  </data>
+  <data name="ChangingToAbstractConfirmation" xml:space="preserve">
+    <value>Se você alterar o modificador da  herança para abstrato, a classe pai vai também tornar-se abstrata. Você deseja continuar?</value>
+  </data>
+  <data name="ErrorCannotInherit" xml:space="preserve">
+    <value>Não poder herdar uma classe static ou selada.</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="MenuRedo" xml:space="preserve">
+    <value>&amp;Refazer</value>
+  </data>
+  <data name="ErrorAccessorModifier" xml:space="preserve">
+    <value>Modificador de acesso inválido</value>
+    <comment>Property accessor's (get or set) is invalid.</comment>
+  </data>
+  <data name="ErrorForbiddenName" xml:space="preserve">
+    <value>Nome proibido.</value>
+  </data>
+  <data name="NewMethod" xml:space="preserve">
+    <value>Novo Método</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Mover para Cima</value>
+  </data>
+  <data name="AddNewComposition" xml:space="preserve">
+    <value>Adicionar Nova Composição</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MenuSave" xml:space="preserve">
+    <value>&amp;Salvar</value>
+  </data>
+  <data name="ErrorCannotCreateStructure" xml:space="preserve">
+    <value>Não pode criar estruturas no {0}</value>
+  </data>
+  <data name="VisitHomepage" xml:space="preserve">
+    <value>Visite a home page do programa</value>
+  </data>
+  <data name="ErrorReadVersionData" xml:space="preserve">
+    <value>Não foi possível ler os dados da versão.</value>
+  </data>
+  <data name="Modifiers" xml:space="preserve">
+    <value>Modificadores:</value>
+  </data>
+  <data name="ErrorCannotSetAccess" xml:space="preserve">
+    <value>Não pode definir um modificador de acesso.</value>
+  </data>
+  <data name="DiagramStyle" xml:space="preserve">
+    <value>Estilo do Diagrama</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>Zoom In</value>
+  </data>
+  <data name="MenuDelegate" xml:space="preserve">
+    <value>&amp;Delegate</value>
+  </data>
+  <data name="ErrorCannotSetStatic" xml:space="preserve">
+    <value>Não pode definir um modificador estático.</value>
+  </data>
+  <data name="MenuImport" xml:space="preserve">
+    <value>&amp;Importar</value>
+  </data>
+  <data name="ErrorMultipleBases" xml:space="preserve">
+    <value>Henrança múltipla não é suportada.</value>
+  </data>
+  <data name="MenuParameters" xml:space="preserve">
+    <value>&amp;Parametros</value>
+  </data>
+  <data name="Diagram" xml:space="preserve">
+    <value>Diagrama</value>
+  </data>
+  <data name="MenuAutoZoom" xml:space="preserve">
+    <value>Auto &amp;Zoom</value>
+  </data>
+  <data name="MenuCheckForUpdates" xml:space="preserve">
+    <value>Verificar  &amp;Updates</value>
+  </data>
+  <data name="ButtonModify" xml:space="preserve">
+    <value>Modificar</value>
+  </data>
+  <data name="MenuEdit" xml:space="preserve">
+    <value>&amp;Editar</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="CodeGenerationFailed" xml:space="preserve">
+    <value>Geração de código falhou.</value>
+  </data>
+  <data name="MenuCommentRelationship" xml:space="preserve">
+    <value>Co&amp;mentário  Relacionamento</value>
+  </data>
+  <data name="NewField" xml:space="preserve">
+    <value>Novo Campo </value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmação</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Enviar email para o autor do programa.</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Balazs Tihanyi</value>
+    <comment>#</comment>
+  </data>
+  <data name="ItemsSelected" xml:space="preserve">
+    <value>{0} itens selecionados.</value>
+    <comment>{0} is the count of the selected elements in the diagram</comment>
+  </data>
+  <data name="ErrorInSavingSettings" xml:space="preserve">
+    <value>Erro ao salvar as configurações</value>
+  </data>
+  <data name="MenuNesting" xml:space="preserve">
+    <value>&amp;Nesting</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="SortByName" xml:space="preserve">
+    <value>Organizar por nome</value>
+  </data>
+  <data name="SortByKind" xml:space="preserve">
+    <value>Organizar por chave</value>
+  </data>
+  <data name="UseSnapping" xml:space="preserve">
+    <value>Use precision snapping</value>
+    <comment>When the user moves a class or relationship, they snap to each other, like in Visual Studio Winforms Designer</comment>
+  </data>
+  <data name="ErrorInvalidTypeName" xml:space="preserve">
+    <value>Nome de tipo inválido.</value>
+  </data>
+  <data name="MenuPlugins" xml:space="preserve">
+    <value>&amp;Plugins</value>
+  </data>
+  <data name="MenuPaste" xml:space="preserve">
+    <value>&amp;PColar</value>
+  </data>
+  <data name="IndentSize" xml:space="preserve">
+    <value>Tamanho da identação:</value>
+    <comment>The number of spaces instead of tabs</comment>
+  </data>
+  <data name="AddNewCommentRelationship" xml:space="preserve">
+    <value>Adicionar Novo Comentário do Relacionamento </value>
+  </data>
+  <data name="MenuAssociation" xml:space="preserve">
+    <value>&amp;Associação</value>
+  </data>
+  <data name="ButtonAddItem" xml:space="preserve">
+    <value>Adiciona Item</value>
+  </data>
+  <data name="MenuSelectAll" xml:space="preserve">
+    <value>&amp;Selecione todos</value>
+  </data>
+  <data name="MenuEditMembers" xml:space="preserve">
+    <value>&amp;Editar membros...</value>
+  </data>
+  <data name="EditComment" xml:space="preserve">
+    <value>Editar Comentário</value>
+    <comment>Dialog caption</comment>
+  </data>
+  <data name="MenuBidirectional" xml:space="preserve">
+    <value>&amp;Bidrectional</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Mover para Baixo</value>
+  </data>
+  <data name="MenuAddNew" xml:space="preserve">
+    <value>&amp;Adicionar Novo</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Salvar Como </value>
+  </data>
+  <data name="ErrorInSavingImage" xml:space="preserve">
+    <value>Erro ao salvar a imagem</value>
+  </data>
+  <data name="DoubleClickToEdit" xml:space="preserve">
+    <value>« Duplo clique para editart »</value>
+    <comment>Text in blank comments</comment>
+  </data>
+  <data name="ErrorInnerTypeAlreadyNested" xml:space="preserve">
+    <value>The inner type is already nested.</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destino</value>
+    <comment>Label text for specifying the destination path</comment>
+  </data>
+  <data name="SaveChangesConfirmation" xml:space="preserve">
+    <value>O arquivo foi alterado. Você gostaria de salvar as alterações?</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>Editar Texto:</value>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value>Tradutor: Alessandro de Oliveira Binhara</value>
+    <comment>Translator: &lt;your name&gt;</comment>
+  </data>
+  <data name="AddNewDependency" xml:space="preserve">
+    <value>Adicionar Nova Dependência</value>
+  </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>&amp;Arquivo</value>
+  </data>
+  <data name="MenuType" xml:space="preserve">
+    <value>&amp;Tipo</value>
+  </data>
+  <data name="ErrorCouldNotLoadFile" xml:space="preserve">
+    <value>Não é possível carregar o arquivo.</value>
+  </data>
+  <data name="AddNewComment" xml:space="preserve">
+    <value>Adicionar Novo Comentário</value>
+  </data>
+  <data name="ErrorInvalidModifier" xml:space="preserve">
+    <value>Modificador inválido.</value>
+  </data>
+  <data name="NoUpdates" xml:space="preserve">
+    <value>Nenhuma atualização disponível</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>Comando falhou</value>
+    <comment>Error message when clicking links in the About dialog failed</comment>
+  </data>
+  <data name="CodeGeneration" xml:space="preserve">
+    <value>Geração de Código</value>
+  </data>
+  <data name="MenuRealization" xml:space="preserve">
+    <value>&amp;Realização</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>&amp;Abrir</value>
+  </data>
+  <data name="ImplementExplicitly" xml:space="preserve">
+    <value>Implemente explicitamente.</value>
+  </data>
+  <data name="ErrorExplicitImplementationAccess" xml:space="preserve">
+    <value>	
+Não é possível definir o acesso modificador explícito em execução.</value>
+  </data>
+  <data name="Access" xml:space="preserve">
+    <value>Access</value>
+    <comment>The visibility modifier name</comment>
+  </data>
+  <data name="MenuParameterNames" xml:space="preserve">
+    <value>Parameter &amp;Names</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="ErrorStaticInterfaceMember" xml:space="preserve">
+    <value>Interface members cannot be static.</value>
+  </data>
+  <data name="MenuDependency" xml:space="preserve">
+    <value>&amp;Dependencia</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Syntax" xml:space="preserve">
+    <value>Sintaxe</value>
+    <comment>A short name for a member's declaration line</comment>
+  </data>
+  <data name="ItemsOfType" xml:space="preserve">
+    <value>Itens de  {0}</value>
+    <comment>Caption of the Enum and Delegate dialogs</comment>
+  </data>
+  <data name="MenuContents" xml:space="preserve">
+    <value>&amp;Conteúdo</value>
+  </data>
+  <data name="ErrorCyclicNesting" xml:space="preserve">
+    <value>Indicação de relacionamento cíclico</value>
+  </data>
+  <data name="ErrorNestingNotSupported" xml:space="preserve">
+    <value>Parent type does not support nesting.</value>
+  </data>
+  <data name="ErrorMemberTypeDoesNotExist" xml:space="preserve">
+    <value>{0} tipo de membro não existe.</value>
+  </data>
+  <data name="ErrorCorruptSaveFile" xml:space="preserve">
+    <value>O arquivo salvo está corrompido e não pode ser carregado.</value>
+  </data>
+  <data name="AddNewGeneralization" xml:space="preserve">
+    <value>Adicionar Nova Generalização</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="UseTabs" xml:space="preserve">
+    <value>Use tab para identar</value>
+    <comment>Using tabs instead of spaces</comment>
+  </data>
+  <data name="AddNewRealization" xml:space="preserve">
+    <value>Adicionar Nova  Realização</value>
+  </data>
+  <data name="ErrorCyclicBase" xml:space="preserve">
+    <value>A base  {0} é sucessor do filho  {0}.</value>
+  </data>
+  <data name="ErrorNotInterfaceImplementer" xml:space="preserve">
+    <value>Implementer class cannot realize the interface.</value>
+  </data>
+  <data name="ErrorStaticConstructor" xml:space="preserve">
+    <value>Construtor estático não pode ter parametros.</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="MenuMembersFormat" xml:space="preserve">
+    <value>Formatar os &amp;Membros </value>
+  </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>Está função não foi implementada</value>
+  </data>
+  <data name="MenuAggregation" xml:space="preserve">
+    <value>A&amp;gregação</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="MenuEditComment" xml:space="preserve">
+    <value>&amp;Editar comentário...</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Cometário</value>
+  </data>
+  <data name="ErrorCannotCreateRelationship" xml:space="preserve">
+    <value>Não pode criar relacionamento entre dois objetos.</value>
+  </data>
+  <data name="Aggregation" xml:space="preserve">
+    <value>Agregação</value>
+  </data>
+  <data name="MenuDiagram" xml:space="preserve">
+    <value>&amp;Diagrama</value>
+  </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>&amp;Exportar</value>
+  </data>
+  <data name="ErrorLanguagesDoNotEqual" xml:space="preserve">
+    <value>Linguagens diferentes.</value>
+  </data>
+  <data name="ErrorRecursiveNesting" xml:space="preserve">
+    <value>Tipos não podem conter eles mesmos.</value>
+  </data>
+  <data name="AddNewAggregation" xml:space="preserve">
+    <value>Adicionar Nova Agregação</value>
+  </data>
+  <data name="MenuSaveAsImage" xml:space="preserve">
+    <value>&amp;Salvar como Imagem...</value>
+  </data>
+  <data name="MenuCopyImageToClipboard" xml:space="preserve">
+    <value>&amp;Copiar para área de tranferência como imagem</value>
+  </data>
+  <data name="ErrorInvalidName" xml:space="preserve">
+    <value>Nome inválido.</value>
+  </data>
+  <data name="CheckingForUpdates" xml:space="preserve">
+    <value>Verificando por atualizações</value>
+    <comment>MessageBox caption then checking for new versions of NClass</comment>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="MenuUndo" xml:space="preserve">
+    <value>&amp;Desfazer</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Deletar</value>
+  </data>
+  <data name="MenuComment" xml:space="preserve">
+    <value>Come&amp;ntário</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Adicionar Novo  item:</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Erro Desconhecido</value>
+  </data>
+  <data name="MenuDirection" xml:space="preserve">
+    <value>&amp;Direção</value>
+  </data>
+  <data name="ErrorConstructorName" xml:space="preserve">
+    <value>O nome do construtor não é igual ao nome da classe.</value>
+  </data>
+  <data name="ErrorCannotSetType" xml:space="preserve">
+    <value>Não pode definir um tipo.</value>
+  </data>
+  <data name="AddNewInterface" xml:space="preserve">
+    <value>Adicionar Nova Interface</value>
+  </data>
+  <data name="ErrorCouldNotSaveFile" xml:space="preserve">
+    <value>Não foi possível salvar o arquivo.</value>
+  </data>
+  <data name="NewEvent" xml:space="preserve">
+    <value>Novo Evento</value>
+  </data>
+  <data name="ErrorNotAllowedParent" xml:space="preserve">
+    <value>Tipo base não suporta generalização.</value>
+  </data>
+  <data name="ProgramDownload" xml:space="preserve">
+    <value>Você quer fazer o donwload da atualização W</value>
+  </data>
+  <data name="ErrorInvalidParameterDeclaration" xml:space="preserve">
+    <value>Declaração do parametro inválido.</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>&amp;Ajuda</value>
+  </data>
+  <data name="AddNewEnum" xml:space="preserve">
+    <value>Adicionar Novo  Enumerador</value>
+  </data>
+  <data name="Generalization" xml:space="preserve">
+    <value>Generalização</value>
+    <comment>Specialization relationship</comment>
+  </data>
+  <data name="ErrorNotAllowedChild" xml:space="preserve">
+    <value>Tipo derivado não suporta generelização.</value>
+  </data>
+  <data name="MenuInterface" xml:space="preserve">
+    <value>&amp;Interface</value>
+  </data>
+  <data name="ButtonBrowse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="MenuGeneralization" xml:space="preserve">
+    <value>Genera&amp;lização</value>
+  </data>
+  <data name="MenuCSharpDiagram" xml:space="preserve">
+    <value>&amp;C# diagrama</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Língua</value>
+  </data>
+  <data name="AddNewAssociation" xml:space="preserve">
+    <value>Adicionar Nova Associação</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>Zoom Out</value>
+  </data>
+  <data name="ErrorEmptyFilename" xml:space="preserve">
+    <value>O nome do arquivo não pode ser vazio.</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>Valor inicial</value>
+  </data>
+  <data name="AutoZoom" xml:space="preserve">
+    <value>Auto Zoom</value>
+  </data>
+  <data name="ErrorForbiddenTypeName" xml:space="preserve">
+    <value>Nome de tipo proibido </value>
+  </data>
+  <data name="ErrorEmptyString" xml:space="preserve">
+    <value>A  {0} não pode ser uma string vazia.</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>{0} por {1}</value>
+    <comment>'PluginName' by 'Author'</comment>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Carregar</value>
+  </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>Nova Versão Disponível</value>
+  </data>
+  <data name="ErrorsReason" xml:space="preserve">
+    <value>Morivo</value>
+  </data>
+  <data name="OverrideMembers" xml:space="preserve">
+    <value>Membros Reescritos</value>
+    <comment>The name of the Override Members dialog</comment>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>classe</value>
+    <comment>Second part of the ErrorCyclicBase text</comment>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo</value>
+    <comment>The type of a class member</comment>
+  </data>
+  <data name="AboutNClass" xml:space="preserve">
+    <value>Sobre NClass</value>
+    <comment>Caption text of the About dialog</comment>
+  </data>
+  <data name="AddNewStructure" xml:space="preserve">
+    <value>Adicionar Nova Estrutura</value>
+  </data>
+  <data name="ButtonGenerate" xml:space="preserve">
+    <value>Gerar</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="ErrorCorruptSaveFormat" xml:space="preserve">
+    <value>Formato salvo corrompido.</value>
+  </data>
+  <data name="MenuJavaDiagram" xml:space="preserve">
+    <value>&amp;Java diagrama</value>
+  </data>
+  <data name="GeneratorTargetDir" xml:space="preserve">
+    <value>Selecione o diretório para a geração do código fonte.</value>
+  </data>
+  <data name="MembersOfType" xml:space="preserve">
+    <value>Membros do {0}</value>
+  </data>
+  <data name="Dependency" xml:space="preserve">
+    <value>Dependência</value>
+  </data>
+  <data name="CodeStyle" xml:space="preserve">
+    <value>Estilo de código</value>
+  </data>
+  <data name="MenuEnum" xml:space="preserve">
+    <value>&amp;Enum</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>&amp;SobreNClass...</value>
+  </data>
+  <data name="ErrorCannotSaveFile" xml:space="preserve">
+    <value>Não pode salva um arquivos sem um caminho específico.</value>
+  </data>
+  <data name="ErrorInvalidModifierCombination" xml:space="preserve">
+    <value>O {0}  modificador é inválido com o {1} modificador.</value>
+  </data>
+  <data name="ErrorReservedName" xml:space="preserve">
+    <value>Este é um nome reservado</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Item(s) selecionado deletado.</value>
+  </data>
+  <data name="ErrorInterfaceLanguage" xml:space="preserve">
+    <value>A interface classe não é (0) interface.</value>
+  </data>
+  <data name="MenuSaveAs" xml:space="preserve">
+    <value>Salvar &amp;Como...</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>sem Título</value>
+  </data>
+  <data name="ErrorLackOfInitialization" xml:space="preserve">
+    <value>As variáveis constantes devem ser inicializadas.</value>
+  </data>
+  <data name="CodeGenerationCompleted" xml:space="preserve">
+    <value>Geração de código foi concluído com êxito.</value>
+  </data>
+  <data name="MenuPrint" xml:space="preserve">
+    <value>Im&amp;pmir...</value>
+  </data>
+  <data name="Realization" xml:space="preserve">
+    <value>Realização</value>
+    <comment>Realization relationship</comment>
+  </data>
+  <data name="ErrorRelationshipDoesNotExist" xml:space="preserve">
+    <value>O relacionamento expecífico não existe.</value>
+  </data>
+  <data name="ErrorCouldNotLoadPlugins" xml:space="preserve">
+    <value>Houve um erro ao carregar os plugins:
+(0)</value>
+  </data>
+  <data name="AddNewClass" xml:space="preserve">
+    <value>Adicionar Nova Classe</value>
+  </data>
+  <data name="MenuInitialValue" xml:space="preserve">
+    <value>Valor  &amp;Inicial </value>
+  </data>
+  <data name="Implementing" xml:space="preserve">
+    <value>Implementação</value>
+    <comment>The name of the Implementing dialog</comment>
+  </data>
+  <data name="AddNewNesting" xml:space="preserve">
+    <value>Adicionar Nova Nesting</value>
+  </data>
+  <data name="ModifyItem" xml:space="preserve">
+    <value>Modificar Item:</value>
+  </data>
+  <data name="BetaVersion" xml:space="preserve">
+    <value>Versão Beta</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Nova Propriedade</value>
+  </data>
+  <data name="Composition" xml:space="preserve">
+    <value>Composição</value>
+  </data>
+  <data name="ErrorTypeDoesNotExist" xml:space="preserve">
+    <value>{0} type does not exist.</value>
+  </data>
+  <data name="NewConstructor" xml:space="preserve">
+    <value>Novo Construtor</value>
+  </data>
+  <data name="ImportList" xml:space="preserve">
+    <value>Lista de importação</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>interface</value>
+    <comment>Second part of the ErrorCyclicBase text</comment>
+  </data>
+  <data name="ErrorInterfaceMemberAccess" xml:space="preserve">
+    <value>Não é possível definir acessibilidade da interface membros.</value>
+  </data>
+  <data name="MenuCut" xml:space="preserve">
+    <value>Cor&amp;tar</value>
+  </data>
+  <data name="ErrorConnectToServer" xml:space="preserve">
+    <value>Não foi possível conectar ao servidor.</value>
+  </data>
+  <data name="ErrorCannotCrateDelegate" xml:space="preserve">
+    <value>Não pode criar delegates no {0}</value>
+  </data>
+  <data name="ErrorExplicitImplementation" xml:space="preserve">
+    <value>Não é possível executar explicitamente.</value>
+  </data>
+  <data name="MenuClass" xml:space="preserve">
+    <value>&amp;Classe</value>
+  </data>
+  <data name="ErrorStaticIndexer" xml:space="preserve">
+    <value>Indexador não pode ser estático.</value>
+  </data>
+  <data name="ErrorOperatorMustBeStatic" xml:space="preserve">
+    <value>Método operador precisa ser estático.</value>
+  </data>
+  <data name="ErrorParameterType" xml:space="preserve">
+    <value>Tipo de parametro não pode ser {0}.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="SortByAccess" xml:space="preserve">
+    <value>Organizar por acesso:</value>
+  </data>
+  <data name="ButtonLoad" xml:space="preserve">
+    <value>Carregar</value>
+  </data>
+  <data name="ErrorCannotOverride" xml:space="preserve">
+    <value>Não pode reescrever um método não virtual.</value>
+  </data>
+  <data name="ErrorOperatorMustBePublic" xml:space="preserve">
+    <value>Método operador precisa ser público.</value>
+  </data>
+  <data name="AddNewDelegate" xml:space="preserve">
+    <value>Adicionar Novo Delegate</value>
+  </data>
+  <data name="ClearRecentList" xml:space="preserve">
+    <value>Limpar arquivos da lista recente</value>
+  </data>
+  <data name="SaveAsImage" xml:space="preserve">
+    <value>Salvar como Imagem</value>
+  </data>
+  <data name="NewDestructor" xml:space="preserve">
+    <value>Novo Destrutor</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>Estilo</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>Arquivo não encontrado ou sem permissão de leitura.</value>
+  </data>
+  <data name="ErrorInvalidBaseType" xml:space="preserve">
+    <value>Tipo da base é inválido.</value>
+  </data>
+  <data name="MenuStruct" xml:space="preserve">
+    <value>&amp;Structura</value>
+  </data>
+  <data name="TranslationVersion" xml:space="preserve">
+    <value>2009-07-30</value>
+    <comment>#It's needed for version controlling, don't translate it</comment>
+  </data>
+  <data name="TranslationName" xml:space="preserve">
+    <value>Brazilian Portuguese</value>
+    <comment>#It's needed for version controlling, don't translate it</comment>
+  </data>
+  <data name="ErrorPrinting" xml:space="preserve">
+    <value>Ocorreu um erro durante a impressão: {0}</value>
+  </data>
+  <data name="MenuDiagramSize" xml:space="preserve">
+    <value>Tamanho do &amp;Diagrama...</value>
+  </data>
+  <data name="MenuAlign" xml:space="preserve">
+    <value>&amp;Alinhamento</value>
+  </data>
+  <data name="MenuAlignBottom" xml:space="preserve">
+    <value>Alinhar A&amp;baixo</value>
+  </data>
+  <data name="MenuAlignHorizontal" xml:space="preserve">
+    <value>Alinhas &amp;Horizontal Center</value>
+  </data>
+  <data name="MenuAlignLeft" xml:space="preserve">
+    <value>Alinhar&amp;Esquedar</value>
+  </data>
+  <data name="MenuAlignRight" xml:space="preserve">
+    <value>Alinhar &amp;Direita</value>
+  </data>
+  <data name="MenuAlignTop" xml:space="preserve">
+    <value>Alinhar &amp;Acima</value>
+  </data>
+  <data name="MenuAlignVertical" xml:space="preserve">
+    <value>Alinhar &amp;Vertical Central</value>
+  </data>
+  <data name="MenuAutoHeight" xml:space="preserve">
+    <value>Auto &amp;Height</value>
+  </data>
+  <data name="MenuAutoWidth" xml:space="preserve">
+    <value>Auto &amp;Width</value>
+  </data>
+  <data name="MenuCollapseAll" xml:space="preserve">
+    <value>&amp;Recolher Tudo</value>
+  </data>
+  <data name="MenuExpandAll" xml:space="preserve">
+    <value>&amp;Expandir todos</value>
+  </data>
+  <data name="MenuMakeSameSize" xml:space="preserve">
+    <value>&amp;Faça do mesmo tamanho</value>
+  </data>
+  <data name="MenuSameHeight" xml:space="preserve">
+    <value>Mesmo &amp;Altura</value>
+  </data>
+  <data name="MenuSameSize" xml:space="preserve">
+    <value>Me&amp;smo Tamanho</value>
+  </data>
+  <data name="MenuSameWidth" xml:space="preserve">
+    <value>Mesma &amp;Largura</value>
+  </data>
+  <data name="MenuFormat" xml:space="preserve">
+    <value>F&amp;ormatar</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Sempre</value>
+  </data>
+  <data name="WhenMouseHovers" xml:space="preserve">
+    <value>Quando mouse passa</value>
+    <comment>Option text for showing the chevron icon only when the mouse hovers over the type</comment>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Nunca</value>
+  </data>
+  <data name="ShowChevron" xml:space="preserve">
+    <value>Show chevron button:</value>
+    <comment>The chevron button is the little arrow icon in the up-right corner of a class</comment>
+  </data>
+  <data name="ButtonPageSetup" xml:space="preserve">
+    <value>Configuração de Página...</value>
+    <comment>Opens the Page Setup dialog</comment>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="ButtonSelectPrinter" xml:space="preserve">
+    <value>Selecione a impressora...</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Páginas:</value>
+  </data>
+  <data name="PrintOnlySelectedElements" xml:space="preserve">
+    <value>Imprimir apenas elementos selecionados</value>
+  </data>
+  <data name="CriticalError" xml:space="preserve">
+    <value>Erro crítico</value>
+    <comment>MessageBox caption when the program craches</comment>
+  </data>
+  <data name="ProgramTerminates" xml:space="preserve">
+    <value>Um erro crítico ocorreu, o programa deve ser encerrado.
+Um crash log e recuperação ficheiros foram criados no diretório Application Data.</value>
+  </data>
+  <data name="SendLogFile" xml:space="preserve">
+    <value>Por favor mande esse arquivo para  '{0}'.</value>
+  </data>
+  <data name="MenuSize" xml:space="preserve">
+    <value>&amp;Tamanho </value>
+  </data>
+  <data name="MenuSaveSelectionAsImage" xml:space="preserve">
+    <value>&amp;Salvar a Seleção Como imagem...</value>
+  </data>
+  <data name="MenuAutoRouting" xml:space="preserve">
+    <value>&amp;Auto routing</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>&amp;Propriedades</value>
+  </data>
+  <data name="MenuCollapseAllSelected" xml:space="preserve">
+    <value>Re&amp;colher todo os selecionados</value>
+  </data>
+  <data name="MenuExpandAllSelected" xml:space="preserve">
+    <value>&amp;Expandir Todos Selcionados</value>
+  </data>
+  <data name="MenuUnidirectional" xml:space="preserve">
+    <value>&amp;Unidirecional</value>
+  </data>
+  <data name="MenuZoom" xml:space="preserve">
+    <value>&amp;Zoom</value>
+  </data>
+  <data name="MenuZoomIn" xml:space="preserve">
+    <value>Zoom &amp;In</value>
+  </data>
+  <data name="MenuZoomOut" xml:space="preserve">
+    <value>Zoom &amp;Out</value>
+  </data>
+  <data name="NClassProjectFiles" xml:space="preserve">
+    <value>Arquivos do Projeto NClass </value>
+  </data>
+  <data name="ErrorBlankFilename" xml:space="preserve">
+    <value>Nome do arquivo não pode ser vazio.</value>
+  </data>
+  <data name="ErrorDestructorName" xml:space="preserve">
+    <value>O nome do destrutor não é igual ao nome da classe.</value>
+  </data>
+  <data name="DoubleClickToAddDiagram" xml:space="preserve">
+    <value>Duplo clique para adicionar um novo diagrama</value>
+  </data>
+  <data name="DoubleClickToAddProject" xml:space="preserve">
+    <value>« Duplo clique aqui para adicionar um novo projeto»</value>
+    <comment>Text in empty workspace</comment>
+  </data>
+  <data name="MenuSaveProject" xml:space="preserve">
+    <value>&amp;Salvar {0}</value>
+  </data>
+  <data name="MenuSaveProjectAs" xml:space="preserve">
+    <value>Salve {0} &amp;Como...</value>
+  </data>
+  <data name="MenuClose" xml:space="preserve">
+    <value>&amp;Fechar {0}</value>
+    <comment>{0} is the active project's name</comment>
+  </data>
+  <data name="MenuCloseAllProjects" xml:space="preserve">
+    <value>Fechar todos os P&amp;rojetos</value>
+  </data>
+  <data name="MenuCloseProject" xml:space="preserve">
+    <value>&amp;Fechar Projeto</value>
+  </data>
+  <data name="MenuSaveAllProjects" xml:space="preserve">
+    <value>Sa&amp;var Todos os Projetos </value>
+  </data>
+  <data name="PreviousFileFormats" xml:space="preserve">
+    <value>Forma de arquivo anterior</value>
+    <comment>Previous file extensions in the Open/Save dialogs</comment>
+  </data>
+  <data name="MenuCloseAllDocuments" xml:space="preserve">
+    <value>&amp;Fechar todos os documentos</value>
+  </data>
+  <data name="MenuDiagramNavigator" xml:space="preserve">
+    <value>Diagrama &amp;Navigação</value>
+  </data>
+  <data name="MenuModelExplorer" xml:space="preserve">
+    <value>&amp;Explorar modelo </value>
+  </data>
+  <data name="MenuView" xml:space="preserve">
+    <value>&amp;Ver</value>
+  </data>
+  <data name="AskSaveChanges" xml:space="preserve">
+    <value>alve as alterações para os seguintes projetos?</value>
+    <comment>MessageBox question when closing one/more projects</comment>
+  </data>
+  <data name="RequiresRestart" xml:space="preserve">
+    <value>Mudança de Língua requer reinício da aplicação.</value>
+  </data>
+  <data name="MenuNewProject" xml:space="preserve">
+    <value>&amp;Novo Projeto... </value>
+  </data>
+  <data name="DeleteProjectItemConfirmation" xml:space="preserve">
+    <value>Tem certeza de deseja deletar o  {0}?</value>
+  </data>
+  <data name="MenuDeleteProjectItem" xml:space="preserve">
+    <value>&amp;Deletar do projeto</value>
+  </data>
+  <data name="MenuRename" xml:space="preserve">
+    <value>&amp;Renomear</value>
+  </data>
+  <data name="MenuProject" xml:space="preserve">
+    <value>&amp;Projeto</value>
+  </data>
+  <data name="ErrorNoPrinters" xml:space="preserve">
+    <value>Inpressora não instalada.</value>
+  </data>
+  <data name="SolutionType" xml:space="preserve">
+    <value>Tipo de arquivo da solução :</value>
+  </data>
+  <data name="UseNotImplementedExceptions" xml:space="preserve">
+    <value>Preencha os métodos  'Not implemented' exceptions</value>
+  </data>
+  <data name="WhenZoomed" xml:space="preserve">
+    <value>Quando zoom  in/out</value>
+  </data>
+  <data name="UseClearType" xml:space="preserve">
+    <value>Usar ClearType</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Nada</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Apenas Leitura</value>
+    <comment>The property contains only the 'get' accessor</comment>
+  </data>
+  <data name="ReadWrite" xml:space="preserve">
+    <value>Leitura e Escrita</value>
+    <comment>The property contains both accessors</comment>
+  </data>
+  <data name="WriteOnly" xml:space="preserve">
+    <value>Apenas Escrita</value>
+    <comment>The property contains only the 'set' accessor</comment>
+  </data>
+  <data name="NewParameter" xml:space="preserve">
+    <value>Novo parametro</value>
+  </data>
+  <data name="NewValue" xml:space="preserve">
+    <value>Novo Valor</value>
+  </data>
+  <data name="RequiresNetFramework" xml:space="preserve">
+    <value>Este programa precisa do  .NET 2.0 Framework.
+Please download and install the .NET Framework and run this setup again.
+Do you want to download the framework now?</value>
+    <comment>This text is used in the Installer program</comment>
+  </data>
+  <data name="StartMenuGroup" xml:space="preserve">
+    <value>Criar grupo no meu Start</value>
+    <comment>This text is used in the Installer program</comment>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Desisntalar</value>
+    <comment>The Uninstall schortcut text in the Start Menu group</comment>
+  </data>
+  <data name="EditAssociation" xml:space="preserve">
+    <value>Editar Associação </value>
+    <comment>Caption text of the Edit Association dialog</comment>
+  </data>
+  <data name="MenuEditAssociation" xml:space="preserve">
+    <value>Editar...</value>
+  </data>
+  <data name="RememberOpenProjects" xml:space="preserve">
+    <value>Remember open projects on close</value>
+  </data>
+  <data name="MenuCloseAllTabsButThis" xml:space="preserve">
+    <value>Fechar todos mas Este</value>
+    <comment>Close all tabs but the active one</comment>
+  </data>
+  <data name="MenuCloseAllTabs" xml:space="preserve">
+    <value>Fechar todos</value>
+    <comment>Close all tabs</comment>
+  </data>
+  <data name="MenuCloseTab" xml:space="preserve">
+    <value>Fechar</value>
+    <comment>Close the active tab</comment>
+  </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>&amp;Copiar</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copiar</value>
+    <comment>Clipboard Copy</comment>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cortar</value>
+    <comment>Clipboard Cut</comment>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Colar</value>
+    <comment>Clipboard Paste</comment>
+  </data>
+</root>

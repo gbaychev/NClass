@@ -1,0 +1,1105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Class" xml:space="preserve">
+    <value>osztály</value>
+  </data>
+  <data name="AboutNClass" xml:space="preserve">
+    <value>NClass névjegye</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>interfész</value>
+  </data>
+  <data name="ChangingToAbstractConfirmation" xml:space="preserve">
+    <value>Ha a módosítót absztraktra változtatja, a tagot tartalmazó osztály is absztrakttá válik.
+Biztos, hogy folytatni akarja?</value>
+  </data>
+  <data name="Access" xml:space="preserve">
+    <value>Hozzáférés</value>
+  </data>
+  <data name="AddNewAggregation" xml:space="preserve">
+    <value>Új aggregáció</value>
+  </data>
+  <data name="AddNewAssociation" xml:space="preserve">
+    <value>Új asszociáció</value>
+  </data>
+  <data name="AddNewClass" xml:space="preserve">
+    <value>Új osztály</value>
+  </data>
+  <data name="AddNewComment" xml:space="preserve">
+    <value>Új megjegyzés</value>
+  </data>
+  <data name="AddNewCommentRelationship" xml:space="preserve">
+    <value>Új megjegyzés reláció</value>
+  </data>
+  <data name="AddNewComposition" xml:space="preserve">
+    <value>Új kompozíció</value>
+  </data>
+  <data name="AddNewDelegate" xml:space="preserve">
+    <value>Új delegate</value>
+  </data>
+  <data name="AddNewDependency" xml:space="preserve">
+    <value>Új függőség</value>
+  </data>
+  <data name="AddNewEnum" xml:space="preserve">
+    <value>Új enum</value>
+  </data>
+  <data name="AddNewGeneralization" xml:space="preserve">
+    <value>Új öröklődés</value>
+  </data>
+  <data name="AddNewInterface" xml:space="preserve">
+    <value>Új interfész</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Új elem felvétele:</value>
+  </data>
+  <data name="AddNewNesting" xml:space="preserve">
+    <value>Új tartalmazás</value>
+  </data>
+  <data name="AddNewRealization" xml:space="preserve">
+    <value>Új megvalósítás</value>
+  </data>
+  <data name="AddNewStructure" xml:space="preserve">
+    <value>Új struktúra</value>
+  </data>
+  <data name="Aggregation" xml:space="preserve">
+    <value>Aggregáció</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Mindig</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Asszociáció</value>
+  </data>
+  <data name="WhenMouseHovers" xml:space="preserve">
+    <value>Amikor az egér felette áll</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Tihanyi Balázs</value>
+  </data>
+  <data name="AutoZoom" xml:space="preserve">
+    <value>Képernyőhöz igazítás</value>
+  </data>
+  <data name="ButtonAddItem" xml:space="preserve">
+    <value>Felvesz</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Alkalmaz</value>
+  </data>
+  <data name="ButtonBrowse" xml:space="preserve">
+    <value>Tallóz...</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Bezár</value>
+  </data>
+  <data name="ButtonGenerate" xml:space="preserve">
+    <value>Generál</value>
+  </data>
+  <data name="ButtonLoad" xml:space="preserve">
+    <value>Betöltés</value>
+  </data>
+  <data name="ButtonModify" xml:space="preserve">
+    <value>Módosít</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ButtonPageSetup" xml:space="preserve">
+    <value>Oldalbeállítás...</value>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>Nyomtat</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="ButtonSelectPrinter" xml:space="preserve">
+    <value>Nyomtató kiválasztása...</value>
+  </data>
+  <data name="CheckingForUpdates" xml:space="preserve">
+    <value>Frissítés keresése</value>
+  </data>
+  <data name="ClearRecentList" xml:space="preserve">
+    <value>Legutóbbi fájlok listájának törlése</value>
+  </data>
+  <data name="CodeGeneration" xml:space="preserve">
+    <value>Kódgenerálás</value>
+  </data>
+  <data name="CodeGenerationCompleted" xml:space="preserve">
+    <value>A kódgenerálás sikeresen befejeződött.</value>
+  </data>
+  <data name="CodeGenerationFailed" xml:space="preserve">
+    <value>A kódgenerálás sikertelen volt.</value>
+  </data>
+  <data name="CodeStyle" xml:space="preserve">
+    <value>Kód stílus</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>Nem lehetett végrehajtani a parancsot.</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Megjegyzés</value>
+  </data>
+  <data name="Composition" xml:space="preserve">
+    <value>Kompozíció</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="CriticalError" xml:space="preserve">
+    <value>Végzetes hiba</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Kijelölt elem(ek) törlése</value>
+  </data>
+  <data name="Dependency" xml:space="preserve">
+    <value>Függőség</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Célkönyvtár:</value>
+  </data>
+  <data name="Diagram" xml:space="preserve">
+    <value>Diagram</value>
+  </data>
+  <data name="DiagramStyle" xml:space="preserve">
+    <value>Diagram stílus</value>
+  </data>
+  <data name="DoubleClickToEdit" xml:space="preserve">
+    <value>« Dupla kattintás a szerkesztéshez »</value>
+  </data>
+  <data name="EditComment" xml:space="preserve">
+    <value>Megjegyzés szerkesztése</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Hiba</value>
+  </data>
+  <data name="ErrorsReason" xml:space="preserve">
+    <value>A hiba oka</value>
+  </data>
+  <data name="ErrorAccessorModifier" xml:space="preserve">
+    <value>Érvénytelen belső láthatósági módosító!</value>
+  </data>
+  <data name="ErrorBlankFilename" xml:space="preserve">
+    <value>A fájlnév nem lehet üres.</value>
+  </data>
+  <data name="ErrorCannotAddSameBaseInterface" xml:space="preserve">
+    <value>Nem lehet kétszer felvenni ugyanazt az ősinterfészt!</value>
+  </data>
+  <data name="ErrorCannotAddSameInterface" xml:space="preserve">
+    <value>Nem lehet kétszer felvenni ugyanazt az interfészt!</value>
+  </data>
+  <data name="ErrorCannotCrateDelegate" xml:space="preserve">
+    <value>{0} nyelvben nem lehet delegate-et létrehozni!</value>
+  </data>
+  <data name="ErrorCannotCreateRelationship" xml:space="preserve">
+    <value>Nem hozható létre a kapcsolat a két objektum között!</value>
+  </data>
+  <data name="ErrorCannotCreateStructure" xml:space="preserve">
+    <value>{0} nyelvben nem lehet struktúrát létrehozni!</value>
+  </data>
+  <data name="ErrorCannotInherit" xml:space="preserve">
+    <value>Statikus vagy lezárt osztály nem származtatható!</value>
+  </data>
+  <data name="ErrorCannotOverride" xml:space="preserve">
+    <value>A művelet nem virtuális, ezért nem lehet felülírni!</value>
+  </data>
+  <data name="ErrorCannotSaveFile" xml:space="preserve">
+    <value>Nem lehet elmenteni a fájlt, amíg az elérési útvonal nincs megadva!</value>
+  </data>
+  <data name="ErrorCannotSetAccess" xml:space="preserve">
+    <value>A láthatóság nem állítható!</value>
+  </data>
+  <data name="ErrorCannotSetModifier" xml:space="preserve">
+    <value>A módosító nem állítható!</value>
+  </data>
+  <data name="ErrorCannotSetStatic" xml:space="preserve">
+    <value>A statikusság nem állítható!</value>
+  </data>
+  <data name="ErrorCannotSetType" xml:space="preserve">
+    <value>A típus nem állítható!</value>
+  </data>
+  <data name="ErrorConnectToServer" xml:space="preserve">
+    <value>Nem lehetett kapcsolódni a szerverhez.</value>
+  </data>
+  <data name="ErrorConstructorName" xml:space="preserve">
+    <value>A konstruktor neve nem egyezik meg az őt tartalmazó osztályéval!</value>
+  </data>
+  <data name="ErrorLackOfInitialization" xml:space="preserve">
+    <value>Konstans csak inicializációval együtt érvényes!</value>
+  </data>
+  <data name="ErrorCorruptSaveFile" xml:space="preserve">
+    <value>A mentés fájl hibás. Nem lehetett betölteni.</value>
+  </data>
+  <data name="ErrorCorruptSaveFormat" xml:space="preserve">
+    <value>A mentés formátum hiányos vagy nem megfelelő.</value>
+  </data>
+  <data name="ErrorCouldNotLoadFile" xml:space="preserve">
+    <value>Nem lehetett betölteni a fájlt.</value>
+  </data>
+  <data name="ErrorCouldNotLoadPlugins" xml:space="preserve">
+    <value>Hiba a bővítmények betöltése közben:
+{0}</value>
+  </data>
+  <data name="ErrorCouldNotSaveFile" xml:space="preserve">
+    <value>Nem lehetett elmenteni a fájlt.</value>
+  </data>
+  <data name="ErrorCyclicBase" xml:space="preserve">
+    <value>Az ős{0} leszármazottja az {0} gyermeknek.</value>
+  </data>
+  <data name="ErrorCyclicNesting" xml:space="preserve">
+    <value>Ciklikus tartalmazás-kapcsolatok.</value>
+  </data>
+  <data name="ErrorDestructorName" xml:space="preserve">
+    <value>A destruktor neve nem egyezik meg az őt tartalmazó osztályéval!</value>
+  </data>
+  <data name="ErrorEmptyFilename" xml:space="preserve">
+    <value>A fájlnév nem lehet üres!</value>
+  </data>
+  <data name="ErrorEmptyString" xml:space="preserve">
+    <value>A {0} nem lehet üres string!</value>
+  </data>
+  <data name="ErrorExplicitImplementation" xml:space="preserve">
+    <value>Nem megengedett az explicit implementálás.</value>
+  </data>
+  <data name="ErrorExplicitImplementationAccess" xml:space="preserve">
+    <value>Nem állítható a láthatóság explicit implementálásnál.</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>A fájl nem található vagy nincs hozzáférési engedély.</value>
+  </data>
+  <data name="ErrorForbiddenName" xml:space="preserve">
+    <value>Tiltott név!</value>
+  </data>
+  <data name="ErrorForbiddenTypeName" xml:space="preserve">
+    <value>Tiltott típusnév!</value>
+  </data>
+  <data name="ErrorInnerTypeAlreadyNested" xml:space="preserve">
+    <value>A tartalmazandó osztály már tartalmazva van.</value>
+  </data>
+  <data name="ErrorInterfaceLanguage" xml:space="preserve">
+    <value>Az interfész osztály nem {0} interfész!</value>
+  </data>
+  <data name="ErrorInterfaceMemberAccess" xml:space="preserve">
+    <value>Interfész tagjainak láthatósága nem állítható!</value>
+  </data>
+  <data name="ErrorInvalidBaseType" xml:space="preserve">
+    <value>Érvénytelen ősosztály.</value>
+  </data>
+  <data name="ErrorInvalidDeclaration" xml:space="preserve">
+    <value>Érvénytelen deklaráció.</value>
+  </data>
+  <data name="ErrorInvalidModifier" xml:space="preserve">
+    <value>Érvénytelen módosító.</value>
+  </data>
+  <data name="ErrorInvalidModifierCombination" xml:space="preserve">
+    <value>A(z) {0} módosító érvénytelen a(z) {1} módosító mellett.</value>
+  </data>
+  <data name="ErrorInvalidName" xml:space="preserve">
+    <value>Érvénytelen név!</value>
+  </data>
+  <data name="ErrorInvalidParameterDeclaration" xml:space="preserve">
+    <value>Érvénytelen paraméter deklaráció!</value>
+  </data>
+  <data name="ErrorInvalidTypeName" xml:space="preserve">
+    <value>Érvénytelen típusnév!</value>
+  </data>
+  <data name="ErrorInSavingImage" xml:space="preserve">
+    <value>Hiba a kép elmentése közben.</value>
+  </data>
+  <data name="ErrorInSavingSettings" xml:space="preserve">
+    <value>Hiba a beállítások mentése közben.</value>
+  </data>
+  <data name="ErrorLanguagesDoNotEqual" xml:space="preserve">
+    <value>Nem azonos a két nyelv!</value>
+  </data>
+  <data name="ErrorMemberTypeDoesNotExist" xml:space="preserve">
+    <value>Nincs {0} típusú tag!</value>
+  </data>
+  <data name="ErrorMultipleBases" xml:space="preserve">
+    <value>Nem támogatott a többszörös öröklődés.</value>
+  </data>
+  <data name="ErrorNestingNotSupported" xml:space="preserve">
+    <value>A tartalmazó osztály nem támogatja a tartalmazást.</value>
+  </data>
+  <data name="ErrorNotAllowedChild" xml:space="preserve">
+    <value>A gyermek osztály nem támogatja az általánosítást.</value>
+  </data>
+  <data name="ErrorNotAllowedParent" xml:space="preserve">
+    <value>A szülő osztály nem támogatja az általánosítást.</value>
+  </data>
+  <data name="ErrorNotInterfaceImplementer" xml:space="preserve">
+    <value>Az implementáló osztály nem tudja megvalósítani az interfészt.</value>
+  </data>
+  <data name="ErrorOperatorMustBePublic" xml:space="preserve">
+    <value>Operátornak kötelező publikusnak lennie!</value>
+  </data>
+  <data name="ErrorOperatorMustBeStatic" xml:space="preserve">
+    <value>Operátornak kötelező statikusnak lennie!</value>
+  </data>
+  <data name="ErrorParameterType" xml:space="preserve">
+    <value>A paraméter típusa nem lehet {0}!</value>
+  </data>
+  <data name="ErrorPrinting" xml:space="preserve">
+    <value>Hiba történt a nyomtatás alatt. A hiba oka:
+{0}</value>
+  </data>
+  <data name="ErrorReadVersionData" xml:space="preserve">
+    <value>Hiba a verzió adatok beolvasásakor.</value>
+  </data>
+  <data name="ErrorRecursiveNesting" xml:space="preserve">
+    <value>A típusok nem tartalmazhatják saját magukat.</value>
+  </data>
+  <data name="ErrorRelationshipDoesNotExist" xml:space="preserve">
+    <value>Nem létezik ilyen kapcsolat.</value>
+  </data>
+  <data name="ErrorReservedName" xml:space="preserve">
+    <value>A megadott név már szerepel!</value>
+  </data>
+  <data name="ErrorStaticConstructor" xml:space="preserve">
+    <value>Csak paraméter nélküli konstruktor lehet statikus!</value>
+  </data>
+  <data name="ErrorStaticIndexer" xml:space="preserve">
+    <value>Indexer nem lehet statikus.</value>
+  </data>
+  <data name="ErrorStaticInterfaceMember" xml:space="preserve">
+    <value>Interfész tagjai nem lehetnek statikusok!</value>
+  </data>
+  <data name="ErrorType" xml:space="preserve">
+    <value>A típus nem lehet {0}!</value>
+  </data>
+  <data name="ErrorTypeDoesNotExist" xml:space="preserve">
+    <value>Nincs {0} nevű típus!</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Általános</value>
+  </data>
+  <data name="Generalization" xml:space="preserve">
+    <value>Általánosítás</value>
+  </data>
+  <data name="GeneratorTargetDir" xml:space="preserve">
+    <value>Válassza ki a generálandó forrásfájlok célkönyvtárát:</value>
+  </data>
+  <data name="Implementing" xml:space="preserve">
+    <value>Implementálás</value>
+  </data>
+  <data name="ImplementExplicitly" xml:space="preserve">
+    <value>Explicit implementálás</value>
+  </data>
+  <data name="ImportList" xml:space="preserve">
+    <value>Import lista</value>
+  </data>
+  <data name="IndentSize" xml:space="preserve">
+    <value>Behúzás mérete:</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>Kezdőérték</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Elem</value>
+  </data>
+  <data name="ItemsOfType" xml:space="preserve">
+    <value>{0} elemei</value>
+  </data>
+  <data name="ItemsSelected" xml:space="preserve">
+    <value>{0} elem kijelölve</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Nyelv</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Betöltés</value>
+  </data>
+  <data name="MembersOfType" xml:space="preserve">
+    <value>{0} tagjai</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>&amp;Névjegy...</value>
+  </data>
+  <data name="MenuAddNew" xml:space="preserve">
+    <value>Ú&amp;j</value>
+  </data>
+  <data name="MenuAggregation" xml:space="preserve">
+    <value>Aggregáció</value>
+  </data>
+  <data name="MenuAlign" xml:space="preserve">
+    <value>&amp;Igazítás</value>
+  </data>
+  <data name="MenuAlignBottom" xml:space="preserve">
+    <value>&amp;Alulra igazítás</value>
+  </data>
+  <data name="MenuAlignHorizontal" xml:space="preserve">
+    <value>&amp;Vízszintesen középre igazítás</value>
+  </data>
+  <data name="MenuAlignLeft" xml:space="preserve">
+    <value>&amp;Balra igazítás</value>
+  </data>
+  <data name="MenuAlignRight" xml:space="preserve">
+    <value>&amp;Jobbra igazítás</value>
+  </data>
+  <data name="MenuAlignTop" xml:space="preserve">
+    <value>&amp;Felülre igazítás</value>
+  </data>
+  <data name="MenuAlignVertical" xml:space="preserve">
+    <value>Függőlegesen &amp;középre igazítás</value>
+  </data>
+  <data name="MenuAssociation" xml:space="preserve">
+    <value>Asszociáció</value>
+  </data>
+  <data name="MenuAutoHeight" xml:space="preserve">
+    <value>Automatikus &amp;magasság</value>
+  </data>
+  <data name="MenuAutoRouting" xml:space="preserve">
+    <value>&amp;Automatikus útvonal</value>
+  </data>
+  <data name="MenuAutoWidth" xml:space="preserve">
+    <value>Automatikus &amp;szélesség</value>
+  </data>
+  <data name="MenuAutoZoom" xml:space="preserve">
+    <value>&amp;Képernyőhöz igazítás</value>
+  </data>
+  <data name="MenuBidirectional" xml:space="preserve">
+    <value>&amp;Kétirányú</value>
+  </data>
+  <data name="MenuCheckForUpdates" xml:space="preserve">
+    <value>&amp;Frissítés keresése</value>
+  </data>
+  <data name="MenuClass" xml:space="preserve">
+    <value>&amp;Osztály</value>
+  </data>
+  <data name="MenuCollapseAll" xml:space="preserve">
+    <value>Mindent &amp;összecsuk</value>
+  </data>
+  <data name="MenuCollapseAllSelected" xml:space="preserve">
+    <value>&amp;Kijelöltek összecsukása</value>
+  </data>
+  <data name="MenuComment" xml:space="preserve">
+    <value>&amp;Megjegyzés</value>
+  </data>
+  <data name="MenuCommentRelationship" xml:space="preserve">
+    <value>Megjegyzés reláció</value>
+  </data>
+  <data name="MenuComposition" xml:space="preserve">
+    <value>Kompozíció</value>
+  </data>
+  <data name="MenuContents" xml:space="preserve">
+    <value>&amp;Tartalom</value>
+  </data>
+  <data name="MenuCopyImageToClipboard" xml:space="preserve">
+    <value>&amp;Vágólapra mentés képként</value>
+  </data>
+  <data name="MenuCSharpDiagram" xml:space="preserve">
+    <value>&amp;C# diagram</value>
+  </data>
+  <data name="MenuCut" xml:space="preserve">
+    <value>&amp;Kivágás</value>
+  </data>
+  <data name="MenuDelegate" xml:space="preserve">
+    <value>&amp;Delegate</value>
+  </data>
+  <data name="MenuDelete" xml:space="preserve">
+    <value>&amp;Törlés</value>
+  </data>
+  <data name="MenuDependency" xml:space="preserve">
+    <value>Függőség</value>
+  </data>
+  <data name="MenuDiagram" xml:space="preserve">
+    <value>&amp;Diagram</value>
+  </data>
+  <data name="MenuDiagramSize" xml:space="preserve">
+    <value>&amp;Diagram mérete...</value>
+  </data>
+  <data name="MenuDirection" xml:space="preserve">
+    <value>&amp;Irány</value>
+  </data>
+  <data name="MenuEdit" xml:space="preserve">
+    <value>S&amp;zerkesztés</value>
+  </data>
+  <data name="MenuEditComment" xml:space="preserve">
+    <value>Megjegyzés &amp;szerkeszése...</value>
+  </data>
+  <data name="MenuEditMembers" xml:space="preserve">
+    <value>Tagok &amp;szerkesztése...</value>
+  </data>
+  <data name="MenuEnum" xml:space="preserve">
+    <value>&amp;Enum</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>&amp;Kilépés</value>
+  </data>
+  <data name="MenuExpandAll" xml:space="preserve">
+    <value>Mindent &amp;kibont</value>
+  </data>
+  <data name="MenuExpandAllSelected" xml:space="preserve">
+    <value>&amp;Kijelöltek kibontása</value>
+  </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>&amp;Exportálás</value>
+  </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>&amp;Fájl</value>
+  </data>
+  <data name="MenuFormat" xml:space="preserve">
+    <value>F&amp;ormázás</value>
+  </data>
+  <data name="MenuGeneralization" xml:space="preserve">
+    <value>Öröklődés</value>
+  </data>
+  <data name="MenuGenerateCode" xml:space="preserve">
+    <value>&amp;Kódgenerálás...</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>&amp;Súgó</value>
+  </data>
+  <data name="MenuImport" xml:space="preserve">
+    <value>&amp;Importálás</value>
+  </data>
+  <data name="MenuInitialValue" xml:space="preserve">
+    <value>&amp;Kezdőérték</value>
+  </data>
+  <data name="MenuInterface" xml:space="preserve">
+    <value>&amp;Interfész</value>
+  </data>
+  <data name="MenuJavaDiagram" xml:space="preserve">
+    <value>&amp;Java diagram</value>
+  </data>
+  <data name="MenuMakeSameSize" xml:space="preserve">
+    <value>&amp;Azonos méretre igazítás</value>
+  </data>
+  <data name="MenuMembersFormat" xml:space="preserve">
+    <value>Tagok &amp;formátuma</value>
+  </data>
+  <data name="MenuNesting" xml:space="preserve">
+    <value>Tartalmazás</value>
+  </data>
+  <data name="MenuNew" xml:space="preserve">
+    <value>Ú&amp;j</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>Meg&amp;nyitás</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>&amp;Beállítások...</value>
+  </data>
+  <data name="MenuParameters" xml:space="preserve">
+    <value>&amp;Paraméterek</value>
+  </data>
+  <data name="MenuParameterNames" xml:space="preserve">
+    <value>Paraméter&amp;nevek</value>
+  </data>
+  <data name="MenuPaste" xml:space="preserve">
+    <value>&amp;Beillesztés</value>
+  </data>
+  <data name="MenuPlugins" xml:space="preserve">
+    <value>&amp;Bővítmények</value>
+  </data>
+  <data name="MenuPrint" xml:space="preserve">
+    <value>N&amp;yomtatás...</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>&amp;Tulajdonságok...</value>
+  </data>
+  <data name="MenuRealization" xml:space="preserve">
+    <value>Megvalósítás</value>
+  </data>
+  <data name="MenuRedo" xml:space="preserve">
+    <value>Ú&amp;jra</value>
+  </data>
+  <data name="MenuSameHeight" xml:space="preserve">
+    <value>Azonos &amp;magasság</value>
+  </data>
+  <data name="MenuSameSize" xml:space="preserve">
+    <value>&amp;Azonos méret</value>
+  </data>
+  <data name="MenuSameWidth" xml:space="preserve">
+    <value>Azonos &amp;szélesség</value>
+  </data>
+  <data name="MenuSave" xml:space="preserve">
+    <value>&amp;Mentés</value>
+  </data>
+  <data name="MenuSaveAs" xml:space="preserve">
+    <value>Menté&amp;s másként...</value>
+  </data>
+  <data name="MenuSaveAsImage" xml:space="preserve">
+    <value>Diagram mentése &amp;képként...</value>
+  </data>
+  <data name="MenuSaveSelectionAsImage" xml:space="preserve">
+    <value>&amp;Kijelölt elemek mentése képként...</value>
+  </data>
+  <data name="MenuSelectAll" xml:space="preserve">
+    <value>&amp;Mindent kijelöl</value>
+  </data>
+  <data name="MenuSize" xml:space="preserve">
+    <value>&amp;Méret</value>
+  </data>
+  <data name="MenuStruct" xml:space="preserve">
+    <value>&amp;Struktúra</value>
+  </data>
+  <data name="MenuType" xml:space="preserve">
+    <value>&amp;Típus</value>
+  </data>
+  <data name="MenuUndo" xml:space="preserve">
+    <value>&amp;Visszavonás</value>
+  </data>
+  <data name="MenuUnidirectional" xml:space="preserve">
+    <value>&amp;Egyirányú</value>
+  </data>
+  <data name="MenuZoom" xml:space="preserve">
+    <value>&amp;Nagyítás</value>
+  </data>
+  <data name="MenuZoomIn" xml:space="preserve">
+    <value>&amp;Nagyítás</value>
+  </data>
+  <data name="MenuZoomOut" xml:space="preserve">
+    <value>&amp;Kicsinyítés</value>
+  </data>
+  <data name="Modifier" xml:space="preserve">
+    <value>Módosító:</value>
+  </data>
+  <data name="Modifiers" xml:space="preserve">
+    <value>Módosítók</value>
+  </data>
+  <data name="ModifyItem" xml:space="preserve">
+    <value>Elem módosítása:</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Lefelé mozgat</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Felfelé mozgat</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="NClassProjectFiles" xml:space="preserve">
+    <value>NClass projekt fájlok</value>
+  </data>
+  <data name="Nesting" xml:space="preserve">
+    <value>Tartalmazás</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Soha</value>
+  </data>
+  <data name="NewConstructor" xml:space="preserve">
+    <value>Új konstruktor</value>
+  </data>
+  <data name="NewDestructor" xml:space="preserve">
+    <value>Új destruktor</value>
+  </data>
+  <data name="NewEvent" xml:space="preserve">
+    <value>Új esemény</value>
+  </data>
+  <data name="NewField" xml:space="preserve">
+    <value>Új tagváltozó</value>
+  </data>
+  <data name="NewMethod" xml:space="preserve">
+    <value>Új metódus</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Új tulajdonság</value>
+  </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>Új verzió</value>
+  </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>Ez a funkció még nincs megvalósítva.</value>
+  </data>
+  <data name="NoUpdates" xml:space="preserve">
+    <value>Nincs újabb verzió.</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
+  <data name="OverrideMembers" xml:space="preserve">
+    <value>Műveletek felülírása</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Oldalak:</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>{0}, készítette {1}</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Nyomtatás</value>
+  </data>
+  <data name="PrintOnlySelectedElements" xml:space="preserve">
+    <value>Csak a kijelölt elemek nyomtatása</value>
+  </data>
+  <data name="ProgramDownload" xml:space="preserve">
+    <value>Szeretné most letölteni a frissítést?</value>
+  </data>
+  <data name="ProgramTerminates" xml:space="preserve">
+    <value>Egy végzetes hiba miatt a programnak le kellett állnia.
+A hibát leíró fájl és a megnyitott projektek az Application Data könyvtárba kerültek mentésre.</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Kész</value>
+  </data>
+  <data name="Realization" xml:space="preserve">
+    <value>Megvalósítás</value>
+  </data>
+  <data name="ReturnType" xml:space="preserve">
+    <value>Visszatérési típus:</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Mentés másként</value>
+  </data>
+  <data name="SaveAsImage" xml:space="preserve">
+    <value>Mentés képként</value>
+  </data>
+  <data name="SaveChangesConfirmation" xml:space="preserve">
+    <value>A fájl tartalma megváltozott.\nSzerenté elmenteni a módosításokat?</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>E-mail küldése a program készítőjének</value>
+  </data>
+  <data name="SendLogFile" xml:space="preserve">
+    <value>Kérem, küldje el ezt a fájlt a '{0}' címre a hiba mihamarabbi kijavítása érdekében.</value>
+  </data>
+  <data name="ShowChevron" xml:space="preserve">
+    <value>Mutassa a nyitó/záró gombot:</value>
+  </data>
+  <data name="SortByAccess" xml:space="preserve">
+    <value>Rendezés hozzáférés szerint</value>
+  </data>
+  <data name="SortByKind" xml:space="preserve">
+    <value>Rendezés fajta szerint</value>
+  </data>
+  <data name="SortByName" xml:space="preserve">
+    <value>Rendezés név szerint</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>Stílus</value>
+  </data>
+  <data name="Syntax" xml:space="preserve">
+    <value>Szintaktika</value>
+  </data>
+  <data name="TranslationName" xml:space="preserve">
+    <value>Hungarian</value>
+  </data>
+  <data name="TranslationUpdated" xml:space="preserve">
+    <value>A magyar fordítás frissült.</value>
+  </data>
+  <data name="TranslationVersion" xml:space="preserve">
+    <value>2009-08-26</value>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Típus</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>Gépelje be a kívánt szöveget:</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Ismeretlen</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Ismeretlen hiba</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>Névtelen</value>
+  </data>
+  <data name="UseSnapping" xml:space="preserve">
+    <value>Diagram elemek egymáshoz igazítása</value>
+  </data>
+  <data name="UseTabs" xml:space="preserve">
+    <value>Tabulátor használata szóközök helyett</value>
+  </data>
+  <data name="BetaVersion" xml:space="preserve">
+    <value>Béta verzió</value>
+  </data>
+  <data name="VisitHomepage" xml:space="preserve">
+    <value>A program honlapja</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value>Nagyítás</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>Nagyítás</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>Kicsinyítés</value>
+  </data>
+  <data name="DoubleClickToAddDiagram" xml:space="preserve">
+    <value>Új diagramhoz kattintson duplán</value>
+  </data>
+  <data name="DoubleClickToAddProject" xml:space="preserve">
+    <value>« Új projekthez kattintson duplán »</value>
+  </data>
+  <data name="MenuSaveProject" xml:space="preserve">
+    <value>{0} &amp;mentése</value>
+  </data>
+  <data name="MenuSaveProjectAs" xml:space="preserve">
+    <value>{0} menté&amp;se másként...</value>
+  </data>
+  <data name="MenuClose" xml:space="preserve">
+    <value>{0} be&amp;zárása</value>
+  </data>
+  <data name="MenuCloseProject" xml:space="preserve">
+    <value>Projekt be&amp;zárása</value>
+  </data>
+  <data name="MenuCloseAllProjects" xml:space="preserve">
+    <value>Minden projekt &amp;bezárása</value>
+  </data>
+  <data name="MenuSaveAllProjects" xml:space="preserve">
+    <value>Minden &amp;projekt mentése</value>
+  </data>
+  <data name="PreviousFileFormats" xml:space="preserve">
+    <value>Régebbi formátumok</value>
+  </data>
+  <data name="MenuCloseAllDocuments" xml:space="preserve">
+    <value>&amp;Minden dokumentum bezárása</value>
+  </data>
+  <data name="MenuDiagramNavigator" xml:space="preserve">
+    <value>&amp;Diagram Navigator</value>
+  </data>
+  <data name="MenuModelExplorer" xml:space="preserve">
+    <value>&amp;Model Explorer</value>
+  </data>
+  <data name="MenuView" xml:space="preserve">
+    <value>&amp;Nézet</value>
+  </data>
+  <data name="AskSaveChanges" xml:space="preserve">
+    <value>Elmenti a változásokat a következő projektekben?</value>
+  </data>
+  <data name="RequiresRestart" xml:space="preserve">
+    <value>A nyelv megváltoztatásához újraindítás szükséges.</value>
+  </data>
+  <data name="MenuNewProject" xml:space="preserve">
+    <value>&amp;Új projekt</value>
+  </data>
+  <data name="DeleteProjectItemConfirmation" xml:space="preserve">
+    <value>Biztos, hogy törölni akarja a következőt: {0}?</value>
+  </data>
+  <data name="MenuDeleteProjectItem" xml:space="preserve">
+    <value>&amp;Törlés a projektből</value>
+  </data>
+  <data name="MenuRename" xml:space="preserve">
+    <value>&amp;Átnevezés</value>
+  </data>
+  <data name="MenuProject" xml:space="preserve">
+    <value>&amp;Projekt</value>
+  </data>
+  <data name="ErrorNoPrinters" xml:space="preserve">
+    <value>Nincs nyomtató telepítve.</value>
+  </data>
+  <data name="SolutionType" xml:space="preserve">
+    <value>Solution fájl típusa:</value>
+  </data>
+  <data name="UseNotImplementedExceptions" xml:space="preserve">
+    <value>'Not implemented' kivételeket a metódusokhoz</value>
+  </data>
+  <data name="WhenZoomed" xml:space="preserve">
+    <value>Amikor nagyítva/kicsinyítve van</value>
+  </data>
+  <data name="UseClearType" xml:space="preserve">
+    <value>ClearType használata</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Nincs</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Csak olvasható</value>
+  </data>
+  <data name="ReadWrite" xml:space="preserve">
+    <value>Írható-olvasható</value>
+  </data>
+  <data name="WriteOnly" xml:space="preserve">
+    <value>Csak írható</value>
+  </data>
+  <data name="NewParameter" xml:space="preserve">
+    <value>Új paraméter</value>
+  </data>
+  <data name="NewValue" xml:space="preserve">
+    <value>Új érték</value>
+  </data>
+  <data name="RequiresNetFramework" xml:space="preserve">
+    <value>A telepítendő program Microsoft .NET 2.0 keretrendszert használ.
+Kérem, töltse le és telepítse fel a .NET keretrendszert, majd indítsa újra a telepítőt.
+Szeretné most letölteni a szükséges keretrendszert a Microsoft honlapjáról?</value>
+  </data>
+  <data name="StartMenuGroup" xml:space="preserve">
+    <value>Csoport elhelyezése a Start menüben</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Eltávolítás</value>
+  </data>
+  <data name="EditAssociation" xml:space="preserve">
+    <value>Asszociáció szerkesztése</value>
+  </data>
+  <data name="MenuEditAssociation" xml:space="preserve">
+    <value>Szerkesztés...</value>
+  </data>
+  <data name="RememberOpenProjects" xml:space="preserve">
+    <value>Emlékezzen az utoljára megnyitott projektekre</value>
+  </data>
+  <data name="MenuCloseAllTabsButThis" xml:space="preserve">
+    <value>Összes többi fül bezárása</value>
+  </data>
+  <data name="MenuCloseAllTabs" xml:space="preserve">
+    <value>Összes fül bezárása</value>
+  </data>
+  <data name="MenuCloseTab" xml:space="preserve">
+    <value>Fül bezárása</value>
+  </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>&amp;Másolás</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Kivágás</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Beillesztés</value>
+  </data>
+  <data name="MenuOpenFile" xml:space="preserve">
+    <value>&amp;Fájl...</value>
+  </data>
+  <data name="UseClearTypeForImages" xml:space="preserve">
+    <value>Képbe mentésnél (átlátszóság elvesztésével jár)</value>
+  </data>
+  <data name="MenuReverse" xml:space="preserve">
+    <value>Megfordít</value>
+    <comment>Reverse the whole association relationship</comment>
+  </data>
+  <data name="MenuAutoSize" xml:space="preserve">
+    <value>Automatikus &amp;méret</value>
+  </data>
+  <data name="DeleteElementsConfirmation" xml:space="preserve">
+    <value>Biztos, hogy törölni akarja a kijelölt diagram elemeket?</value>
+  </data>
+  <data name="DeleteMemberConfirmation" xml:space="preserve">
+    <value>Biztos, hogy törölni akarja a kijelölt tagot?</value>
+  </data>
+  <data name="ButtonClear" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+</root>

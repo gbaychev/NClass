@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<project name="CodeGenerator" default="compile">
+	<target name="compile">
+		<resgen input="Properties/Resources.resx" output="NClass.CodeGenerator.Properties.Resources.resources" usesourcepath="true" />
+		<csc target="library" output="${build.dir}/NClass.CodeGenerator.dll" optimize="true" noconfig="true">
+			<sources>
+				<include name="**/*.cs" />
+				<include name="../CommonAssemblyInfo.cs" />
+			</sources>
+			<resources>
+				<include name="**/*.resx" />
+				<include name="NClass.CodeGenerator.Properties.Resources.resources" />
+				<exclude name="Properties/Resources.resx" />
+			</resources>
+			<references>
+				<include name="System.dll" />
+				<include name="System.Xml.dll" />
+				<include name="System.Drawing.dll" />
+				<include name="System.Windows.Forms.dll" />
+				<include name="${build.dir}/NClass.Core.dll" />
+				<include name="${build.dir}/NClass.CSharp.dll" />
+				<include name="${build.dir}/NClass.Java.dll" />
+				<include name="${build.dir}/Lang/NClass.Translations.dll" />
+			</references>
+		</csc>
+		<delete file="NClass.CodeGenerator.Resources.resources" failonerror="false" />
+		<copy todir="${build.dir}/Templates">
+			<fileset basedir="Templates">
+				<include name="*.template" />
+			</fileset>
+		</copy>
+	</target>
+</project>

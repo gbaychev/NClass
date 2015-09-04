@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<project name="AssemblyImport" default="compile">
+    <property name="resourceFile" value="NClass.AssemblyImport.Properties.Resources.resources" />
+
+	<target name="compile">
+		<resgen input="Properties/Resources.resx" output="${resourceFile}" usesourcepath="true" />
+
+		<csc target="library" output="${build.dir}/Plugins/AssemblyImport.dll" optimize="true" noconfig="true">
+			<sources>
+				<include name="**/*.cs" />
+			</sources>
+			<resources dynamicprefix="true">
+				<include name="**/*.resx" />
+				<include name="${resourceFile}" />
+				<exclude name="Properties/Resources.resx" />
+			</resources>
+			<references>
+				<include name="System.dll" />
+				<include name="System.Core.dll" />
+				<include name="System.Drawing.dll" />
+				<include name="System.Windows.Forms.dll" />
+				<include name="System.Xml.dll" />
+				<include name="${build.dir}/NClass.Core.dll" />
+				<include name="${build.dir}/NClass.CSharp.dll" />
+				<include name="${build.dir}/NClass.DiagramEditor.dll" />
+				<include name="${build.dir}/NClass.exe" />
+				<include name="libs/NReflect.dll" />
+			</references>
+		</csc>
+
+		<copy file="libs/NReflect.dll" todir="${build.dir}/Plugins/" />
+
+		<delete file="${resourceFile}" failonerror="false" />
+	</target>
+</project>

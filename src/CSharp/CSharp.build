@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<project name="NClass.CSharp" default="compile">
+	<target name="compile">
+		<csc target="library" output="${build.dir}/NClass.CSharp.dll" optimize="true" noconfig="true">
+			<sources>
+				<include name="**/*.cs" />
+				<include name="../CommonAssemblyInfo.cs" />
+			</sources>
+			<references>
+				<include name="System.dll" />
+				<include name="System.Xml.dll" />
+				<include name="${build.dir}/NClass.Core.dll" />
+				<include name="${build.dir}/Lang/NClass.Translations.dll" />
+			</references>
+		</csc>
+	</target>
+</project>

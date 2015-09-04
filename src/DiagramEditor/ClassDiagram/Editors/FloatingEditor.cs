@@ -1,0 +1,51 @@
+﻿// NClass - Free class diagram editor
+// Copyright (C) 2006-2009 Balazs Tihanyi
+// 
+// This program is free software; you can redistribute it and/or modify it under 
+// the terms of the GNU General Public License as published by the Free Software 
+// Foundation; either version 3 of the License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful, but WITHOUT 
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with 
+// this program; if not, write to the Free Software Foundation, Inc., 
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.Core;
+
+namespace NClass.DiagramEditor.ClassDiagram.Editors
+{
+	public abstract class FloatingEditor : EditorWindow
+	{
+		protected const int MarginSize = 20;
+		static readonly Color beginColor = SystemColors.ControlLight;
+		static readonly Color endColor = SystemColors.Control;
+
+		static MemberType newMemberType = MemberType.Method;
+
+		protected FloatingEditor()
+		{
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.Padding = new Padding(1);
+		}
+
+		protected static MemberType NewMemberType
+		{
+			get { return newMemberType; }
+			set { newMemberType = value; }
+		}
+
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			base.OnPaintBackground(e);
+			e.Graphics.DrawRectangle(SystemPens.ControlDark, 0, 0, Width - 1, Height - 1);
+		}
+	}
+}

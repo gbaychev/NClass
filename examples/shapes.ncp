@@ -1,0 +1,69 @@
+<Project>
+  <Name>Shapes</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Shapes</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Shape</Name>
+        <Access>Public</Access>
+        <Location left="175" top="20" />
+        <Size width="185" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Color color</Member>
+        <Member type="Field">PointF location</Member>
+        <Member type="Property">public Color Color { get; set; }</Member>
+        <Member type="Property">public PointF Location { get; set; }</Member>
+        <Member type="Constructor">protected Shape()</Member>
+        <Member type="Method">public abstract void Draw(Graphics g)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Circle</Name>
+        <Access>Public</Access>
+        <Location left="33" top="312" />
+        <Size width="169" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float radius</Member>
+        <Member type="Property">public float Radius { get; set; }</Member>
+        <Member type="Constructor">public Circle(float radius)</Member>
+        <Member type="Method">public override void Draw(Graphics g)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Square</Name>
+        <Access>Public</Access>
+        <Location left="318" top="312" />
+        <Size width="169" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float size</Member>
+        <Member type="Property">public float Size { get; set; }</Member>
+        <Member type="Constructor">public Square(float size)</Member>
+        <Member type="Method">public override void Draw(Graphics g)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDrawable</Name>
+        <Access>Public</Access>
+        <Location left="477" top="20" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void Draw(Graphics g)</Member>
+      </Entity>
+    </Entities>
+    <Relations>
+      <Relation type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relation>
+      <Relation type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relation>
+      <Relation type="Realization" first="0" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relation>
+    </Relations>
+  </ProjectItem>
+</Project>

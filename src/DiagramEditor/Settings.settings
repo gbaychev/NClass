@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NClass.DiagramEditor" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DiagramWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="DiagramHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4000</Value>
+    </Setting>
+    <Setting Name="UsePrecisionSnapping" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowChevron" Type="NClass.DiagramEditor.ClassDiagram.ChevronMode" Scope="User">
+      <Value Profile="(Default)">AsNeeded</Value>
+    </Setting>
+    <Setting Name="ShowType" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowParameters" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowParameterNames" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowInitialValue" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UseClearType" Type="NClass.DiagramEditor.ClassDiagram.ClearTypeMode" Scope="User">
+      <Value Profile="(Default)">Never</Value>
+    </Setting>
+    <Setting Name="UseClearTypeForImages" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PrintingSettings" Type="NClass.DiagramEditor.ClassDiagram.Dialogs.PrintingSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

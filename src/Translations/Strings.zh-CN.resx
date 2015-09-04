@@ -1,0 +1,1089 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ErrorInvalidDeclaration" xml:space="preserve">
+    <value>无效声明</value>
+  </data>
+  <data name="Modifier" xml:space="preserve">
+    <value>修饰符:</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>选项(&amp;O)...</value>
+  </data>
+  <data name="Nesting" xml:space="preserve">
+    <value>嵌套</value>
+  </data>
+  <data name="ErrorCannotSetModifier" xml:space="preserve">
+    <value>无法设置修饰符。</value>
+  </data>
+  <data name="MenuComposition" xml:space="preserve">
+    <value>组合(&amp;o)</value>
+  </data>
+  <data name="MenuNew" xml:space="preserve">
+    <value>新建(&amp;N)</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="MenuGenerateCode" xml:space="preserve">
+    <value>生成代码(&amp;G)...</value>
+  </data>
+  <data name="ErrorType" xml:space="preserve">
+    <value>类型不能为 {0}</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>关联</value>
+  </data>
+  <data name="ErrorCannotAddSameInterface" xml:space="preserve">
+    <value>无法添加相同的接口.</value>
+  </data>
+  <data name="ReturnType" xml:space="preserve">
+    <value>委托返回类型:</value>
+  </data>
+  <data name="ErrorCannotAddSameBaseInterface" xml:space="preserve">
+    <value>无法添加相同的基接口</value>
+  </data>
+  <data name="MenuDelete" xml:space="preserve">
+    <value>删除(&amp;D)</value>
+  </data>
+  <data name="ChangingToAbstractConfirmation" xml:space="preserve">
+    <value>若改变继承类的修饰符为抽象类型，则父类也将变为抽象类型。要继续吗？</value>
+  </data>
+  <data name="ErrorCannotInherit" xml:space="preserve">
+    <value>无法继承静态或封装类。</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="MenuRedo" xml:space="preserve">
+    <value>重做(&amp;R)</value>
+  </data>
+  <data name="ErrorAccessorModifier" xml:space="preserve">
+    <value>无效访问修饰符。</value>
+  </data>
+  <data name="ErrorForbiddenName" xml:space="preserve">
+    <value>禁用名称。</value>
+  </data>
+  <data name="NewMethod" xml:space="preserve">
+    <value>新方法</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="AddNewComposition" xml:space="preserve">
+    <value>添加新组合</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="MenuSave" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="ErrorCannotCreateStructure" xml:space="preserve">
+    <value>无法在 {0} 建立结构体。</value>
+  </data>
+  <data name="VisitHomepage" xml:space="preserve">
+    <value>访问程序主页</value>
+  </data>
+  <data name="ErrorReadVersionData" xml:space="preserve">
+    <value>无法读取版本信息。</value>
+  </data>
+  <data name="Modifiers" xml:space="preserve">
+    <value>修饰符</value>
+  </data>
+  <data name="ErrorCannotSetAccess" xml:space="preserve">
+    <value>无法设置可访问性。</value>
+  </data>
+  <data name="DiagramStyle" xml:space="preserve">
+    <value>图类型</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>放大</value>
+  </data>
+  <data name="MenuDelegate" xml:space="preserve">
+    <value>委托(&amp;D)</value>
+  </data>
+  <data name="ErrorCannotSetStatic" xml:space="preserve">
+    <value>无法设置静态修饰符。</value>
+  </data>
+  <data name="MenuImport" xml:space="preserve">
+    <value>导入(&amp;I)</value>
+  </data>
+  <data name="ErrorMultipleBases" xml:space="preserve">
+    <value>不支持多基类。</value>
+  </data>
+  <data name="MenuParameters" xml:space="preserve">
+    <value>参数(&amp;P)</value>
+  </data>
+  <data name="Diagram" xml:space="preserve">
+    <value>图</value>
+  </data>
+  <data name="MenuAutoZoom" xml:space="preserve">
+    <value>自动缩放(&amp;Z)</value>
+  </data>
+  <data name="MenuCheckForUpdates" xml:space="preserve">
+    <value>检查更新(&amp;U)</value>
+  </data>
+  <data name="ButtonModify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="MenuEdit" xml:space="preserve">
+    <value>编辑(&amp;E)</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>退出(&amp;x)</value>
+  </data>
+  <data name="CodeGenerationFailed" xml:space="preserve">
+    <value>代码生成失败。</value>
+  </data>
+  <data name="MenuCommentRelationship" xml:space="preserve">
+    <value>备注关系(&amp;m)</value>
+  </data>
+  <data name="NewField" xml:space="preserve">
+    <value>新域</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>发邮件给作者</value>
+  </data>
+  <data name="ItemsSelected" xml:space="preserve">
+    <value>已选择 {0} 项。</value>
+  </data>
+  <data name="ErrorInSavingSettings" xml:space="preserve">
+    <value>保存设置出错。</value>
+  </data>
+  <data name="MenuNesting" xml:space="preserve">
+    <value>嵌套(&amp;N)</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="SortByName" xml:space="preserve">
+    <value>按名称排序</value>
+  </data>
+  <data name="SortByKind" xml:space="preserve">
+    <value>按类型排序</value>
+  </data>
+  <data name="UseSnapping" xml:space="preserve">
+    <value>使用精确绘图布局</value>
+  </data>
+  <data name="ErrorInvalidTypeName" xml:space="preserve">
+    <value>无效类型名称。</value>
+  </data>
+  <data name="MenuPlugins" xml:space="preserve">
+    <value>插件(&amp;P)</value>
+  </data>
+  <data name="MenuPaste" xml:space="preserve">
+    <value>粘贴(&amp;P)</value>
+  </data>
+  <data name="IndentSize" xml:space="preserve">
+    <value>缩进:</value>
+  </data>
+  <data name="AddNewCommentRelationship" xml:space="preserve">
+    <value>添加关系新备注</value>
+  </data>
+  <data name="MenuAssociation" xml:space="preserve">
+    <value>关联(&amp;A)</value>
+  </data>
+  <data name="ButtonAddItem" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="MenuSelectAll" xml:space="preserve">
+    <value>全选(&amp;S)</value>
+  </data>
+  <data name="MenuEditMembers" xml:space="preserve">
+    <value>编辑成员(&amp;E)...</value>
+  </data>
+  <data name="EditComment" xml:space="preserve">
+    <value>编辑备注</value>
+  </data>
+  <data name="MenuBidirectional" xml:space="preserve">
+    <value>双向性(&amp;B)</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="MenuAddNew" xml:space="preserve">
+    <value>新建(&amp;A)</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>另存为</value>
+  </data>
+  <data name="ErrorInSavingImage" xml:space="preserve">
+    <value>保存图像出错。</value>
+  </data>
+  <data name="DoubleClickToEdit" xml:space="preserve">
+    <value>« 双击进行编辑 »</value>
+  </data>
+  <data name="ErrorInnerTypeAlreadyNested" xml:space="preserve">
+    <value>内置类型已为嵌套。</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>目标路径:</value>
+  </data>
+  <data name="SaveChangesConfirmation" xml:space="preserve">
+    <value>文件已更改，要保存所做的更改吗？</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>编辑文本:</value>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value>Zhang Jie</value>
+  </data>
+  <data name="AddNewDependency" xml:space="preserve">
+    <value>添加新依赖</value>
+  </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>文件(&amp;F)</value>
+  </data>
+  <data name="MenuType" xml:space="preserve">
+    <value>类型(&amp;T)</value>
+  </data>
+  <data name="ErrorCouldNotLoadFile" xml:space="preserve">
+    <value>无法载入文件。</value>
+  </data>
+  <data name="AddNewComment" xml:space="preserve">
+    <value>添加新备注</value>
+  </data>
+  <data name="ErrorInvalidModifier" xml:space="preserve">
+    <value>无效修饰符。</value>
+  </data>
+  <data name="NoUpdates" xml:space="preserve">
+    <value>没有可用更新</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>命令失败。</value>
+  </data>
+  <data name="CodeGeneration" xml:space="preserve">
+    <value>代码生成</value>
+  </data>
+  <data name="MenuRealization" xml:space="preserve">
+    <value>实现(&amp;R)</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>打开(&amp;O)</value>
+  </data>
+  <data name="ImplementExplicitly" xml:space="preserve">
+    <value>显示实现</value>
+  </data>
+  <data name="ErrorExplicitImplementationAccess" xml:space="preserve">
+    <value>无法以显示实现方式设置访问修饰符。</value>
+  </data>
+  <data name="Access" xml:space="preserve">
+    <value>可访问性</value>
+  </data>
+  <data name="MenuParameterNames" xml:space="preserve">
+    <value>参数名(&amp;N)</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="ErrorStaticInterfaceMember" xml:space="preserve">
+    <value>接口成员不能是静态类型。</value>
+  </data>
+  <data name="MenuDependency" xml:space="preserve">
+    <value>依赖(&amp;D)</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Syntax" xml:space="preserve">
+    <value>语法</value>
+  </data>
+  <data name="ItemsOfType" xml:space="preserve">
+    <value>{0} 成员</value>
+  </data>
+  <data name="MenuContents" xml:space="preserve">
+    <value>内容(&amp;C)</value>
+  </data>
+  <data name="ErrorCyclicNesting" xml:space="preserve">
+    <value>循环嵌套关系。</value>
+  </data>
+  <data name="ErrorNestingNotSupported" xml:space="preserve">
+    <value>父类不支持嵌套。</value>
+  </data>
+  <data name="ErrorMemberTypeDoesNotExist" xml:space="preserve">
+    <value>{0} 成员类型不存在。</value>
+  </data>
+  <data name="ErrorCorruptSaveFile" xml:space="preserve">
+    <value>保存文件损坏，无法载入。</value>
+  </data>
+  <data name="AddNewGeneralization" xml:space="preserve">
+    <value>添加新泛化</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="UseTabs" xml:space="preserve">
+    <value>使用制表符缩进</value>
+  </data>
+  <data name="AddNewRealization" xml:space="preserve">
+    <value>添加新实现</value>
+  </data>
+  <data name="ErrorCyclicBase" xml:space="preserve">
+    <value>基类 {0} 是 {1} 子类的继承类。</value>
+  </data>
+  <data name="ErrorNotInterfaceImplementer" xml:space="preserve">
+    <value>实例类不能实现接口。</value>
+  </data>
+  <data name="ErrorStaticConstructor" xml:space="preserve">
+    <value>静态构造函数必须无参。</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value>缩放</value>
+  </data>
+  <data name="MenuMembersFormat" xml:space="preserve">
+    <value>成员格式(&amp;M)</value>
+  </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>此函数未实现。</value>
+  </data>
+  <data name="MenuAggregation" xml:space="preserve">
+    <value>聚合(&amp;g)</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="MenuEditComment" xml:space="preserve">
+    <value>编辑备注(&amp;E)...</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="ErrorCannotCreateRelationship" xml:space="preserve">
+    <value>无法在两个对象之间建立关系。</value>
+  </data>
+  <data name="Aggregation" xml:space="preserve">
+    <value>聚合</value>
+  </data>
+  <data name="MenuDiagram" xml:space="preserve">
+    <value>图(&amp;D)</value>
+  </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>导出(&amp;E)</value>
+  </data>
+  <data name="ErrorLanguagesDoNotEqual" xml:space="preserve">
+    <value>语言不相同</value>
+  </data>
+  <data name="ErrorRecursiveNesting" xml:space="preserve">
+    <value>类型无法包含自身。</value>
+  </data>
+  <data name="AddNewAggregation" xml:space="preserve">
+    <value>添加新聚合</value>
+  </data>
+  <data name="MenuSaveAsImage" xml:space="preserve">
+    <value>图像另存为(&amp;S)...</value>
+  </data>
+  <data name="MenuCopyImageToClipboard" xml:space="preserve">
+    <value>复制图像到剪贴板(&amp;C)</value>
+  </data>
+  <data name="ErrorInvalidName" xml:space="preserve">
+    <value>无效名称</value>
+  </data>
+  <data name="CheckingForUpdates" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="MenuUndo" xml:space="preserve">
+    <value>撤消(&amp;U)</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="MenuComment" xml:space="preserve">
+    <value>备注(&amp;n)</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>添加新成员:</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>未知错误</value>
+  </data>
+  <data name="MenuDirection" xml:space="preserve">
+    <value>方向(&amp;D)</value>
+  </data>
+  <data name="ErrorConstructorName" xml:space="preserve">
+    <value>构造函数名称与类名不一致。</value>
+  </data>
+  <data name="ErrorCannotSetType" xml:space="preserve">
+    <value>无法设置类型。</value>
+  </data>
+  <data name="AddNewInterface" xml:space="preserve">
+    <value>添加新接口</value>
+  </data>
+  <data name="ErrorCouldNotSaveFile" xml:space="preserve">
+    <value>无法保存文件。</value>
+  </data>
+  <data name="NewEvent" xml:space="preserve">
+    <value>新事件</value>
+  </data>
+  <data name="ErrorNotAllowedParent" xml:space="preserve">
+    <value>基类不支持泛化。</value>
+  </data>
+  <data name="ProgramDownload" xml:space="preserve">
+    <value>现在要下载更新吗？</value>
+  </data>
+  <data name="ErrorInvalidParameterDeclaration" xml:space="preserve">
+    <value>无效参数声明。</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>帮助(&amp;H)</value>
+  </data>
+  <data name="AddNewEnum" xml:space="preserve">
+    <value>添加新枚举</value>
+  </data>
+  <data name="Generalization" xml:space="preserve">
+    <value>泛化</value>
+  </data>
+  <data name="ErrorNotAllowedChild" xml:space="preserve">
+    <value>派生类不支持泛化。</value>
+  </data>
+  <data name="MenuInterface" xml:space="preserve">
+    <value>接口(&amp;I)</value>
+  </data>
+  <data name="ButtonBrowse" xml:space="preserve">
+    <value>浏览...</value>
+  </data>
+  <data name="MenuGeneralization" xml:space="preserve">
+    <value>泛化(&amp;l)</value>
+  </data>
+  <data name="MenuCSharpDiagram" xml:space="preserve">
+    <value>C#图(&amp;C)</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="AddNewAssociation" xml:space="preserve">
+    <value>添加新关联</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>缩小</value>
+  </data>
+  <data name="ErrorEmptyFilename" xml:space="preserve">
+    <value>文件名不能为空。</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>初值</value>
+  </data>
+  <data name="AutoZoom" xml:space="preserve">
+    <value>自动缩放</value>
+  </data>
+  <data name="ErrorForbiddenTypeName" xml:space="preserve">
+    <value>禁用类型名。</value>
+  </data>
+  <data name="ErrorEmptyString" xml:space="preserve">
+    <value>{0} 不能为空字符串。</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>{0} 由 {1} 提供</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>成员</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>载入</value>
+  </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>新版本已发布</value>
+  </data>
+  <data name="ErrorsReason" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="OverrideMembers" xml:space="preserve">
+    <value>覆盖成员</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>类</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="AboutNClass" xml:space="preserve">
+    <value>关于NClass</value>
+  </data>
+  <data name="AddNewStructure" xml:space="preserve">
+    <value>添加新构造</value>
+  </data>
+  <data name="ButtonGenerate" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="ErrorCorruptSaveFormat" xml:space="preserve">
+    <value>保存格式损坏。</value>
+  </data>
+  <data name="MenuJavaDiagram" xml:space="preserve">
+    <value>Java图(&amp;J)</value>
+  </data>
+  <data name="GeneratorTargetDir" xml:space="preserve">
+    <value>选择生成代码文件的目录:</value>
+  </data>
+  <data name="MembersOfType" xml:space="preserve">
+    <value>{0} 成员</value>
+  </data>
+  <data name="Dependency" xml:space="preserve">
+    <value>依赖</value>
+  </data>
+  <data name="CodeStyle" xml:space="preserve">
+    <value>编码风格</value>
+  </data>
+  <data name="MenuEnum" xml:space="preserve">
+    <value>枚举(&amp;E)</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>关于NClass(&amp;A)</value>
+  </data>
+  <data name="ErrorCannotSaveFile" xml:space="preserve">
+    <value>无法保存未指定路径文件。</value>
+  </data>
+  <data name="ErrorInvalidModifierCombination" xml:space="preserve">
+    <value>修饰符 {0} 不能与修饰符 {1} 一起使用。</value>
+  </data>
+  <data name="ErrorReservedName" xml:space="preserve">
+    <value>这是保留关键字。</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>删除所选项</value>
+  </data>
+  <data name="ErrorInterfaceLanguage" xml:space="preserve">
+    <value>接口类不属于 {0} 接口</value>
+  </data>
+  <data name="MenuSaveAs" xml:space="preserve">
+    <value>另存为(&amp;A)...</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>无标题</value>
+  </data>
+  <data name="ErrorLackOfInitialization" xml:space="preserve">
+    <value>常量必须初始化。</value>
+  </data>
+  <data name="CodeGenerationCompleted" xml:space="preserve">
+    <value>代码生成成功。</value>
+  </data>
+  <data name="MenuPrint" xml:space="preserve">
+    <value>打印(&amp;P)...</value>
+  </data>
+  <data name="Realization" xml:space="preserve">
+    <value>实现</value>
+  </data>
+  <data name="ErrorRelationshipDoesNotExist" xml:space="preserve">
+    <value>指定关系不存在。</value>
+  </data>
+  <data name="ErrorCouldNotLoadPlugins" xml:space="preserve">
+    <value>在加载插件时发生错误: {0} </value>
+  </data>
+  <data name="AddNewClass" xml:space="preserve">
+    <value>添加新类</value>
+  </data>
+  <data name="MenuInitialValue" xml:space="preserve">
+    <value>初值(&amp;I)</value>
+  </data>
+  <data name="Implementing" xml:space="preserve">
+    <value>实现</value>
+  </data>
+  <data name="AddNewNesting" xml:space="preserve">
+    <value>新嵌套</value>
+  </data>
+  <data name="ModifyItem" xml:space="preserve">
+    <value>修改成员:</value>
+  </data>
+  <data name="BetaVersion" xml:space="preserve">
+    <value>Beta版本</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>新属性</value>
+  </data>
+  <data name="Composition" xml:space="preserve">
+    <value>组合</value>
+  </data>
+  <data name="ErrorTypeDoesNotExist" xml:space="preserve">
+    <value>{0} 类型不存在。</value>
+  </data>
+  <data name="NewConstructor" xml:space="preserve">
+    <value>新构造函数</value>
+  </data>
+  <data name="ImportList" xml:space="preserve">
+    <value>导入列表</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>接口</value>
+  </data>
+  <data name="ErrorInterfaceMemberAccess" xml:space="preserve">
+    <value>无法设置接口成员的可访问性。</value>
+  </data>
+  <data name="MenuCut" xml:space="preserve">
+    <value>剪切(&amp;t)</value>
+  </data>
+  <data name="ErrorConnectToServer" xml:space="preserve">
+    <value>无法连接到服务器。</value>
+  </data>
+  <data name="ErrorCannotCrateDelegate" xml:space="preserve">
+    <value>无法在 {0} 建立委托。</value>
+  </data>
+  <data name="ErrorExplicitImplementation" xml:space="preserve">
+    <value>无法显示实现。</value>
+  </data>
+  <data name="MenuClass" xml:space="preserve">
+    <value>类(&amp;C)</value>
+  </data>
+  <data name="ErrorStaticIndexer" xml:space="preserve">
+    <value>索引器不能是静态类型。</value>
+  </data>
+  <data name="ErrorOperatorMustBeStatic" xml:space="preserve">
+    <value>操作方法必须是静态类型。</value>
+  </data>
+  <data name="ErrorParameterType" xml:space="preserve">
+    <value>参数类型不能为 {0}。</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="SortByAccess" xml:space="preserve">
+    <value>按访问性排序</value>
+  </data>
+  <data name="ButtonLoad" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="ErrorCannotOverride" xml:space="preserve">
+    <value>无法覆盖非虚方法。</value>
+  </data>
+  <data name="ErrorOperatorMustBePublic" xml:space="preserve">
+    <value>操作方法必须是公有类型。</value>
+  </data>
+  <data name="AddNewDelegate" xml:space="preserve">
+    <value>添加新委托</value>
+  </data>
+  <data name="ClearRecentList" xml:space="preserve">
+    <value>清除最近打开文件</value>
+  </data>
+  <data name="SaveAsImage" xml:space="preserve">
+    <value>图像另存为</value>
+  </data>
+  <data name="NewDestructor" xml:space="preserve">
+    <value>新析构函数</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>样式</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>找不到文件或没有读取权限。</value>
+  </data>
+  <data name="ErrorInvalidBaseType" xml:space="preserve">
+    <value>基类非法。</value>
+  </data>
+  <data name="MenuStruct" xml:space="preserve">
+    <value>结构体(&amp;S)</value>
+  </data>
+  <data name="ErrorPrinting" xml:space="preserve">
+    <value>在打印时发生错误: {0}</value>
+  </data>
+  <data name="MenuDiagramSize" xml:space="preserve">
+    <value>图(&amp;D)大小...</value>
+  </data>
+  <data name="UseClearType" xml:space="preserve">
+    <value>使用清晰字体</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="ReadWrite" xml:space="preserve">
+    <value>读写</value>
+  </data>
+  <data name="WriteOnly" xml:space="preserve">
+    <value>只写</value>
+  </data>
+  <data name="NewParameter" xml:space="preserve">
+    <value>新参数</value>
+  </data>
+  <data name="NewValue" xml:space="preserve">
+    <value>新值</value>
+  </data>
+  <data name="RequiresNetFramework" xml:space="preserve">
+    <value>此程序需要.NET 2.0 框架。请下载并安装.NET 2.0 框架后再运行。</value>
+  </data>
+  <data name="StartMenuGroup" xml:space="preserve">
+    <value>建立开始菜单组</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="EditAssociation" xml:space="preserve">
+    <value>编辑关联</value>
+  </data>
+  <data name="MenuEditAssociation" xml:space="preserve">
+    <value>编辑...</value>
+  </data>
+  <data name="RememberOpenProjects" xml:space="preserve">
+    <value>在关闭时记住打开的工程</value>
+  </data>
+  <data name="MenuCloseAllTabsButThis" xml:space="preserve">
+    <value>除此之外全部关闭</value>
+  </data>
+  <data name="MenuCloseAllTabs" xml:space="preserve">
+    <value>全部关闭</value>
+  </data>
+  <data name="MenuCloseTab" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>复制(&amp;C)</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="MenuAlign" xml:space="preserve">
+    <value>对齐(&amp;A)</value>
+  </data>
+  <data name="MenuAlignBottom" xml:space="preserve">
+    <value>底部对齐(&amp;B)</value>
+  </data>
+  <data name="MenuAlignHorizontal" xml:space="preserve">
+    <value>水平居中对齐(&amp;H)</value>
+  </data>
+  <data name="MenuAlignLeft" xml:space="preserve">
+    <value>左对齐(&amp;L)</value>
+  </data>
+  <data name="MenuAlignRight" xml:space="preserve">
+    <value>右对齐(&amp;R)</value>
+  </data>
+  <data name="MenuAlignTop" xml:space="preserve">
+    <value>顶端对齐(&amp;T)</value>
+  </data>
+  <data name="MenuAlignVertical" xml:space="preserve">
+    <value>垂直居中对齐(&amp;V)</value>
+  </data>
+  <data name="MenuAutoHeight" xml:space="preserve">
+    <value>自动设置高度(&amp;H)</value>
+  </data>
+  <data name="MenuAutoWidth" xml:space="preserve">
+    <value>自动设置宽度(&amp;W)</value>
+  </data>
+  <data name="MenuCollapseAll" xml:space="preserve">
+    <value>全部折叠(&amp;C)</value>
+  </data>
+  <data name="MenuExpandAll" xml:space="preserve">
+    <value>全部展开(&amp;E)</value>
+  </data>
+  <data name="MenuMakeSameSize" xml:space="preserve">
+    <value>使大小相同(&amp;M)</value>
+  </data>
+  <data name="MenuSameHeight" xml:space="preserve">
+    <value>相同高度(&amp;H)</value>
+  </data>
+  <data name="MenuSameSize" xml:space="preserve">
+    <value>相同大小(&amp;S)</value>
+  </data>
+  <data name="MenuSameWidth" xml:space="preserve">
+    <value>相同宽度(&amp;W)</value>
+  </data>
+  <data name="MenuFormat" xml:space="preserve">
+    <value>格式(&amp;o)</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>总是</value>
+  </data>
+  <data name="WhenMouseHovers" xml:space="preserve">
+    <value>在鼠标停留时</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>从不</value>
+  </data>
+  <data name="ButtonPageSetup" xml:space="preserve">
+    <value>页面设置...</value>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="ButtonSelectPrinter" xml:space="preserve">
+    <value>选择打印机...</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>页码:</value>
+  </data>
+  <data name="PrintOnlySelectedElements" xml:space="preserve">
+    <value>只打印所选元素</value>
+  </data>
+  <data name="CriticalError" xml:space="preserve">
+    <value>严重错误</value>
+  </data>
+  <data name="ProgramTerminates" xml:space="preserve">
+    <value>产生了一个严重错误，程序终止。崩溃日志文件与恢复文件已创建在Application Data文件夹。</value>
+  </data>
+  <data name="SendLogFile" xml:space="preserve">
+    <value>请发送此文件到 '{0}'</value>
+  </data>
+  <data name="MenuSize" xml:space="preserve">
+    <value>大小(&amp;S)</value>
+  </data>
+  <data name="MenuSaveSelectionAsImage" xml:space="preserve">
+    <value>保存所选为图像(&amp;S)...</value>
+  </data>
+  <data name="MenuAutoRouting" xml:space="preserve">
+    <value>自动路径(&amp;A)</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>属性(&amp;P)</value>
+  </data>
+  <data name="MenuCollapseAllSelected" xml:space="preserve">
+    <value>全部折叠所选(&amp;C)</value>
+  </data>
+  <data name="MenuExpandAllSelected" xml:space="preserve">
+    <value>全部展开所选(&amp;E)</value>
+  </data>
+  <data name="MenuUnidirectional" xml:space="preserve">
+    <value>单向性(&amp;U)</value>
+  </data>
+  <data name="MenuZoom" xml:space="preserve">
+    <value>缩放(&amp;Z)</value>
+  </data>
+  <data name="MenuZoomIn" xml:space="preserve">
+    <value>放大(&amp;I)</value>
+  </data>
+  <data name="MenuZoomOut" xml:space="preserve">
+    <value>缩小(&amp;O)</value>
+  </data>
+  <data name="NClassProjectFiles" xml:space="preserve">
+    <value>NClass工程文件</value>
+  </data>
+  <data name="ErrorBlankFilename" xml:space="preserve">
+    <value>文件名不能为空。</value>
+  </data>
+  <data name="ErrorDestructorName" xml:space="preserve">
+    <value>析构函数名与类型不一致。</value>
+  </data>
+  <data name="DoubleClickToAddDiagram" xml:space="preserve">
+    <value>双击此处添加新图</value>
+  </data>
+  <data name="DoubleClickToAddProject" xml:space="preserve">
+    <value>« 双击此处添加新工程 »</value>
+  </data>
+  <data name="MenuSaveProject" xml:space="preserve">
+    <value>保存 {0} (&amp;S)</value>
+  </data>
+  <data name="MenuSaveProjectAs" xml:space="preserve">
+    <value>{0} 另存为(&amp;A)...</value>
+  </data>
+  <data name="MenuClose" xml:space="preserve">
+    <value>关闭(&amp;C) {0}</value>
+  </data>
+  <data name="MenuCloseAllProjects" xml:space="preserve">
+    <value>关闭所有工程(&amp;r)</value>
+  </data>
+  <data name="MenuCloseProject" xml:space="preserve">
+    <value>关闭工程(&amp;C)</value>
+  </data>
+  <data name="MenuSaveAllProjects" xml:space="preserve">
+    <value>保存所有工程(&amp;v)</value>
+  </data>
+  <data name="PreviousFileFormats" xml:space="preserve">
+    <value>上次文件格式</value>
+  </data>
+  <data name="MenuCloseAllDocuments" xml:space="preserve">
+    <value>关闭所有文档(&amp;C)</value>
+  </data>
+  <data name="MenuDiagramNavigator" xml:space="preserve">
+    <value>图导航(&amp;N)</value>
+  </data>
+  <data name="MenuModelExplorer" xml:space="preserve">
+    <value>模型浏览器(&amp;E)</value>
+  </data>
+  <data name="MenuView" xml:space="preserve">
+    <value>视图(&amp;V)</value>
+  </data>
+  <data name="AskSaveChanges" xml:space="preserve">
+    <value>保存更改到以下工程？</value>
+  </data>
+  <data name="RequiresRestart" xml:space="preserve">
+    <value>改变语言需要重启程序。</value>
+  </data>
+  <data name="MenuNewProject" xml:space="preserve">
+    <value>新工程(&amp;N)</value>
+  </data>
+  <data name="DeleteProjectItemConfirmation" xml:space="preserve">
+    <value>确定要删除 {0}？</value>
+  </data>
+  <data name="MenuDeleteProjectItem" xml:space="preserve">
+    <value>从工程删除(&amp;D)</value>
+  </data>
+  <data name="MenuRename" xml:space="preserve">
+    <value>重命名(&amp;R)</value>
+  </data>
+  <data name="MenuProject" xml:space="preserve">
+    <value>工程(&amp;P)</value>
+  </data>
+  <data name="ErrorNoPrinters" xml:space="preserve">
+    <value>没有安装打印机。</value>
+  </data>
+  <data name="SolutionType" xml:space="preserve">
+    <value>解决方案文件类型:</value>
+  </data>
+  <data name="UseNotImplementedExceptions" xml:space="preserve">
+    <value>方法抛出“未实现”异常</value>
+  </data>
+  <data name="WhenZoomed" xml:space="preserve">
+    <value>在放大/缩小时</value>
+  </data>
+  <data name="ShowChevron" xml:space="preserve">
+    <value>显示箭头按钮:</value>
+  </data>
+  <data name="TranslationName" xml:space="preserve">
+    <value>Chinese</value>
+  </data>
+  <data name="TranslationVersion" xml:space="preserve">
+    <value>2009-08-12</value>
+  </data>
+  <data name="TranslationUpdated" xml:space="preserve">
+    <value>中文翻译已更新</value>
+  </data>
+  <data name="MenuOpenFile" xml:space="preserve">
+    <value>文件(&amp;F)...</value>
+  </data>
+  <data name="UseClearTypeForImages" xml:space="preserve">
+    <value>在导出的图像中(禁用透明)</value>
+  </data>
+  <data name="MenuReverse" xml:space="preserve">
+    <value>逆向</value>
+  </data>
+  <data name="MenuAutoSize" xml:space="preserve">
+    <value>自动大小(&amp;S)</value>
+  </data>
+  <data name="DeleteMemberConfirmation" xml:space="preserve">
+    <value>确定要删除所选取成员吗？</value>
+  </data>
+</root>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<project name="NClass.DiagramEditor" default="compile">
+	<target name="compile">
+		<resgen input="Properties/Resources.resx" output="NClass.DiagramEditor.Properties.Resources.resources" usesourcepath="true" />
+		<csc target="library" output="${build.dir}/NClass.DiagramEditor.dll" optimize="true" noconfig="true">
+			<sources>
+				<include name="**/*.cs" />
+				<include name="../CommonAssemblyInfo.cs" />
+			</sources>
+			<resources>
+				<include name="**/*.resx" />
+				<include name="NClass.DiagramEditor.Properties.Resources.resources" />
+				<exclude name="Properties/Resources.resx" />
+			</resources>
+			<references>
+				<include name="System.dll" />
+				<include name="System.Xml.dll" />
+				<include name="System.Drawing.dll" />
+				<include name="System.Runtime.Serialization.Formatters.Soap.dll" />
+				<include name="System.Windows.Forms.dll" />
+				<include name="${build.dir}/NClass.Core.dll" />
+				<include name="${build.dir}/NClass.CodeGenerator.dll" />
+				<include name="${build.dir}/Lang/NClass.Translations.dll" />
+			</references>
+		</csc>
+		<delete file="NClass.DiagramEditor.Properties.Resources.resources" failonerror="false" />
+	</target>
+</project>

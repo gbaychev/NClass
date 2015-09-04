@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<project name="PDFExport" default="compile">
+	<target name="compile">
+		<resgen input="Properties/Resources.resx" output="PDFExport.Properties.Resources.resources" usesourcepath="true" />
+
+		<csc target="library" output="${build.dir}/Plugins/PDFExport.dll" optimize="true" noconfig="true">
+			<sources>
+				<include name="**/*.cs" />
+			</sources>
+			<resources dynamicprefix="true">
+				<include name="**/*.resx" />
+				<include name="PDFExport.Properties.Resources.resources" />
+				<exclude name="Properties/Resources.resx" />
+			</resources>
+			<references>
+				<include name="System.dll" />
+				<include name="System.Core.dll" />
+				<include name="System.Drawing.dll" />
+				<include name="System.Windows.Forms.dll" />
+				<include name="${build.dir}/NClass.Core.dll" />
+				<include name="${build.dir}/NClass.DiagramEditor.dll" />
+				<include name="${build.dir}/NClass.exe" />
+				<include name="libs/PdfSharp.dll" />
+			</references>
+		</csc>
+
+		<copy file="libs/PdfSharp.dll" todir="${build.dir}/Plugins/" />
+
+		<delete file="PDFExport.Properties.Resources.resources" failonerror="false" />
+	</target>
+</project>

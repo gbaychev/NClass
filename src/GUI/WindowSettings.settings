@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NClass.GUI" GeneratedClassName="WindowSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WindowPosition" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">100, 100</Value>
+    </Setting>
+    <Setting Name="IsWindowMaximized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ClientSplitterDistance" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">650</Value>
+    </Setting>
+    <Setting Name="ShowModelExplorer" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowNavigator" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WindowSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">900, 700</Value>
+    </Setting>
+    <Setting Name="ToolsSplitterDistance" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">380</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

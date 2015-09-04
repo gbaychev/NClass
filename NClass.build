@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="nclass" default="compile">
+    <property name="project.name" value="NClass" />
+    <property name="project.version" value="2.04" />
+    <property name="build.dir" value="${project::get-base-directory()}/bin" readonly="false" />
+    <property name="build.number" value="${math::abs(math::floor(timespan::get-total-days(datetime::now() - datetime::parse('06/09/2006'))))}" />
+    <property name="compiled" value="false" />
+
+    <target name="compile">
+        <call target="clean-build-dir" />
+        <call target="create-common-assemblyinfo" />
+        <copy file="src/AssemblyImport/libs/NReflect.dll" tofile="${build.dir}/Plugins/NReflect.dll" />
+
+        <property name="nant.settings.currentframework" value="net-4.0" />
+        <nant buildfile="src/Translations/Translations.build" target="compile" />
+        <nant buildfile="src/Core/Core.build" target="compile" />
+        <nant buildfile="src/CSharp/CSharp.build" target="compile" />
+        <nant buildfile="src/Java/Java.build" target="compile" />
+        <nant buildfile="src/CodeGenerator/CodeGenerator.build" target="compile" />
+        <nant buildfile="src/DiagramEditor/DiagramEditor.build" target="compile" />
+        <nant buildfile="src/GUI/GUI.build" target="compile" />
+        <nant buildfile="src/AssemblyImport/AssemblyImport.build" target="compile" />
+        <nant buildfile="src/PDFExport/PDFExport.build" target="compile" />
+        <copy file="src/icons/diagram.ico" tofile="bin/diagram.ico" />
+        <call target="delete-common-assemblyinfo" />
+    </target>
+
+    <target name="clean-build-dir">
+        <delete>
+            <fileset>
+                <include name="${build.dir}/**/*.*" />
+            </fileset>
+        </delete>
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.dir}/Plugins" />
+    </target>
+
+    <target name="create-common-assemblyinfo">
+        <asminfo output="src/CommonAssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System" />
+                <import namespace="System.Reflection" />
+                <import namespace="System.Runtime.InteropServices" />
+            </imports>
+            <attributes>
+                <attribute type="ComVisibleAttribute" value="false" />
+                <attribute type="AssemblyTitleAttribute" value="NClass" />
+                <attribute type="AssemblyDescriptionAttribute" value="Free UML class diagram editor" />
+                <attribute type="AssemblyProductAttribute" value="NClass" />
+                <attribute type="AssemblyCopyrightAttribute" value="Copyright (C) 2006-2011 Balazs Tihanyi" />
+                <attribute type="AssemblyVersionAttribute" value="${project.version}.${build.number}.0" />
+                <attribute type="AssemblyFileVersionAttribute" value="${project.version}.${build.number}.0" />
+                <attribute type="AssemblyInformationalVersionAttribute" value="${project.version}" />
+            </attributes>
+        </asminfo>
+    </target>
+
+    <target name="delete-common-assemblyinfo">
+        <delete file="src/CommonAssemblyInfo.cs" failonerror="false" />
+    </target>
+</project>

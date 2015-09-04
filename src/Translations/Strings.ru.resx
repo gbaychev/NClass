@@ -1,0 +1,1099 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutNClass" xml:space="preserve">
+    <value>О NClass</value>
+  </data>
+  <data name="ChangingToAbstractConfirmation" xml:space="preserve">
+    <value>При изменении модификатора наследования на abstract родительский клас тоже станет абстрактным. Вы желаете продолжить?</value>
+  </data>
+  <data name="Access" xml:space="preserve">
+    <value>Доступ</value>
+  </data>
+  <data name="AddNewAggregation" xml:space="preserve">
+    <value>Новая агрегация</value>
+  </data>
+  <data name="AddNewAssociation" xml:space="preserve">
+    <value>Новая ассоциация</value>
+  </data>
+  <data name="AddNewClass" xml:space="preserve">
+    <value>Новый класс</value>
+  </data>
+  <data name="AddNewComment" xml:space="preserve">
+    <value>Новый комментарий</value>
+  </data>
+  <data name="AddNewCommentRelationship" xml:space="preserve">
+    <value>Новый комментарий отношения</value>
+  </data>
+  <data name="AddNewComposition" xml:space="preserve">
+    <value>Новая композиция</value>
+  </data>
+  <data name="AddNewDelegate" xml:space="preserve">
+    <value>Добавить делегат</value>
+  </data>
+  <data name="AddNewDependency" xml:space="preserve">
+    <value>Новая зависимость</value>
+  </data>
+  <data name="AddNewEnum" xml:space="preserve">
+    <value>Новое перечисление</value>
+  </data>
+  <data name="AddNewGeneralization" xml:space="preserve">
+    <value>Новая генерализация</value>
+  </data>
+  <data name="AddNewInterface" xml:space="preserve">
+    <value>Создать интерфейс</value>
+  </data>
+  <data name="AddNewItem" xml:space="preserve">
+    <value>Новый элемент:</value>
+  </data>
+  <data name="AddNewNesting" xml:space="preserve">
+    <value>Новое вложение</value>
+  </data>
+  <data name="AddNewRealization" xml:space="preserve">
+    <value>Новая реализация</value>
+  </data>
+  <data name="AddNewStructure" xml:space="preserve">
+    <value>Новая структура</value>
+  </data>
+  <data name="Aggregation" xml:space="preserve">
+    <value>Агрегация</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Ассоциация</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Balazs Tihanyi</value>
+  </data>
+  <data name="AutoZoom" xml:space="preserve">
+    <value>Автоматическое масштабирование</value>
+  </data>
+  <data name="ButtonAddItem" xml:space="preserve">
+    <value>Добавить элемент</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="ButtonBrowse" xml:space="preserve">
+    <value>Обзор...</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="ButtonGenerate" xml:space="preserve">
+    <value>Генерировать</value>
+  </data>
+  <data name="ButtonLoad" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="ButtonModify" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="CheckingForUpdates" xml:space="preserve">
+    <value>Проверяем обновления ...</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>класс</value>
+  </data>
+  <data name="ClearRecentList" xml:space="preserve">
+    <value>Очистить историю</value>
+  </data>
+  <data name="CodeGeneration" xml:space="preserve">
+    <value>Генерация кода</value>
+  </data>
+  <data name="CodeGenerationCompleted" xml:space="preserve">
+    <value>Генерация кода успешно завершена.</value>
+  </data>
+  <data name="CodeGenerationFailed" xml:space="preserve">
+    <value>При генерация кода возникли ошибки.</value>
+  </data>
+  <data name="CodeStyle" xml:space="preserve">
+    <value>Стиль кода</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>Команда выполнена с ошибкой.</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="Composition" xml:space="preserve">
+    <value>Композиция</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Подтверждение</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Удалить выделенные элементы?</value>
+  </data>
+  <data name="Dependency" xml:space="preserve">
+    <value>Зависимость</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destination:</value>
+  </data>
+  <data name="Diagram" xml:space="preserve">
+    <value>Диаграмма</value>
+  </data>
+  <data name="DiagramStyle" xml:space="preserve">
+    <value>Стиль диаграммы</value>
+  </data>
+  <data name="DoubleClickToEdit" xml:space="preserve">
+    <value>« Двойной щелчок для редактирования »</value>
+  </data>
+  <data name="EditComment" xml:space="preserve">
+    <value>Изменить комментарий</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ErrorsReason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="ErrorAccessorModifier" xml:space="preserve">
+    <value>Неверный модификатор доступа.</value>
+  </data>
+  <data name="ErrorCannotAddSameBaseInterface" xml:space="preserve">
+    <value>Нельзя добавить тот же базовый интерфейс.</value>
+  </data>
+  <data name="ErrorCannotAddSameInterface" xml:space="preserve">
+    <value>Нельзя добавить тот же интерфейс.</value>
+  </data>
+  <data name="ErrorCannotCrateDelegate" xml:space="preserve">
+    <value>Делегат в {0} не может быть создан.</value>
+  </data>
+  <data name="ErrorCannotCreateRelationship" xml:space="preserve">
+    <value>Отношение между двумя объектами не может быть создано.</value>
+  </data>
+  <data name="ErrorCannotCreateStructure" xml:space="preserve">
+    <value>Структура в {0} не может быть создана.</value>
+  </data>
+  <data name="ErrorCannotInherit" xml:space="preserve">
+    <value>Невозможно унаследовать от static или sealed класса.</value>
+  </data>
+  <data name="ErrorCannotOverride" xml:space="preserve">
+    <value>Нельзя переопределить невиртуальный метод.</value>
+  </data>
+  <data name="ErrorCannotSaveFile" xml:space="preserve">
+    <value>Укажите путь к файлу.</value>
+  </data>
+  <data name="ErrorCannotSetAccess" xml:space="preserve">
+    <value>Cannot set accessibility.</value>
+  </data>
+  <data name="ErrorCannotSetModifier" xml:space="preserve">
+    <value>Невозможно установить модификатор.</value>
+  </data>
+  <data name="ErrorCannotSetStatic" xml:space="preserve">
+    <value>Невозможно установить модификатор static.</value>
+  </data>
+  <data name="ErrorCannotSetType" xml:space="preserve">
+    <value>Невозможно изменить тип.</value>
+  </data>
+  <data name="ErrorConnectToServer" xml:space="preserve">
+    <value>Невозможно подключиться к серверу.</value>
+  </data>
+  <data name="ErrorConstructorName" xml:space="preserve">
+    <value>Имя конструктора должно совпадать с именем класса.</value>
+  </data>
+  <data name="ErrorLackOfInitialization" xml:space="preserve">
+    <value>Константы должны быть инициализированы.</value>
+  </data>
+  <data name="ErrorCorruptSaveFile" xml:space="preserve">
+    <value>Файл поврежден и не может быть загружен.</value>
+  </data>
+  <data name="ErrorCorruptSaveFormat" xml:space="preserve">
+    <value>Неверный формат файла.</value>
+  </data>
+  <data name="ErrorCouldNotLoadFile" xml:space="preserve">
+    <value>Невозможно открыть файл.</value>
+  </data>
+  <data name="ErrorCouldNotLoadPlugins" xml:space="preserve">
+    <value>Ошибка при загрузке плагина:
+{0}</value>
+  </data>
+  <data name="ErrorCouldNotSaveFile" xml:space="preserve">
+    <value>Ошибка при сохранении файла.</value>
+  </data>
+  <data name="ErrorCyclicBase" xml:space="preserve">
+    <value>Базовый класс {0} унаследован от потомка {0}.</value>
+  </data>
+  <data name="ErrorCyclicNesting" xml:space="preserve">
+    <value>Циклические вложенные отношения.</value>
+  </data>
+  <data name="ErrorEmptyFilename" xml:space="preserve">
+    <value>Укажите имя файла.</value>
+  </data>
+  <data name="ErrorEmptyString" xml:space="preserve">
+    <value>{0} не может быть пусто.</value>
+  </data>
+  <data name="ErrorExplicitImplementation" xml:space="preserve">
+    <value>Явная реализация невозможна.</value>
+  </data>
+  <data name="ErrorExplicitImplementationAccess" xml:space="preserve">
+    <value>Нельзя установить модификатор доступа при явной реализации.</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>Файл не найден или отсутствует доступ.</value>
+  </data>
+  <data name="ErrorForbiddenName" xml:space="preserve">
+    <value>Запрещенное имя.</value>
+  </data>
+  <data name="ErrorForbiddenTypeName" xml:space="preserve">
+    <value>Запрещенное имя тип.</value>
+  </data>
+  <data name="ErrorInnerTypeAlreadyNested" xml:space="preserve">
+    <value>Внутренний тип уже вложен.</value>
+  </data>
+  <data name="ErrorInterfaceLanguage" xml:space="preserve">
+    <value>The interface class is not {0} interface.</value>
+  </data>
+  <data name="ErrorInterfaceMemberAccess" xml:space="preserve">
+    <value>Нельзя устанавливать модификаторы доступа для членов интерфейса.</value>
+  </data>
+  <data name="ErrorInvalidBaseType" xml:space="preserve">
+    <value>Неверный базовый класс.</value>
+  </data>
+  <data name="ErrorInvalidDeclaration" xml:space="preserve">
+    <value>Неверное определение.</value>
+  </data>
+  <data name="ErrorInvalidModifier" xml:space="preserve">
+    <value>Неверный модификатор.</value>
+  </data>
+  <data name="ErrorInvalidModifierCombination" xml:space="preserve">
+    <value>Модификатор {0} не может использоваться с модификатором {1}.</value>
+  </data>
+  <data name="ErrorInvalidName" xml:space="preserve">
+    <value>Неверное имя.</value>
+  </data>
+  <data name="ErrorInvalidParameterDeclaration" xml:space="preserve">
+    <value>Неверное определение параметров.</value>
+  </data>
+  <data name="ErrorInvalidTypeName" xml:space="preserve">
+    <value>Неверное имя типа.</value>
+  </data>
+  <data name="ErrorInSavingImage" xml:space="preserve">
+    <value>Ошибка сохранения изображения.</value>
+  </data>
+  <data name="ErrorInSavingSettings" xml:space="preserve">
+    <value>Ошибка при сохранении параметров.</value>
+  </data>
+  <data name="ErrorLanguagesDoNotEqual" xml:space="preserve">
+    <value>Разные языки.</value>
+  </data>
+  <data name="ErrorMemberTypeDoesNotExist" xml:space="preserve">
+    <value>Тип {0} члена не существует.</value>
+  </data>
+  <data name="ErrorMultipleBases" xml:space="preserve">
+    <value>Множественное наследование не поддерживается.</value>
+  </data>
+  <data name="ErrorNestingNotSupported" xml:space="preserve">
+    <value>Родительский тип не может быть вложенным.</value>
+  </data>
+  <data name="ErrorNotAllowedChild" xml:space="preserve">
+    <value>Порожденный тип не поддерживает генерализацию.</value>
+  </data>
+  <data name="ErrorNotAllowedParent" xml:space="preserve">
+    <value>Базовый тип не поддерживает</value>
+  </data>
+  <data name="ErrorNotInterfaceImplementer" xml:space="preserve">
+    <value>Реализующий класс не может реализовывать интерфейс.</value>
+  </data>
+  <data name="ErrorOperatorMustBePublic" xml:space="preserve">
+    <value>Оператор должен быть public.</value>
+  </data>
+  <data name="ErrorOperatorMustBeStatic" xml:space="preserve">
+    <value>Оператор должен быть static.</value>
+  </data>
+  <data name="ErrorParameterType" xml:space="preserve">
+    <value>Параметр не может быть {0}.</value>
+  </data>
+  <data name="ErrorReadVersionData" xml:space="preserve">
+    <value>Невозможно получить информацию о версии.</value>
+  </data>
+  <data name="ErrorRecursiveNesting" xml:space="preserve">
+    <value>Типы не могут содержать друг друга.</value>
+  </data>
+  <data name="ErrorRelationshipDoesNotExist" xml:space="preserve">
+    <value>Указанное отношение не существует.</value>
+  </data>
+  <data name="ErrorReservedName" xml:space="preserve">
+    <value>Это зарезервированное имя.</value>
+  </data>
+  <data name="ErrorStaticConstructor" xml:space="preserve">
+    <value>Статический конструктор не может иметь параметры.</value>
+  </data>
+  <data name="ErrorStaticIndexer" xml:space="preserve">
+    <value>Индексатор не может быть static.</value>
+  </data>
+  <data name="ErrorStaticInterfaceMember" xml:space="preserve">
+    <value>Члены интерфейса не могут быть static.</value>
+  </data>
+  <data name="ErrorType" xml:space="preserve">
+    <value>Тип не может быть {0}.</value>
+  </data>
+  <data name="ErrorTypeDoesNotExist" xml:space="preserve">
+    <value>Тип {0} не существует.</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="Generalization" xml:space="preserve">
+    <value>Генерализация</value>
+  </data>
+  <data name="GeneratorTargetDir" xml:space="preserve">
+    <value>Укажите папку, куда будут сохранены сгенерированные файлы:</value>
+  </data>
+  <data name="Implementing" xml:space="preserve">
+    <value>Реализация</value>
+  </data>
+  <data name="ImplementExplicitly" xml:space="preserve">
+    <value>Реализовать явно</value>
+  </data>
+  <data name="ImportList" xml:space="preserve">
+    <value>Список импорта</value>
+  </data>
+  <data name="IndentSize" xml:space="preserve">
+    <value>Размер отступа:</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>Исходное значение</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>интерфейс</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Элемент</value>
+  </data>
+  <data name="ItemsOfType" xml:space="preserve">
+    <value>Элементы {0}</value>
+  </data>
+  <data name="ItemsSelected" xml:space="preserve">
+    <value>{0} выделенных элементов.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="MembersOfType" xml:space="preserve">
+    <value>Члены {0}</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>&amp;О NClass...</value>
+  </data>
+  <data name="MenuAddNew" xml:space="preserve">
+    <value>&amp;Создать</value>
+  </data>
+  <data name="MenuAggregation" xml:space="preserve">
+    <value>А&amp;грегация</value>
+  </data>
+  <data name="MenuAssociation" xml:space="preserve">
+    <value>&amp;Ассоциация</value>
+  </data>
+  <data name="MenuAutoZoom" xml:space="preserve">
+    <value>Автоматическое масштабирование</value>
+  </data>
+  <data name="MenuBidirectional" xml:space="preserve">
+    <value>&amp;Двунаправленный</value>
+  </data>
+  <data name="MenuCheckForUpdates" xml:space="preserve">
+    <value>Проверить &amp;обновления</value>
+  </data>
+  <data name="MenuClass" xml:space="preserve">
+    <value>&amp;Класс</value>
+  </data>
+  <data name="MenuComment" xml:space="preserve">
+    <value>Коммен&amp;тарий</value>
+  </data>
+  <data name="MenuCommentRelationship" xml:space="preserve">
+    <value>Ком&amp;ментировать отношение...</value>
+  </data>
+  <data name="MenuComposition" xml:space="preserve">
+    <value>Композиция</value>
+  </data>
+  <data name="MenuContents" xml:space="preserve">
+    <value>&amp;Содержимое</value>
+  </data>
+  <data name="MenuCopyImageToClipboard" xml:space="preserve">
+    <value>&amp;Копировать изображение</value>
+  </data>
+  <data name="MenuCSharpDiagram" xml:space="preserve">
+    <value>&amp;C# диаграмма</value>
+  </data>
+  <data name="MenuCut" xml:space="preserve">
+    <value>&amp;Вырезать</value>
+  </data>
+  <data name="MenuDelegate" xml:space="preserve">
+    <value>&amp;Делегат</value>
+  </data>
+  <data name="MenuDelete" xml:space="preserve">
+    <value>&amp;Удалить</value>
+  </data>
+  <data name="MenuDependency" xml:space="preserve">
+    <value>&amp;Зависимость</value>
+  </data>
+  <data name="MenuDiagram" xml:space="preserve">
+    <value>&amp;Диаграмма</value>
+  </data>
+  <data name="MenuDirection" xml:space="preserve">
+    <value>&amp;Направление</value>
+  </data>
+  <data name="MenuEdit" xml:space="preserve">
+    <value>&amp;Правка</value>
+  </data>
+  <data name="MenuEditComment" xml:space="preserve">
+    <value>&amp;Редактировать комментарий...</value>
+  </data>
+  <data name="MenuEditMembers" xml:space="preserve">
+    <value>Редактировать &amp;члены...</value>
+  </data>
+  <data name="MenuEnum" xml:space="preserve">
+    <value>&amp;Перечисление</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>Вы&amp;ход</value>
+  </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>&amp;Экспорт</value>
+  </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>&amp;Файл</value>
+  </data>
+  <data name="MenuGeneralization" xml:space="preserve">
+    <value>Генера&amp;лизация</value>
+  </data>
+  <data name="MenuGenerateCode" xml:space="preserve">
+    <value>&amp;Генерировать код...</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>&amp;Помощь</value>
+  </data>
+  <data name="MenuImport" xml:space="preserve">
+    <value>&amp;Импорт</value>
+  </data>
+  <data name="MenuInitialValue" xml:space="preserve">
+    <value>&amp;Исходное значение</value>
+  </data>
+  <data name="MenuInterface" xml:space="preserve">
+    <value>&amp;Интерфейс</value>
+  </data>
+  <data name="MenuJavaDiagram" xml:space="preserve">
+    <value>&amp;Java диаграмма</value>
+  </data>
+  <data name="MenuMembersFormat" xml:space="preserve">
+    <value>&amp;Форматирование членов</value>
+  </data>
+  <data name="MenuNesting" xml:space="preserve">
+    <value>&amp;Вложение</value>
+  </data>
+  <data name="MenuNew" xml:space="preserve">
+    <value>&amp;Новый</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>&amp;Открыть</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>&amp;Настройки...</value>
+  </data>
+  <data name="MenuParameters" xml:space="preserve">
+    <value>&amp;Параметры</value>
+  </data>
+  <data name="MenuParameterNames" xml:space="preserve">
+    <value>Имена &amp;параметров</value>
+  </data>
+  <data name="MenuPaste" xml:space="preserve">
+    <value>&amp;Вставить</value>
+  </data>
+  <data name="MenuPlugins" xml:space="preserve">
+    <value>&amp;Инструменты</value>
+  </data>
+  <data name="MenuPrint" xml:space="preserve">
+    <value>&amp;Печать...</value>
+  </data>
+  <data name="MenuRealization" xml:space="preserve">
+    <value>&amp;Реализация</value>
+  </data>
+  <data name="MenuRedo" xml:space="preserve">
+    <value>&amp;Повторить</value>
+  </data>
+  <data name="MenuSave" xml:space="preserve">
+    <value>&amp;Сохранить</value>
+  </data>
+  <data name="MenuSaveAs" xml:space="preserve">
+    <value>Сохранить &amp;как...</value>
+  </data>
+  <data name="MenuSaveAsImage" xml:space="preserve">
+    <value>&amp;Сохранить как изображение...</value>
+  </data>
+  <data name="MenuSelectAll" xml:space="preserve">
+    <value>&amp;Выделить все</value>
+  </data>
+  <data name="MenuStruct" xml:space="preserve">
+    <value>&amp;Структура</value>
+  </data>
+  <data name="MenuType" xml:space="preserve">
+    <value>&amp;Тип</value>
+  </data>
+  <data name="MenuUndo" xml:space="preserve">
+    <value>&amp;Отменить</value>
+  </data>
+  <data name="Modifier" xml:space="preserve">
+    <value>Модификатор:</value>
+  </data>
+  <data name="Modifiers" xml:space="preserve">
+    <value>Модификаторы</value>
+  </data>
+  <data name="ModifyItem" xml:space="preserve">
+    <value>Изменить элемент:</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Вверх</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Nesting" xml:space="preserve">
+    <value>Вложение</value>
+  </data>
+  <data name="NewConstructor" xml:space="preserve">
+    <value>Создать конструктор</value>
+  </data>
+  <data name="NewDestructor" xml:space="preserve">
+    <value>Создать деструктор</value>
+  </data>
+  <data name="NewEvent" xml:space="preserve">
+    <value>Создать событие</value>
+  </data>
+  <data name="NewField" xml:space="preserve">
+    <value>Создать поле</value>
+  </data>
+  <data name="NewMethod" xml:space="preserve">
+    <value>Создать метод</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Создать свойство</value>
+  </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>Вышла новая версия</value>
+  </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>Функция еще не реализована...</value>
+  </data>
+  <data name="NoUpdates" xml:space="preserve">
+    <value>Обноления недоступны.</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Опции</value>
+  </data>
+  <data name="OverrideMembers" xml:space="preserve">
+    <value>Переопределить члены</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>{0} by {1}</value>
+    <comment>'PluginName' by 'Author'</comment>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Печать</value>
+  </data>
+  <data name="ProgramDownload" xml:space="preserve">
+    <value>Вы хотите загрузить обновление прямо сейчас?</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="Realization" xml:space="preserve">
+    <value>Реализация</value>
+  </data>
+  <data name="ReturnType" xml:space="preserve">
+    <value>Тип результата:</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Сохранить как</value>
+  </data>
+  <data name="SaveAsImage" xml:space="preserve">
+    <value>Сохранить как изображение</value>
+  </data>
+  <data name="SaveChangesConfirmation" xml:space="preserve">
+    <value>Файл был изменен. Сохранить изменения?</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Написать письмо автору</value>
+  </data>
+  <data name="SortByAccess" xml:space="preserve">
+    <value>Сортировать по доступу</value>
+  </data>
+  <data name="SortByKind" xml:space="preserve">
+    <value>Сортировать по виду</value>
+  </data>
+  <data name="SortByName" xml:space="preserve">
+    <value>Сортировать по имени</value>
+  </data>
+  <data name="Style" xml:space="preserve">
+    <value>Стиль</value>
+  </data>
+  <data name="Syntax" xml:space="preserve">
+    <value>Синтаксис</value>
+  </data>
+  <data name="TranslationName" xml:space="preserve">
+    <value>Russian</value>
+    <comment>It's needed for version controlling, don't translate it</comment>
+  </data>
+  <data name="TranslationVersion" xml:space="preserve">
+    <value>2009-08-11</value>
+    <comment>It's needed for version controlling, don't translate it</comment>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value>Переводчик: VRS</value>
+    <comment>Translator: &lt;your name&gt;</comment>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Наизвестная ошибка</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>untitled</value>
+  </data>
+  <data name="UseSnapping" xml:space="preserve">
+    <value>Использовать точную привязку</value>
+  </data>
+  <data name="UseTabs" xml:space="preserve">
+    <value>Использовать TAB для отступов</value>
+  </data>
+  <data name="BetaVersion" xml:space="preserve">
+    <value>Beta version</value>
+  </data>
+  <data name="VisitHomepage" xml:space="preserve">
+    <value>Сайт программы...</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value>Масштаб</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>Увеличить</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>Уменьшить</value>
+  </data>
+  <data name="RequiresNetFramework" xml:space="preserve">
+    <value>Для работы программы необходим .NET 2.0 Framework.
+Пожалуста, загрузите и установите .NET Framework, а затем перезапустите установку прогаммы.
+Вы хотите загрузить .NET Framework сейчас?</value>
+  </data>
+  <data name="StartMenuGroup" xml:space="preserve">
+    <value>Создать группу в Главном меню</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>Редактировать текст:</value>
+  </data>
+  <data name="ErrorPrinting" xml:space="preserve">
+    <value>Произошла ошибка при печати: {0}</value>
+  </data>
+  <data name="MenuDiagramSize" xml:space="preserve">
+    <value>Размер &amp;диаграммы</value>
+  </data>
+  <data name="MenuAlign" xml:space="preserve">
+    <value>&amp;Выровнять</value>
+  </data>
+  <data name="MenuAlignBottom" xml:space="preserve">
+    <value>Выровнять по &amp;нижнему краю</value>
+  </data>
+  <data name="MenuAlignHorizontal" xml:space="preserve">
+    <value>Выровнять по &amp;горизонтальной оси</value>
+  </data>
+  <data name="MenuAlignLeft" xml:space="preserve">
+    <value>Выровнять по &amp;левому краю</value>
+  </data>
+  <data name="MenuAlignRight" xml:space="preserve">
+    <value>Выровнять по &amp;правому краю</value>
+  </data>
+  <data name="MenuAlignTop" xml:space="preserve">
+    <value>Выровнять по &amp;верхнему краю</value>
+  </data>
+  <data name="MenuAlignVertical" xml:space="preserve">
+    <value>Выровнять по в&amp;ертикальной оси</value>
+  </data>
+  <data name="MenuAutoHeight" xml:space="preserve">
+    <value>Автоматическая высота</value>
+  </data>
+  <data name="MenuAutoWidth" xml:space="preserve">
+    <value>Автоматическая ширина</value>
+  </data>
+  <data name="MenuCollapseAll" xml:space="preserve">
+    <value>Свернуть все</value>
+  </data>
+  <data name="MenuExpandAll" xml:space="preserve">
+    <value>Развернуть все</value>
+  </data>
+  <data name="MenuMakeSameSize" xml:space="preserve">
+    <value>Одинаковый размер</value>
+  </data>
+  <data name="MenuSameHeight" xml:space="preserve">
+    <value>По высоте</value>
+  </data>
+  <data name="MenuSameSize" xml:space="preserve">
+    <value>По высоте и ширине</value>
+  </data>
+  <data name="MenuSameWidth" xml:space="preserve">
+    <value>По ширине</value>
+  </data>
+  <data name="MenuFormat" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Всегда</value>
+  </data>
+  <data name="WhenMouseHovers" xml:space="preserve">
+    <value>При наведении мышью</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Никогда</value>
+  </data>
+  <data name="ShowChevron" xml:space="preserve">
+    <value>Показывать кнопку:</value>
+  </data>
+  <data name="ButtonPageSetup" xml:space="preserve">
+    <value>Параметры страницы...</value>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>Печать</value>
+  </data>
+  <data name="ButtonSelectPrinter" xml:space="preserve">
+    <value>Принтер...</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Страницы:</value>
+  </data>
+  <data name="PrintOnlySelectedElements" xml:space="preserve">
+    <value>Печатать только выбранные</value>
+  </data>
+  <data name="CriticalError" xml:space="preserve">
+    <value>Критическая ошибка</value>
+  </data>
+  <data name="ProgramTerminates" xml:space="preserve">
+    <value>Произошла критическая ошибка. Приложение должно быть закрыто.</value>
+  </data>
+  <data name="SendLogFile" xml:space="preserve">
+    <value>Пожалуста, вышлите этот файл по адресу '{0}'.</value>
+  </data>
+  <data name="MenuSize" xml:space="preserve">
+    <value>&amp;Размер</value>
+  </data>
+  <data name="MenuSaveSelectionAsImage" xml:space="preserve">
+    <value>Сохранить в&amp;ыбранное как изображение</value>
+  </data>
+  <data name="MenuAutoRouting" xml:space="preserve">
+    <value>Связывать &amp;автоматически</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>&amp;Свойства</value>
+  </data>
+  <data name="MenuCollapseAllSelected" xml:space="preserve">
+    <value>&amp;Свернуть все выбранные</value>
+  </data>
+  <data name="MenuExpandAllSelected" xml:space="preserve">
+    <value>&amp;Развернуть все выбранные</value>
+  </data>
+  <data name="MenuUnidirectional" xml:space="preserve">
+    <value>Одно направление</value>
+  </data>
+  <data name="MenuZoom" xml:space="preserve">
+    <value>&amp;Масштаб</value>
+  </data>
+  <data name="MenuZoomIn" xml:space="preserve">
+    <value>У&amp;величить масштаб</value>
+  </data>
+  <data name="MenuZoomOut" xml:space="preserve">
+    <value>У&amp;меньшить масштаб</value>
+  </data>
+  <data name="NClassProjectFiles" xml:space="preserve">
+    <value>Файлы проектов NClass</value>
+  </data>
+  <data name="ErrorBlankFilename" xml:space="preserve">
+    <value>Имя файла не может быть пустым</value>
+  </data>
+  <data name="ErrorDestructorName" xml:space="preserve">
+    <value>Имя деструктора не совпадает с именем класса.</value>
+  </data>
+  <data name="DoubleClickToAddDiagram" xml:space="preserve">
+    <value>Шелкните здесь, чтобы добавить новую диаграмму</value>
+  </data>
+  <data name="DoubleClickToAddProject" xml:space="preserve">
+    <value>Шелкните здесь, чтобы добавить новый проект</value>
+  </data>
+  <data name="MenuSaveProject" xml:space="preserve">
+    <value>&amp;Сохранить {0}</value>
+  </data>
+  <data name="MenuSaveProjectAs" xml:space="preserve">
+    <value>Сохранить {0} &amp;как...</value>
+  </data>
+  <data name="MenuClose" xml:space="preserve">
+    <value>&amp;Закрыть {0}</value>
+  </data>
+  <data name="MenuCloseAllProjects" xml:space="preserve">
+    <value>Закрыть &amp;все проекты</value>
+  </data>
+  <data name="MenuCloseProject" xml:space="preserve">
+    <value>&amp;Закрыть проект</value>
+  </data>
+  <data name="MenuSaveAllProjects" xml:space="preserve">
+    <value>Сохранить все &amp;проекты</value>
+  </data>
+  <data name="PreviousFileFormats" xml:space="preserve">
+    <value>Предыдущие типы файлов</value>
+  </data>
+  <data name="MenuCloseAllDocuments" xml:space="preserve">
+    <value>&amp;Закрыть все документы</value>
+  </data>
+  <data name="MenuDiagramNavigator" xml:space="preserve">
+    <value>&amp;Навигатор диаграммы</value>
+  </data>
+  <data name="MenuModelExplorer" xml:space="preserve">
+    <value>Model &amp;Explorer</value>
+  </data>
+  <data name="MenuView" xml:space="preserve">
+    <value>В&amp;ид</value>
+  </data>
+  <data name="AskSaveChanges" xml:space="preserve">
+    <value>Сохранить изменения в следующих проектах?</value>
+  </data>
+  <data name="RequiresRestart" xml:space="preserve">
+    <value>После изменения языка приложение должно быть перезапущено.</value>
+  </data>
+  <data name="MenuNewProject" xml:space="preserve">
+    <value>&amp;Новый проект</value>
+  </data>
+  <data name="DeleteProjectItemConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить {0}?</value>
+  </data>
+  <data name="MenuDeleteProjectItem" xml:space="preserve">
+    <value>&amp;Удалить из проекта</value>
+  </data>
+  <data name="MenuRename" xml:space="preserve">
+    <value>П&amp;ереименовать</value>
+  </data>
+  <data name="MenuProject" xml:space="preserve">
+    <value>&amp;Проект</value>
+  </data>
+  <data name="ErrorNoPrinters" xml:space="preserve">
+    <value>Принтеры не установлены.</value>
+  </data>
+  <data name="SolutionType" xml:space="preserve">
+    <value>Тип файла:</value>
+  </data>
+  <data name="UseNotImplementedExceptions" xml:space="preserve">
+    <value>Заполнить методы NotImplementedExeption</value>
+  </data>
+  <data name="WhenZoomed" xml:space="preserve">
+    <value>При изменении масштаба</value>
+  </data>
+  <data name="UseClearType" xml:space="preserve">
+    <value>Использовать ClearType</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Только чтение</value>
+  </data>
+  <data name="ReadWrite" xml:space="preserve">
+    <value>Чтение/запись</value>
+  </data>
+  <data name="WriteOnly" xml:space="preserve">
+    <value>Только запись</value>
+  </data>
+  <data name="NewParameter" xml:space="preserve">
+    <value>Новый параметр</value>
+  </data>
+  <data name="NewValue" xml:space="preserve">
+    <value>Новое значение</value>
+  </data>
+  <data name="EditAssociation" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="MenuEditAssociation" xml:space="preserve">
+    <value>Редактировать...</value>
+  </data>
+  <data name="RememberOpenProjects" xml:space="preserve">
+    <value>Запоминать открытые проекты при выходе</value>
+  </data>
+  <data name="MenuCloseAllTabsButThis" xml:space="preserve">
+    <value>Закрыть все кроме этой</value>
+  </data>
+  <data name="MenuCloseAllTabs" xml:space="preserve">
+    <value>Закрыть все</value>
+  </data>
+  <data name="MenuCloseTab" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>&amp;Копировать</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="TranslationUpdated" xml:space="preserve">
+    <value>Обновлен перевод на русский язык</value>
+  </data>
+  <data name="MenuOpenFile" xml:space="preserve">
+    <value>&amp;Файл...</value>
+  </data>
+  <data name="UseClearTypeForImages" xml:space="preserve">
+    <value>В экспортируемых изображениях (отключает прозрачный фон)</value>
+  </data>
+  <data name="MenuReverse" xml:space="preserve">
+    <value>Изменить направление</value>
+  </data>
+  <data name="MenuAutoSize" xml:space="preserve">
+    <value>Автоматический &amp;размер</value>
+  </data>
+  <data name="DeleteMemberConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить выбранный член?</value>
+  </data>
+</root>

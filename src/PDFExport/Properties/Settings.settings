@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PDFExport.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="OnlySelectedElements" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Padding" Type="System.Windows.Forms.Padding" Scope="User">
+      <Value Profile="(Default)">10, 10, 10, 10</Value>
+    </Setting>
+    <Setting Name="Unit" Type="PdfSharp.Drawing.XGraphicsUnit" Scope="User">
+      <Value Profile="(Default)">Point</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
