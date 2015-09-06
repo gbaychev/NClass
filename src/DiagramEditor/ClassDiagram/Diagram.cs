@@ -18,18 +18,19 @@ using System.Xml;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
-using NClass.DiagramEditor.ClassDiagram.Editors;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {
-	public class Diagram : Model, IDocument, IEditable, IPrintable
+	public class Diagram : IDocument, IEditable, IPrintable
 	{
 		private enum State
 		{
@@ -66,7 +67,8 @@ namespace NClass.DiagramEditor.ClassDiagram
 		EntityType newShapeType = EntityType.Class;
 		ConnectionCreator connectionCreator = null;
 
-		public event EventHandler OffsetChanged;
+        public event EventHandler Modified;
+        public event EventHandler OffsetChanged;
 		public event EventHandler SizeChanged;
 		public event EventHandler ZoomChanged;
 		public event EventHandler StatusChanged;
@@ -75,11 +77,16 @@ namespace NClass.DiagramEditor.ClassDiagram
 		public event EventHandler ClipboardAvailabilityChanged;
 		public event PopupWindowEventHandler ShowingWindow;
 		public event PopupWindowEventHandler HidingWindow;
+        public event EventHandler Renamed;
+        bool isDirty = false;
+        bool loading = false;
+
+        private Model model;
 
 		static Diagram()
 		{
 			SelectionPen = new Pen(Color.Black);
-			SelectionPen.DashPattern = new float[] { DashSize, DashSize };
+			SelectionPen.DashPattern = new [] { DashSize, DashSize };
 		}
 
 		protected Diagram()
@@ -89,8 +96,10 @@ namespace NClass.DiagramEditor.ClassDiagram
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>
-		public Diagram(Language language) : base(language)
+		public Diagram(Language language)
 		{
+            model = new Model(language);
+		    model.EntityAdded += OnEntityRemoved;
 		}
 
 		/// <exception cref="ArgumentException">
@@ -99,11 +108,23 @@ namespace NClass.DiagramEditor.ClassDiagram
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>
-		public Diagram(string name, Language language) : base(name, language)
+		public Diagram(string name, Language language)
 		{
+            model = new Model(name, language);
+            model.EntityRemoved += OnEntityRemoved;
+		    model.RelationRemoved += OnRelationRemoved;
+		    model.Deserializing += OnDeserializing;
 		}
 
-		public IEnumerable<Shape> Shapes
+	    public string Name
+	    {
+	        get { return model.Name; }
+	        set { model.Name = value; }
+	    }
+
+	    public Project Project { get; set; }
+
+	    public IEnumerable<Shape> Shapes
 		{
 			get { return shapes; }
 		}
@@ -858,7 +879,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
 		private void RequestRedrawIfNeeded()
 		{
-			if (Loading)
+			if (loading)
 				return;
 
 			foreach (Shape shape in shapes)
@@ -1658,123 +1679,97 @@ namespace NClass.DiagramEditor.ClassDiagram
 			return shapes.FirstValue;
 		}
 
-		protected override void AddClass(ClassType newClass)
-		{
-			base.AddClass(newClass);
-			AddShape(new ClassShape(newClass));
-		}
-
-		protected override void AddStructure(StructureType structure)
-		{
-			base.AddStructure(structure);
-			AddShape(new StructureShape(structure));
-		}
-
-		protected override void AddInterface(InterfaceType newInterface)
-		{
-			base.AddInterface(newInterface);
-			AddShape(new InterfaceShape(newInterface));
-		}
-
-		protected override void AddEnum(EnumType newEnum)
-		{
-			base.AddEnum(newEnum);
-			AddShape(new EnumShape(newEnum));
-		}
-
-		protected override void AddDelegate(DelegateType newDelegate)
-		{
-			base.AddDelegate(newDelegate);
-			AddShape(new DelegateShape(newDelegate));
-		}
-
-		protected override void AddComment(Comment comment)
-		{
-			base.AddComment(comment);
-			AddShape(new CommentShape(comment));
-		}
-
 		public void CreateConnection(RelationshipType type)
 		{
 			connectionCreator = new ConnectionCreator(this, type);
 			state = State.CreatingConnection;
 		}
 
-		protected override void AddAssociation(AssociationRelationship association)
-		{
-			base.AddAssociation(association);
+	    protected virtual void OnEntityAdded(object sender, EntityEventArgs e)
+	    {
+            switch (e.Entity.EntityType)
+            {
+                case EntityType.Class:
+                    AddClass(e.Entity as ClassType);
+                    break;
 
-			Shape startShape = GetShape(association.First);
-			Shape endShape = GetShape(association.Second);
-			AddConnection(new Association(association, startShape, endShape));
-		}
+                case EntityType.Comment:
+                    AddComment(e.Entity as Comment);
+                    break;
 
-		protected override void AddGeneralization(GeneralizationRelationship generalization)
-		{
-			base.AddGeneralization(generalization);
+                case EntityType.Delegate:
+                    AddDelegate(e.Entity as DelegateType);
+                    break;
 
-			Shape startShape = GetShape(generalization.First);
-			Shape endShape = GetShape(generalization.Second);
-			AddConnection(new Generalization(generalization, startShape, endShape));
-		}
+                case EntityType.Enum:
+                    AddEnum(e.Entity as EnumType);
+                    break;
 
-		protected override void AddRealization(RealizationRelationship realization)
-		{
-			base.AddRealization(realization);
+                case EntityType.Interface:
+                    AddInterface(e.Entity as InterfaceType);
+                    break;
 
-			Shape startShape = GetShape(realization.First);
-			Shape endShape = GetShape(realization.Second);
-			AddConnection(new Realization(realization, startShape, endShape));
-		}
+                case EntityType.Structure:
+                    AddStructure(e.Entity as StructureType);
+                    break;
+            }
 
-		protected override void AddDependency(DependencyRelationship dependency)
-		{
-			base.AddDependency(dependency);
+            RecalculateSize();
+        }
 
-			Shape startShape = GetShape(dependency.First);
-			Shape endShape = GetShape(dependency.Second);
-			AddConnection(new Dependency(dependency, startShape, endShape));
-		}
+	    protected virtual void OnRelationAdded(object sender, RelationshipEventArgs e)
+	    {
+	        switch (e.Relationship.RelationshipType)
+	        {
+                case RelationshipType.Association:
+	                AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-		protected override void AddNesting(NestingRelationship nesting)
-		{
-			base.AddNesting(nesting);
+                case RelationshipType.Composition:
+                    AddComposition(e.Relationship as AssociationRelationship);
+                    break;
 
-			Shape startShape = GetShape(nesting.First);
-			Shape endShape = GetShape(nesting.Second);
-			AddConnection(new Nesting(nesting, startShape, endShape));
-		}
+                case RelationshipType.Aggregation:
+	                AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-		protected override void AddCommentRelationship(CommentRelationship commentRelationship)
-		{
-			base.AddCommentRelationship(commentRelationship);
+                case RelationshipType.Generalization:
+	                AddGeneralization(e.Relationship as GeneralizationRelationship);
+                    break;
 
-			Shape startShape = GetShape(commentRelationship.First);
-			Shape endShape = GetShape(commentRelationship.Second);
-			AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
-		}
+                case RelationshipType.Realization:
+	                AddRealization(e.Relationship as RealizationRelationship);
+                    break;
 
-		protected override void OnEntityRemoved(EntityEventArgs e)
+                case RelationshipType.Dependency:
+	                AddDependency(e.Relationship as DependencyRelationship);
+                    break;
+
+                case RelationshipType.Nesting:
+	                AddNesting(e.Relationship as NestingRelationship);
+                    break;
+
+                case RelationshipType.Comment:
+	                AddCommentRelationship(e.Relationship as CommentRelationship);
+                    break;
+            }
+	    }
+        
+		protected virtual void OnEntityRemoved(object sender, EntityEventArgs e)
 		{
 			Shape shape = GetShape(e.Entity);
 			RemoveShape(shape);
-
-			base.OnEntityRemoved(e);
 		}
 
-		protected override void OnRelationRemoved(RelationshipEventArgs e)
+		protected void OnRelationRemoved(object sender,RelationshipEventArgs e)
 		{
 			Connection connection = GetConnection(e.Relationship);
 			RemoveConnection(connection);
-
-			base.OnRelationRemoved(e);
 		}
 
-		protected override void OnDeserializing(SerializeEventArgs e)
+		protected void OnDeserializing(object sender, SerializeEventArgs e)
 		{
-			base.OnDeserializing(e);
-
-			// Old file format
+            // Old file format
 			{
 				XmlElement positionsNode = e.Node["Positions"];
 				if (positionsNode != null)
@@ -1855,5 +1850,390 @@ namespace NClass.DiagramEditor.ClassDiagram
 			if (HidingWindow != null)
 				HidingWindow(this, e);
 		}
+
+        public void RemoveEntity(IEntity entity)
+        {
+            model.RemoveEntity(entity);
+        }
+
+        public void RemoveRelationship(Relationship relationship)
+        {
+            model.RemoveRelationship(relationship);
+        }
+
+        protected virtual void OnModified(EventArgs e)
+        {
+            isDirty = true;
+            if (Modified != null)
+                Modified(this, e);
+        }
+
+        /* class diagram methods begin here -  to be removed in its own class*/
+        public Language Language { get { return model.Language; } }
+
+	    public bool IsEmpty { get { return model.IsEmpty; } }
+
+        public bool InsertStructure(StructureType structure)
+        {
+            if (structure != null && !model.Entities.Contains(structure) &&
+                structure.Language == model.Language)
+            {
+                AddStructure(structure);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool InsertInterface(InterfaceType newInterface)
+        {
+            if (newInterface != null && !model.Entities.Contains(newInterface) &&
+                newInterface.Language == model.Language)
+            {
+                AddInterface(newInterface);
+                return true;
+            }
+         
+            return false;
+        }
+
+        public bool InsertEnum(EnumType newEnum)
+        {
+            if (newEnum != null && !model.Entities.Contains(newEnum) &&
+                newEnum.Language == model.Language)
+            {
+                AddEnum(newEnum);
+                return true;
+            }
+            
+                return false;
+        }
+
+        public bool InsertDelegate(DelegateType newDelegate)
+        {
+            if (newDelegate != null && !model.Entities.Contains(newDelegate) &&
+                newDelegate.Language == model.Language)
+            {
+                AddDelegate(newDelegate);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertComment(Comment comment)
+        {
+            if (comment != null && !model.Entities.Contains(comment))
+            {
+                AddComment(comment);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertClass(ClassType newClass)
+        {
+            if (newClass != null && !model.Entities.Contains(newClass) && 
+                newClass.Language == model.Language)
+            {
+                AddClass(newClass);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertAssociation(AssociationRelationship associaton)
+        {
+            if (associaton != null && !model.Relationships.Contains(associaton) &&
+                model.Entities.Contains(associaton.First) && model.Entities.Contains(associaton.Second))
+            {
+                AddAssociation(associaton);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertCommentRelationship(CommentRelationship commentRelationship)
+        {
+            if (commentRelationship != null && !model.Relationships.Contains(commentRelationship) &&
+                model.Entities.Contains(commentRelationship.First) && model.Entities.Contains(commentRelationship.Second))
+            {
+                AddCommentRelationship(commentRelationship);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertDependency(DependencyRelationship dependency)
+        {
+            if (dependency != null && !model.Relationships.Contains(dependency) &&
+                model.Entities.Contains(dependency.First) && model.Entities.Contains(dependency.Second))
+            {
+                AddDependency(dependency);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertGeneralization(GeneralizationRelationship generalization)
+        {
+            if (generalization != null && !model.Relationships.Contains(generalization) &&
+                model.Entities.Contains(generalization.First) && model.Entities.Contains(generalization.Second))
+            {
+                AddGeneralization(generalization);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertNesting(NestingRelationship nesting)
+        {
+            if (nesting != null && !model.Relationships.Contains(nesting) &&
+                model.Entities.Contains(nesting.First) && model.Entities.Contains(nesting.Second))
+            {
+                AddNesting(nesting);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool InsertRealization(RealizationRelationship realization)
+        {
+            if (realization != null && !model.Relationships.Contains(realization) &&
+                model.Entities.Contains(realization.First) && model.Entities.Contains(realization.Second))
+            {
+                AddRealization(realization);
+                return true;
+            }
+            
+            return false;
+        }
+
+        /// <exception cref="ArgumentNullException">
+		/// <paramref name="first"/> or <paramref name="second"/> is null.
+		/// </exception>
+		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
+        {
+            var association = model.AddAssociation(first, second);
+            return AddAssociation(association);
+        }
+
+	    public AssociationRelationship AddAssociation(AssociationRelationship association)
+	    {
+            Shape startShape = GetShape(association.First);
+            Shape endShape = GetShape(association.Second);
+            AddConnection(new Association(association, startShape, endShape));
+	        return association;
+	    }
+
+        public AssociationRelationship AddComposition(TypeBase first, TypeBase second)
+        {
+            var composition = model.AddComposition(first, second);
+            return AddComposition(composition);
+        }
+
+	    public AssociationRelationship AddComposition(AssociationRelationship composition)
+	    {
+            Shape startShape = GetShape(composition.First);
+            Shape endShape = GetShape(composition.Second);
+            AddConnection(new Association(composition, startShape, endShape));
+            return composition;
+	    }
+
+        public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
+        {
+            return model.AddAssociation(first, second);
+        }
+
+	    public GeneralizationRelationship AddGeneralization(CompositeType derivedType,
+	        CompositeType baseType)
+	    {
+	        var generalization = model.AddGeneralization(derivedType, baseType);
+	        return AddGeneralization(generalization);
+	    }
+
+	    private GeneralizationRelationship AddGeneralization(GeneralizationRelationship generalization)
+	    {
+            Shape startShape = GetShape(generalization.First);
+            Shape endShape = GetShape(generalization.Second);
+            AddConnection(new Generalization(generalization, startShape, endShape));
+            return generalization;
+        }
+
+	    public RealizationRelationship AddRealization(TypeBase implementer,
+	        InterfaceType baseType)
+	    {
+	        var realization = model.AddRealization(implementer, baseType);
+	        return AddRealization(realization);
+	    }
+
+	    private RealizationRelationship AddRealization(RealizationRelationship realization)
+	    {
+            Shape startShape = GetShape(realization.First);
+            Shape endShape = GetShape(realization.Second);
+            AddConnection(new Realization(realization, startShape, endShape));
+	        return realization;
+	    }
+
+	    public DependencyRelationship AddDependency(TypeBase first, TypeBase second)
+	    {
+	        var dependencyRelationship = model.AddDependency(first, second);
+	        return AddDependency(dependencyRelationship);
+	    }
+
+	    private DependencyRelationship AddDependency(DependencyRelationship dependency)
+	    {
+            Shape startShape = GetShape(dependency.First);
+            Shape endShape = GetShape(dependency.Second);
+            AddConnection(new Dependency(dependency, startShape, endShape));
+            return dependency;
+        }
+
+	    public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
+	    {
+	        var nestingRelationship = model.AddNesting(parentType, innerType);
+	        return AddNesting(nestingRelationship);
+	    }
+
+	    public NestingRelationship AddNesting(NestingRelationship nesting)
+	    {
+            Shape startShape = GetShape(nesting.First);
+            Shape endShape = GetShape(nesting.Second);
+            AddConnection(new Nesting(nesting, startShape, endShape));
+            return nesting;
+        }
+
+	    public virtual CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
+	    {
+	        var commentRelationship = model.AddCommentRelationship(comment, entity);
+	        return AddCommentRelationship(commentRelationship);
+	    }
+
+	    private CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
+	    {
+            Shape startShape = GetShape(commentRelationship.First);
+            Shape endShape = GetShape(commentRelationship.Second);
+            AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
+	        return commentRelationship;
+	    }
+
+	    public ClassType AddClass()
+	    {
+	        var classType = model.AddClass();
+	        return AddClass(classType);
+	    }
+
+	    private ClassType AddClass(ClassType classType)
+	    {
+            AddShape(new ClassShape(classType));
+            return classType;
+        }
+
+	    public StructureType AddStructure()
+	    {
+	        var structureType = model.AddStructure();
+	        return AddStructure(structureType);
+	    }
+
+	    private StructureType AddStructure(StructureType structureType)
+	    {
+            AddShape(new StructureShape(structureType));
+            return structureType;
+        }
+
+	    public InterfaceType AddInterface()
+	    {
+	        var interfaceType = model.AddInterface();
+	        return AddInterface(interfaceType);
+	    }
+
+	    private InterfaceType AddInterface(InterfaceType interfaceType)
+	    {
+            AddShape(new InterfaceShape(interfaceType));
+            return interfaceType;
+        }
+
+	    public DelegateType AddDelegate()
+	    {
+	        var delegateType = model.AddDelegate();
+	        return AddDelegate(delegateType);
+	    }
+
+	    private DelegateType AddDelegate(DelegateType delegateType)
+	    {
+            AddShape(new DelegateShape(delegateType));
+            return delegateType;
+        }
+
+	    public EnumType AddEnum()
+	    {
+	        var enumType = model.AddEnum();
+	        return AddEnum(enumType);
+	    }
+
+	    private EnumType AddEnum(EnumType enumType)
+	    {
+            AddShape(new EnumShape(enumType));
+            return model.AddEnum();
+        }
+
+        public Comment AddComment()
+        {
+            Comment comment = model.AddComment();
+            return AddComment(comment);
+        }
+
+        private Comment AddComment(Comment comment)
+        {
+            AddShape(new CommentShape(comment));
+            return comment;
+        }
+
+	    public bool IsDirty {
+	        get { return isDirty && model.IsDirty; }
+	    }
+        // review the conistency of the model (e.g. Model.IsDirty, etc.).
+	    public void Clean()
+	    {
+            isDirty = false;
+	    }
+
+	    public event EventHandler Closing;
+	    public bool IsUntitled {
+	        get { return model.IsUntitled; }
+	    }
+	    public void Close()
+	    {
+	        model.Close();
+            if (Closing != null)
+                Closing(this, EventArgs.Empty);
+        }
+
+	    public void Serialize(XmlElement node)
+	    {
+            model.Serialize(node);
+	    }
+
+	    public void Deserialize(XmlElement node)
+	    {
+	        if (model == null)
+	        {
+	            model = new Model(Language.GetLanguage("csharp"));
+                model.EntityRemoved += OnEntityRemoved;
+	            model.EntityAdded += OnEntityAdded;
+                model.RelationRemoved += OnRelationRemoved;
+                model.RelationAdded += OnRelationAdded;
+                model.Deserializing += OnDeserializing;
+            }
+	        model.Deserialize(node);
+	        model.EntityAdded -= OnEntityAdded;
+	    }
 	}
 }

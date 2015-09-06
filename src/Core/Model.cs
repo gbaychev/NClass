@@ -41,7 +41,7 @@ namespace NClass.Core
 		{
 		}
 
-		/// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentException">
 		/// <paramref name="name"/> cannot be empty string.
 		/// </exception>
 		/// <exception cref="ArgumentNullException">
@@ -101,12 +101,7 @@ namespace NClass.Core
 		{
 			get { return isDirty; }
 		}
-
-		protected bool Loading
-		{
-			get { return loading; }
-		}
-
+        
 		public bool IsEmpty
 		{
 			get
@@ -121,7 +116,7 @@ namespace NClass.Core
 			//TODO: tagokat is tisztítani!
 		}
 
-		void IProjectItem.Close()
+		public void Close()
 		{
 			OnClosing(EventArgs.Empty);
 		}
@@ -151,108 +146,34 @@ namespace NClass.Core
 		public ClassType AddClass()
 		{
 			ClassType newClass = Language.CreateClass();
-			AddClass(newClass);
+			AddEntity(newClass);
 			return newClass;
 		}
 
-		protected virtual void AddClass(ClassType newClass)
-		{
-			AddEntity(newClass);
-		}
-
-		public bool InsertClass(ClassType newClass)
-		{
-			if (newClass != null && !entities.Contains(newClass) && newClass.Language == language)
-			{
-				AddClass(newClass);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/// <exception cref="InvalidOperationException">
+	    /// <exception cref="InvalidOperationException">
 		/// The language does not support structures.
 		/// </exception>
 		public StructureType AddStructure()
 		{
 			StructureType structure = Language.CreateStructure();
-			AddStructure(structure);
-			return structure;
-		}
-
-		protected virtual void AddStructure(StructureType structure)
-		{
 			AddEntity(structure);
-		}
-
-		public bool InsertStructure(StructureType structure)
-		{
-			if (structure != null && !entities.Contains(structure) &&
-				structure.Language == language)
-			{
-				AddStructure(structure);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return structure;
 		}
 
 		public InterfaceType AddInterface()
 		{
 			InterfaceType newInterface = Language.CreateInterface();
-			AddInterface(newInterface);
+			AddEntity(newInterface);
 			return newInterface;
 		}
-
-		protected virtual void AddInterface(InterfaceType newInterface)
-		{
-			AddEntity(newInterface);
-		}
-
-		public bool InsertInterface(InterfaceType newInterface)
-		{
-			if (newInterface != null && !entities.Contains(newInterface) &&
-				newInterface.Language == language)
-			{
-				AddInterface(newInterface);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
+		
 		public EnumType AddEnum()
 		{
 			EnumType newEnum = Language.CreateEnum();
-			AddEnum(newEnum);
+			AddEntity(newEnum);
 			return newEnum;
 		}
 
-		protected virtual void AddEnum(EnumType newEnum)
-		{
-			AddEntity(newEnum);
-		}
-
-		public bool InsertEnum(EnumType newEnum)
-		{
-			if (newEnum != null && !entities.Contains(newEnum) &&
-				newEnum.Language == language)
-			{
-				AddEnum(newEnum);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 
 		/// <exception cref="InvalidOperationException">
 		/// The language does not support delegates.
@@ -260,52 +181,16 @@ namespace NClass.Core
 		public DelegateType AddDelegate()
 		{
 			DelegateType newDelegate = Language.CreateDelegate();
-			AddDelegate(newDelegate);
+			AddEntity(newDelegate);
 			return newDelegate;
 		}
 
-		protected virtual void AddDelegate(DelegateType newDelegate)
-		{
-			AddEntity(newDelegate);
-		}
-
-		public bool InsertDelegate(DelegateType newDelegate)
-		{
-			if (newDelegate != null && !entities.Contains(newDelegate) &&
-				newDelegate.Language == language)
-			{
-				AddDelegate(newDelegate);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 
 		public Comment AddComment()
 		{
 			Comment comment = new Comment();
-			AddComment(comment);
-			return comment;
-		}
-
-		protected virtual void AddComment(Comment comment)
-		{
-			AddEntity(comment);
-		}
-
-		public bool InsertComment(Comment comment)
-		{
-			if (comment != null && !entities.Contains(comment))
-			{
-				AddComment(comment);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            AddEntity(comment);
+            return comment;
 		}
 
 		private void AddRelationship(Relationship relationship)
@@ -321,27 +206,8 @@ namespace NClass.Core
 		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
 		{
 			AssociationRelationship association = new AssociationRelationship(first, second);
-			AddAssociation(association);
-			return association;
-		}
-
-		protected virtual void AddAssociation(AssociationRelationship association)
-		{
-			AddRelationship(association);
-		}
-
-		public bool InsertAssociation(AssociationRelationship associaton)
-		{
-			if (associaton != null && !relationships.Contains(associaton) &&
-				entities.Contains(associaton.First) && entities.Contains(associaton.Second))
-			{
-				AddAssociation(associaton);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            AddRelationship(association);
+            return association;
 		}
 
 		/// <exception cref="ArgumentNullException">
@@ -352,20 +218,8 @@ namespace NClass.Core
 			AssociationRelationship composition = new AssociationRelationship(
 				first, second, AssociationType.Composition);
 
-			AddAssociation(composition);
-			return composition;
-		}
-
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="first"/> or <paramref name="second"/> is null.
-		/// </exception>
-		public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
-		{
-			AssociationRelationship aggregation = new AssociationRelationship(
-				first, second, AssociationType.Aggregation);
-
-			AddAssociation(aggregation);
-			return aggregation;
+            AddRelationship(composition);
+            return composition;
 		}
 
 		/// <exception cref="RelationshipException">
@@ -380,27 +234,8 @@ namespace NClass.Core
 			GeneralizationRelationship generalization =
 				new GeneralizationRelationship(derivedType, baseType);
 
-			AddGeneralization(generalization);
-			return generalization;
-		}
-
-		protected virtual void AddGeneralization(GeneralizationRelationship generalization)
-		{
-			AddRelationship(generalization);
-		}
-
-		public bool InsertGeneralization(GeneralizationRelationship generalization)
-		{
-			if (generalization != null && !relationships.Contains(generalization) &&
-				entities.Contains(generalization.First) && entities.Contains(generalization.Second))
-			{
-				AddGeneralization(generalization);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            AddRelationship(generalization);
+            return generalization;
 		}
 
 		/// <exception cref="RelationshipException">
@@ -415,27 +250,8 @@ namespace NClass.Core
 			RealizationRelationship realization = new RealizationRelationship(
 				implementer, baseType);
 
-			AddRealization(realization);
-			return realization;
-		}
-
-		protected virtual void AddRealization(RealizationRelationship realization)
-		{
-			AddRelationship(realization);
-		}
-
-		public bool InsertRealization(RealizationRelationship realization)
-		{
-			if (realization != null && !relationships.Contains(realization) &&
-				entities.Contains(realization.First) && entities.Contains(realization.Second))
-			{
-				AddRealization(realization);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+            AddRelationship(realization);
+            return realization;
 		}
 
 		/// <exception cref="ArgumentNullException">
@@ -445,30 +261,11 @@ namespace NClass.Core
 		{
 			DependencyRelationship dependency = new DependencyRelationship(first, second);
 
-			AddDependency(dependency);
-			return dependency;
+            AddRelationship(dependency);
+            return dependency;
 		}
 
-		protected virtual void AddDependency(DependencyRelationship dependency)
-		{
-			AddRelationship(dependency);
-		}
-
-		public bool InsertDependency(DependencyRelationship dependency)
-		{
-			if (dependency != null && !relationships.Contains(dependency) &&
-				entities.Contains(dependency.First) && entities.Contains(dependency.Second))
-			{
-				AddDependency(dependency);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/// <exception cref="RelationshipException">
+	    /// <exception cref="RelationshipException">
 		/// Cannot create relationship between the two types.
 		/// </exception>
 		/// <exception cref="ArgumentNullException">
@@ -478,60 +275,22 @@ namespace NClass.Core
 		{
 			NestingRelationship nesting = new NestingRelationship(parentType, innerType);
 
-			AddNesting(nesting);
+			AddRelationship(nesting);
 			return nesting;
 		}
-
-		protected virtual void AddNesting(NestingRelationship nesting)
-		{
-			AddRelationship(nesting);
-		}
-
-		public bool InsertNesting(NestingRelationship nesting)
-		{
-			if (nesting != null && !relationships.Contains(nesting) &&
-				entities.Contains(nesting.First) && entities.Contains(nesting.Second))
-			{
-				AddNesting(nesting);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
+        
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="comment"/> or <paramref name="entity"/> is null.
 		/// </exception>
-		public virtual CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
+		public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
 		{
 			CommentRelationship commentRelationship = new CommentRelationship(comment, entity);
 
-			AddCommentRelationship(commentRelationship);
+			AddRelationship(commentRelationship);
 			return commentRelationship;
 		}
 
-		protected virtual void AddCommentRelationship(CommentRelationship commentRelationship)
-		{
-			AddRelationship(commentRelationship);
-		}
-
-		public bool InsertCommentRelationship(CommentRelationship commentRelationship)
-		{
-			if (commentRelationship != null && !relationships.Contains(commentRelationship) &&
-				entities.Contains(commentRelationship.First) && entities.Contains(commentRelationship.Second))
-			{
-				AddCommentRelationship(commentRelationship);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public void RemoveEntity(IEntity entity)
+	    public void RemoveEntity(IEntity entity)
 		{
 			if (entities.Remove(entity))
 			{
@@ -567,76 +326,57 @@ namespace NClass.Core
 			}
 		}
 
-		void IProjectItem.Serialize(XmlElement node)
+		public void Serialize(XmlElement node)
 		{
-			Serialize(node);
-		}
+            if (node == null)
+                throw new ArgumentNullException("root");
 
-		void IProjectItem.Deserialize(XmlElement node)
+            XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
+            nameElement.InnerText = Name;
+            node.AppendChild(nameElement);
+
+            XmlElement languageElement = node.OwnerDocument.CreateElement("Language");
+            languageElement.InnerText = Language.AssemblyName;
+            node.AppendChild(languageElement);
+
+            SaveEntitites(node);
+            SaveRelationships(node);
+
+            OnSerializing(new SerializeEventArgs(node));
+        }
+
+		public void Deserialize(XmlElement node)
 		{
-			Deserialize(node);
-		}
+            if (node == null)
+                throw new ArgumentNullException("root");
+            loading = true;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		private void Serialize(XmlElement node)
-		{
-			if (node == null)
-				throw new ArgumentNullException("root");
+            XmlElement nameElement = node["Name"];
+            if (nameElement == null || nameElement.InnerText == "")
+                name = null;
+            else
+                name = nameElement.InnerText;
 
-			XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
-			nameElement.InnerText = Name;
-			node.AppendChild(nameElement);
+            XmlElement languageElement = node["Language"];
+            try
+            {
+                Language language = Language.GetLanguage(languageElement.InnerText);
+                if (language == null)
+                    throw new InvalidDataException("Invalid project language.");
 
-			XmlElement languageElement = node.OwnerDocument.CreateElement("Language");
-			languageElement.InnerText = Language.AssemblyName;
-			node.AppendChild(languageElement);
+                this.language = language;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Invalid project language.", ex);
+            }
 
-			SaveEntitites(node);
-			SaveRelationships(node);
+            LoadEntitites(node);
+            LoadRelationships(node);
 
-			OnSerializing(new SerializeEventArgs(node));
-		}
-
-		/// <exception cref="InvalidDataException">
-		/// The save format is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		private void Deserialize(XmlElement node)
-		{
-			if (node == null)
-				throw new ArgumentNullException("root");
-			loading = true;
-
-			XmlElement nameElement = node["Name"];
-			if (nameElement == null || nameElement.InnerText == "")
-				name = null;
-			else
-				name = nameElement.InnerText;
-
-			XmlElement languageElement = node["Language"];
-			try
-			{
-				Language language = Language.GetLanguage(languageElement.InnerText);
-				if (language == null)
-					throw new InvalidDataException("Invalid project language.");
-
-				this.language = language;
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidDataException("Invalid project language.", ex);
-			}
-
-			LoadEntitites(node);
-			LoadRelationships(node);
-
-			OnDeserializing(new SerializeEventArgs(node));
-			loading = false;
-		}
+            OnDeserializing(new SerializeEventArgs(node));
+            loading = false;
+        }
 
 		/// <exception cref="InvalidDataException">
 		/// The save format is corrupt and could not be loaded.
