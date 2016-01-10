@@ -89,6 +89,8 @@ namespace NClass.DiagramEditor.ClassDiagram
 			SelectionPen.DashPattern = new [] { DashSize, DashSize };
 		}
 
+        // ReSharper disable once UnusedMember.Global
+        // hide the public ctor
 		protected Diagram()
 		{
 		}
@@ -99,7 +101,6 @@ namespace NClass.DiagramEditor.ClassDiagram
 		public Diagram(Language language)
 		{
             model = new Model(language);
-		    model.EntityAdded += OnEntityRemoved;
 		}
 
 		/// <exception cref="ArgumentException">
@@ -111,9 +112,6 @@ namespace NClass.DiagramEditor.ClassDiagram
 		public Diagram(string name, Language language)
 		{
             model = new Model(name, language);
-            model.EntityRemoved += OnEntityRemoved;
-		    model.RelationRemoved += OnRelationRemoved;
-		    model.Deserializing += OnDeserializing;
 		}
 
 	    public string Name
@@ -2181,7 +2179,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 	    private EnumType AddEnum(EnumType enumType)
 	    {
             AddShape(new EnumShape(enumType));
-            return model.AddEnum();
+            return enumType;
         }
 
         public Comment AddComment()
