@@ -18,8 +18,8 @@ using System.Xml;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
@@ -82,6 +82,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         bool loading = false;
 
         private Model model;
+	    private string name;
 
 		static Diagram()
 		{
@@ -111,14 +112,29 @@ namespace NClass.DiagramEditor.ClassDiagram
 		/// </exception>
 		public Diagram(string name, Language language)
 		{
-            model = new Model(name, language);
+		    this.name = name;
+            model = new Model(language);
 		}
 
 	    public string Name
 	    {
-	        get { return model.Name; }
-	        set { model.Name = value; }
-	    }
+            get
+            {
+                if (name == null)
+                    return Strings.Untitled;
+                else
+                    return name;
+            }
+            set
+            {
+                if (name != value && value != null)
+                {
+                    name = value;
+                    OnRenamed(EventArgs.Empty);
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
 	    public Project Project { get; set; }
 
@@ -2195,35 +2211,65 @@ namespace NClass.DiagramEditor.ClassDiagram
         }
 
 	    public bool IsDirty {
-	        get { return isDirty && model.IsDirty; }
+	        get { return isDirty; }
 	    }
         // review the conistency of the model (e.g. Model.IsDirty, etc.).
 	    public void Clean()
 	    {
             isDirty = false;
 	    }
+        public bool IsUntitled
+        {
+            get
+            {
+                return (name == null);
+            }
+        }
 
-	    public event EventHandler Closing;
-	    public bool IsUntitled {
-	        get { return model.IsUntitled; }
-	    }
-	    public void Close()
+        public event EventHandler Closing;
+        
+        public void Close()
 	    {
-	        model.Close();
             if (Closing != null)
                 Closing(this, EventArgs.Empty);
         }
 
 	    public void Serialize(XmlElement node)
 	    {
+            if (node == null)
+                throw new ArgumentNullException("root");
+
+            XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
+            nameElement.InnerText = this.Name;
+            node.AppendChild(nameElement);
+
             model.Serialize(node);
 	    }
 
 	    public void Deserialize(XmlElement node)
 	    {
-	        if (model == null)
+            XmlElement nameElement = node["Name"];
+            if (nameElement == null || nameElement.InnerText == "")
+                this.name = null;
+            else
+                this.name = nameElement.InnerText;
+
+	        Language language = null;
+            XmlElement languageElement = node["Language"];
+            try
+            {
+                language = Language.GetLanguage(languageElement.InnerText);
+                if (language == null)
+                    throw new InvalidDataException("Invalid project language.");
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Invalid project language.", ex);
+            }
+
+            if (model == null)
 	        {
-	            model = new Model(Language.GetLanguage("csharp"));
+                model = new Model(language);
                 model.EntityRemoved += OnEntityRemoved;
 	            model.EntityAdded += OnEntityAdded;
                 model.RelationRemoved += OnRelationRemoved;
@@ -2233,5 +2279,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 	        model.Deserialize(node);
 	        model.EntityAdded -= OnEntityAdded;
 	    }
-	}
+
+        protected virtual void OnRenamed(EventArgs e)
+        {
+            if (Renamed != null)
+                Renamed(this, e);
+        }
+    }
 }

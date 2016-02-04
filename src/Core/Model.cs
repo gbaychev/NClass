@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Net.Mail;
 using NClass.Translations;
 
 namespace NClass.Core
 {
 	//TODO: átdolgozni
-	public class Model : IProjectItem
+	public class Model : IModifiable
 	{
-		string name;
 		Language language;
 		List<IEntity> entities = new List<IEntity>();
 		List<Relationship> relationships = new List<Relationship>();
@@ -19,8 +19,6 @@ namespace NClass.Core
 		bool loading = false;
 
 		public event EventHandler Modified;
-		public event EventHandler Renamed;
-		public event EventHandler Closing;
 		public event EntityEventHandler EntityAdded;
 		public event EntityEventHandler EntityRemoved;
 		public event RelationshipEventHandler RelationAdded;
@@ -30,52 +28,18 @@ namespace NClass.Core
 
 		protected Model()
 		{
-			name = Strings.Untitled;
 			language = null;
 		}
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>
-		public Model(Language language) : this(null, language)
-		{
-		}
-
-        /// <exception cref="ArgumentException">
-		/// <paramref name="name"/> cannot be empty string.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="language"/> is null.
-		/// </exception>
-		public Model(string name, Language language)
+		public Model(Language language)
 		{
 			if (language == null)
-				throw new ArgumentNullException("language");
-			if (name != null && name.Length == 0)
-				throw new ArgumentException("Name cannot empty string.");
+				throw new ArgumentException("Language cannot be null");
 
-			this.name = name;
 			this.language = language;
-		}
-
-		public string Name
-		{
-			get
-			{
-				if (name == null)
-					return Strings.Untitled;
-				else
-					return name;
-			}
-			set
-			{
-				if (name != value && value != null)
-				{
-					name = value;
-					OnRenamed(EventArgs.Empty);
-					OnModified(EventArgs.Empty);
-				}
-			}
 		}
 
 		public Language Language
@@ -87,14 +51,6 @@ namespace NClass.Core
 		{
 			get { return project; }
 			set { project = value; }
-		}
-
-		public bool IsUntitled
-		{
-			get
-			{
-				return (name == null);
-			}
 		}
 
 		public bool IsDirty
@@ -114,11 +70,6 @@ namespace NClass.Core
 		{
 			isDirty = false;
 			//TODO: tagokat is tisztítani!
-		}
-
-		public void Close()
-		{
-			OnClosing(EventArgs.Empty);
 		}
 
 		public IEnumerable<IEntity> Entities
@@ -328,13 +279,6 @@ namespace NClass.Core
 
 		public void Serialize(XmlElement node)
 		{
-            if (node == null)
-                throw new ArgumentNullException("root");
-
-            XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
-            nameElement.InnerText = Name;
-            node.AppendChild(nameElement);
-
             XmlElement languageElement = node.OwnerDocument.CreateElement("Language");
             languageElement.InnerText = Language.AssemblyName;
             node.AppendChild(languageElement);
@@ -350,26 +294,6 @@ namespace NClass.Core
             if (node == null)
                 throw new ArgumentNullException("root");
             loading = true;
-
-            XmlElement nameElement = node["Name"];
-            if (nameElement == null || nameElement.InnerText == "")
-                name = null;
-            else
-                name = nameElement.InnerText;
-
-            XmlElement languageElement = node["Language"];
-            try
-            {
-                Language language = Language.GetLanguage(languageElement.InnerText);
-                if (language == null)
-                    throw new InvalidDataException("Invalid project language.");
-
-                this.language = language;
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidDataException("Invalid project language.", ex);
-            }
 
             LoadEntitites(node);
             LoadRelationships(node);
@@ -623,24 +547,12 @@ namespace NClass.Core
 				Modified(this, e);
 		}
 
-		protected virtual void OnRenamed(EventArgs e)
-		{
-			if (Renamed != null)
-				Renamed(this, e);
-		}
-
-		protected virtual void OnClosing(EventArgs e)
-		{
-			if (Closing != null)
-				Closing(this, e);
-		}
-
-		public override string ToString()
-		{
-			if (IsDirty)
-				return Name + "*";
-			else
-				return Name;
-		}
+		//public override string ToString()
+		//{
+		//	if (IsDirty)
+		//		return Name + "*";
+		//	else
+		//		return Name;
+		//}
 	}
 }

@@ -34,7 +34,7 @@ namespace NClass.Core
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="node"/> is null.
-		/// </exception>+
+		/// </exception>
 		void Serialize(XmlElement node);
 
 		/// <exception cref="InvalidDataException">

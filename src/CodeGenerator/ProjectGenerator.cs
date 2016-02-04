@@ -38,7 +38,9 @@ namespace NClass.CodeGenerator
 
 		public string ProjectName
 		{
-			get { return model.Name; }
+            // TODO: add the model.Diagram.Name here
+			//get { return model.Name; }
+		    get { return string.Empty; }
 		}
 
 		public abstract string RelativeProjectFileName
@@ -61,7 +63,9 @@ namespace NClass.CodeGenerator
 			get
 			{
 				string projectName = Model.Project.Name;
-				string modelName = Model.Name;
+                // TODO: add Model.Diagram.Name
+				//string modelName = Model.Name;
+			    var modelName = "";
 
 				if (string.Equals(projectName, modelName, StringComparison.OrdinalIgnoreCase))
 					return modelName;
