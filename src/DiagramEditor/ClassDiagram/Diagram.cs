@@ -1320,11 +1320,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 		private void AddShape(Shape shape)
 		{
 			shape.Diagram = this;
-			shape.Modified += new EventHandler(element_Modified);
-			shape.Activating += new EventHandler(element_Activating);
-			shape.Dragging += new MoveEventHandler(shape_Dragging);
-			shape.Resizing += new ResizeEventHandler(shape_Resizing);
-			shape.SelectionChanged += new EventHandler(shape_SelectionChanged);
+			shape.Modified += element_Modified;
+			shape.Activating += element_Activating;
+			shape.Dragging += shape_Dragging;
+			shape.Resizing += shape_Resizing;
+			shape.SelectionChanged += shape_SelectionChanged;
 			shapes.AddFirst(shape);
 			RecalculateSize();
 		}
@@ -1482,11 +1482,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 				OnSatusChanged(EventArgs.Empty);
 			}
 			shape.Diagram = null;
-			shape.Modified -= new EventHandler(element_Modified);
-			shape.Activating -= new EventHandler(element_Activating);
-			shape.Dragging -= new MoveEventHandler(shape_Dragging);
-			shape.Resizing -= new ResizeEventHandler(shape_Resizing);
-			shape.SelectionChanged -= new EventHandler(shape_SelectionChanged);
+			shape.Modified -= element_Modified;
+			shape.Activating -= element_Activating;
+			shape.Dragging -= shape_Dragging;
+			shape.Resizing -= shape_Resizing;
+			shape.SelectionChanged -= shape_SelectionChanged;
 			shapes.Remove(shape);
 			RecalculateSize();
 		}
@@ -1515,11 +1515,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 		private void AddConnection(Connection connection)
 		{
 			connection.Diagram = this;
-			connection.Modified += new EventHandler(element_Modified);
-			connection.Activating += new EventHandler(element_Activating);
-			connection.SelectionChanged += new EventHandler(connection_SelectionChanged);
-			connection.RouteChanged += new EventHandler(connection_RouteChanged);
-			connection.BendPointMove += new BendPointEventHandler(connection_BendPointMove);
+			connection.Modified += element_Modified;
+			connection.Activating += element_Activating;
+			connection.SelectionChanged += connection_SelectionChanged;
+			connection.RouteChanged += connection_RouteChanged;
+			connection.BendPointMove += connection_BendPointMove;
 			connections.AddFirst(connection);
 			RecalculateSize();
 		}
@@ -1534,11 +1534,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 				OnSatusChanged(EventArgs.Empty);
 			}
 			connection.Diagram = null;
-			connection.Modified -= new EventHandler(element_Modified);
-			connection.Activating += new EventHandler(element_Activating);
-			connection.SelectionChanged -= new EventHandler(connection_SelectionChanged);
-			connection.RouteChanged -= new EventHandler(connection_RouteChanged);
-			connection.BendPointMove -= new BendPointEventHandler(connection_BendPointMove);
+			connection.Modified -= element_Modified;
+			connection.Activating += element_Activating;
+			connection.SelectionChanged -= connection_SelectionChanged;
+			connection.RouteChanged -= connection_RouteChanged;
+			connection.BendPointMove -= connection_BendPointMove;
 			connections.Remove(connection);			
 			RecalculateSize();
 		}
@@ -2140,84 +2140,75 @@ namespace NClass.DiagramEditor.ClassDiagram
 
 	    public ClassType AddClass()
 	    {
-	        var classType = model.AddClass();
-	        return AddClass(classType);
+	        return model.AddClass();
 	    }
 
-	    private ClassType AddClass(ClassType classType)
+	    private void AddClass(ClassType classType)
 	    {
             AddShape(new ClassShape(classType));
-            return classType;
         }
 
 	    public StructureType AddStructure()
 	    {
-	        var structureType = model.AddStructure();
-	        return AddStructure(structureType);
+	        return model.AddStructure();
 	    }
 
-	    private StructureType AddStructure(StructureType structureType)
+	    private void AddStructure(StructureType structureType)
 	    {
             AddShape(new StructureShape(structureType));
-            return structureType;
         }
 
 	    public InterfaceType AddInterface()
 	    {
-	        var interfaceType = model.AddInterface();
-	        return AddInterface(interfaceType);
+	        return model.AddInterface();
 	    }
 
-	    private InterfaceType AddInterface(InterfaceType interfaceType)
+	    private void AddInterface(InterfaceType interfaceType)
 	    {
             AddShape(new InterfaceShape(interfaceType));
-            return interfaceType;
         }
 
 	    public DelegateType AddDelegate()
 	    {
-	        var delegateType = model.AddDelegate();
-	        return AddDelegate(delegateType);
+	        return model.AddDelegate();
 	    }
 
-	    private DelegateType AddDelegate(DelegateType delegateType)
+	    private void AddDelegate(DelegateType delegateType)
 	    {
             AddShape(new DelegateShape(delegateType));
-            return delegateType;
         }
 
 	    public EnumType AddEnum()
 	    {
-	        var enumType = model.AddEnum();
-	        return AddEnum(enumType);
+	        return model.AddEnum();
 	    }
 
-	    private EnumType AddEnum(EnumType enumType)
+	    private void AddEnum(EnumType enumType)
 	    {
             AddShape(new EnumShape(enumType));
-            return enumType;
         }
 
         public Comment AddComment()
         {
-            Comment comment = model.AddComment();
-            return AddComment(comment);
+            return model.AddComment();
         }
 
-        private Comment AddComment(Comment comment)
+        private void AddComment(Comment comment)
         {
             AddShape(new CommentShape(comment));
-            return comment;
         }
 
-	    public bool IsDirty {
+	    public bool IsDirty
+        {
 	        get { return isDirty; }
 	    }
+
         // review the conistency of the model (e.g. Model.IsDirty, etc.).
 	    public void Clean()
 	    {
             isDirty = false;
 	    }
+
         public bool IsUntitled
         {
             get
@@ -2277,7 +2268,6 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model.Deserializing += OnDeserializing;
             }
 	        model.Deserialize(node);
-	        model.EntityAdded -= OnEntityAdded;
 	    }
 
         protected virtual void OnRenamed(EventArgs e)

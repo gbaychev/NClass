@@ -90,7 +90,7 @@ namespace NClass.Core
 		private void AddEntity(IEntity entity)
 		{
 			entities.Add(entity);
-			entity.Modified += new EventHandler(ElementChanged);
+			entity.Modified += ElementChanged;
 			OnEntityAdded(new EntityEventArgs(entity));
 		}
 
@@ -147,7 +147,7 @@ namespace NClass.Core
 		private void AddRelationship(Relationship relationship)
 		{
 			relationships.Add(relationship);
-			relationship.Modified += new EventHandler(ElementChanged);
+			relationship.Modified += ElementChanged;
 			OnRelationAdded(new RelationshipEventArgs(relationship));
 		}
 
@@ -245,7 +245,7 @@ namespace NClass.Core
 		{
 			if (entities.Remove(entity))
 			{
-				entity.Modified -= new EventHandler(ElementChanged);
+				entity.Modified -= ElementChanged;
 				RemoveRelationships(entity);
 				OnEntityRemoved(new EntityEventArgs(entity));
 			}
@@ -259,7 +259,7 @@ namespace NClass.Core
 				if (relationship.First == entity || relationship.Second == entity)
 				{
 					relationship.Detach();
-					relationship.Modified -= new EventHandler(ElementChanged);
+					relationship.Modified -= ElementChanged;
 					relationships.RemoveAt(i--);
 					OnRelationRemoved(new RelationshipEventArgs(relationship));
 				}
@@ -271,7 +271,7 @@ namespace NClass.Core
 			if (relationships.Contains(relationship))
 			{
 				relationship.Detach();
-				relationship.Modified -= new EventHandler(ElementChanged);
+				relationship.Modified -= ElementChanged;
 				relationships.Remove(relationship);
 				OnRelationRemoved(new RelationshipEventArgs(relationship));
 			}
