@@ -15,9 +15,6 @@
 
 using System;
 using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
 using System.Collections.Generic;
 using System.Reflection;
 using System.ComponentModel;
@@ -26,7 +23,7 @@ using NClass.Core;
 using NClass.CSharp;
 using NClass.Java;
 using NClass.DiagramEditor;
-using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.Diagrams;
 using NClass.GUI.Dialogs;
 using NClass.Translations;
 

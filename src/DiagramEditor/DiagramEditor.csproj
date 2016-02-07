@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
-    <Compile Include="ClassDiagram\ChevronMode.cs" />
+    <Compile Include="Diagrams\ChevronMode.cs" />
     <Compile Include="ClassDiagram\Connections\Connection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
     <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="ClassDiagram\ContextMenus\BlankContextMenu.cs" />
     <Compile Include="ClassDiagram\ContextMenus\DiagramContextMenu.cs" />
     <Compile Include="ClassDiagram\ConnectionCreator.cs" />
-    <Compile Include="ClassDiagram\ClearTypeMode.cs" />
+    <Compile Include="Diagrams\ClearTypeMode.cs" />
     <Compile Include="ClassDiagram\Editors\FloatingEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,7 +85,7 @@
     <Compile Include="ClassDiagram\Editors\CommentEditor.Designer.cs">
       <DependentUpon>CommentEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassDiagram\ElementContainer.cs" />
+    <Compile Include="Diagrams\ElementContainer.cs" />
     <Compile Include="ClassDiagram\DiagramDynamicMenu.cs">
     </Compile>
     <Compile Include="ClassDiagram\DiagramDynamicMenu.designer.cs">
@@ -213,21 +213,21 @@
     <Compile Include="IDocument.cs" />
     <Compile Include="DocumentEventArgs.cs" />
     <Compile Include="DocumentManager.cs" />
-    <Compile Include="ClassDiagram\MoveEventArgs.cs" />
+    <Compile Include="Diagrams\MoveEventArgs.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ImageCreator.cs" />
-    <Compile Include="ClassDiagram\Diagram.cs">
+    <Compile Include="Diagrams\Diagram.cs">
     </Compile>
     <Compile Include="ClassDiagram\Connections\BendPoint.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="ClassDiagram\Shapes\ResizeEventArgs.cs" />
     <Compile Include="ToolStripSimplifiedRenderer.cs">
     </Compile>
-    <Compile Include="ClassDiagram\DiagramElement.cs" />
+    <Compile Include="Diagrams\DiagramElement.cs" />
     <Compile Include="ClassDiagram\Icons.cs" />
     <Compile Include="MonoHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -361,6 +361,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

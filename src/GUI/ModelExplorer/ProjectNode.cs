@@ -14,15 +14,14 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.Java;
 using NClass.CSharp;
-using NClass.DiagramEditor.ClassDiagram;
 using NClass.GUI.Properties;
 using NClass.Translations;
 using NClass.DiagramEditor;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI.ModelExplorer
 {

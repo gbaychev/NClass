@@ -9,6 +9,7 @@ using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Diagrams;
 using NReflect;
 using NReflect.Filter;
 using NReflect.NREntities;

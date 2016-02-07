@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using NClass.AssemblyImport.Lang;
 using NClass.CSharp;
 using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.Diagrams;
 using NClass.GUI;
 
 namespace NClass.AssemblyImport

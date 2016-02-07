@@ -62,9 +62,9 @@ namespace NClass.DiagramEditor {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("AsNeeded")]
-        public global::NClass.DiagramEditor.ClassDiagram.ChevronMode ShowChevron {
+        public global::NClass.DiagramEditor.Diagrams.ChevronMode ShowChevron {
             get {
-                return ((global::NClass.DiagramEditor.ClassDiagram.ChevronMode)(this["ShowChevron"]));
+                return ((global::NClass.DiagramEditor.Diagrams.ChevronMode)(this["ShowChevron"]));
             }
             set {
                 this["ShowChevron"] = value;
@@ -122,9 +122,9 @@ namespace NClass.DiagramEditor {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Never")]
-        public global::NClass.DiagramEditor.ClassDiagram.ClearTypeMode UseClearType {
+        public global::NClass.DiagramEditor.Diagrams.ClearTypeMode UseClearType {
             get {
-                return ((global::NClass.DiagramEditor.ClassDiagram.ClearTypeMode)(this["UseClearType"]));
+                return ((global::NClass.DiagramEditor.Diagrams.ClearTypeMode)(this["UseClearType"]));
             }
             set {
                 this["UseClearType"] = value;

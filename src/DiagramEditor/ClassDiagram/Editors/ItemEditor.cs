@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using NClass.Translations;
 using System.ComponentModel;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {

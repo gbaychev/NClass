@@ -15,11 +15,10 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.Translations;
-using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI.ModelExplorer
 {

@@ -15,32 +15,23 @@
 
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using NClass.Core;
-using NClass.DiagramEditor.ClassDiagram.Shapes;
-using NClass.DiagramEditor.Diagrams;
 
-namespace NClass.DiagramEditor.ClassDiagram.Editors
+namespace NClass.DiagramEditor.Diagrams
 {
-	public abstract class TypeEditor : FloatingEditor
+	public delegate void MoveEventHandler(object sender, MoveEventArgs e);
+
+	public class MoveEventArgs : EventArgs
 	{
-		internal sealed override void Relocate(DiagramElement element)
+		Size offset;
+
+		public MoveEventArgs(Size offset)
 		{
-			Relocate((TypeShape) element);
+			this.offset = offset;
 		}
 
-		internal void Relocate(TypeShape shape)
+		public Size Offset
 		{
-			Diagram diagram = shape.Diagram;
-			if (diagram != null)
-			{
-				Point absolute = new Point(shape.Right, shape.Top);
-				Size relative = new Size(
-					(int) (absolute.X * diagram.Zoom) - diagram.Offset.X + MarginSize,
-					(int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y);
-
-				this.Location = ParentLocation + relative;
-			}
+			get { return offset; }
 		}
 	}
 }

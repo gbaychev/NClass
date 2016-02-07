@@ -14,19 +14,14 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Xml;
 using System.Drawing;
 using System.Drawing.Text;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using NClass.Core;
-using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
-using NClass.DiagramEditor.ClassDiagram.Connections;
-using NClass.Translations;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor
 {

@@ -14,21 +14,22 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Xml;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 using NClass.Core;
-using NClass.DiagramEditor.ClassDiagram.Shapes;
-using NClass.DiagramEditor.ClassDiagram.Dialogs;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
+using NClass.DiagramEditor.ClassDiagram.Dialogs;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Translations;
 
-namespace NClass.DiagramEditor.ClassDiagram
+namespace NClass.DiagramEditor.Diagrams
 {
 	public class Diagram : IDocument, IEditable, IPrintable
 	{

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Properties;
 using NClass.Translations;
 

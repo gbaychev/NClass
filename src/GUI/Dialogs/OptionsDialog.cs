@@ -20,7 +20,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using NClass.DiagramEditor;
 using NClass.Translations;
-using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI.Dialogs
 {
