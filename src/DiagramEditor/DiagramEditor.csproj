@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
+    <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
     <Compile Include="ClassDiagram\Connections\Connection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="ClassDiagram\Editors\CommentEditor.Designer.cs">
       <DependentUpon>CommentEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Diagrams\DiagramType.cs" />
     <Compile Include="Diagrams\ElementContainer.cs" />
     <Compile Include="ClassDiagram\DiagramDynamicMenu.cs">
     </Compile>
@@ -152,6 +154,7 @@
     <Compile Include="ClassDiagram\Editors\EditorWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Diagrams\IConnectionCreator.cs" />
     <Compile Include="GdiGraphics.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="IClipboardItem.cs" />

@@ -17,6 +17,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.Translations;
 using NClass.DiagramEditor.Diagrams;
 
@@ -63,7 +64,7 @@ namespace NClass.GUI.ModelExplorer
 			TreeNode parent = Parent;
 
 			this.Delete();
-			Diagram diagram = new Diagram(Settings.Default.GetDefaultLanguage());
+			Diagram diagram = new ClassDiagram(Settings.Default.GetDefaultLanguage());
 			project.Add(diagram);
 		}
 

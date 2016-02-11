@@ -31,9 +31,9 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	public class Diagram : IDocument, IEditable, IPrintable
+	public abstract class Diagram : IDocument
 	{
-		private enum State
+		protected enum State
 		{
 			Normal,
 			Multiselecting,
@@ -49,24 +49,24 @@ namespace NClass.DiagramEditor.Diagrams
 		static readonly Size MinSize = new Size(3000, 2000);
 		public static readonly Pen SelectionPen;
 
-		ElementList<Shape> shapes = new ElementList<Shape>();
-		ElementList<Connection> connections = new ElementList<Connection>();
-		DiagramElement activeElement = null;
-		Point offset = Point.Empty;
-		float zoom = 1.0F;
-		Size size = MinSize;
+		protected ElementList<Shape> shapes = new ElementList<Shape>();
+		protected ElementList<Connection> connections = new ElementList<Connection>();
+		protected DiagramElement activeElement = null;
+		protected Point offset = Point.Empty;
+		protected float zoom = 1.0F;
+		protected Size size = MinSize;
 
-		State state = State.Normal;
-		bool selectioning = false;
-		RectangleF selectionFrame = RectangleF.Empty;
-		PointF mouseLocation = PointF.Empty;
-		bool redrawSuspended = false;
-		int selectedShapeCount = 0;
-		int selectedConnectionCount = 0;
-		Rectangle shapeOutline = Rectangle.Empty;
-		EntityType shapeType;
-		EntityType newShapeType = EntityType.Class;
-		ConnectionCreator connectionCreator = null;
+		protected State state = State.Normal;
+		protected bool selectioning = false;
+		protected RectangleF selectionFrame = RectangleF.Empty;
+		protected PointF mouseLocation = PointF.Empty;
+		protected bool redrawSuspended = false;
+		protected int selectedShapeCount = 0;
+		protected int selectedConnectionCount = 0;
+		protected Rectangle shapeOutline = Rectangle.Empty;
+		protected EntityType shapeType;
+        protected IConnectionCreator connectionCreator = null;
+	    protected EntityType newShapeType;
 
         public event EventHandler Modified;
         public event EventHandler OffsetChanged;
@@ -82,8 +82,10 @@ namespace NClass.DiagramEditor.Diagrams
         bool isDirty = false;
         bool loading = false;
 
-        private Model model;
-	    private string name;
+        protected Model model;
+	    protected string name;
+
+	    public DiagramType DiagramType { get; protected set; }
 
 		static Diagram()
 		{
@@ -117,7 +119,15 @@ namespace NClass.DiagramEditor.Diagrams
             model = new Model(language);
 		}
 
-	    public string Name
+        #region Abstract Methods and Properties
+        public abstract void KeyDown(KeyEventArgs e);
+        public abstract void CreateShape(EntityType type);
+        public abstract Shape AddShape(EntityType type);
+        protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
+        protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
+        #endregion
+
+        public string Name
 	    {
             get
             {
@@ -546,7 +556,7 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-		private void RecalculateSize()
+		protected void RecalculateSize()
 		{
 			const int Padding = 500;
 			int rightMax = MinSize.Width, bottomMax = MinSize.Height;
@@ -1166,101 +1176,7 @@ namespace NClass.DiagramEditor.Diagrams
 				element.DoubleClicked(e);
 			}
 		}
-
-		public void KeyDown(KeyEventArgs e)
-		{
-			//TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
-			RedrawSuspended = true;
-			
-			// Delete
-			if (e.KeyCode == Keys.Delete)
-			{
-				if (SelectedElementCount >= 2 || ActiveElement == null ||
-					!ActiveElement.DeleteSelectedMember())
-				{
-					DeleteSelectedElements();
-				}
-			}
-			// Escape
-			else if (e.KeyCode == Keys.Escape)
-			{
-				state = State.Normal;
-				DeselectAll();
-				Redraw();
-			}
-			// Enter
-			else if (e.KeyCode == Keys.Enter && ActiveElement != null)
-			{
-				ActiveElement.ShowEditor();
-			}
-			// Up
-			else if (e.KeyCode == Keys.Up && ActiveElement != null)
-			{
-				if (e.Shift || e.Control)
-					ActiveElement.MoveUp();
-				else
-					ActiveElement.SelectPrevious();
-			}
-			// Down
-			else if (e.KeyCode == Keys.Down && ActiveElement != null)
-			{
-				if (e.Shift || e.Control)
-					ActiveElement.MoveDown();
-				else
-					ActiveElement.SelectNext();				
-			}
-			// Ctrl + X
-			else if (e.KeyCode == Keys.X && e.Modifiers == Keys.Control)
-			{
-				Cut();
-			}
-			// Ctrl + C
-			else if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
-			{
-				Copy();
-			}
-			// Ctrl + V
-			else if (e.KeyCode == Keys.V && e.Modifiers == Keys.Control)
-			{
-				Paste();
-			}
-			// Ctrl + Shift + ?
-			else if (e.Modifiers == (Keys.Control | Keys.Shift))
-			{
-				switch (e.KeyCode)
-				{
-					case Keys.A:
-						CreateShape();
-						break;
-
-					case Keys.C:
-						CreateShape(EntityType.Class);
-						break;
-
-					case Keys.S:
-						CreateShape(EntityType.Structure);
-						break;
-
-					case Keys.I:
-						CreateShape(EntityType.Interface);
-						break;
-
-					case Keys.E:
-						CreateShape(EntityType.Enum);
-						break;
-
-					case Keys.D:
-						CreateShape(EntityType.Delegate);
-						break;
-
-					case Keys.N:
-						CreateShape(EntityType.Comment);
-						break;
-				}
-			}
-			RedrawSuspended = false;
-		}
-
+        
 		public RectangleF GetPrintingArea(bool selectedOnly)
 		{
 			RectangleF area = Rectangle.Empty;
@@ -1318,7 +1234,7 @@ namespace NClass.DiagramEditor.Diagrams
 			OnHidingWindow(new PopupWindowEventArgs(window));
 		}
 
-		private void AddShape(Shape shape)
+		protected void AddShape(Shape shape)
 		{
 			shape.Diagram = this;
 			shape.Modified += element_Modified;
@@ -1330,7 +1246,7 @@ namespace NClass.DiagramEditor.Diagrams
 			RecalculateSize();
 		}
 
-		private void element_Modified(object sender, EventArgs e)
+		protected void element_Modified(object sender, EventArgs e)
 		{
 			if (!RedrawSuspended)
 				RequestRedrawIfNeeded();
@@ -1493,7 +1409,7 @@ namespace NClass.DiagramEditor.Diagrams
 		}
 
 		//TODO: legyenek inkább hivatkozások a shape-ekhez
-		private Shape GetShape(IEntity entity)
+		protected Shape GetShape(IEntity entity)
 		{
 			foreach (Shape shape in shapes)
 			{
@@ -1513,7 +1429,7 @@ namespace NClass.DiagramEditor.Diagrams
 			return null;
 		}
 
-		private void AddConnection(Connection connection)
+		protected void AddConnection(Connection connection)
 		{
 			connection.Diagram = this;
 			connection.Modified += element_Modified;
@@ -1629,146 +1545,15 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-		public void CreateShape()
-		{
-			CreateShape(newShapeType);
-		}
-
-		public void CreateShape(EntityType type)
-		{
-			state = State.CreatingShape;
-			shapeType = type;
-			newShapeType = type;
-
-			switch (type)
-			{
-				case EntityType.Class:
-				case EntityType.Delegate:
-				case EntityType.Enum:
-				case EntityType.Interface:
-				case EntityType.Structure:
-					shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
-					break;
-
-				case EntityType.Comment:
-					shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
-					break;
-			}
-			shapeOutline.Location = new Point((int) mouseLocation.X, (int) mouseLocation.Y);
-			Redraw();
-		}
-
-		public Shape AddShape(EntityType type)
-		{
-			switch (type)
-			{
-				case EntityType.Class:
-					AddClass();
-					break;
-
-				case EntityType.Comment:
-					AddComment();
-					break;
-
-				case EntityType.Delegate:
-					AddDelegate();
-					break;
-
-				case EntityType.Enum:
-					AddEnum();
-					break;
-
-				case EntityType.Interface:
-					AddInterface();
-					break;
-
-				case EntityType.Structure:
-					AddStructure();
-					break;
-
-				default:
-					return null;
-			}
-
-			RecalculateSize();
-			return shapes.FirstValue;
-		}
-
-		public void CreateConnection(RelationshipType type)
-		{
-			connectionCreator = new ConnectionCreator(this, type);
-			state = State.CreatingConnection;
-		}
-
-	    protected virtual void OnEntityAdded(object sender, EntityEventArgs e)
-	    {
-            switch (e.Entity.EntityType)
-            {
-                case EntityType.Class:
-                    AddClass(e.Entity as ClassType);
-                    break;
-
-                case EntityType.Comment:
-                    AddComment(e.Entity as Comment);
-                    break;
-
-                case EntityType.Delegate:
-                    AddDelegate(e.Entity as DelegateType);
-                    break;
-
-                case EntityType.Enum:
-                    AddEnum(e.Entity as EnumType);
-                    break;
-
-                case EntityType.Interface:
-                    AddInterface(e.Entity as InterfaceType);
-                    break;
-
-                case EntityType.Structure:
-                    AddStructure(e.Entity as StructureType);
-                    break;
-            }
-
-            RecalculateSize();
+        public void CreateShape()
+        {
+            CreateShape(newShapeType);
         }
 
-	    protected virtual void OnRelationAdded(object sender, RelationshipEventArgs e)
-	    {
-	        switch (e.Relationship.RelationshipType)
-	        {
-                case RelationshipType.Association:
-	                AddAssociation(e.Relationship as AssociationRelationship);
-                    break;
-
-                case RelationshipType.Composition:
-                    AddComposition(e.Relationship as AssociationRelationship);
-                    break;
-
-                case RelationshipType.Aggregation:
-	                AddAssociation(e.Relationship as AssociationRelationship);
-                    break;
-
-                case RelationshipType.Generalization:
-	                AddGeneralization(e.Relationship as GeneralizationRelationship);
-                    break;
-
-                case RelationshipType.Realization:
-	                AddRealization(e.Relationship as RealizationRelationship);
-                    break;
-
-                case RelationshipType.Dependency:
-	                AddDependency(e.Relationship as DependencyRelationship);
-                    break;
-
-                case RelationshipType.Nesting:
-	                AddNesting(e.Relationship as NestingRelationship);
-                    break;
-
-                case RelationshipType.Comment:
-	                AddCommentRelationship(e.Relationship as CommentRelationship);
-                    break;
-            }
-	    }
+        public virtual void CreateConnection(RelationshipType type)
+		{
+			state = State.CreatingConnection;
+		}
         
 		protected virtual void OnEntityRemoved(object sender, EntityEventArgs e)
 		{
@@ -1887,317 +1672,6 @@ namespace NClass.DiagramEditor.Diagrams
         public Language Language { get { return model.Language; } }
 
 	    public bool IsEmpty { get { return model.IsEmpty; } }
-
-        public bool InsertStructure(StructureType structure)
-        {
-            if (structure != null && !model.Entities.Contains(structure) &&
-                structure.Language == model.Language)
-            {
-                AddStructure(structure);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool InsertInterface(InterfaceType newInterface)
-        {
-            if (newInterface != null && !model.Entities.Contains(newInterface) &&
-                newInterface.Language == model.Language)
-            {
-                AddInterface(newInterface);
-                return true;
-            }
-         
-            return false;
-        }
-
-        public bool InsertEnum(EnumType newEnum)
-        {
-            if (newEnum != null && !model.Entities.Contains(newEnum) &&
-                newEnum.Language == model.Language)
-            {
-                AddEnum(newEnum);
-                return true;
-            }
-            
-                return false;
-        }
-
-        public bool InsertDelegate(DelegateType newDelegate)
-        {
-            if (newDelegate != null && !model.Entities.Contains(newDelegate) &&
-                newDelegate.Language == model.Language)
-            {
-                AddDelegate(newDelegate);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertComment(Comment comment)
-        {
-            if (comment != null && !model.Entities.Contains(comment))
-            {
-                AddComment(comment);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertClass(ClassType newClass)
-        {
-            if (newClass != null && !model.Entities.Contains(newClass) && 
-                newClass.Language == model.Language)
-            {
-                AddClass(newClass);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertAssociation(AssociationRelationship associaton)
-        {
-            if (associaton != null && !model.Relationships.Contains(associaton) &&
-                model.Entities.Contains(associaton.First) && model.Entities.Contains(associaton.Second))
-            {
-                AddAssociation(associaton);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertCommentRelationship(CommentRelationship commentRelationship)
-        {
-            if (commentRelationship != null && !model.Relationships.Contains(commentRelationship) &&
-                model.Entities.Contains(commentRelationship.First) && model.Entities.Contains(commentRelationship.Second))
-            {
-                AddCommentRelationship(commentRelationship);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertDependency(DependencyRelationship dependency)
-        {
-            if (dependency != null && !model.Relationships.Contains(dependency) &&
-                model.Entities.Contains(dependency.First) && model.Entities.Contains(dependency.Second))
-            {
-                AddDependency(dependency);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertGeneralization(GeneralizationRelationship generalization)
-        {
-            if (generalization != null && !model.Relationships.Contains(generalization) &&
-                model.Entities.Contains(generalization.First) && model.Entities.Contains(generalization.Second))
-            {
-                AddGeneralization(generalization);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertNesting(NestingRelationship nesting)
-        {
-            if (nesting != null && !model.Relationships.Contains(nesting) &&
-                model.Entities.Contains(nesting.First) && model.Entities.Contains(nesting.Second))
-            {
-                AddNesting(nesting);
-                return true;
-            }
-            
-            return false;
-        }
-
-        public bool InsertRealization(RealizationRelationship realization)
-        {
-            if (realization != null && !model.Relationships.Contains(realization) &&
-                model.Entities.Contains(realization.First) && model.Entities.Contains(realization.Second))
-            {
-                AddRealization(realization);
-                return true;
-            }
-            
-            return false;
-        }
-
-        /// <exception cref="ArgumentNullException">
-		/// <paramref name="first"/> or <paramref name="second"/> is null.
-		/// </exception>
-		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
-        {
-            var association = model.AddAssociation(first, second);
-            return AddAssociation(association);
-        }
-
-	    public AssociationRelationship AddAssociation(AssociationRelationship association)
-	    {
-            Shape startShape = GetShape(association.First);
-            Shape endShape = GetShape(association.Second);
-            AddConnection(new Association(association, startShape, endShape));
-	        return association;
-	    }
-
-        public AssociationRelationship AddComposition(TypeBase first, TypeBase second)
-        {
-            var composition = model.AddComposition(first, second);
-            return AddComposition(composition);
-        }
-
-	    public AssociationRelationship AddComposition(AssociationRelationship composition)
-	    {
-            Shape startShape = GetShape(composition.First);
-            Shape endShape = GetShape(composition.Second);
-            AddConnection(new Association(composition, startShape, endShape));
-            return composition;
-	    }
-
-        public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
-        {
-            return model.AddAssociation(first, second);
-        }
-
-	    public GeneralizationRelationship AddGeneralization(CompositeType derivedType,
-	        CompositeType baseType)
-	    {
-	        var generalization = model.AddGeneralization(derivedType, baseType);
-	        return AddGeneralization(generalization);
-	    }
-
-	    private GeneralizationRelationship AddGeneralization(GeneralizationRelationship generalization)
-	    {
-            Shape startShape = GetShape(generalization.First);
-            Shape endShape = GetShape(generalization.Second);
-            AddConnection(new Generalization(generalization, startShape, endShape));
-            return generalization;
-        }
-
-	    public RealizationRelationship AddRealization(TypeBase implementer,
-	        InterfaceType baseType)
-	    {
-	        var realization = model.AddRealization(implementer, baseType);
-	        return AddRealization(realization);
-	    }
-
-	    private RealizationRelationship AddRealization(RealizationRelationship realization)
-	    {
-            Shape startShape = GetShape(realization.First);
-            Shape endShape = GetShape(realization.Second);
-            AddConnection(new Realization(realization, startShape, endShape));
-	        return realization;
-	    }
-
-	    public DependencyRelationship AddDependency(TypeBase first, TypeBase second)
-	    {
-	        var dependencyRelationship = model.AddDependency(first, second);
-	        return AddDependency(dependencyRelationship);
-	    }
-
-	    private DependencyRelationship AddDependency(DependencyRelationship dependency)
-	    {
-            Shape startShape = GetShape(dependency.First);
-            Shape endShape = GetShape(dependency.Second);
-            AddConnection(new Dependency(dependency, startShape, endShape));
-            return dependency;
-        }
-
-	    public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
-	    {
-	        var nestingRelationship = model.AddNesting(parentType, innerType);
-	        return AddNesting(nestingRelationship);
-	    }
-
-	    public NestingRelationship AddNesting(NestingRelationship nesting)
-	    {
-            Shape startShape = GetShape(nesting.First);
-            Shape endShape = GetShape(nesting.Second);
-            AddConnection(new Nesting(nesting, startShape, endShape));
-            return nesting;
-        }
-
-	    public virtual CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
-	    {
-	        var commentRelationship = model.AddCommentRelationship(comment, entity);
-	        return AddCommentRelationship(commentRelationship);
-	    }
-
-	    private CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
-	    {
-            Shape startShape = GetShape(commentRelationship.First);
-            Shape endShape = GetShape(commentRelationship.Second);
-            AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
-	        return commentRelationship;
-	    }
-
-	    public ClassType AddClass()
-	    {
-	        return model.AddClass();
-	    }
-
-	    private void AddClass(ClassType classType)
-	    {
-            AddShape(new ClassShape(classType));
-        }
-
-	    public StructureType AddStructure()
-	    {
-	        return model.AddStructure();
-	    }
-
-	    private void AddStructure(StructureType structureType)
-	    {
-            AddShape(new StructureShape(structureType));
-        }
-
-	    public InterfaceType AddInterface()
-	    {
-	        return model.AddInterface();
-	    }
-
-	    private void AddInterface(InterfaceType interfaceType)
-	    {
-            AddShape(new InterfaceShape(interfaceType));
-        }
-
-	    public DelegateType AddDelegate()
-	    {
-	        return model.AddDelegate();
-	    }
-
-	    private void AddDelegate(DelegateType delegateType)
-	    {
-            AddShape(new DelegateShape(delegateType));
-        }
-
-	    public EnumType AddEnum()
-	    {
-	        return model.AddEnum();
-	    }
-
-	    private void AddEnum(EnumType enumType)
-	    {
-            AddShape(new EnumShape(enumType));
-        }
-
-        public Comment AddComment()
-        {
-            return model.AddComment();
-        }
-
-        private void AddComment(Comment comment)
-        {
-            AddShape(new CommentShape(comment));
-        }
 
 	    public bool IsDirty
         {

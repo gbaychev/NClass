@@ -140,13 +140,16 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 
 		protected override bool CloneRelationship(Diagram diagram, Shape first, Shape second)
 		{
+		    if (diagram.DiagramType != DiagramType.ClassDiagram)
+		        return false;
+
 			TypeBase firstType = first.Entity as TypeBase;
 			TypeBase secondType = second.Entity as TypeBase;
 
 			if (firstType != null && secondType != null)
 			{
 				AssociationRelationship clone = association.Clone(firstType, secondType);
-				return diagram.InsertAssociation(clone);
+				return ((ClassDiagram)diagram).InsertAssociation(clone);
 			}
 			else
 			{

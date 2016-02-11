@@ -23,6 +23,7 @@ using NClass.Core;
 using NClass.CSharp;
 using NClass.Java;
 using NClass.DiagramEditor;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
 using NClass.GUI.Dialogs;
 using NClass.Translations;
@@ -545,7 +546,7 @@ namespace NClass.GUI
 			if (Workspace.Default.HasActiveProject)
 			{
 				ShowModelExplorer = true;
-				Diagram diagram = new Diagram(CSharpLanguage.Instance);
+				Diagram diagram = new ClassDiagram(CSharpLanguage.Instance);
 				Workspace.Default.ActiveProject.Add(diagram);
 				Settings.Default.DefaultLanguageName = CSharpLanguage.Instance.AssemblyName;
 			}
@@ -556,7 +557,7 @@ namespace NClass.GUI
 			if (Workspace.Default.HasActiveProject)
 			{
 				ShowModelExplorer = true;
-				Diagram diagram = new Diagram(JavaLanguage.Instance);
+				Diagram diagram = new ClassDiagram(JavaLanguage.Instance);
 				Workspace.Default.ActiveProject.Add(diagram);
 				Settings.Default.DefaultLanguageName = JavaLanguage.Instance.AssemblyName;
 			}

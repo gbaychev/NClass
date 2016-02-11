@@ -115,7 +115,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
 		protected override bool CloneEntity(Diagram diagram)
 		{
-			return diagram.InsertEnum(EnumType.Clone());
+            if (diagram.DiagramType != DiagramType.ClassDiagram)
+                return false;
+
+            return ((ClassDiagram)diagram).InsertEnum(EnumType.Clone());
 		}
 
 		protected override Color GetBackgroundColor(Style style)

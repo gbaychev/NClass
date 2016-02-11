@@ -21,6 +21,7 @@ using NClass.CSharp;
 using NClass.GUI.Properties;
 using NClass.Translations;
 using NClass.DiagramEditor;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI.ModelExplorer
@@ -184,7 +185,7 @@ namespace NClass.GUI.ModelExplorer
 			ToolStripItem menuItem = (ToolStripItem) sender;
 			Project project = ((ProjectNode) menuItem.OwnerItem.Owner.Tag).Project;
 
-			Diagram diagram = new Diagram(CSharpLanguage.Instance);
+			Diagram diagram = new ClassDiagram(CSharpLanguage.Instance);
 			project.Add(diagram);
 			Settings.Default.DefaultLanguageName = CSharpLanguage.Instance.AssemblyName;
 		}
@@ -194,7 +195,7 @@ namespace NClass.GUI.ModelExplorer
 			ToolStripItem menuItem = (ToolStripItem) sender;
 			Project project = ((ProjectNode) menuItem.OwnerItem.Owner.Tag).Project;
 
-			Diagram diagram = new Diagram(JavaLanguage.Instance);
+			Diagram diagram = new ClassDiagram(JavaLanguage.Instance);
 			Settings.Default.DefaultLanguageName = JavaLanguage.Instance.AssemblyName;
 			project.Add(diagram);
 		}

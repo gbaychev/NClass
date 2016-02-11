@@ -37,7 +37,7 @@ namespace NClass.AssemblyImport
     /// <summary>
     /// The diagram to add the new entities to.
     /// </summary>
-    private readonly Diagram diagram;
+    private readonly ClassDiagram diagram;
 
     /// <summary>
     /// An <see cref="ImportSettings"/> instance which describes which entities and members to reflect.
@@ -60,7 +60,7 @@ namespace NClass.AssemblyImport
     /// <summary>
     /// Initializes a new instance of <see cref="NETImport"/>.
     /// </summary>
-    public NETImport(Diagram diagram, ImportSettings settings)
+    public NETImport(ClassDiagram diagram, ImportSettings settings)
     {
       this.diagram = diagram;
       this.settings = settings;

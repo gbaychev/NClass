@@ -129,7 +129,7 @@ namespace NClass.AssemblyImport
         {
           if(settingsForm.ShowDialog() == DialogResult.OK)
           {
-            Diagram diagram = new Diagram(CSharpLanguage.Instance);
+            ClassDiagram diagram = new ClassDiagram(CSharpLanguage.Instance);
             NETImport importer = new NETImport(diagram, settings);
 
             if(importer.ImportAssembly(fileName))

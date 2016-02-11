@@ -46,7 +46,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
 		protected override bool CloneEntity(Diagram diagram)
 		{
-			return diagram.InsertInterface(InterfaceType.Clone());
+            if (diagram.DiagramType != DiagramType.ClassDiagram)
+                return false;
+
+            return ((ClassDiagram)diagram).InsertInterface(InterfaceType.Clone());
 		}
 
 		protected override Color GetBackgroundColor(Style style)

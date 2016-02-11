@@ -24,7 +24,7 @@ using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {
-	internal class ConnectionCreator
+	internal class ConnectionCreator : IConnectionCreator
 	{
 		const int BorderOffset = 8;
 		const int BorderOffset2 = 12;
@@ -34,7 +34,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 		static readonly Pen secondPen;
 		static readonly Pen arrowPen;
 
-		Diagram diagram;
+		ClassDiagram diagram;
 		RelationshipType type;
 		bool firstSelected = false;
 		bool created = false;
@@ -53,7 +53,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 			arrowPen.CustomEndCap = new AdjustableArrowCap(6, 7, true);
 		}
 
-		public ConnectionCreator(Diagram diagram, RelationshipType type)
+		public ConnectionCreator(ClassDiagram diagram, RelationshipType type)
 		{
 			this.diagram = diagram;
 			this.type = type;

@@ -53,11 +53,14 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 
 		protected override bool CloneRelationship(Diagram diagram, Shape first, Shape second)
 		{
-			Comment comment = first.Entity as Comment;
+            if(diagram.DiagramType != DiagramType.ClassDiagram)
+                return false;
+
+            Comment comment = first.Entity as Comment;
 			if (comment != null)
 			{
 				CommentRelationship clone = relationship.Clone(comment, second.Entity);
-				return diagram.InsertCommentRelationship(clone);
+				return ((ClassDiagram)diagram).InsertCommentRelationship(clone);
 			}
 			else
 			{

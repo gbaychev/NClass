@@ -82,7 +82,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
 		protected override bool CloneEntity(Diagram diagram)
 		{
-			return diagram.InsertComment(Comment.Clone());
+            if (diagram.DiagramType != DiagramType.ClassDiagram)
+                return false;
+
+            return ((ClassDiagram)diagram).InsertComment(Comment.Clone());
 		}
 
 		public static Rectangle GetOutline(Style style)
