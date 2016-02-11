@@ -27,6 +27,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 {
     public class ClassDiagram : Diagram
     {
+        protected ClassDiagram()
+        {
+            
+        }
+
         /// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>

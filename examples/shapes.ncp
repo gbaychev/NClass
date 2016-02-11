@@ -1,6 +1,6 @@
 <Project>
   <Name>Shapes</Name>
-  <ProjectItem type="NClass.DiagramEditor.Diagrams.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <Name>Shapes</Name>
     <Language>CSharp</Language>
     <Entities>
@@ -45,7 +45,7 @@
       <Entity type="Interface">
         <Name>IDrawable</Name>
         <Access>Public</Access>
-        <Location left="484" top="20" />
+        <Location left="529" top="20" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">void Draw(Graphics g)</Member>
