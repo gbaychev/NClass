@@ -21,6 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using NClass.Translations;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {

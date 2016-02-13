@@ -11,6 +11,7 @@ using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Connections;
+using NClass.DiagramEditor.Diagrams.Shapes;
 using NReflect;
 using NReflect.Filter;
 using NReflect.NREntities;

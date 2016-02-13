@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor
 {

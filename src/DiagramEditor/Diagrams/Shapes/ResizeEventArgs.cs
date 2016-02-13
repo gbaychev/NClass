@@ -16,7 +16,7 @@
 using System;
 using System.Drawing;
 
-namespace NClass.DiagramEditor.ClassDiagram.Shapes
+namespace NClass.DiagramEditor.Diagrams.Shapes
 {
 	public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 

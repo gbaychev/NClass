@@ -67,7 +67,7 @@
     <Compile Include="ClassDiagram\Connections\Association.cs" />
     <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
     <Compile Include="ClassDiagram\Connections\BendPointEventArgs.cs" />
-    <Compile Include="ClassDiagram\Connections\LineOrientation.cs" />
+    <Compile Include="Diagrams\Connections\LineOrientation.cs" />
     <Compile Include="ClassDiagram\Connections\Dependency.cs" />
     <Compile Include="ClassDiagram\Connections\Nesting.cs" />
     <Compile Include="ClassDiagram\Connections\CommentConnection.cs" />
@@ -227,7 +227,7 @@
     </Compile>
     <Compile Include="ClassDiagram\Connections\BendPoint.cs" />
     <Compile Include="Clipboard.cs" />
-    <Compile Include="ClassDiagram\Shapes\ResizeEventArgs.cs" />
+    <Compile Include="Diagrams\Shapes\ResizeEventArgs.cs" />
     <Compile Include="ToolStripSimplifiedRenderer.cs">
     </Compile>
     <Compile Include="Diagrams\DiagramElement.cs" />
@@ -238,7 +238,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ClassDiagram\Shapes\Shape.cs" />
+    <Compile Include="Diagrams\Shapes\Shape.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="IPrintable.cs" />
     <Compile Include="OrderedList.cs" />
@@ -364,9 +364,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Diagrams\Shapes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
