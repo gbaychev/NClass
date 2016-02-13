@@ -18,6 +18,7 @@ using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Diagrams.Connections;
 
 namespace NClass.DiagramEditor.Diagrams
 {

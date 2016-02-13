@@ -45,7 +45,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 		ResizeMode resizeMode = ResizeMode.None;
 		Size minimumSize = defaultMinSize;
 		PointF mouseDownLocation = PointF.Empty;
-		bool mouseLeaved = true;
+		bool mouseLeft = true;
 		Cursor cursor = Cursors.Default;
 
 		public event MoveEventHandler Move;
@@ -594,9 +594,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 				{
 					contains = Contains(e.Location);
 
-					if (Contains(e.Location) && mouseLeaved)
+					if (Contains(e.Location) && mouseLeft)
 						OnMouseEnter(EventArgs.Empty);
-					else if (!Contains(e.Location) && !mouseLeaved)
+					else if (!Contains(e.Location) && !mouseLeft)
 						OnMouseLeave(EventArgs.Empty);
 
 					contains |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
@@ -619,7 +619,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			}
 			else // Already handled
 			{
-				if (!mouseLeaved)
+				if (!mouseLeft)
 					OnMouseLeave(EventArgs.Empty);
 			}
 		}
@@ -754,12 +754,12 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
 		protected virtual void OnMouseEnter(EventArgs e)
 		{
-			mouseLeaved = false;
+			mouseLeft = false;
 		}
 
 		protected virtual void OnMouseLeave(EventArgs e)
 		{
-			mouseLeaved = true;
+			mouseLeft = true;
 		}
 
 		public override string ToString()

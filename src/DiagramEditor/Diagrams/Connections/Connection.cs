@@ -20,12 +20,11 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
-using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
-using NClass.DiagramEditor.ClassDiagram.Editors;
-using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
 
-namespace NClass.DiagramEditor.ClassDiagram.Connections
+namespace NClass.DiagramEditor.Diagrams.Connections
 {
 	public abstract class Connection : DiagramElement
 	{

@@ -27,6 +27,7 @@ using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams

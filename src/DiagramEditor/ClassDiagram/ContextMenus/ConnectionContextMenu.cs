@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using NClass.DiagramEditor.Properties;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.ContextMenus

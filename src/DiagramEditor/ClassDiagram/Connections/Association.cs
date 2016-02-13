@@ -23,6 +23,7 @@ using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {

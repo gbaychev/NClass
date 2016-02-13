@@ -63,7 +63,7 @@
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
-    <Compile Include="ClassDiagram\Connections\Connection.cs" />
+    <Compile Include="Diagrams\Connections\Connection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
     <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
     <Compile Include="ClassDiagram\Connections\BendPointEventArgs.cs" />
@@ -364,7 +364,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Diagrams\Shapes\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
