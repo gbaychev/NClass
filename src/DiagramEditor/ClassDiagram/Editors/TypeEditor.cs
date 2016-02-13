@@ -31,7 +31,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
 		internal void Relocate(TypeShape shape)
 		{
-			Diagram diagram = shape.Diagram;
+			IDiagram diagram = shape.Diagram;
 			if (diagram != null)
 			{
 				Point absolute = new Point(shape.Right, shape.Top);

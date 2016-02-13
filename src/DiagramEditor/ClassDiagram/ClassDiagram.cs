@@ -16,17 +16,21 @@
 
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 using NClass.Core;
+using NClass.Core.Models;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
+using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {
-    public class ClassDiagram : Diagram
+    public class ClassDiagram : Diagram<ClassModel>
     {
         protected ClassDiagram()
         {
@@ -38,9 +42,14 @@ namespace NClass.DiagramEditor.ClassDiagram
 		/// </exception>
 		public ClassDiagram(Language language)
         {
-            model = new Model(language);
+            model = new ClassModel(language);
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
+        }
+
+        public Language Language
+        {
+            get { return model.Language;}
         }
         
         public bool InsertStructure(StructureType structure)
@@ -280,7 +289,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             return nesting;
         }
 
-        public virtual CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
+        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
         {
             var commentRelationship = model.AddCommentRelationship(comment, entity);
             return AddCommentRelationship(commentRelationship);
@@ -592,6 +601,40 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             connectionCreator = new ConnectionCreator(this, type);
             base.CreateConnection(type);
+        }
+
+        public override void Deserialize(XmlElement node)
+        {
+            base.Deserialize(node);
+
+            Language language = null;
+            XmlElement languageElement = node["Language"];
+            try
+            {
+                language = Language.GetLanguage(languageElement.InnerText);
+                if (language == null)
+                    throw new InvalidDataException("Invalid project language.");
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Invalid project language.", ex);
+            }
+
+            if (model == null)
+            {
+                model = new ClassModel(language);
+                model.EntityRemoved += OnEntityRemoved;
+                model.EntityAdded += OnEntityAdded;
+                model.RelationRemoved += OnRelationRemoved;
+                model.RelationAdded += OnRelationAdded;
+                model.Deserializing += OnDeserializing;
+            }
+            model.Deserialize(node);
+        }
+
+        public override string GetShortDescription()
+        {
+            return Strings.Language + ": " + model.Language.ToString();
         }
     }
 

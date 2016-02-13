@@ -17,8 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
@@ -33,7 +31,7 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	public abstract class Diagram : IDocument
+	public abstract class Diagram<T> : IDiagram where T : Model, new()
 	{
 		protected enum State
 		{
@@ -44,19 +42,12 @@ namespace NClass.DiagramEditor.Diagrams
 			Dragging
 		}
 
-		const int DiagramPadding = 10;
-		const int PrecisionSize = 10;
-		const int MaximalPrecisionDistance = 500;
-		const float DashSize = 3;
-		static readonly Size MinSize = new Size(3000, 2000);
-		public static readonly Pen SelectionPen;
-
 		protected ElementList<Shape> shapes = new ElementList<Shape>();
 		protected ElementList<Connection> connections = new ElementList<Connection>();
 		protected DiagramElement activeElement = null;
 		protected Point offset = Point.Empty;
 		protected float zoom = 1.0F;
-		protected Size size = MinSize;
+		protected Size size = DiagramConstants.MinSize;
 
 		protected State state = State.Normal;
 		protected bool selectioning = false;
@@ -84,29 +75,15 @@ namespace NClass.DiagramEditor.Diagrams
         bool isDirty = false;
         bool loading = false;
 
-        protected Model model;
+        protected T model;
 	    protected string name;
 
 	    public DiagramType DiagramType { get; protected set; }
-
-		static Diagram()
-		{
-			SelectionPen = new Pen(Color.Black);
-			SelectionPen.DashPattern = new [] { DashSize, DashSize };
-		}
 
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor
 		protected Diagram()
 		{
-		}
-
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="language"/> is null.
-		/// </exception>
-		public Diagram(Language language)
-		{
-            model = new Model(language);
 		}
 
 		/// <exception cref="ArgumentException">
@@ -115,11 +92,10 @@ namespace NClass.DiagramEditor.Diagrams
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>
-		public Diagram(string name, Language language)
+		public Diagram(string name)
 		{
 		    this.name = name;
-            model = new Model(language);
-		}
+        }
 
         #region Abstract Methods and Properties
         public abstract void KeyDown(KeyEventArgs e);
@@ -198,8 +174,10 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 			protected set
 			{
-				if (value.Width < MinSize.Width) value.Width = MinSize.Width;
-				if (value.Height < MinSize.Height) value.Height = MinSize.Height;
+				if (value.Width < DiagramConstants.MinSize.Width)
+					value.Width = DiagramConstants.MinSize.Width;
+				if (value.Height < DiagramConstants.MinSize.Height)
+					value.Height = DiagramConstants.MinSize.Height;
 
 				if (size != value)
 				{
@@ -456,7 +434,7 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 			if (state == State.CreatingShape)
 			{
-				g.DrawRectangle(SelectionPen,
+				g.DrawRectangle(DiagramConstants.SelectionPen,
 					shapeOutline.X, shapeOutline.Y, shapeOutline.Width, shapeOutline.Height);
 			}
 			else if (state == State.CreatingConnection)
@@ -486,7 +464,7 @@ namespace NClass.DiagramEditor.Diagrams
 					Math.Min(selectionFrame.Top, selectionFrame.Bottom),
 					Math.Max(selectionFrame.Left, selectionFrame.Right),
 					Math.Max(selectionFrame.Top, selectionFrame.Bottom));
-				g.DrawRectangle(SelectionPen,
+				g.DrawRectangle(DiagramConstants.SelectionPen,
 					frame.X * Zoom - Offset.X,
 					frame.Y * Zoom - Offset.Y,
 					frame.Width * Zoom,
@@ -499,13 +477,13 @@ namespace NClass.DiagramEditor.Diagrams
 			float borderHeight = Size.Height * Zoom;
 			if (clip.Right > borderWidth || clip.Bottom > borderHeight)
 			{
-				SelectionPen.DashOffset = Offset.Y - Offset.X;
-				g.DrawLines(SelectionPen, new PointF[] {
+                DiagramConstants.SelectionPen.DashOffset = Offset.Y - Offset.X;
+				g.DrawLines(DiagramConstants.SelectionPen, new PointF[] {
 					new PointF(borderWidth, 0),
 					new PointF(borderWidth, borderHeight),
 					new PointF(0, borderHeight)
 				});
-				SelectionPen.DashOffset = 0;
+                DiagramConstants.SelectionPen.DashOffset = 0;
 			}
 
 			// Restore original state
@@ -561,7 +539,7 @@ namespace NClass.DiagramEditor.Diagrams
 		protected void RecalculateSize()
 		{
 			const int Padding = 500;
-			int rightMax = MinSize.Width, bottomMax = MinSize.Height;
+			int rightMax = DiagramConstants.MinSize.Width, bottomMax = DiagramConstants.MinSize.Height;
 
 			foreach (Shape shape in shapes)
 			{
@@ -976,9 +954,9 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-		public string GetShortDescription()
+		public virtual string GetShortDescription()
 		{
-			return Strings.Language + ": " + Language.ToString();
+		    return string.Empty;
 		}
 
 		public void DeselectAll()
@@ -1224,13 +1202,13 @@ namespace NClass.DiagramEditor.Diagrams
 				ActiveElement.MoveWindow();
 		}
 
-		internal void ShowWindow(PopupWindow window)
+		public void ShowWindow(PopupWindow window)
 		{
 			Redraw();
 			OnShowingWindow(new PopupWindowEventArgs(window));
 		}
 
-		internal void HideWindow(PopupWindow window)
+		public void HideWindow(PopupWindow window)
 		{
 			window.Closing();
 			OnHidingWindow(new PopupWindowEventArgs(window));
@@ -1284,22 +1262,22 @@ namespace NClass.DiagramEditor.Diagrams
 					int xDist = otherShape.X - (shape.X + offset.Width);
 					int yDist = otherShape.Y - (shape.Y + offset.Height);
 
-					if (Math.Abs(xDist) <= PrecisionSize)
+					if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
 					{
 						int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
 						int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
 						int distance = Math.Min(distance1, distance2);
 
-						if (distance <= MaximalPrecisionDistance)
+						if (distance <= DiagramConstants.MaximalPrecisionDistance)
 							offset.Width += xDist;
 					}
-					if (Math.Abs(yDist) <= PrecisionSize)
+					if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
 					{
 						int distance1 = Math.Abs(shape.Left - otherShape.Right);
 						int distance2 = Math.Abs(otherShape.Left - shape.Right);
 						int distance = Math.Min(distance1, distance2);
 
-						if (distance <= MaximalPrecisionDistance)
+						if (distance <= DiagramConstants.MaximalPrecisionDistance)
 							offset.Height += yDist;
 					}
 				}
@@ -1308,11 +1286,11 @@ namespace NClass.DiagramEditor.Diagrams
 			// Get maxmimal avaiable offset for the selected elements
 			foreach (Shape shape in shapes)
 			{
-				offset = shape.GetMaximalOffset(offset, DiagramPadding);
+				offset = shape.GetMaximalOffset(offset, DiagramConstants.DiagramPadding);
 			}
 			foreach (Connection connection in connections)
 			{
-				offset = connection.GetMaximalOffset(offset, DiagramPadding);
+				offset = connection.GetMaximalOffset(offset, DiagramConstants.DiagramPadding);
 			}
 			if (!offset.IsEmpty)
 			{
@@ -1343,13 +1321,13 @@ namespace NClass.DiagramEditor.Diagrams
 						if (otherShape != shape)
 						{
 							int xDist = otherShape.Right - (shape.Right + change.Width);
-							if (Math.Abs(xDist) <= PrecisionSize)
+							if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
 							{
 								int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
 								int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
 								int distance = Math.Min(distance1, distance2);
 
-								if (distance <= MaximalPrecisionDistance)
+								if (distance <= DiagramConstants.MaximalPrecisionDistance)
 								{
 									change.Width += xDist;
 									break;
@@ -1367,13 +1345,13 @@ namespace NClass.DiagramEditor.Diagrams
 						if (otherShape != shape)
 						{
 							int yDist = otherShape.Bottom - (shape.Bottom + change.Height);
-							if (Math.Abs(yDist) <= PrecisionSize)
+							if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
 							{
 								int distance1 = Math.Abs(shape.Left - otherShape.Right);
 								int distance2 = Math.Abs(otherShape.Left - shape.Right);
 								int distance = Math.Min(distance1, distance2);
 
-								if (distance <= MaximalPrecisionDistance)
+								if (distance <= DiagramConstants.MaximalPrecisionDistance)
 								{
 									change.Height += yDist;
 									break;
@@ -1509,17 +1487,17 @@ namespace NClass.DiagramEditor.Diagrams
 		private void connection_RouteChanged(object sender, EventArgs e)
 		{
 			Connection connection = (Connection) sender;
-			connection.ValidatePosition(DiagramPadding);
+			connection.ValidatePosition(DiagramConstants.DiagramPadding);
 
 			RecalculateSize();
 		}
 
 		private void connection_BendPointMove(object sender, BendPointEventArgs e)
 		{
-			if (e.BendPoint.X < DiagramPadding)
-				e.BendPoint.X = DiagramPadding;
-			if (e.BendPoint.Y < DiagramPadding)
-				e.BendPoint.Y = DiagramPadding;
+			if (e.BendPoint.X < DiagramConstants.DiagramPadding)
+				e.BendPoint.X = DiagramConstants.DiagramPadding;
+			if (e.BendPoint.Y < DiagramConstants.DiagramPadding)
+				e.BendPoint.Y = DiagramConstants.DiagramPadding;
 
 			// Snap bend points to others if possible
 			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
@@ -1670,9 +1648,6 @@ namespace NClass.DiagramEditor.Diagrams
                 Modified(this, e);
         }
 
-        /* class diagram methods begin here -  to be removed in its own class*/
-        public Language Language { get { return model.Language; } }
-
 	    public bool IsEmpty { get { return model.IsEmpty; } }
 
 	    public bool IsDirty
@@ -1714,37 +1689,13 @@ namespace NClass.DiagramEditor.Diagrams
             model.Serialize(node);
 	    }
 
-	    public void Deserialize(XmlElement node)
+	    public virtual void Deserialize(XmlElement node)
 	    {
             XmlElement nameElement = node["Name"];
             if (nameElement == null || nameElement.InnerText == "")
                 this.name = null;
             else
                 this.name = nameElement.InnerText;
-
-	        Language language = null;
-            XmlElement languageElement = node["Language"];
-            try
-            {
-                language = Language.GetLanguage(languageElement.InnerText);
-                if (language == null)
-                    throw new InvalidDataException("Invalid project language.");
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidDataException("Invalid project language.", ex);
-            }
-
-            if (model == null)
-	        {
-                model = new Model(language);
-                model.EntityRemoved += OnEntityRemoved;
-	            model.EntityAdded += OnEntityAdded;
-                model.RelationRemoved += OnRelationRemoved;
-                model.RelationAdded += OnRelationAdded;
-                model.Deserializing += OnDeserializing;
-            }
-	        model.Deserialize(node);
 	    }
 
         protected virtual void OnRenamed(EventArgs e)

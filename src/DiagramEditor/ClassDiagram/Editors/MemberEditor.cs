@@ -463,7 +463,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
 		internal void Relocate(CompositeTypeShape shape)
 		{
-			Diagram diagram = shape.Diagram;
+			IDiagram diagram = shape.Diagram;
 			if (diagram != null)
 			{
 				Rectangle record = shape.GetMemberRectangle(shape.ActiveMemberIndex);

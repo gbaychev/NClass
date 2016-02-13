@@ -56,7 +56,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
 		internal void Relocate(CommentShape shape)
 		{
-			Diagram diagram = shape.Diagram;
+			IDiagram diagram = shape.Diagram;
 			if (diagram != null)
 			{
 				Rectangle absolute = shape.GetTextRectangle();

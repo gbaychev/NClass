@@ -64,6 +64,7 @@
     <Compile Include="BadSyntaxException.cs" />
     <Compile Include="Entities\EntityType.cs" />
     <Compile Include="Members\MemberType.cs" />
+    <Compile Include="Models\ClassModel.cs" />
     <Compile Include="RelationshipEventArgs.cs" />
     <Compile Include="Relationships\AssociationType.cs" />
     <Compile Include="Relationships\RelationshipType.cs" />

@@ -44,7 +44,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 			mnuEditComment.Text = Strings.MenuEditComment;
 		}
 
-		public override void ValidateMenuItems(Diagram diagram)
+		public override void ValidateMenuItems(IDiagram diagram)
 		{
 			base.ValidateMenuItems(diagram);
 			ShapeContextMenu.Default.ValidateMenuItems(diagram);

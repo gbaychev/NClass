@@ -45,7 +45,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		void IClipboardItem.Paste(IDocument document)
 		{
-			Diagrams.Diagram diagram = (Diagrams.Diagram) document;
+			IDiagram diagram = (IDiagram) document;
 			if (diagram != null)
 			{
 				bool success = false;

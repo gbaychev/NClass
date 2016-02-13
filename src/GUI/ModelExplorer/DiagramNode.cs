@@ -25,7 +25,7 @@ namespace NClass.GUI.ModelExplorer
 {
 	public sealed class DiagramNode : ProjectItemNode
 	{
-		Diagram diagram;
+		IDiagram diagram;
 
 		static ContextMenuStrip contextMenu = new ContextMenuStrip();
 
@@ -43,7 +43,7 @@ namespace NClass.GUI.ModelExplorer
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="diagram"/> is null.
 		/// </exception>
-		public DiagramNode(Diagram diagram)
+		public DiagramNode(IDiagram diagram)
 		{
 			if (diagram == null)
 				throw new ArgumentNullException("diagram");
@@ -56,7 +56,7 @@ namespace NClass.GUI.ModelExplorer
 			diagram.Renamed += new EventHandler(diagram_Renamed);
 		}
 
-		public Diagram Diagram
+		public IDiagram Diagram
 		{
 			get { return diagram; }
 		}
@@ -126,7 +126,7 @@ namespace NClass.GUI.ModelExplorer
 		private static void deleteProjectItem_Click(object sender, EventArgs e)
 		{
 			ToolStripItem menuItem = (ToolStripItem) sender;
-			Diagram diagram = ((DiagramNode) menuItem.Owner.Tag).Diagram;
+			IDiagram diagram = ((DiagramNode) menuItem.Owner.Tag).Diagram;
 			Project project = diagram.Project;
 
 			DialogResult result = MessageBox.Show(

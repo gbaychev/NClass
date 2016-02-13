@@ -18,6 +18,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.Models;
 using NClass.Translations;
 
 namespace NClass.CodeGenerator
@@ -104,9 +105,10 @@ namespace NClass.CodeGenerator
 			location = Path.Combine(location, project.Name);
 
 			projectGenerators.Clear();
+            //TODO model is no longer an project item, must be fixed
 			foreach (IProjectItem projectItem in project.Items)
 			{
-				Model model = projectItem as Model;
+				ClassModel model = projectItem as ClassModel;
 
 				if (model != null)
 				{
@@ -130,7 +132,7 @@ namespace NClass.CodeGenerator
 		/// <exception cref="ArgumentException">
 		/// The <paramref name="model"/> is invalid.
 		/// </exception>
-		protected abstract ProjectGenerator CreateProjectGenerator(Model model);
+		protected abstract ProjectGenerator CreateProjectGenerator(ClassModel model);
 
 		protected abstract bool GenerateSolutionFile(string location);
 	}

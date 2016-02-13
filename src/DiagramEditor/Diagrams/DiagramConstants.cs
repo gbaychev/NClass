@@ -1,5 +1,5 @@
 ﻿// NClass - Free class diagram editor
-// Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 2016 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -13,36 +13,17 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.Xml;
+using System.Drawing;
 
-namespace NClass.Core
+namespace NClass.DiagramEditor.Diagrams
 {
-	public interface IProjectItem : IModifiable
-	{
-		event EventHandler Renamed;
-		event EventHandler Closing;
-
-		string Name { get; set; }
-
-		Project Project { get; set; }
-
-		bool IsUntitled { get; }
-
-
-		void Close();
-
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		void Serialize(XmlElement node);
-
-		/// <exception cref="InvalidDataException">
-		/// The serialized format is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		void Deserialize(XmlElement node);
-	}
+    internal class DiagramConstants
+    {
+        public const int DiagramPadding = 10;
+        public const int PrecisionSize = 10;
+        public const int MaximalPrecisionDistance = 500;
+        public const float DashSize = 3;
+        public static readonly Size MinSize = new Size(3000, 2000);
+        public static readonly Pen SelectionPen = new Pen (Color.Black) { DashPattern = new[] { DashSize, DashSize } };
+    }
 }

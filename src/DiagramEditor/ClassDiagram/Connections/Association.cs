@@ -106,7 +106,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 			}
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(Diagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
 		{
 			return AssociationContextMenu.Default.GetMenuItems(diagram);
 		}
@@ -140,7 +140,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 			Reverse();
 		}
 
-		protected override bool CloneRelationship(Diagram diagram, Shape first, Shape second)
+		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
 		{
 		    if (diagram.DiagramType != DiagramType.ClassDiagram)
 		        return false;

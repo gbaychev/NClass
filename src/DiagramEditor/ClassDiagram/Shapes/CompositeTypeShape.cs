@@ -396,7 +396,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 				Rectangle record = GetMemberRectangle(ActiveMemberIndex);
 				record = TransformRelativeToAbsolute(record, zoom, offset);
 				record.Inflate(2, 0);
-				g.DrawRectangle(Diagram.SelectionPen, record);
+				g.DrawRectangle(DiagramConstants.SelectionPen, record);
 			}
 		}
 

@@ -81,7 +81,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			}
 		}
 
-		protected override bool CloneEntity(Diagram diagram)
+		protected override bool CloneEntity(IDiagram diagram)
 		{
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
@@ -174,7 +174,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			}
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(Diagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
 		{
 			return CommentShapeContextMenu.Default.GetMenuItems(diagram);
 		}

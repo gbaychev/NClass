@@ -74,7 +74,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 			g.DrawLine(linePen, -CrossSize / 2, Radius, CrossSize / 2, Radius);
 		}
 
-		protected override bool CloneRelationship(Diagram diagram, Shape first, Shape second)
+		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
 		{
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;

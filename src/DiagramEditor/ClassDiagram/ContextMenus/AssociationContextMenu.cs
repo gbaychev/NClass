@@ -56,7 +56,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 			mnuEdit.Text = Strings.MenuProperties;
 		}
 
-		public override void ValidateMenuItems(Diagram diagram)
+		public override void ValidateMenuItems(IDiagram diagram)
 		{
 			base.ValidateMenuItems(diagram);
 			ConnectionContextMenu.Default.ValidateMenuItems(diagram);

@@ -67,13 +67,19 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 			get { return _default; }
 		}
 
-		public override void ValidateMenuItems(Diagram diagram)
+		public override void ValidateMenuItems(IDiagram diagram)
 		{
+		    if (diagram.DiagramType != DiagramType.ClassDiagram)
+		    {
+                // TODO do this in a sane way
+		        throw new Exception("This is not a class diagram");
+		    }
+		    var classDiagram = (ClassDiagram) diagram;
 			base.ValidateMenuItems(diagram);
 			mnuPaste.Enabled = diagram.CanPasteFromClipboard;
 
-			mnuNewStructure.Visible = diagram.Language.SupportsStructures;
-			mnuNewDelegate.Visible = diagram.Language.SupportsDelegates;
+			mnuNewStructure.Visible = classDiagram.Language.SupportsStructures;
+			mnuNewDelegate.Visible = classDiagram.Language.SupportsDelegates;
 
 			mnuShowType.Checked = DiagramEditor.Settings.Default.ShowType;
 			mnuShowParameters.Checked = DiagramEditor.Settings.Default.ShowParameters;

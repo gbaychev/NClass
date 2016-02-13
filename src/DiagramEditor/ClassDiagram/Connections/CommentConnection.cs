@@ -53,7 +53,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 			get { return true; }
 		}
 
-		protected override bool CloneRelationship(Diagram diagram, Shape first, Shape second)
+		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
 		{
             if(diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;

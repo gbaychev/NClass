@@ -57,7 +57,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 			mnuSameSize.Text = Strings.MenuSameSize;
 		}
 
-		public override void ValidateMenuItems(Diagram diagram)
+		public override void ValidateMenuItems(IDiagram diagram)
 		{
 			base.ValidateMenuItems(diagram);
 			GeneralContextMenu.Default.ValidateMenuItems(diagram);

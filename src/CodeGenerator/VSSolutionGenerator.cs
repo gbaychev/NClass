@@ -21,6 +21,7 @@ using NClass.Core;
 using NClass.CSharp;
 using NClass.Java;
 using System.Text;
+using NClass.Core.Models;
 
 namespace NClass.CodeGenerator
 {
@@ -77,7 +78,7 @@ namespace NClass.CodeGenerator
 		/// <exception cref="ArgumentException">
 		/// The <paramref name="model"/> has invalid language.
 		/// </exception>
-		protected override ProjectGenerator CreateProjectGenerator(Model model)
+		protected override ProjectGenerator CreateProjectGenerator(ClassModel model)
 		{
 			Language language = model.Language;
 

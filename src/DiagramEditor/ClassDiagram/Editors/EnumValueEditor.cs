@@ -40,7 +40,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
 		internal void Relocate(EnumShape shape)
 		{
-			Diagram diagram = shape.Diagram;
+			IDiagram diagram = shape.Diagram;
 			if (diagram != null)
 			{
 				Rectangle record = shape.GetMemberRectangle(shape.ActiveMemberIndex);

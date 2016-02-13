@@ -15,13 +15,10 @@
 
 using System;
 using System.IO;
-using System.Xml;
-using System.Text;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
-using NClass.CSharp;
 using System.Text.RegularExpressions;
+using NClass.Core.Models;
 
 namespace NClass.CodeGenerator
 {
@@ -32,7 +29,7 @@ namespace NClass.CodeGenerator
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="model"/> is null.
 		/// </exception>
-		public CSharpProjectGenerator(Model model, SolutionType solutionType) : base(model)
+		public CSharpProjectGenerator(ClassModel model, SolutionType solutionType) : base(model)
 		{
 			this.solutionType = solutionType;
 		}

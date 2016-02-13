@@ -28,7 +28,7 @@ namespace NClass.DiagramEditor.Diagrams
 		protected const float UndreadableZoom = 0.25F;
 		internal static Graphics Graphics = null; // Graphics object for text measuring
 
-		Diagrams.Diagram diagram;
+		IDiagram diagram;
 		bool isSelected = false;
 		bool isActive = false;
 		bool isDirty = true;
@@ -46,7 +46,7 @@ namespace NClass.DiagramEditor.Diagrams
 		public event AbsoluteMouseEventHandler MouseUp;
 		public event AbsoluteMouseEventHandler DoubleClick;
 
-		public Diagrams.Diagram Diagram
+		public IDiagram Diagram
 		{
 			get { return diagram; }
 			set { diagram = value; }
@@ -230,7 +230,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		protected internal abstract Size GetMaximalOffset(Size offset, int padding);
 
-		protected internal abstract IEnumerable<ToolStripItem> GetContextMenuItems(Diagrams.Diagram diagram);
+		protected internal abstract IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram);
 
 		[Obsolete]
 		protected internal abstract void Serialize(XmlElement node);

@@ -106,9 +106,9 @@ namespace NClass.GUI.ModelExplorer
 		{
 			ModelNode node = null;
 
-			if (projectItem is Diagram)
+			if (projectItem is IDiagram)
 			{
-				Diagram diagram = (Diagram) projectItem;
+				IDiagram diagram = (IDiagram) projectItem;
 				node = new DiagramNode(diagram);
 				if (TreeView != null)
 					ModelView.OnDocumentOpening(new DocumentEventArgs(diagram));
@@ -185,7 +185,7 @@ namespace NClass.GUI.ModelExplorer
 			ToolStripItem menuItem = (ToolStripItem) sender;
 			Project project = ((ProjectNode) menuItem.OwnerItem.Owner.Tag).Project;
 
-			Diagram diagram = new ClassDiagram(CSharpLanguage.Instance);
+			IDiagram diagram = new ClassDiagram(CSharpLanguage.Instance);
 			project.Add(diagram);
 			Settings.Default.DefaultLanguageName = CSharpLanguage.Instance.AssemblyName;
 		}
@@ -195,7 +195,7 @@ namespace NClass.GUI.ModelExplorer
 			ToolStripItem menuItem = (ToolStripItem) sender;
 			Project project = ((ProjectNode) menuItem.OwnerItem.Owner.Tag).Project;
 
-			Diagram diagram = new ClassDiagram(JavaLanguage.Instance);
+			IDiagram diagram = new ClassDiagram(JavaLanguage.Instance);
 			Settings.Default.DefaultLanguageName = JavaLanguage.Instance.AssemblyName;
 			project.Add(diagram);
 		}

@@ -19,6 +19,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 
 namespace NClass.DiagramEditor.Diagrams.Shapes
@@ -395,7 +396,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 					int borderOffset = SelectionMargin / 2;
 					frame.Inflate(borderOffset, borderOffset);
 
-					g.DrawRectangle(Diagram.SelectionPen, frame);
+					g.DrawRectangle(DiagramConstants.SelectionPen, frame);
 					DrawResizingSquares(g, frame);
 				}
 				else
@@ -405,7 +406,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 					Rectangle frame = TransformRelativeToAbsolute(BorderRectangle, zoom, offset);
 					frame.Inflate(BorderOffset, BorderOffset);
 
-					g.DrawRectangle(Diagram.SelectionPen, frame);
+					g.DrawRectangle(DiagramConstants.SelectionPen, frame);
 				}
 			}
 		}
@@ -492,16 +493,17 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			return MinimumSize.Height;
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(Diagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
 		{
 			return ShapeContextMenu.Default.GetMenuItems(diagram);
 		}
 
-		protected internal Shape Paste(Diagram diagram, Size offset)
+		protected internal Shape Paste(IDiagram diagram, Size offset)
 		{
 			if (CloneEntity(diagram))
 			{
-				Shape shape = diagram.ShapeList.FirstValue;
+			    var shapeList = (ElementList<Shape>)diagram.Shapes;
+				Shape shape = shapeList.FirstValue;
 				shape.Location = this.Location + offset;
 				shape.Size = this.Size;
 				shape.IsSelected = true;
@@ -513,7 +515,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			}
 		}
 
-		protected abstract bool CloneEntity(Diagram diagram);
+		protected abstract bool CloneEntity(IDiagram diagram);
 
 		[Obsolete]
 		protected internal sealed override void Serialize(XmlElement node)

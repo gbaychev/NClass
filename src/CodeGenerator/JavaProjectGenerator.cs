@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using NClass.Core;
+using NClass.Core.Models;
 using NClass.CSharp;
 
 namespace NClass.CodeGenerator
@@ -26,7 +27,7 @@ namespace NClass.CodeGenerator
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="model"/> is null.
 		/// </exception>
-		public JavaProjectGenerator(Model model) : base(model)
+		public JavaProjectGenerator(ClassModel model) : base(model)
 		{
 		}
 

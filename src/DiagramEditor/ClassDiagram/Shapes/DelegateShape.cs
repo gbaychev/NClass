@@ -114,7 +114,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			}
 		}
 
-		protected override bool CloneEntity(Diagram diagram)
+		protected override bool CloneEntity(IDiagram diagram)
 		{
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
@@ -267,7 +267,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 				Rectangle record = GetMemberRectangle(ActiveMemberIndex);
 				record = TransformRelativeToAbsolute(record, zoom, offset);
 				record.Inflate(2, 0);
-				g.DrawRectangle(Diagram.SelectionPen, record);
+				g.DrawRectangle(DiagramConstants.SelectionPen, record);
 			}
 		}
 

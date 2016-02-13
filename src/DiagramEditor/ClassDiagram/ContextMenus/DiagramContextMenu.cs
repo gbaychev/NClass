@@ -22,24 +22,24 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 {
 	public abstract class DiagramContextMenu : ContextMenu
 	{
-		Diagram diagram = null;
+		IDiagram diagram = null;
 
 		protected sealed override IDocument Document
 		{
 			get { return diagram; }
 		}
 
-		protected Diagram Diagram
+		protected IDiagram Diagram
 		{
 			get { return diagram; }
 		}
 
 		public sealed override void ValidateMenuItems(IDocument document)
 		{
-			ValidateMenuItems(document as Diagram);
+			ValidateMenuItems(document as IDiagram);
 		}
 
-		public virtual void ValidateMenuItems(Diagram diagram)
+		public virtual void ValidateMenuItems(IDiagram diagram)
 		{
 			this.diagram = diagram;
 		}

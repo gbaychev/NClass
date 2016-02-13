@@ -64,7 +64,10 @@ namespace NClass.GUI.ModelExplorer
 			TreeNode parent = Parent;
 
 			this.Delete();
-			Diagram diagram = new ClassDiagram(Settings.Default.GetDefaultLanguage());
+			// TODO: in the settings there should be a default diagram. This should check
+			// for the default first and then only if it is a class diagram for the 
+			// default language
+			IDiagram diagram = new ClassDiagram(Settings.Default.GetDefaultLanguage());
 			project.Add(diagram);
 		}
 

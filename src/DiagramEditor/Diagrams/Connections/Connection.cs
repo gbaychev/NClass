@@ -20,6 +20,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
@@ -576,7 +577,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 						route[length - 1].X -= endOffset;
 				}
 
-				g.DrawLines(Diagram.SelectionPen, route);
+				g.DrawLines(DiagramConstants.SelectionPen, route);
 				
 				if (zoom > UndreadableZoom)
 				{
@@ -1600,12 +1601,13 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 			}
 		}
 
-		protected internal Connection Paste(Diagram diagram, Size offset,
+		protected internal Connection Paste(IDiagram diagram, Size offset,
 			Shape first, Shape second)
 		{
 			if (CloneRelationship(diagram, first, second))
 			{
-				Connection connection = diagram.ConnectionList.FirstValue;
+			    var connectionList = (ElementList<Connection>) diagram.Connections;
+				Connection connection = connectionList.FirstValue;
 				connection.IsSelected = true;
 
 				connection.startOrientation = this.startOrientation;
@@ -1629,9 +1631,9 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 			}
 		}
 
-		protected abstract bool CloneRelationship(Diagram diagram, Shape first, Shape second);
+		protected abstract bool CloneRelationship(IDiagram diagram, Shape first, Shape second);
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(Diagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
 		{
 			return ConnectionContextMenu.Default.GetMenuItems(diagram);
 		}

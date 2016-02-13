@@ -44,7 +44,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			get { return _interface; }
 		}
 
-		protected override bool CloneEntity(Diagram diagram)
+		protected override bool CloneEntity(IDiagram diagram)
 		{
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;

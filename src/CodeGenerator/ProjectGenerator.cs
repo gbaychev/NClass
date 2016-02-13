@@ -17,18 +17,19 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using NClass.Core;
+using NClass.Core.Models;
 
 namespace NClass.CodeGenerator
 {
 	public abstract class ProjectGenerator
 	{
-		Model model;
+		ClassModel model;
 		List<string> fileNames = new List<string>();
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="model"/> is null.
 		/// </exception>
-		protected ProjectGenerator(Model model)
+		protected ProjectGenerator(ClassModel model)
 		{
 			if (model == null)
 				throw new ArgumentNullException("model");

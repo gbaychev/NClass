@@ -28,7 +28,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 		static DiagramDynamicMenu _default = new DiagramDynamicMenu();
 
 		ToolStripMenuItem[] menuItems;
-		Diagram diagram = null;
+		IDiagram diagram = null;
 
 		private DiagramDynamicMenu()
 		{
@@ -66,13 +66,18 @@ namespace NClass.DiagramEditor.ClassDiagram
 			}
 			else
 			{
-				diagram = document as Diagram;
+                // TODO do this in a sane way
+                diagram = document as ClassDiagram;
+			    if (diagram == null)
+			    {
+			        throw new Exception("This is not a class diagram");
+			    }
 				diagram.SelectionChanged += new EventHandler(diagram_SelectionChanged);
 
-				mnuNewStructure.Visible = diagram.Language.SupportsStructures;
-				mnuNewDelegate.Visible = diagram.Language.SupportsDelegates;
-				toolNewStructure.Visible = diagram.Language.SupportsStructures;
-				toolNewDelegate.Visible = diagram.Language.SupportsDelegates;
+				mnuNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
+				mnuNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
+				toolNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
+				toolNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
 				toolDelete.Enabled = diagram.HasSelectedElement;
 			}
 		}

@@ -51,7 +51,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 			mnuSaveAsImage.Text = Strings.MenuSaveSelectionAsImage;
 		}
 
-		public override void ValidateMenuItems(Diagram diagram)
+		public override void ValidateMenuItems(IDiagram diagram)
 		{
 			base.ValidateMenuItems(diagram);
 			mnuCut.Enabled = diagram.CanCutToClipboard;

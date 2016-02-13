@@ -546,7 +546,7 @@ namespace NClass.GUI
 			if (Workspace.Default.HasActiveProject)
 			{
 				ShowModelExplorer = true;
-				Diagram diagram = new ClassDiagram(CSharpLanguage.Instance);
+				var diagram = new ClassDiagram(CSharpLanguage.Instance);
 				Workspace.Default.ActiveProject.Add(diagram);
 				Settings.Default.DefaultLanguageName = CSharpLanguage.Instance.AssemblyName;
 			}
@@ -557,7 +557,7 @@ namespace NClass.GUI
 			if (Workspace.Default.HasActiveProject)
 			{
 				ShowModelExplorer = true;
-				Diagram diagram = new ClassDiagram(JavaLanguage.Instance);
+				var diagram = new ClassDiagram(JavaLanguage.Instance);
 				Workspace.Default.ActiveProject.Add(diagram);
 				Settings.Default.DefaultLanguageName = JavaLanguage.Instance.AssemblyName;
 			}
