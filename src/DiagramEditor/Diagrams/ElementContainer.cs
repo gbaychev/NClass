@@ -31,6 +31,12 @@ namespace NClass.DiagramEditor.Diagrams
 		List<Connection> connections = new List<Connection>();
 		Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
 		int currentOffset = 0;
+	    private DiagramType sourceDiagramType;
+
+	    public ElementContainer(DiagramType sourceDiagramType)
+	    {
+	        this.sourceDiagramType = sourceDiagramType;
+	    }
 
 		public void AddShape(Shape shape)
 		{
@@ -82,7 +88,12 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-		//TODO: legyenek inkább hivatkozások a shape-ekhez
+	    public DiagramType SourceDiagramType
+	    {
+	        get { return sourceDiagramType; }
+	    }
+
+	    //TODO: legyenek inkább hivatkozások a shape-ekhez
 		public Shape GetShape(IEntity entity)
 		{
 			foreach (Shape shape in shapes)

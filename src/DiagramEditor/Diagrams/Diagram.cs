@@ -243,7 +243,14 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public bool CanPasteFromClipboard
 		{
-			get { return Clipboard.Item is ElementContainer; }
+		    get
+		    {
+		        var container = Clipboard.Item as ElementContainer;
+		        if (container == null)
+		            return false;
+
+		        return container.SourceDiagramType == this.DiagramType;
+		    }
 		}
 
 		public int ShapeCount
@@ -395,7 +402,7 @@ namespace NClass.DiagramEditor.Diagrams
 		{
 			if (CanCopyToClipboard)
 			{
-				ElementContainer elements = new ElementContainer();
+				ElementContainer elements = new ElementContainer(this.DiagramType);
 				foreach (Shape shape in GetSelectedShapes())
 				{
 					elements.AddShape(shape);
