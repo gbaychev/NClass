@@ -1439,7 +1439,7 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 			connection.Diagram = null;
 			connection.Modified -= element_Modified;
-			connection.Activating += element_Activating;
+			connection.Activating -= element_Activating;
 			connection.SelectionChanged -= connection_SelectionChanged;
 			connection.RouteChanged -= connection_RouteChanged;
 			connection.BendPointMove -= connection_BendPointMove;

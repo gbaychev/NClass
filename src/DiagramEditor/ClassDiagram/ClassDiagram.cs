@@ -43,6 +43,11 @@ namespace NClass.DiagramEditor.ClassDiagram
 		public ClassDiagram(Language language)
         {
             model = new ClassModel(language);
+            model.EntityRemoved += OnEntityRemoved;
+            model.EntityAdded += OnEntityAdded;
+            model.RelationRemoved += OnRelationRemoved;
+            model.RelationAdded += OnRelationAdded;
+            model.Deserializing += OnDeserializing;
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
         }
@@ -200,8 +205,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 		/// </exception>
 		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
         {
-            var association = model.AddAssociation(first, second);
-            return AddAssociation(association);
+            return model.AddAssociation(first, second);
         }
 
         public AssociationRelationship AddAssociation(AssociationRelationship association)
@@ -214,8 +218,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public AssociationRelationship AddComposition(TypeBase first, TypeBase second)
         {
-            var composition = model.AddComposition(first, second);
-            return AddComposition(composition);
+            return model.AddComposition(first, second);
         }
 
         public AssociationRelationship AddComposition(AssociationRelationship composition)
@@ -234,8 +237,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         public GeneralizationRelationship AddGeneralization(CompositeType derivedType,
             CompositeType baseType)
         {
-            var generalization = model.AddGeneralization(derivedType, baseType);
-            return AddGeneralization(generalization);
+            return model.AddGeneralization(derivedType, baseType);
         }
 
         private GeneralizationRelationship AddGeneralization(GeneralizationRelationship generalization)
@@ -249,8 +251,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         public RealizationRelationship AddRealization(TypeBase implementer,
             InterfaceType baseType)
         {
-            var realization = model.AddRealization(implementer, baseType);
-            return AddRealization(realization);
+            return model.AddRealization(implementer, baseType);
         }
 
         private RealizationRelationship AddRealization(RealizationRelationship realization)
@@ -263,8 +264,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public DependencyRelationship AddDependency(TypeBase first, TypeBase second)
         {
-            var dependencyRelationship = model.AddDependency(first, second);
-            return AddDependency(dependencyRelationship);
+            return model.AddDependency(first, second);
         }
 
         private DependencyRelationship AddDependency(DependencyRelationship dependency)
@@ -277,8 +277,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
         {
-            var nestingRelationship = model.AddNesting(parentType, innerType);
-            return AddNesting(nestingRelationship);
+            return model.AddNesting(parentType, innerType);
         }
 
         public NestingRelationship AddNesting(NestingRelationship nesting)
@@ -291,8 +290,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
         {
-            var commentRelationship = model.AddCommentRelationship(comment, entity);
-            return AddCommentRelationship(commentRelationship);
+            return model.AddCommentRelationship(comment, entity);
         }
 
         private CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
