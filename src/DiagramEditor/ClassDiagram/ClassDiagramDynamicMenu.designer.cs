@@ -1,6 +1,6 @@
 ﻿namespace NClass.DiagramEditor.ClassDiagram
 {
-	partial class DiagramDynamicMenu
+	partial class ClassDiagramDynamicMenu
 	{
 		#region Windows Form Designer generated code
 
@@ -652,7 +652,7 @@
 			this.mnuAutoSize.Text = "Auto &Size";
 			this.mnuAutoSize.Click += new System.EventHandler(this.mnuAutoSize_Click);
 			// 
-			// DiagramDynamicMenu
+			// ClassDiagramDynamicMenu
 			// 
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();

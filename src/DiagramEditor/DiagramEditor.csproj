@@ -73,7 +73,7 @@
     <Compile Include="ClassDiagram\Connections\CommentConnection.cs" />
     <Compile Include="ClassDiagram\Connections\Generalization.cs" />
     <Compile Include="ClassDiagram\Connections\Realization.cs" />
-    <Compile Include="ClassDiagram\ContextMenus\BlankContextMenu.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\ClassDiagramBlankContextMenu.cs" />
     <Compile Include="ClassDiagram\ContextMenus\DiagramContextMenu.cs" />
     <Compile Include="ClassDiagram\ConnectionCreator.cs" />
     <Compile Include="Diagrams\ClearTypeMode.cs" />
@@ -89,10 +89,10 @@
     <Compile Include="Diagrams\DiagramConstants.cs" />
     <Compile Include="Diagrams\DiagramType.cs" />
     <Compile Include="Diagrams\ElementContainer.cs" />
-    <Compile Include="ClassDiagram\DiagramDynamicMenu.cs">
+    <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.cs">
     </Compile>
-    <Compile Include="ClassDiagram\DiagramDynamicMenu.designer.cs">
-      <DependentUpon>DiagramDynamicMenu.cs</DependentUpon>
+    <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.designer.cs">
+      <DependentUpon>ClassDiagramDynamicMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="ClassDiagram\Dialogs\AssociationDialog.cs">
       <SubType>Form</SubType>

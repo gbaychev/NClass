@@ -23,6 +23,7 @@ using System.Xml;
 using NClass.Core;
 using NClass.Core.Models;
 using NClass.DiagramEditor.ClassDiagram.Connections;
+using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
@@ -34,13 +35,14 @@ namespace NClass.DiagramEditor.ClassDiagram
     {
         protected ClassDiagram()
         {
-            
+            diagramContextMenu = ClassDiagramBlankContextMenu.Default;
+            diagramDynamicMenu = ClassDiagramDynamicMenu.Default;
         }
 
         /// <exception cref="ArgumentNullException">
 		/// <paramref name="language"/> is null.
 		/// </exception>
-		public ClassDiagram(Language language)
+		public ClassDiagram(Language language) : this()
         {
             model = new ClassModel(language);
             model.EntityRemoved += OnEntityRemoved;
@@ -48,6 +50,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
             model.Deserializing += OnDeserializing;
+
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
         }

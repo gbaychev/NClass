@@ -22,7 +22,6 @@ using System.Xml;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
-using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams.Connections;
@@ -60,6 +59,8 @@ namespace NClass.DiagramEditor.Diagrams
 		protected EntityType shapeType;
         protected IConnectionCreator connectionCreator = null;
 	    protected EntityType newShapeType;
+	    protected ContextMenu diagramContextMenu;
+	    protected DynamicMenu diagramDynamicMenu;
 
         public event EventHandler Modified;
         public event EventHandler OffsetChanged;
@@ -911,14 +912,12 @@ namespace NClass.DiagramEditor.Diagrams
 				}
 			}
 		}
-
+        
 		public DynamicMenu GetDynamicMenu()
 		{
-			DynamicMenu dynamicMenu = DiagramDynamicMenu.Default;
-			dynamicMenu.SetReference(this);
-			return dynamicMenu;
+			diagramDynamicMenu.SetReference(this);
+			return diagramDynamicMenu;
 		}
-
 		public ContextMenuStrip GetContextMenu(AbsoluteMouseEventArgs e)
 		{
 			if (HasSelectedElement)
@@ -938,7 +937,7 @@ namespace NClass.DiagramEditor.Diagrams
 			else
 			{
 				ContextMenu.MenuStrip.Items.Clear();
-				foreach (ToolStripItem menuItem in BlankContextMenu.Default.GetMenuItems(this))
+				foreach (ToolStripItem menuItem in diagramContextMenu.GetMenuItems(this))
 					ContextMenu.MenuStrip.Items.Add(menuItem);
 
 				return ContextMenu.MenuStrip;
