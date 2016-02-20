@@ -50,6 +50,8 @@ namespace NClass.DiagramEditor.ClassDiagram
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
             model.Deserializing += OnDeserializing;
+            model.Project = this.Project;
+            model.Name = this.name;
 
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
@@ -629,6 +631,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model.RelationRemoved += OnRelationRemoved;
                 model.RelationAdded += OnRelationAdded;
                 model.Deserializing += OnDeserializing;
+                model.Name = this.name;
             }
             model.Deserialize(node);
         }

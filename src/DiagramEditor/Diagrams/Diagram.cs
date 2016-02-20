@@ -106,6 +106,11 @@ namespace NClass.DiagramEditor.Diagrams
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
         #endregion
 
+        public Model Model
+        {
+            get { return this.model; }
+        }
+
         public string Name
 	    {
             get
@@ -120,13 +125,26 @@ namespace NClass.DiagramEditor.Diagrams
                 if (name != value && value != null)
                 {
                     name = value;
+                    model.Name = value;
                     OnRenamed(EventArgs.Empty);
                     OnModified(EventArgs.Empty);
                 }
             }
         }
 
-	    public Project Project { get; set; }
+	    protected Project project;
+	    public Project Project
+        {
+	        get { return project; }
+	        set
+	        {
+	            if (this.project != value)
+	            {
+	                this.model.Project = value;
+	                this.project = value;
+	            }
+	        }
+        }
 
 	    public IEnumerable<Shape> Shapes
 		{
@@ -1703,8 +1721,8 @@ namespace NClass.DiagramEditor.Diagrams
             else
                 this.name = nameElement.InnerText;
 	    }
-
-        protected virtual void OnRenamed(EventArgs e)
+        
+	    protected virtual void OnRenamed(EventArgs e)
         {
             if (Renamed != null)
                 Renamed(this, e);

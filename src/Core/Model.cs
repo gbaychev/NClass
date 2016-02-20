@@ -26,7 +26,6 @@ namespace NClass.Core
 	{
 		protected List<IEntity> entities = new List<IEntity>();
 		protected List<Relationship> relationships = new List<Relationship>();
-		protected Project project = null;
 		protected bool isDirty = false;
 		protected bool loading = false;
 
@@ -38,13 +37,10 @@ namespace NClass.Core
 		public event SerializeEventHandler Serializing;
 		public event SerializeEventHandler Deserializing;
 
-		public Project Project
-		{
-			get { return project; }
-			set { project = value; }
-		}
+	    public Project Project { get; set; }
+	    public string Name { get; set; }
 
-		public bool IsDirty
+	    public bool IsDirty
 		{
 			get { return isDirty; }
 		}

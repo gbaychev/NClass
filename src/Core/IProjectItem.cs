@@ -44,5 +44,6 @@ namespace NClass.Core
 		/// <paramref name="node"/> is null.
 		/// </exception>
 		void Deserialize(XmlElement node);
+        Model Model { get; }
 	}
 }

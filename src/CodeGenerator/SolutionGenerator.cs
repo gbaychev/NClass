@@ -108,7 +108,7 @@ namespace NClass.CodeGenerator
             //TODO model is no longer an project item, must be fixed
 			foreach (IProjectItem projectItem in project.Items)
 			{
-				ClassModel model = projectItem as ClassModel;
+				ClassModel model = projectItem.Model as ClassModel;
 
 				if (model != null)
 				{
