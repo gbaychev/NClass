@@ -263,6 +263,7 @@
     <Compile Include="ClassDiagram\Shapes\InterfaceShape.cs" />
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
+    <Compile Include="UseCaseDiagram\UseCaseDiagram.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Canvas.resx">
