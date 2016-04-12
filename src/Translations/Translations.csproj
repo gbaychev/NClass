@@ -30,7 +30,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
     <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
