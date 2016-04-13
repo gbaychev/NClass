@@ -26,6 +26,7 @@ using NClass.Java;
 using NClass.DiagramEditor;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.UseCaseDiagram;
 using NClass.GUI.Dialogs;
 using NClass.Translations;
 
@@ -564,7 +565,17 @@ namespace NClass.GUI
 			}
 		}
 
-		private void mnuOpenFile_Click(object sender, EventArgs e)
+        private void useCaseDiagramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Workspace.Default.HasActiveProject)
+            {
+                ShowModelExplorer = true;
+                var diagram = new UseCaseDiagram();
+                Workspace.Default.ActiveProject.Add(diagram);
+            }
+        }
+
+        private void mnuOpenFile_Click(object sender, EventArgs e)
 		{
 			Workspace.Default.OpenProject();
 		}
@@ -917,6 +928,6 @@ namespace NClass.GUI
 			tabbedWindow.Canvas.Zoom = toolZoom.ZoomValue;
 		}
 
-		#endregion
-	}
+        #endregion
+    }
 }

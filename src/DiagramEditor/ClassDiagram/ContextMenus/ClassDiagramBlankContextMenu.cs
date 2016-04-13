@@ -92,7 +92,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 
 		private void InitMenuItems()
 		{
-			mnuAddNewElement = new ToolStripMenuItem(Strings.MenuNew, Resources.NewEntity);
+			mnuAddNewElement = new ToolStripMenuItem(Strings.MenuNew, Resources.NewElement);
 			mnuNewClass = new ToolStripMenuItem(Strings.MenuClass, Resources.Class, mnuNewClass_Click);
 			mnuNewStructure = new ToolStripMenuItem(Strings.MenuStruct, Resources.Structure, mnuNewStructure_Click);
 			mnuNewInterface = new ToolStripMenuItem(Strings.MenuInterface, Resources.Interface32, mnuNewInterface_Click);

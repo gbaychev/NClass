@@ -23,6 +23,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 {
     public class UseCaseDiagram : Diagram<UseCaseModel>
     {
+        public UseCaseDiagram()
+        {
+            this.model = new UseCaseModel();
+            this.diagramDynamicMenu = UseCaseDiagramDynamicMenu.Default;
+        }
+
         public override void KeyDown(KeyEventArgs e)
         {
             throw new System.NotImplementedException();

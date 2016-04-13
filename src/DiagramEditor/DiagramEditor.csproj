@@ -96,9 +96,6 @@
     <Compile Include="Diagrams\ElementContainer.cs" />
     <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.cs">
     </Compile>
-    <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.designer.cs">
-      <DependentUpon>ClassDiagramDynamicMenu.cs</DependentUpon>
-    </Compile>
     <Compile Include="ClassDiagram\Dialogs\AssociationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,6 +232,7 @@
     <Compile Include="ClassDiagram\Connections\BendPoint.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Diagrams\Shapes\ResizeEventArgs.cs" />
+    <Compile Include="DiagramDynamicMenu.cs" />
     <Compile Include="ToolStripSimplifiedRenderer.cs">
     </Compile>
     <Compile Include="Diagrams\DiagramElement.cs" />
@@ -264,6 +262,7 @@
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagram.cs" />
+    <Compile Include="UseCaseDiagram\UseCaseDiagramDynamicMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Canvas.resx">
@@ -372,7 +371,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
