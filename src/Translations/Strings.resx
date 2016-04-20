@@ -1155,4 +1155,16 @@ Do you want to download the framework now?</value>
     <value>The output directory is not empty, the previous files will be overwritten.
 Do you still want to continue?</value>
   </data>
+  <data name="AddNewActor" xml:space="preserve">
+    <value>Add New Actor</value>
+  </data>
+  <data name="AddNewExtends" xml:space="preserve">
+    <value>Add New 'extends'</value>
+  </data>
+  <data name="AddNewIncludes" xml:space="preserve">
+    <value>Add New 'includes'</value>
+  </data>
+  <data name="AddNewUseCase" xml:space="preserve">
+    <value>Add New Use Case</value>
+  </data>
 </root>

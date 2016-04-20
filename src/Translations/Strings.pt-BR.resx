@@ -1124,4 +1124,16 @@ Do you want to download the framework now?</value>
     <value>Colar</value>
     <comment>Clipboard Paste</comment>
   </data>
+  <data name="AddNewActor" xml:space="preserve">
+    <value>Add New Actor</value>
+  </data>
+  <data name="AddNewExtends" xml:space="preserve">
+    <value>Add New 'extends'</value>
+  </data>
+  <data name="AddNewIncludes" xml:space="preserve">
+    <value>Add New 'includes'</value>
+  </data>
+  <data name="AddNewUseCase" xml:space="preserve">
+    <value>Add New Use Case</value>
+  </data>
 </root>

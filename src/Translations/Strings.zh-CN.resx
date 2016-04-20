@@ -1086,4 +1086,16 @@
   <data name="DeleteMemberConfirmation" xml:space="preserve">
     <value>确定要删除所选取成员吗？</value>
   </data>
+  <data name="AddNewActor" xml:space="preserve">
+    <value>Add New Actor</value>
+  </data>
+  <data name="AddNewExtends" xml:space="preserve">
+    <value>Add New 'extends'</value>
+  </data>
+  <data name="AddNewIncludes" xml:space="preserve">
+    <value>Add New 'includes'</value>
+  </data>
+  <data name="AddNewUseCase" xml:space="preserve">
+    <value>Add New Use Case</value>
+  </data>
 </root>
