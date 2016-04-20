@@ -15,6 +15,7 @@
 
 using System;
 using System.Windows.Forms;
+using NClass.Core;
 using NClass.DiagramEditor.Properties;
 using NClass.Translations;
 
@@ -85,11 +86,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             base.InitComponents();
 
-            this.mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase);
-            this.mnuAddNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor);
-            this.mnuAddNewAssociation = new ToolStripMenuItem(Strings.AddNewAssociation, Resources.Association);
-            this.mnuAddNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends);
-            this.mnuAddNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes);
+            this.mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, (o,e) => diagram?.CreateShape(EntityType.UseCase));
+            this.mnuAddNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, (o, e) => diagram?.CreateShape(EntityType.Actor));
+            this.mnuAddNewAssociation = new ToolStripMenuItem(Strings.AddNewAssociation, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.Association));
+            this.mnuAddNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension));
+            this.mnuAddNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion));
 
             this.mnuNewElement.DropDownItems.Add(this.mnuNewUseCase);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewActor);
@@ -98,11 +99,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewExtends);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewIncludes);
 
-            this.toolNewUseCase = new ToolStripButton(Strings.AddNewUseCase, Resources.UseCase) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewActor = new ToolStripButton(Strings.AddNewActor, Resources.Actor) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewAssociation = new ToolStripButton(Strings.Association, Resources.Association) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewExtends = new ToolStripButton(Strings.AddNewExtends, Resources.Extends) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewIncludes = new ToolStripButton(Strings.AddNewIncludes, Resources.Includes) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewUseCase = new ToolStripButton(Strings.AddNewUseCase, Resources.UseCase, (o, e) => diagram?.CreateShape(EntityType.UseCase)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewActor = new ToolStripButton(Strings.AddNewActor, Resources.Actor, (o, e) => diagram?.CreateShape(EntityType.Actor)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewAssociation = new ToolStripButton(Strings.Association, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.Association)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewExtends = new ToolStripButton(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewIncludes = new ToolStripButton(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
 
             this.elementsToolStrip.Items.Add(this.toolNewUseCase);
             this.elementsToolStrip.Items.Add(this.toolNewActor);
