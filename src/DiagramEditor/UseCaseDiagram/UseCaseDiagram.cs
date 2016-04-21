@@ -83,16 +83,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return shapes.FirstValue;
         }
 
-        private void AddComment()
-        {
-            model.AddComment();
-        }
-
-        private void AddComment(Comment comment)
-        {
-            AddShape(new CommentShape(comment));
-        }
-
         protected override void OnEntityAdded(object sender, EntityEventArgs e)
         {
             switch (e.Entity.EntityType)

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
@@ -1727,6 +1728,49 @@ namespace NClass.DiagramEditor.Diagrams
         {
             if (Renamed != null)
                 Renamed(this, e);
+        }
+
+        public void AddComment()
+        {
+            model.AddComment();
+        }
+
+        protected void AddComment(Comment comment)
+        {
+            AddShape(new CommentShape(comment));
+        }
+
+        public bool InsertComment(Comment comment)
+        {
+            if (comment == null || model.Entities.Contains(comment)) return false;
+
+            AddComment(comment);
+            return true;
+        }
+
+        public bool InsertCommentRelationship(CommentRelationship commentRelationship)
+        {
+            if (commentRelationship != null && !model.Relationships.Contains(commentRelationship) &&
+                model.Entities.Contains(commentRelationship.First) && model.Entities.Contains(commentRelationship.Second))
+            {
+                AddCommentRelationship(commentRelationship);
+                return true;
+            }
+
+            return false;
+        }
+
+        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
+        {
+            return model.AddCommentRelationship(comment, entity);
+        }
+
+        protected CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
+        {
+            Shape startShape = GetShape(commentRelationship.First);
+            Shape endShape = GetShape(commentRelationship.Second);
+            AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
+            return commentRelationship;
         }
     }
 }

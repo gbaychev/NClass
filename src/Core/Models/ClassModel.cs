@@ -86,22 +86,7 @@ namespace NClass.Core.Models
             AddEntity(newDelegate);
             return newDelegate;
         }
-
-
-        public Comment AddComment()
-        {
-            Comment comment = new Comment();
-            AddEntity(comment);
-            return comment;
-        }
-
-        private void AddRelationship(Relationship relationship)
-        {
-            relationships.Add(relationship);
-            relationship.Modified += ElementChanged;
-            OnRelationAdded(new RelationshipEventArgs(relationship));
-        }
-
+        
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>
@@ -180,18 +165,7 @@ namespace NClass.Core.Models
             AddRelationship(nesting);
             return nesting;
         }
-
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="comment"/> or <paramref name="entity"/> is null.
-        /// </exception>
-        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
-        {
-            CommentRelationship commentRelationship = new CommentRelationship(comment, entity);
-
-            AddRelationship(commentRelationship);
-            return commentRelationship;
-        }
-
+        
         /// <exception cref="InvalidDataException">
 		/// The save format is corrupt and could not be loaded.
 		/// </exception>

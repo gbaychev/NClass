@@ -116,7 +116,32 @@ namespace NClass.Core
 			}
 		}
 
-		public virtual void Serialize(XmlElement node)
+        public IEntity AddComment()
+        {
+            Comment comment = new Comment();
+            AddEntity(comment);
+            return comment;
+        }
+
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="comment"/> or <paramref name="entity"/> is null.
+        /// </exception>
+        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
+        {
+            CommentRelationship commentRelationship = new CommentRelationship(comment, entity);
+
+            AddRelationship(commentRelationship);
+            return commentRelationship;
+        }
+
+        protected void AddRelationship(Relationship relationship)
+        {
+            relationships.Add(relationship);
+            relationship.Modified += ElementChanged;
+            OnRelationAdded(new RelationshipEventArgs(relationship));
+        }
+
+        public virtual void Serialize(XmlElement node)
 		{
             SaveEntitites(node);
             SaveRelationships(node);

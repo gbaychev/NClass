@@ -110,16 +110,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             return false;
         }
 
-        public bool InsertComment(Comment comment)
-        {
-            if (comment != null && !model.Entities.Contains(comment))
-            {
-                AddComment(comment);
-                return true;
-            }
-
-            return false;
-        }
+        
 
         public bool InsertClass(ClassType newClass)
         {
@@ -144,18 +135,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
             return false;
         }
-
-        public bool InsertCommentRelationship(CommentRelationship commentRelationship)
-        {
-            if (commentRelationship != null && !model.Relationships.Contains(commentRelationship) &&
-                model.Entities.Contains(commentRelationship.First) && model.Entities.Contains(commentRelationship.Second))
-            {
-                AddCommentRelationship(commentRelationship);
-                return true;
-            }
-
-            return false;
-        }
+        
 
         public bool InsertDependency(DependencyRelationship dependency)
         {
@@ -293,19 +273,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             return nesting;
         }
 
-        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
-        {
-            return model.AddCommentRelationship(comment, entity);
-        }
-
-        private CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
-        {
-            Shape startShape = GetShape(commentRelationship.First);
-            Shape endShape = GetShape(commentRelationship.Second);
-            AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
-            return commentRelationship;
-        }
-
         public ClassType AddClass()
         {
             return model.AddClass();
@@ -355,17 +322,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             AddShape(new EnumShape(enumType));
         }
-
-        public Comment AddComment()
-        {
-            return model.AddComment();
-        }
-
-        private void AddComment(Comment comment)
-        {
-            AddShape(new CommentShape(comment));
-        }
-
+        
         public override Shape AddShape(EntityType type)
         {
             switch (type)
