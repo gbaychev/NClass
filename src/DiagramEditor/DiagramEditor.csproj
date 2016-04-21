@@ -254,7 +254,7 @@
       <DependentUpon>Canvas.cs</DependentUpon>
     </Compile>
     <Compile Include="ClassDiagram\Shapes\ClassShape.cs" />
-    <Compile Include="ClassDiagram\Shapes\CommentShape.cs" />
+    <Compile Include="Diagrams\Shapes\CommentShape.cs" />
     <Compile Include="ClassDiagram\Shapes\CompositeTypeShape.cs" />
     <Compile Include="ClassDiagram\Shapes\DelegateShape.cs" />
     <Compile Include="ClassDiagram\Shapes\EnumShape.cs" />
