@@ -368,74 +368,70 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override Shape AddShape(EntityType type)
         {
+            switch (type)
             {
-                switch (type)
-                {
-                    case EntityType.Class:
-                        AddClass();
-                        break;
+                case EntityType.Class:
+                    AddClass();
+                    break;
 
-                    case EntityType.Comment:
-                        AddComment();
-                        break;
+                case EntityType.Comment:
+                    AddComment();
+                    break;
 
-                    case EntityType.Delegate:
-                        AddDelegate();
-                        break;
+                case EntityType.Delegate:
+                    AddDelegate();
+                    break;
 
-                    case EntityType.Enum:
-                        AddEnum();
-                        break;
+                case EntityType.Enum:
+                    AddEnum();
+                    break;
 
-                    case EntityType.Interface:
-                        AddInterface();
-                        break;
+                case EntityType.Interface:
+                    AddInterface();
+                    break;
 
-                    case EntityType.Structure:
-                        AddStructure();
-                        break;
+                case EntityType.Structure:
+                    AddStructure();
+                    break;
 
-                    default:
-                        return null;
-                }
-
-                RecalculateSize();
-                return shapes.FirstValue;
+                default:
+                    return null;
             }
+
+            RecalculateSize();
+            return shapes.FirstValue;
         }
 
         protected override void OnEntityAdded(object sender, EntityEventArgs e)
         {
+            switch (e.Entity.EntityType)
             {
-                switch (e.Entity.EntityType)
-                {
-                    case EntityType.Class:
-                        AddClass(e.Entity as ClassType);
-                        break;
+                case EntityType.Class:
+                    AddClass(e.Entity as ClassType);
+                    break;
 
-                    case EntityType.Comment:
-                        AddComment(e.Entity as Comment);
-                        break;
+                case EntityType.Comment:
+                    AddComment(e.Entity as Comment);
+                    break;
 
-                    case EntityType.Delegate:
-                        AddDelegate(e.Entity as DelegateType);
-                        break;
+                case EntityType.Delegate:
+                    AddDelegate(e.Entity as DelegateType);
+                    break;
 
-                    case EntityType.Enum:
-                        AddEnum(e.Entity as EnumType);
-                        break;
+                case EntityType.Enum:
+                    AddEnum(e.Entity as EnumType);
+                    break;
 
-                    case EntityType.Interface:
-                        AddInterface(e.Entity as InterfaceType);
-                        break;
+                case EntityType.Interface:
+                    AddInterface(e.Entity as InterfaceType);
+                    break;
 
-                    case EntityType.Structure:
-                        AddStructure(e.Entity as StructureType);
-                        break;
-                }
-
-                RecalculateSize();
+                case EntityType.Structure:
+                    AddStructure(e.Entity as StructureType);
+                    break;
             }
+
+            RecalculateSize();
         }
 
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)

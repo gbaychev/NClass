@@ -13,6 +13,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.Core.Models;
@@ -26,6 +27,15 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         public UseCaseDiagram()
         {
             this.model = new UseCaseModel();
+            model.EntityRemoved += OnEntityRemoved;
+            model.EntityAdded += OnEntityAdded;
+            model.RelationRemoved += OnRelationRemoved;
+            model.RelationAdded += OnRelationAdded;
+            model.Deserializing += OnDeserializing;
+            model.Project = this.Project;
+            model.Name = this.name;
+
+            newShapeType = EntityType.UseCase;
             this.diagramDynamicMenu = UseCaseDiagramDynamicMenu.Default;
         }
 
@@ -36,17 +46,63 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public override void CreateShape(EntityType type)
         {
-            throw new System.NotImplementedException();
+            {
+                state = State.CreatingShape;
+                shapeType = type;
+                newShapeType = type;
+
+                switch (type)
+                {
+                    case EntityType.Actor:
+                        break;
+                    case EntityType.UseCase:
+                        break;
+
+                    case EntityType.Comment:
+                        shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
+                        break;
+                }
+                shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
+                Redraw();
+            }
         }
 
         public override Shape AddShape(EntityType type)
         {
-            throw new System.NotImplementedException();
+            switch (type)
+            {
+                case EntityType.Comment:
+                    AddComment();
+                    break;
+                    
+                default:
+                    return null;
+            }
+
+            RecalculateSize();
+            return shapes.FirstValue;
+        }
+
+        private void AddComment()
+        {
+            model.AddComment();
+        }
+
+        private void AddComment(Comment comment)
+        {
+            AddShape(new CommentShape(comment));
         }
 
         protected override void OnEntityAdded(object sender, EntityEventArgs e)
         {
-            throw new System.NotImplementedException();
+            switch (e.Entity.EntityType)
+            {
+                case EntityType.Comment:
+                    AddComment(e.Entity as Comment);
+                    break;
+            }
+
+            RecalculateSize();
         }
 
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)

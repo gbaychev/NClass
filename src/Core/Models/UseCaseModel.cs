@@ -28,5 +28,11 @@ namespace NClass.Core.Models
         {
             throw new System.NotImplementedException();
         }
+
+        public void AddComment()
+        {
+            Comment comment = new Comment();
+            AddEntity(comment);
+        }
     }
 }
