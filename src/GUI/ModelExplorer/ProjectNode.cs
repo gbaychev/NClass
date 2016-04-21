@@ -24,6 +24,7 @@ using NClass.Translations;
 using NClass.DiagramEditor;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.UseCaseDiagram;
 
 namespace NClass.GUI.ModelExplorer
 {
@@ -37,7 +38,9 @@ namespace NClass.GUI.ModelExplorer
 			contextMenu.Items.AddRange(new ToolStripItem[] {
 				new ToolStripMenuItem(Strings.MenuAddNew, Resources.NewDocument,
 					new ToolStripMenuItem(Strings.MenuCSharpDiagram, null, newCSharpDiagram_Click),
-					new ToolStripMenuItem(Strings.MenuJavaDiagram, null, newJavaDiagram_Click)
+					new ToolStripMenuItem(Strings.MenuJavaDiagram, null, newJavaDiagram_Click),
+                    new ToolStripSeparator(),
+                    new ToolStripMenuItem(Strings.MenuUseCaseDiagram, null, newUseCaseDiagram_Click)
 				),
 				new ToolStripSeparator(),
 				new ToolStripMenuItem(Strings.MenuSave, Resources.Save, save_Click),
@@ -201,7 +204,16 @@ namespace NClass.GUI.ModelExplorer
 			project.Add(diagram);
 		}
 
-		private static void rename_Click(object sender, EventArgs e)
+	    private static void newUseCaseDiagram_Click(object sender, EventArgs e)
+	    {
+            ToolStripItem menuItem = (ToolStripItem)sender;
+            Project project = ((ProjectNode)menuItem.OwnerItem.Owner.Tag).Project;
+
+            IDiagram diagram = new UseCaseDiagram();
+            project.Add(diagram);
+        }
+
+	    private static void rename_Click(object sender, EventArgs e)
 		{
 			ToolStripItem menuItem = (ToolStripItem) sender;
 			ProjectNode node = (ProjectNode) menuItem.Owner.Tag;

@@ -2341,6 +2341,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use Case Diagram.
+        /// </summary>
+        public static string MenuUseCaseDiagram {
+            get {
+                return ResourceManager.GetString("MenuUseCaseDiagram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;View.
         /// </summary>
         public static string MenuView {

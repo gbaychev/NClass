@@ -1108,4 +1108,7 @@
   <data name="AddNewUseCase" xml:space="preserve">
     <value>Add New Use Case</value>
   </data>
+  <data name="MenuUseCaseDiagram" xml:space="preserve">
+    <value>Use Case Diagram</value>
+  </data>
 </root>

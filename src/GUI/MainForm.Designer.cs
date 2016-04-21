@@ -36,7 +36,10 @@ namespace NClass.GUI
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLanguage = new System.Windows.Forms.ToolStripStatusLabel();
             this.windowClient = new System.Windows.Forms.SplitContainer();
+            this.tabbedWindow = new NClass.GUI.TabbedWindow();
             this.toolsPanel = new System.Windows.Forms.SplitContainer();
+            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
+            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +47,8 @@ namespace NClass.GUI
             this.mnuSepProject = new System.Windows.Forms.ToolStripSeparator();
             this.mnuNewCSharpDiagram = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewJavaDiagram = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuNewUseCaseDiagram = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpenFile = new System.Windows.Forms.ToolStripMenuItem();
             this.sepOpenFile = new System.Windows.Forms.ToolStripSeparator();
@@ -122,14 +127,9 @@ namespace NClass.GUI
             this.toolSepRedo = new System.Windows.Forms.ToolStripSeparator();
             this.toolZoomValue = new System.Windows.Forms.ToolStripLabel();
             this.toolZoomOut = new System.Windows.Forms.ToolStripButton();
+            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolZoomIn = new System.Windows.Forms.ToolStripButton();
             this.toolAutoZoom = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.useCaseDiagramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabbedWindow = new NClass.GUI.TabbedWindow();
-            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
-            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
-            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -223,6 +223,16 @@ namespace NClass.GUI
             this.windowClient.SplitterDistance = 650;
             this.windowClient.TabIndex = 0;
             // 
+            // tabbedWindow
+            // 
+            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabbedWindow.DocumentManager = null;
+            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
+            this.tabbedWindow.Name = "tabbedWindow";
+            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
+            this.tabbedWindow.TabIndex = 0;
+            // 
             // toolsPanel
             // 
             this.toolsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -247,6 +257,35 @@ namespace NClass.GUI
             this.toolsPanel.Size = new System.Drawing.Size(238, 595);
             this.toolsPanel.SplitterDistance = 405;
             this.toolsPanel.TabIndex = 0;
+            // 
+            // modelExplorer
+            // 
+            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.modelExplorer.ImageIndex = 0;
+            this.modelExplorer.Indent = 22;
+            this.modelExplorer.ItemHeight = 18;
+            this.modelExplorer.LabelEdit = true;
+            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
+            this.modelExplorer.Name = "modelExplorer";
+            this.modelExplorer.SelectedImageIndex = 0;
+            this.modelExplorer.ShowRootLines = false;
+            this.modelExplorer.Size = new System.Drawing.Size(236, 403);
+            this.modelExplorer.TabIndex = 0;
+            this.modelExplorer.Workspace = null;
+            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
+            // 
+            // diagramNavigator
+            // 
+            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
+            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.diagramNavigator.DocumentVisualizer = null;
+            this.diagramNavigator.Location = new System.Drawing.Point(1, 1);
+            this.diagramNavigator.Name = "diagramNavigator";
+            this.diagramNavigator.Size = new System.Drawing.Size(236, 184);
+            this.diagramNavigator.TabIndex = 0;
+            this.diagramNavigator.Text = "diagramNavigator";
             // 
             // menuStrip
             // 
@@ -292,7 +331,7 @@ namespace NClass.GUI
             this.mnuNewCSharpDiagram,
             this.mnuNewJavaDiagram,
             this.toolStripSeparator1,
-            this.useCaseDiagramToolStripMenuItem});
+            this.mnuNewUseCaseDiagram});
             this.mnuNew.Image = global::NClass.GUI.Properties.Resources.NewDocument;
             this.mnuNew.Name = "mnuNew";
             this.mnuNew.Size = new System.Drawing.Size(165, 22);
@@ -325,6 +364,18 @@ namespace NClass.GUI
             this.mnuNewJavaDiagram.Size = new System.Drawing.Size(166, 22);
             this.mnuNewJavaDiagram.Text = "&Java diagram";
             this.mnuNewJavaDiagram.Click += new System.EventHandler(this.mnuNewJavaDiagram_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
+            // 
+            // mnuNewUseCaseDiagram
+            // 
+            this.mnuNewUseCaseDiagram.Name = "mnuNewUseCaseDiagram";
+            this.mnuNewUseCaseDiagram.Size = new System.Drawing.Size(166, 22);
+            this.mnuNewUseCaseDiagram.Text = "Use case diagram";
+            this.mnuNewUseCaseDiagram.Click += new System.EventHandler(this.useCaseDiagramToolStripMenuItem_Click);
             // 
             // mnuOpen
             // 
@@ -995,6 +1046,13 @@ namespace NClass.GUI
             this.toolZoomOut.Size = new System.Drawing.Size(23, 22);
             this.toolZoomOut.Click += new System.EventHandler(this.toolZoomOut_Click);
             // 
+            // toolZoom
+            // 
+            this.toolZoom.Enabled = false;
+            this.toolZoom.Name = "toolZoom";
+            this.toolZoom.Size = new System.Drawing.Size(100, 22);
+            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
+            // 
             // toolZoomIn
             // 
             this.toolZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1014,64 +1072,6 @@ namespace NClass.GUI
             this.toolAutoZoom.Name = "toolAutoZoom";
             this.toolAutoZoom.Size = new System.Drawing.Size(23, 22);
             this.toolAutoZoom.Click += new System.EventHandler(this.mnuAutoZoom_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
-            // 
-            // useCaseDiagramToolStripMenuItem
-            // 
-            this.useCaseDiagramToolStripMenuItem.Name = "useCaseDiagramToolStripMenuItem";
-            this.useCaseDiagramToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.useCaseDiagramToolStripMenuItem.Text = "Use case diagram";
-            this.useCaseDiagramToolStripMenuItem.Click += new System.EventHandler(this.useCaseDiagramToolStripMenuItem_Click);
-            // 
-            // tabbedWindow
-            // 
-            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabbedWindow.DocumentManager = null;
-            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
-            this.tabbedWindow.Name = "tabbedWindow";
-            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
-            this.tabbedWindow.TabIndex = 0;
-            // 
-            // modelExplorer
-            // 
-            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.modelExplorer.ImageIndex = 0;
-            this.modelExplorer.Indent = 22;
-            this.modelExplorer.ItemHeight = 18;
-            this.modelExplorer.LabelEdit = true;
-            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
-            this.modelExplorer.Name = "modelExplorer";
-            this.modelExplorer.SelectedImageIndex = 0;
-            this.modelExplorer.ShowRootLines = false;
-            this.modelExplorer.Size = new System.Drawing.Size(236, 403);
-            this.modelExplorer.TabIndex = 0;
-            this.modelExplorer.Workspace = null;
-            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
-            // 
-            // diagramNavigator
-            // 
-            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
-            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.diagramNavigator.DocumentVisualizer = null;
-            this.diagramNavigator.Location = new System.Drawing.Point(1, 1);
-            this.diagramNavigator.Name = "diagramNavigator";
-            this.diagramNavigator.Size = new System.Drawing.Size(236, 184);
-            this.diagramNavigator.TabIndex = 0;
-            this.diagramNavigator.Text = "diagramNavigator";
-            // 
-            // toolZoom
-            // 
-            this.toolZoom.Enabled = false;
-            this.toolZoom.Name = "toolZoom";
-            this.toolZoom.Size = new System.Drawing.Size(100, 22);
-            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
             // 
             // MainForm
             // 
@@ -1217,6 +1217,6 @@ namespace NClass.GUI
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem mnuOptions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem useCaseDiagramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewUseCaseDiagram;
     }
 }

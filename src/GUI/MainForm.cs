@@ -242,6 +242,7 @@ namespace NClass.GUI
 			mnuNewProject.Text = Strings.MenuProject;
 			mnuNewCSharpDiagram.Text = Strings.MenuCSharpDiagram;
 			mnuNewJavaDiagram.Text = Strings.MenuJavaDiagram;
+		    mnuNewUseCaseDiagram.Text = Strings.MenuUseCaseDiagram;
 			mnuOpen.Text = Strings.MenuOpen;
 			mnuOpenFile.Text = Strings.MenuOpenFile;
 			mnuSave.Text = Strings.MenuSave;
