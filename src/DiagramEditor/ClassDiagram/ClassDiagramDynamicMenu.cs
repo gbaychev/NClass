@@ -120,11 +120,6 @@ namespace NClass.DiagramEditor.ClassDiagram
 			}
 		}
 
-		private void diagram_SelectionChanged(object sender, EventArgs e)
-		{
-			toolDelete.Enabled = (diagram != null && diagram.HasSelectedElement);
-		}
-
 	    protected override void InitComponents()
 	    {
             base.InitComponents();

@@ -13,6 +13,7 @@
 // // this program; if not, write to the Free Software Foundation, Inc., 
 // // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
@@ -98,8 +99,12 @@ namespace NClass.DiagramEditor
             #endregion
         }
 
+        protected virtual void diagram_SelectionChanged(object sender, EventArgs e)
+        {
+            toolDelete.Enabled = (diagram != null && diagram.HasSelectedElement);
+        }
 
-#region Menu Items Declarations
+        #region Menu Items Declarations
         protected ToolStripMenuItem mnuAlign;
         protected ToolStripMenuItem mnuAlignTop;
         protected ToolStripMenuItem mnuAlignLeft;

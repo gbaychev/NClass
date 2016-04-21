@@ -117,11 +117,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.elementsToolStrip.Items.Add(this.toolDelete);
         }   
 
-        private void diagram_SelectionChanged(object sender, EventArgs e)
-        {
-            toolDelete.Enabled = (diagram != null && diagram.HasSelectedElement);
-        }
-
         private void mnuFormat_DropDownOpening(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
