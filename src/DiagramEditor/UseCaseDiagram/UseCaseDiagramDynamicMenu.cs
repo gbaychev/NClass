@@ -52,8 +52,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             get
             {
-                if(_default == null)
-                    _default = new UseCaseDiagramDynamicMenu();
                 return _default;
             }
         }
@@ -94,10 +92,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.mnuNewElement.DropDownItems.Add(this.mnuNewUseCase);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewActor);
+            this.mnuNewElement.DropDownItems.Add(mnuNewComment);
             this.mnuNewElement.DropDownItems.Add(new ToolStripSeparator());
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewAssociation);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewExtends);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewIncludes);
+            this.mnuNewElement.DropDownItems.Add(this.mnuNewCommentRelationship);
 
             this.toolNewUseCase = new ToolStripButton(Strings.AddNewUseCase, Resources.UseCase, (o, e) => diagram?.CreateShape(EntityType.UseCase)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewActor = new ToolStripButton(Strings.AddNewActor, Resources.Actor, (o, e) => diagram?.CreateShape(EntityType.Actor)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
@@ -107,10 +107,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.elementsToolStrip.Items.Add(this.toolNewUseCase);
             this.elementsToolStrip.Items.Add(this.toolNewActor);
+            this.elementsToolStrip.Items.Add(this.toolNewComment);
             this.elementsToolStrip.Items.Add(new ToolStripSeparator());
             this.elementsToolStrip.Items.Add(this.toolNewAssociation);
             this.elementsToolStrip.Items.Add(this.toolNewExtends);
             this.elementsToolStrip.Items.Add(this.toolNewIncludes);
+            this.elementsToolStrip.Items.Add(this.toolNewCommentRelationship);
             this.elementsToolStrip.Items.Add(new ToolStripSeparator());
             this.elementsToolStrip.Items.Add(this.toolDelete);
         }   

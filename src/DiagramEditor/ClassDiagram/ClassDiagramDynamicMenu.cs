@@ -16,11 +16,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using NClass.Translations;
 using NClass.Core;
-using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Properties;
 
 namespace NClass.DiagramEditor.ClassDiagram
@@ -35,7 +33,6 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripMenuItem mnuNewInterface;
         private ToolStripMenuItem mnuNewEnum;
         private ToolStripMenuItem mnuNewDelegate;
-        private ToolStripMenuItem mnuNewComment;
         private ToolStripMenuItem mnuNewAssociation;
         private ToolStripMenuItem mnuNewComposition;
         private ToolStripMenuItem mnuNewAggregation;
@@ -43,7 +40,6 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripMenuItem mnuNewRealization;
         private ToolStripMenuItem mnuNewDependency;
         private ToolStripMenuItem mnuNewNesting;
-        private ToolStripMenuItem mnuNewCommentRelationship;
 
         private ToolStripMenuItem mnuMembersFormat;
         private ToolStripMenuItem mnuShowType;
@@ -61,7 +57,6 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripButton toolNewInterface;
         private ToolStripButton toolNewEnum;
         private ToolStripButton toolNewDelegate;
-        private ToolStripButton toolNewComment;
         private ToolStripButton toolNewAssociation;
         private ToolStripButton toolNewComposition;
         private ToolStripButton toolNewAggregation;
@@ -69,7 +64,6 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripButton toolNewRealization;
         private ToolStripButton toolNewDependency;
         private ToolStripButton toolNewNesting;
-        private ToolStripButton toolNewCommentRelationship;
         #endregion
 
         #region Toolstrip Items
@@ -140,7 +134,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuNewInterface = new ToolStripMenuItem(Strings.AddNewInterface, Resources.Interface32, (o, e) => diagram?.CreateShape(EntityType.Interface));
             this.mnuNewEnum = new ToolStripMenuItem(Strings.AddNewEnum, Resources.Enum, (o, e) => diagram?.CreateShape(EntityType.Enum));
             this.mnuNewDelegate = new ToolStripMenuItem(Strings.AddNewDelegate, Resources.Delegate, (o, e) => diagram?.CreateShape(EntityType.Delegate));
-            this.mnuNewComment = new ToolStripMenuItem(Strings.AddNewComment, Resources.Comment, (o, e) => diagram?.CreateShape(EntityType.Comment));
             this.mnuNewAssociation = new ToolStripMenuItem(Strings.AddNewAssociation, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.Association));
             this.mnuNewComposition = new ToolStripMenuItem(Strings.AddNewComposition, Resources.Composition, (o, e) => diagram?.CreateConnection(RelationshipType.Composition));
             this.mnuNewAggregation = new ToolStripMenuItem(Strings.AddNewAggregation, Resources.Aggregation, (o, e) => diagram?.CreateConnection(RelationshipType.Aggregation));
@@ -148,7 +141,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuNewRealization = new ToolStripMenuItem(Strings.AddNewRealization, Resources.Realization, (o, e) => diagram?.CreateConnection(RelationshipType.Realization)); ;
             this.mnuNewDependency = new ToolStripMenuItem(Strings.AddNewDependency, Resources.Dependency, (o, e) => diagram?.CreateConnection(RelationshipType.Dependency));
             this.mnuNewNesting = new ToolStripMenuItem(Strings.AddNewNesting, Resources.Nesting, (o, e) => diagram?.CreateConnection(RelationshipType.Nesting));
-            this.mnuNewCommentRelationship = new ToolStripMenuItem(Strings.AddNewComment, Resources.CommentRel, (o, e) => diagram?.CreateConnection(RelationshipType.Comment));
 
             
 			this.mnuShowType = new ToolStripMenuItem(Strings.MenuType, null, mnuShowType_Click);
@@ -199,7 +191,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.toolNewInterface = new ToolStripButton(Strings.AddNewInterface, Resources.Interface32, (o, e) => diagram?.CreateShape(EntityType.Interface)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewEnum = new ToolStripButton(Strings.AddNewEnum, Resources.Enum, (o, e) => diagram?.CreateShape(EntityType.Enum)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewDelegate = new ToolStripButton(Strings.AddNewDelegate, Resources.Delegate, (o, e) => diagram?.CreateShape(EntityType.Delegate)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewComment = new ToolStripButton(Strings.AddNewComment, Resources.Comment, (o, e) => diagram?.CreateShape(EntityType.Comment)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewAssociation = new ToolStripButton(Strings.AddNewAssociation, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.Association)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewComposition = new ToolStripButton(Strings.AddNewComposition, Resources.Composition, (o, e) => diagram?.CreateConnection(RelationshipType.Composition)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewAggregation = new ToolStripButton(Strings.AddNewAggregation, Resources.Aggregation, (o, e) => diagram?.CreateConnection(RelationshipType.Aggregation)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
@@ -207,8 +198,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.toolNewRealization = new ToolStripButton(Strings.AddNewRealization, Resources.Realization, (o, e) => diagram?.CreateConnection(RelationshipType.Realization)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewDependency = new ToolStripButton(Strings.AddNewDependency, Resources.Dependency, (o, e) => diagram?.CreateConnection(RelationshipType.Dependency)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewNesting = new ToolStripButton(Strings.AddNewNesting, Resources.Nesting, (o, e) => diagram?.CreateConnection(RelationshipType.Nesting)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            this.toolNewCommentRelationship = new ToolStripButton(Strings.AddNewComment, Resources.CommentRel, (o, e) => diagram?.CreateConnection(RelationshipType.Comment)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-
+            
 	        this.elementsToolStrip.Items.Add(this.toolNewClass);
 	        this.elementsToolStrip.Items.Add(this.toolNewStructure);
 	        this.elementsToolStrip.Items.Add(this.toolNewInterface);
@@ -225,69 +215,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.elementsToolStrip.Items.Add(this.toolNewCommentRelationship);
         }
 
-		private void UpdateTexts()
-		{
-			// Diagram menu
-			mnuNewClass.Text = Strings.MenuClass;
-			mnuNewStructure.Text = Strings.MenuStruct;
-			mnuNewInterface.Text = Strings.MenuInterface;
-			mnuNewEnum.Text = Strings.MenuEnum;
-			mnuNewDelegate.Text = Strings.MenuDelegate;
-			mnuNewComment.Text = Strings.MenuComment;
-			mnuNewAssociation.Text = Strings.MenuAssociation;
-			mnuNewComposition.Text = Strings.MenuComposition;
-			mnuNewAggregation.Text = Strings.MenuAggregation;
-			mnuNewGeneralization.Text = Strings.MenuGeneralization;
-			mnuNewRealization.Text = Strings.MenuRealization;
-			mnuNewDependency.Text = Strings.MenuDependency;
-			mnuNewNesting.Text = Strings.MenuNesting;
-			mnuNewCommentRelationship.Text = Strings.MenuCommentRelationship;
-			mnuMembersFormat.Text = Strings.MenuMembersFormat;
-			mnuShowType.Text = Strings.MenuType;
-			mnuShowParameters.Text = Strings.MenuParameters;
-			mnuShowParameterNames.Text = Strings.MenuParameterNames;
-			mnuShowInitialValue.Text = Strings.MenuInitialValue;
-			mnuGenerateCode.Text = Strings.MenuGenerateCode;
-			mnuSaveAsImage.Text = Strings.MenuSaveAsImage;
-
-			// Format menu
-			mnuFormat.Text = Strings.MenuFormat;
-			mnuAlign.Text = Strings.MenuAlign;
-			mnuAlignTop.Text = Strings.MenuAlignTop;
-			mnuAlignLeft.Text = Strings.MenuAlignLeft;
-			mnuAlignBottom.Text = Strings.MenuAlignBottom;
-			mnuAlignRight.Text = Strings.MenuAlignRight;
-			mnuAlignHorizontal.Text = Strings.MenuAlignHorizontal;
-			mnuAlignVertical.Text = Strings.MenuAlignVertical;
-			mnuMakeSameSize.Text = Strings.MenuMakeSameSize;
-			mnuSameWidth.Text = Strings.MenuSameWidth;
-			mnuSameHeight.Text = Strings.MenuSameHeight;
-			mnuSameSize.Text = Strings.MenuSameSize;
-			mnuAutoSize.Text = Strings.MenuAutoSize;
-			mnuAutoWidth.Text = Strings.MenuAutoWidth;
-			mnuAutoHeight.Text = Strings.MenuAutoHeight;
-			mnuCollapseAll.Text = Strings.MenuCollapseAll;
-			mnuExpandAll.Text = Strings.MenuExpandAll;
-
-			// Toolbar
-			toolNewClass.Text = Strings.AddNewClass;
-			toolNewStructure.Text = Strings.AddNewStructure;
-			toolNewInterface.Text = Strings.AddNewInterface;
-			toolNewEnum.Text = Strings.AddNewEnum;
-			toolNewDelegate.Text = Strings.AddNewDelegate;
-			toolNewComment.Text = Strings.AddNewComment;
-			toolNewAssociation.Text = Strings.AddNewAssociation;
-			toolNewComposition.Text = Strings.AddNewComposition;
-			toolNewAggregation.Text = Strings.AddNewAggregation;
-			toolNewGeneralization.Text = Strings.AddNewGeneralization;
-			toolNewRealization.Text = Strings.AddNewRealization;
-			toolNewDependency.Text = Strings.AddNewDependency;
-			toolNewNesting.Text = Strings.AddNewNesting;
-			toolNewCommentRelationship.Text = Strings.AddNewCommentRelationship;
-			toolDelete.Text = Strings.DeleteSelectedItems;
-		}
-
-        #region Event handlers
+	    #region Event handlers
 
         private void mnuDiagram_DropDownOpening(object sender, EventArgs e)
 		{

@@ -15,6 +15,7 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Properties;
 using NClass.Translations;
@@ -47,6 +48,8 @@ namespace NClass.DiagramEditor
             this.mnuAlignRight = new ToolStripMenuItem(Strings.MenuAlignRight, Resources.AlignRight, (s, e) => diagram?.AlignRight());
             this.mnuAlignHorizontal = new ToolStripMenuItem(Strings.MenuAlignHorizontal, Resources.AlignHorizontal, (s, e) => diagram?.AlignHorizontal());
             this.mnuAlignVertical = new ToolStripMenuItem(Strings.MenuAlignVertical, Resources.AlignVertical, (s, e) => diagram?.AlignVertical());
+            this.mnuNewComment = new ToolStripMenuItem(Strings.AddNewComment, Resources.Comment, (o, e) => diagram?.CreateShape(EntityType.Comment));
+            this.mnuNewCommentRelationship = new ToolStripMenuItem(Strings.AddNewComment, Resources.CommentRel, (o, e) => diagram?.CreateConnection(RelationshipType.Comment));
 
             this.mnuAlign = new ToolStripMenuItem(Strings.MenuAlign, null, this.mnuAlignTop,
                                                                            this.mnuAlignLeft,
@@ -90,6 +93,8 @@ namespace NClass.DiagramEditor
             #region ToolStrip items
             this.elementsToolStrip = new ToolStrip();
             this.toolDelete = new ToolStripButton(Strings.Delete, Resources.Delete, (o, e) => diagram?.DeleteSelectedElements());
+            this.toolNewComment = new ToolStripButton(Strings.AddNewComment, Resources.Comment, (o, e) => diagram?.CreateShape(EntityType.Comment)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewCommentRelationship = new ToolStripButton(Strings.AddNewComment, Resources.CommentRel, (o, e) => diagram?.CreateConnection(RelationshipType.Comment)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             #endregion
         }
 
@@ -113,8 +118,12 @@ namespace NClass.DiagramEditor
         protected ToolStripMenuItem mnuNewElement;
         protected ToolStripMenuItem mnuSaveAsImage;
         protected ToolStripMenuItem mnuDiagram;
+        protected ToolStripMenuItem mnuNewCommentRelationship;
+        protected ToolStripMenuItem mnuNewComment;
         #endregion
-#region Toolstrip Items Declaration
+        #region Toolstrip Items Declaration
+        protected ToolStripButton toolNewComment;
+        protected ToolStripButton toolNewCommentRelationship;
         protected ToolStripButton toolDelete;
 #endregion
     }

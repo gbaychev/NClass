@@ -75,7 +75,7 @@
     <Compile Include="Diagrams\Connections\LineOrientation.cs" />
     <Compile Include="ClassDiagram\Connections\Dependency.cs" />
     <Compile Include="ClassDiagram\Connections\Nesting.cs" />
-    <Compile Include="ClassDiagram\Connections\CommentConnection.cs" />
+    <Compile Include="Diagrams\Connections\CommentConnection.cs" />
     <Compile Include="ClassDiagram\Connections\Generalization.cs" />
     <Compile Include="ClassDiagram\Connections\Realization.cs" />
     <Compile Include="ClassDiagram\ContextMenus\ClassDiagramBlankContextMenu.cs" />
@@ -85,10 +85,10 @@
     <Compile Include="ClassDiagram\Editors\FloatingEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ClassDiagram\Editors\CommentEditor.cs">
+    <Compile Include="Diagrams\Editors\CommentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ClassDiagram\Editors\CommentEditor.Designer.cs">
+    <Compile Include="Diagrams\Editors\CommentEditor.Designer.cs">
       <DependentUpon>CommentEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrams\DiagramConstants.cs" />
@@ -200,7 +200,7 @@
     <Compile Include="ClassDiagram\ElementList.cs" />
     <Compile Include="ClassDiagram\ContextMenus\AssociationContextMenu.cs">
     </Compile>
-    <Compile Include="ClassDiagram\ContextMenus\CommentShapeContextMenu.cs">
+    <Compile Include="Diagrams\ContextMenus\CommentShapeContextMenu.cs">
     </Compile>
     <Compile Include="ClassDiagram\ContextMenus\ConnectionContextMenu.cs">
     </Compile>
@@ -293,7 +293,7 @@
       <DependentUpon>TreeDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClassDiagram\Editors\CommentEditor.resx">
+    <EmbeddedResource Include="Diagrams\Editors\CommentEditor.resx">
       <DependentUpon>CommentEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
