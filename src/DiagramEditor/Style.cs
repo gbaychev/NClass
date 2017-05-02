@@ -1,6 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
-// 
+// Copyright (C) 2016 Georgi Baychev
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
 // Foundation; either version 3 of the License, or (at your option) any later version.
@@ -148,9 +148,16 @@ namespace NClass.DiagramEditor
 		Color relationshipTextColor = Color.Black;
 		Font relationshipTextFont = new Font("Tahoma", 8.25F);
 
-		#endregion
+        // Use case fields
+        int   useCaseBorderWidth = 1;
+	    Color useCaseBackColor = Color.White;
+	    Color useCaseBorderColor = Color.Black;
+	    Color useCaseTextColor = Color.Black;
+	    Font  useCaseFont = new Font("Tahoma", 8.25F);
 
-		static Style()
+        #endregion
+
+        static Style()
 		{
 			Directory.CreateDirectory(StylesDirectory);
 			LoadStyles();
@@ -1398,9 +1405,68 @@ namespace NClass.DiagramEditor
 			}
 		}
 
-		#endregion
+        #region Use Case Properties
+	    [DisplayName("Border Width"), Category("Use Case")]
+	    [Description("The border width of the use case.")]
+	    [DefaultValue(1)]
+        public int UseCaseBorderWidth
+        {
+	        get { return useCaseBorderWidth; }
+	        set
+	        {
+	            useCaseBorderWidth = value < 1 ? 1 : value;
+	        }
+        }
 
-		public Style Clone()
+	    [DisplayName("Background Color"), Category("Use Case")]
+	    [Description("The background color for the use case.")]
+	    [DefaultValue(typeof(Color), "White")]
+	    public Color UseCaseBackColor
+	    {
+	        get { return useCaseBackColor; }
+	        set { useCaseBackColor = value; }
+	    }
+
+	    [DisplayName("Border Color"), Category("Use Case")]
+	    [Description("The border color for the use case.")]
+	    [DefaultValue(typeof(Color), "Black")]
+	    public Color UseCaseBorderColor
+	    {
+	        get { return useCaseBorderColor; }
+	        set { useCaseBorderColor = value; }
+	    }
+
+	    [DisplayName("Font"), Category("Use Case")]
+	    [Description("The font of the displayed text for the use case.")]
+	    public Font UseCaseFont
+	    {
+	        get
+	        {
+	            return useCaseFont;
+	        }
+	        set
+	        {
+	            if (value != null && useCaseFont != value)
+	            {
+	                useCaseFont.Dispose();
+	                useCaseFont = value;
+	            }
+	        }
+	    }
+
+	    [DisplayName("Text Color"), Category("Use Case")]
+	    [Description("The text color for the use case.")]
+	    [DefaultValue(typeof(Color), "Black")]
+	    public Color UseCaseTextColor
+	    {
+	        get { return useCaseTextColor; }
+	        set { useCaseTextColor = value; }
+	    }
+        #endregion
+
+        #endregion
+
+        public Style Clone()
 		{
 			Style newStyle = (Style) this.MemberwiseClone();
 

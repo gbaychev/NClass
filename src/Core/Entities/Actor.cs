@@ -36,6 +36,16 @@ namespace NClass.Core
             OnSerializing(new SerializeEventArgs(node));
         }
 
+        public Actor()
+        {
+            
+        }
+
+        public Actor(string name)
+        {
+            this.Name = name;
+        }
+
         public void Deserialize(XmlElement node)
         {
             throw new NotImplementedException();
@@ -59,6 +69,11 @@ namespace NClass.Core
         {
             if (Serializing != null)
                 Serializing(this, e);
+        }
+
+        public Actor Clone()
+        {
+            return new Actor(this.Name);
         }
     }
 }

@@ -261,6 +261,8 @@
     <Compile Include="ClassDiagram\Shapes\InterfaceShape.cs" />
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
+    <Compile Include="UseCaseDiagram\Shapes\ActorShape.cs" />
+    <Compile Include="UseCaseDiagram\Shapes\UseCaseShape.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagram.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagramDynamicMenu.cs" />
   </ItemGroup>

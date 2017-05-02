@@ -14,11 +14,13 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.Core.Models;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
+using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram
 {
@@ -74,6 +76,14 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case EntityType.Comment:
                     AddComment();
                     break;
+
+                case EntityType.Actor:
+                    AddActor();
+                    break;
+                
+                case EntityType.UseCase:
+                    AddUseCase();
+                    break;
                     
                 default:
                     return null;
@@ -83,12 +93,39 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return shapes.FirstValue;
         }
 
+        private Actor AddActor()
+        {
+            return model.AddActor();
+        }
+
+        private UseCase AddUseCase()
+        {
+            return model.AddUseCase();
+        }
+
+        private void AddActor(Actor actor)
+        {
+            AddShape(new ActorShape(actor));
+        }
+
+        private void AddUseCase(UseCase useCase)
+        {
+            AddShape(new UseCaseShape(useCase));
+        }
+
+
         protected override void OnEntityAdded(object sender, EntityEventArgs e)
         {
             switch (e.Entity.EntityType)
             {
                 case EntityType.Comment:
                     AddComment(e.Entity as Comment);
+                    break;
+                case EntityType.UseCase:
+                    AddUseCase(e.Entity as UseCase);
+                    break;
+                case EntityType.Actor:
+                    AddActor(e.Entity as Actor);
                     break;
             }
 
@@ -98,6 +135,22 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)
         {
             throw new System.NotImplementedException();
+        }
+
+        public bool InsertActor(Actor actor)
+        {
+            if (actor == null || model.Entities.Contains(actor)) return false;
+
+            AddActor(actor);
+            return true;
+        }
+
+        public bool InsertUseCase(UseCase useCase)
+        {
+            if (useCase == null || model.Entities.Contains(useCase)) return false;
+
+            AddUseCase(useCase);
+            return true;
         }
     }
 }

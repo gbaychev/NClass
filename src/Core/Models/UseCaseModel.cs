@@ -28,5 +28,19 @@ namespace NClass.Core.Models
         {
             throw new System.NotImplementedException();
         }
+
+        public Actor AddActor()
+        {
+            var actor = new Actor();
+            AddEntity(actor);
+            return actor;
+        }
+
+        public UseCase AddUseCase()
+        {
+            var useCase = new UseCase();
+            AddEntity(useCase);
+            return useCase;
+        }
     }
 }
