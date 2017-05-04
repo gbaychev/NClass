@@ -93,6 +93,12 @@
     </Compile>
     <Compile Include="Diagrams\DiagramConstants.cs" />
     <Compile Include="Diagrams\DiagramType.cs" />
+    <Compile Include="Diagrams\Editors\DesignerHelperWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Diagrams\Editors\DesignerHelperWindow.Designer.cs">
+      <DependentUpon>DesignerHelperWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diagrams\ElementContainer.cs" />
     <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.cs">
     </Compile>
@@ -154,7 +160,7 @@
     <Compile Include="ClassDiagram\Editors\TypeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ClassDiagram\Editors\EditorWindow.cs">
+    <Compile Include="Diagrams\Editors\EditorWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Diagrams\IConnectionCreator.cs" />
@@ -261,6 +267,12 @@
     <Compile Include="ClassDiagram\Shapes\InterfaceShape.cs" />
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
+    <Compile Include="UseCaseDiagram\Editors\UseCaseEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UseCaseDiagram\Editors\UseCaseEditor.Designer.cs">
+      <DependentUpon>UseCaseEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UseCaseDiagram\Shapes\ActorShape.cs" />
     <Compile Include="UseCaseDiagram\Shapes\UseCaseShape.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagram.cs" />
@@ -324,6 +336,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="UseCaseDiagram\Editors\UseCaseEditor.resx">
+      <DependentUpon>UseCaseEditor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
@@ -373,6 +388,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -433,98 +433,45 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override void KeyDown(KeyEventArgs e)
         {
+            //TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
+            RedrawSuspended = true;
+
+            // Ctrl + Shift + ?
+            if (e.Modifiers == (Keys.Control | Keys.Shift))
             {
-                //TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
-                RedrawSuspended = true;
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                        CreateShape();
+                        break;
 
-                // Delete
-                if (e.KeyCode == Keys.Delete)
-                {
-                    if (SelectedElementCount >= 2 || ActiveElement == null ||
-                        !ActiveElement.DeleteSelectedMember())
-                    {
-                        DeleteSelectedElements();
-                    }
-                }
-                // Escape
-                else if (e.KeyCode == Keys.Escape)
-                {
-                    state = State.Normal;
-                    DeselectAll();
-                    Redraw();
-                }
-                // Enter
-                else if (e.KeyCode == Keys.Enter && ActiveElement != null)
-                {
-                    ActiveElement.ShowEditor();
-                }
-                // Up
-                else if (e.KeyCode == Keys.Up && ActiveElement != null)
-                {
-                    if (e.Shift || e.Control)
-                        ActiveElement.MoveUp();
-                    else
-                        ActiveElement.SelectPrevious();
-                }
-                // Down
-                else if (e.KeyCode == Keys.Down && ActiveElement != null)
-                {
-                    if (e.Shift || e.Control)
-                        ActiveElement.MoveDown();
-                    else
-                        ActiveElement.SelectNext();
-                }
-                // Ctrl + X
-                else if (e.KeyCode == Keys.X && e.Modifiers == Keys.Control)
-                {
-                    Cut();
-                }
-                // Ctrl + C
-                else if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
-                {
-                    Copy();
-                }
-                // Ctrl + V
-                else if (e.KeyCode == Keys.V && e.Modifiers == Keys.Control)
-                {
-                    Paste();
-                }
-                // Ctrl + Shift + ?
-                else if (e.Modifiers == (Keys.Control | Keys.Shift))
-                {
-                    switch (e.KeyCode)
-                    {
-                        case Keys.A:
-                            CreateShape();
-                            break;
+                    case Keys.C:
+                        CreateShape(EntityType.Class);
+                        break;
 
-                        case Keys.C:
-                            CreateShape(EntityType.Class);
-                            break;
+                    case Keys.S:
+                        CreateShape(EntityType.Structure);
+                        break;
 
-                        case Keys.S:
-                            CreateShape(EntityType.Structure);
-                            break;
+                    case Keys.I:
+                        CreateShape(EntityType.Interface);
+                        break;
 
-                        case Keys.I:
-                            CreateShape(EntityType.Interface);
-                            break;
+                    case Keys.E:
+                        CreateShape(EntityType.Enum);
+                        break;
 
-                        case Keys.E:
-                            CreateShape(EntityType.Enum);
-                            break;
+                    case Keys.D:
+                        CreateShape(EntityType.Delegate);
+                        break;
 
-                        case Keys.D:
-                            CreateShape(EntityType.Delegate);
-                            break;
-
-                        case Keys.N:
-                            CreateShape(EntityType.Comment);
-                            break;
-                    }
+                    case Keys.N:
+                        CreateShape(EntityType.Comment);
+                        break;
                 }
-                RedrawSuspended = false;
             }
+            base.KeyDown(e);
+            RedrawSuspended = false;
         }
 
         public override void CreateShape(EntityType type)

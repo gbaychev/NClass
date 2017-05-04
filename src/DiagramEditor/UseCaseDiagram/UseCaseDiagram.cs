@@ -43,7 +43,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public override void KeyDown(KeyEventArgs e)
         {
-            throw new System.NotImplementedException();
+            base.KeyDown(e);
         }
 
         public override void CreateShape(EntityType type)

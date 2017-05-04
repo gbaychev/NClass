@@ -101,7 +101,61 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         #region Abstract Methods and Properties
-        public abstract void KeyDown(KeyEventArgs e);
+        public virtual void KeyDown(KeyEventArgs e)
+	    {
+	        // Delete
+	        if (e.KeyCode == Keys.Delete)
+	        {
+	            if (SelectedElementCount >= 2 || ActiveElement == null ||
+	                !ActiveElement.DeleteSelectedMember())
+	            {
+	                DeleteSelectedElements();
+	            }
+	        }
+	        // Escape
+	        else if (e.KeyCode == Keys.Escape)
+	        {
+	            state = State.Normal;
+	            DeselectAll();
+	            Redraw();
+	        }
+	        // Enter
+	        else if (e.KeyCode == Keys.Enter && ActiveElement != null)
+	        {
+	            ActiveElement.ShowEditor();
+	        }
+	        // Up
+	        else if (e.KeyCode == Keys.Up && ActiveElement != null)
+	        {
+	            if (e.Shift || e.Control)
+	                ActiveElement.MoveUp();
+	            else
+	                ActiveElement.SelectPrevious();
+	        }
+	        // Down
+	        else if (e.KeyCode == Keys.Down && ActiveElement != null)
+	        {
+	            if (e.Shift || e.Control)
+	                ActiveElement.MoveDown();
+	            else
+	                ActiveElement.SelectNext();
+	        }
+	        // Ctrl + X
+	        else if (e.KeyCode == Keys.X && e.Modifiers == Keys.Control)
+	        {
+	            Cut();
+	        }
+	        // Ctrl + C
+	        else if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
+	        {
+	            Copy();
+	        }
+	        // Ctrl + V
+	        else if (e.KeyCode == Keys.V && e.Modifiers == Keys.Control)
+	        {
+	            Paste();
+	        }
+        }
         public abstract void CreateShape(EntityType type);
         public abstract Shape AddShape(EntityType type);
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);

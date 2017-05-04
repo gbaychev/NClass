@@ -19,6 +19,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Core;
+using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {

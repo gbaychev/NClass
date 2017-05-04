@@ -22,6 +22,8 @@ namespace NClass.Core
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
+        private string name = string.Empty;
+
         public void Serialize(XmlElement node)
         {
             throw new NotImplementedException();
@@ -49,8 +51,24 @@ namespace NClass.Core
             throw new NotImplementedException();
         }
 
-        public string Name { get; }
-        public EntityType EntityType {
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (value == null)
+                    value = string.Empty;
+
+                if (name != value)
+                {
+                    name = value;
+                    //FIXME
+                    //Changed();
+                }
+            }
+        }
+        public EntityType EntityType
+        {
             get { return EntityType.UseCase; }
         }
 

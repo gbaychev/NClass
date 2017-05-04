@@ -17,14 +17,18 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NClass.DiagramEditor.ClassDiagram.Editors;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Editors
 {
-	public sealed partial class CommentEditor : EditorWindow
-	{
-		CommentShape shape = null;
+	public sealed partial class CommentEditor :
+#if DEBUG
+	    DesignerHelperWindow
+#else
+        EditorWindow
+#endif
+    {
+        CommentShape shape = null;
 
 		public CommentEditor()
 		{
@@ -81,7 +85,7 @@ namespace NClass.DiagramEditor.Diagrams.Editors
 			shape.Comment.Text = txtComment.Text;
 		}
 
-		private void txtComment_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		private void txtComment_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter && e.Modifiers != Keys.None ||
 				e.KeyCode == Keys.Escape)
