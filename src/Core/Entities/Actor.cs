@@ -38,7 +38,7 @@ namespace NClass.Core
 
         public Actor()
         {
-            
+            this.Name = "Actor";
         }
 
         public Actor(string name)
