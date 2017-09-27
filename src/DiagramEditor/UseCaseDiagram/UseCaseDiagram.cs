@@ -56,10 +56,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 switch (type)
                 {
                     case EntityType.Actor:
+                        shapeOutline = ActorShape.GetOutline(Style.CurrentStyle);
                         break;
                     case EntityType.UseCase:
+                        shapeOutline = UseCaseShape.GetOutline(Style.CurrentStyle);
                         break;
-
                     case EntityType.Comment:
                         shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
                         break;

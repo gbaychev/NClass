@@ -99,5 +99,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
             return useCaseDiagram.InsertActor(actor.Clone());
         }
+
+        public static Rectangle GetOutline(Style style)
+        {
+            return new Rectangle(0, 0, DefaultWidth, DefaultHeight);
+        }
     }
 }

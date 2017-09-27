@@ -476,28 +476,26 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override void CreateShape(EntityType type)
         {
+            state = State.CreatingShape;
+            shapeType = type;
+            newShapeType = type;
+
+            switch (type)
             {
-                state = State.CreatingShape;
-                shapeType = type;
-                newShapeType = type;
+                case EntityType.Class:
+                case EntityType.Delegate:
+                case EntityType.Enum:
+                case EntityType.Interface:
+                case EntityType.Structure:
+                    shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
+                    break;
 
-                switch (type)
-                {
-                    case EntityType.Class:
-                    case EntityType.Delegate:
-                    case EntityType.Enum:
-                    case EntityType.Interface:
-                    case EntityType.Structure:
-                        shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
-                        break;
-
-                    case EntityType.Comment:
-                        shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
-                        break;
-                }
-                shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
-                Redraw();
+                case EntityType.Comment:
+                    shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
+                    break;
             }
+            shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
+            Redraw();
         }
 
         public override void CreateConnection(RelationshipType type)

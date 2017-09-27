@@ -189,5 +189,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                     editor.Focus();
             }
         }
+
+        public static Rectangle GetOutline(Style style)
+        {
+            return new Rectangle(0, 0, DefaultWidth, DefaultHeight);
+        }
     }
 }
