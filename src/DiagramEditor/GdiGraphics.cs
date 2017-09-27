@@ -162,7 +162,12 @@ namespace NClass.DiagramEditor
 			graphics.SetClip(region, combineMode);
 		}
 
-		public void ResetTransform()
+	    public SizeF MeasureString(string text, Font font)
+	    {
+	        return graphics.MeasureString(text, font);
+	    }
+
+	    public void ResetTransform()
 		{
 			graphics.ResetTransform();
 		}

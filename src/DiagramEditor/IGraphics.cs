@@ -55,5 +55,7 @@ namespace NClass.DiagramEditor
 		void SetClip(Rectangle rect, CombineMode combineMode);
 		void SetClip(RectangleF rect, CombineMode combineMode);
 		void SetClip(Region region, CombineMode combineMode);
+
+	    SizeF MeasureString(string text, Font font);
 	}
 }

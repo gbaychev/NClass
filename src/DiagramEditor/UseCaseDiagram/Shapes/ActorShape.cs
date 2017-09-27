@@ -13,6 +13,7 @@
 // // this program; if not, write to the Free Software Foundation, Inc., 
 // // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
@@ -23,18 +24,46 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
     public class ActorShape : Shape
     {
         private Actor actor;
+        private const int DefaultWidth = 75;
+        private const int DefaultHeight = 160;
+        private const int PaddingSize = 7;
+        private readonly Size defaultSize = new Size(DefaultWidth, DefaultHeight);
+
 
         public ActorShape(Actor entity) : base(entity)
         {
             actor = entity;
+            this.MinimumSize = defaultSize;
         }
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
-            g.DrawString("Actor", style.StaticMemberFont, new SolidBrush(Color.Black), new PointF(Location.X, Location.Y));
+            DrawSurface(g, onScreen, style);
+            DrawText(g, onScreen, style);
         }
 
-        protected override Size DefaultSize { get; }
+        private void DrawText(IGraphics graphics, bool onScreen, Style style)
+        {
+            var stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+            graphics.DrawString(
+                                Entity.Name,
+                                style.StaticMemberFont,
+                                new SolidBrush(Color.Black),
+                                GetTextRectangle(graphics, style),
+                                stringFormat);
+        }
+
+        private void DrawSurface(IGraphics graphics, bool onScreen, Style style)
+        {
+            graphics.FillEllipse(new SolidBrush(Color.BlueViolet), new Rectangle(Left, Top, Width, (Height * 9 / 10) - PaddingSize));
+        }
+
+        protected override Size DefaultSize
+        {
+            get { return defaultSize; }
+        }
         public override IEntity Entity {
             get
             {
@@ -50,6 +79,16 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         protected override float GetRequiredWidth(Graphics g, Style style)
         {
             return Width;
+        }
+
+        private Rectangle GetTextRectangle(IGraphics g, Style style)
+        {
+            float textHeight = g.MeasureString(this.Entity.Name, style.StaticMemberFont).Height;
+            int left = this.Left + PaddingSize;
+            int top = (int)Math.Ceiling(this.Bottom - textHeight - 2 * PaddingSize);
+            int width = this.Width - PaddingSize;
+            int height = (int)Math.Ceiling(textHeight + 2 * PaddingSize);
+            return new Rectangle(left, top, width, height);
         }
 
         protected override bool CloneEntity(IDiagram diagram)
