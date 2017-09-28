@@ -50,7 +50,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             graphics.DrawString(
                                 Entity.Name,
                                 style.StaticMemberFont,
-                                new SolidBrush(Color.Black),
+                                new SolidBrush(style.ActorTextColor),
                                 GetTextRectangle(graphics, style),
                                 stringFormat);
         }
@@ -83,7 +83,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         private Rectangle GetTextRectangle(IGraphics g, Style style)
         {
-            float textHeight = g.MeasureString(this.Entity.Name, style.StaticMemberFont).Height;
+            float textHeight = g.MeasureString(this.Entity.Name, style.ActorFont).Height;
             int left = this.Left + PaddingSize;
             int top = (int)Math.Ceiling(this.Bottom - textHeight - 2 * PaddingSize);
             int width = this.Width - PaddingSize;

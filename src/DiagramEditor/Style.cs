@@ -16,12 +16,8 @@
 using System;
 using System.IO;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Threading;
-using System.Globalization;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using NClass.Translations;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
@@ -155,12 +151,16 @@ namespace NClass.DiagramEditor
 	    Color useCaseTextColor = Color.Black;
 	    Font  useCaseFont = new Font("Tahoma", 8.25F);
 
+        // Actor fileds
+        Font actorFont = new Font("Tahoma", 8.25F);
+        Color actorColor = Color.Black;
+	    Color actorTextColor = Color.Black;
         #endregion
 
         static Style()
 		{
 			Directory.CreateDirectory(StylesDirectory);
-			LoadStyles();
+            LoadStyles();
 			if (!LoadCurrentStyle())
 			{
 				CurrentStyle = new Style();
@@ -1448,7 +1448,8 @@ namespace NClass.DiagramEditor
 	        {
 	            if (value != null && useCaseFont != value)
 	            {
-	                useCaseFont.Dispose();
+                    if(useCaseFont != null)
+	                    useCaseFont.Dispose();
 	                useCaseFont = value;
 	            }
 	        }
@@ -1461,6 +1462,40 @@ namespace NClass.DiagramEditor
 	    {
 	        get { return useCaseTextColor; }
 	        set { useCaseTextColor = value; }
+	    }
+        #endregion
+
+        #region ActorProperties
+	    [DisplayName("Font"), Category("Actor")]
+	    [Description("The font of the displayed text for an actor.")]
+        public Font ActorFont
+        {
+            get { return actorFont; }
+	        set
+	        {
+	            if (value != actorFont && value != null)
+	            {
+                    if(actorFont != null)
+	                    actorFont.Dispose();
+	                actorFont = value;
+	            }
+	        }
+	    }
+
+	    [DisplayName("Color"), Category("Actor")]
+	    [Description("The color of an actor figure.")]
+        public Color ActorColor
+        {
+	        get { return actorColor; }
+	        set { actorColor = value; }
+	    }
+
+	    [DisplayName("Text Color"), Category("Actor")]
+	    [Description("The text color of an actor.")]
+	    public Color ActorTextColor
+	    {
+	        get { return actorTextColor; }
+	        set { actorTextColor = value; }
 	    }
         #endregion
 
@@ -1478,23 +1513,29 @@ namespace NClass.DiagramEditor
 			newStyle.abstractMemberFont = (Font) AbstractMemberFont.Clone();
 			newStyle.commentFont = (Font) CommentFont.Clone();
 			newStyle.relationshipTextFont = (Font) RelationshipTextFont.Clone();
+		    newStyle.useCaseFont =  UseCaseFont == null ? useCaseFont : (Font)UseCaseFont.Clone();
+		    newStyle.actorFont = ActorFont == null ? actorFont : (Font) ActorFont.Clone();
 
 			return newStyle;
 		}
 
-		public void Dispose()
-		{
-			nameFont.Dispose();
-			abstractNameFont.Dispose();
-			identifierFont.Dispose();
-			memberFont.Dispose();
-			staticMemberFont.Dispose();
-			abstractMemberFont.Dispose();
-			commentFont.Dispose();
-			relationshipTextFont.Dispose();
-		}
 
-		private static bool LoadStyles()
+
+        public void Dispose()
+        {
+            nameFont.Dispose();
+            abstractNameFont.Dispose();
+            identifierFont.Dispose();
+            memberFont.Dispose();
+            staticMemberFont.Dispose();
+            abstractMemberFont.Dispose();
+            commentFont.Dispose();
+            relationshipTextFont.Dispose();
+            actorFont.Dispose();
+            useCaseFont.Dispose();
+        }
+
+        private static bool LoadStyles()
 		{
 			try
 			{
