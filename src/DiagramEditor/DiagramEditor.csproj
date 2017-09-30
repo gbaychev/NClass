@@ -267,6 +267,7 @@
     <Compile Include="ClassDiagram\Shapes\InterfaceShape.cs" />
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
+    <Compile Include="UseCaseDiagram\ContextMenus\UseCaseDiagramBlankContextMenu.cs" />
     <Compile Include="UseCaseDiagram\Editors\UseCaseEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -20,6 +20,7 @@ using NClass.Core;
 using NClass.Core.Models;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
+using NClass.DiagramEditor.UseCaseDiagram.ContextMenus;
 using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram
@@ -39,6 +40,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             newShapeType = EntityType.UseCase;
             this.diagramDynamicMenu = UseCaseDiagramDynamicMenu.Default;
+            this.diagramContextMenu = UseCaseDiagramBlankContextMenu.Default;
+            this.DiagramType = DiagramType.UseCaseDiagram;
         }
 
         public override void KeyDown(KeyEventArgs e)
