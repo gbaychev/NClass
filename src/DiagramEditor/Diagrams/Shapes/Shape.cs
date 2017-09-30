@@ -41,7 +41,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		protected static readonly Size defaultMinSize = new Size(50, 50);
 
 		Point location;
-		Size size;
+		protected Size size;
 		ResizeMode resizeMode = ResizeMode.None;
 		Size minimumSize = defaultMinSize;
 		PointF mouseDownLocation = PointF.Empty;

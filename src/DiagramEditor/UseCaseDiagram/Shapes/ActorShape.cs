@@ -14,7 +14,9 @@
 // // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
@@ -25,9 +27,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
     {
         private Actor actor;
         private const int DefaultWidth = 75;
-        private const int DefaultHeight = 160;
-        private const int PaddingSize = 7;
+        private const int DefaultHeight = 150;
+        private const int PaddingSize = 5;
         private readonly Size defaultSize = new Size(DefaultWidth, DefaultHeight);
+        private const int Proportion = 2; // Height / Width
 
 
         public ActorShape(Actor entity) : base(entity)
@@ -47,6 +50,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             var stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+            //graphics.DrawRectangle(new Pen(Color.Black), new Rectangle(this.Left, this.Top, this.Width, this.Height) );
+            //graphics.DrawRectangle(new Pen(Color.Black), GetTextRectangle(graphics, style) );
             graphics.DrawString(
                                 Entity.Name,
                                 style.StaticMemberFont,
@@ -57,10 +62,50 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         private void DrawSurface(IGraphics graphics, bool onScreen, Style style)
         {
-            graphics.FillEllipse(new SolidBrush(Color.BlueViolet), new Rectangle(Left, Top, Width, (Height * 9 / 10) - PaddingSize));
+            var actorPen = new Pen(style.ActorColor);
+            var headSize = this.Width / 2 - PaddingSize;
+            var headRectangle = new Rectangle(this.Left + PaddingSize + headSize / 2, this.Top + PaddingSize, headSize, headSize);
+            // directly beyond the head
+            var bodyStart = new Point(headRectangle.X + headRectangle.Width / 2, headRectangle.Bottom);
+            // 2/3 of the length;
+            var bodyEnd = new Point(headRectangle.X + headRectangle.Width / 2, headRectangle.Bottom + (this.Height + PaddingSize * 2) / 3);
+            var leftLeg = new Point(bodyEnd.X - headRectangle.Width / 3, bodyEnd.Y + ((bodyEnd.Y - bodyStart.Y) / 2));
+            var rightLeg = new Point(bodyEnd.X + headRectangle.Width / 3, bodyEnd.Y + ((bodyEnd.Y - bodyStart.Y) / 2));
+
+            var handsStart = new Point(headRectangle.X - headRectangle.Width / 6, headRectangle.Bottom + ((bodyEnd.Y - bodyStart.Y) / 10));
+            var handsEnd = new Point(headRectangle.X + headRectangle.Width + headRectangle.Width / 6, headRectangle.Bottom + ((bodyEnd.Y - bodyStart.Y) / 10));
+
+            // head
+            graphics.DrawEllipse(actorPen,
+                                 headRectangle.X,
+                                 headRectangle.Y,
+                                 headRectangle.Width,
+                                 headRectangle.Height);
+            // body
+            graphics.DrawLine(actorPen, bodyStart, bodyEnd);
+            // legs
+            graphics.DrawLine(actorPen, bodyEnd, leftLeg);
+            graphics.DrawLine(actorPen, bodyEnd, rightLeg);
+            // hands
+            graphics.DrawLine(actorPen, handsStart, handsEnd);
         }
 
-        protected override Size DefaultSize
+        protected override void OnResize(ResizeEventArgs e)
+        {
+            var change = e.Change;
+            Debug.WriteLine(change);
+            if (Math.Abs(change.Width) > Math.Abs(change.Height))
+            {
+                this.size.Height = Proportion * this.Width;
+            }
+            else
+            {
+                this.size.Width = this.Height / Proportion;
+            }
+            base.OnResize(e);
+        }
+
+       protected override Size DefaultSize
         {
             get { return defaultSize; }
         }
@@ -83,11 +128,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         private Rectangle GetTextRectangle(IGraphics g, Style style)
         {
-            float textHeight = g.MeasureString(this.Entity.Name, style.ActorFont).Height;
+            SizeF textSize = g.MeasureString(this.Entity.Name, style.ActorFont);
             int left = this.Left + PaddingSize;
-            int top = (int)Math.Ceiling(this.Bottom - textHeight - 2 * PaddingSize);
-            int width = this.Width - PaddingSize;
-            int height = (int)Math.Ceiling(textHeight + 2 * PaddingSize);
+            int top = (int)Math.Ceiling(this.Bottom - textSize.Height - PaddingSize);
+            int width = this.Width - 2 * PaddingSize;
+            int height = (int)Math.Ceiling(textSize.Height + PaddingSize);
             return new Rectangle(left, top, width, height);
         }
 
