@@ -13,6 +13,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System.IO;
 using System.Xml;
 
 namespace NClass.Core.Models
@@ -21,12 +22,26 @@ namespace NClass.Core.Models
     {
         protected override IEntity GetEntity(string type)
         {
-            throw new System.NotImplementedException();
+            switch (type)
+            {
+                case "Actor":
+                    return AddActor();
+
+                case "UseCase":
+                    return AddUseCase();
+
+                case "Comment":
+                    return AddComment();
+
+                default:
+                    throw new InvalidDataException("Invalid entity type: " + type);
+            }
         }
 
         protected override void LoadRelationships(XmlNode root)
         {
-            throw new System.NotImplementedException();
+            // FIXME - removed the not implemented exception
+			// in order to test the loading of entities
         }
 
         public Actor AddActor()

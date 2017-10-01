@@ -16,6 +16,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 using NClass.Core;
 using NClass.Core.Models;
 using NClass.DiagramEditor.Diagrams;
@@ -34,7 +35,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             model.EntityAdded += OnEntityAdded;
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
-            model.Deserializing += OnDeserializing;
+			model.Deserializing += OnDeserializing;
             model.Project = this.Project;
             model.Name = this.name;
 
@@ -155,6 +156,24 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             AddUseCase(useCase);
             return true;
+        }
+
+        public override void Deserialize(XmlElement node)
+        {
+            base.Deserialize(node);
+
+            if (model == null)
+            {
+                model = new UseCaseModel();
+                model.EntityRemoved += OnEntityRemoved;
+                model.EntityAdded += OnEntityAdded;
+                model.RelationRemoved += OnRelationRemoved;
+                model.RelationAdded += OnRelationAdded;
+                model.Deserializing += OnDeserializing;
+                model.Name = this.name;
+            }
+
+            model.Deserialize(node);
         }
     }
 }

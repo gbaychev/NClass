@@ -22,20 +22,7 @@ namespace NClass.Core
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
-        public void Serialize(XmlElement node)
-        {
-            if (node == null)
-                throw new ArgumentNullException("node");
-
-            XmlElement child;
-
-            child = node.OwnerDocument.CreateElement("Name");
-            child.InnerText = Name;
-            node.AppendChild(child);
-
-            OnSerializing(new SerializeEventArgs(node));
-        }
-
+        
         public Actor()
         {
             this.Name = "Actor";
@@ -44,11 +31,6 @@ namespace NClass.Core
         public Actor(string name)
         {
             this.Name = name;
-        }
-
-        public void Deserialize(XmlElement node)
-        {
-            throw new NotImplementedException();
         }
 
         public event EventHandler Modified;
@@ -65,10 +47,43 @@ namespace NClass.Core
             get { return EntityType.Actor;}
         }
 
+        public void Serialize(XmlElement node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            XmlElement child = node.OwnerDocument.CreateElement("Name");
+            child.InnerText = Name;
+            node.AppendChild(child);
+
+            OnSerializing(new SerializeEventArgs(node));
+        }
+
         private void OnSerializing(SerializeEventArgs e)
         {
             if (Serializing != null)
                 Serializing(this, e);
+        }
+
+        public void Deserialize(XmlElement node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            XmlElement textNode = node["Name"];
+
+            if (textNode != null)
+                Name = textNode.InnerText;
+            else
+                Name = null;
+
+            OnDeserializing(new SerializeEventArgs(node));
+        }
+
+        private void OnDeserializing(SerializeEventArgs e)
+        {
+            if (Deserializing != null)
+                Deserializing(this, e);
         }
 
         public Actor Clone()
