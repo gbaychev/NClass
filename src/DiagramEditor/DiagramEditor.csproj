@@ -268,6 +268,12 @@
     <Compile Include="ClassDiagram\Shapes\StructureShape.cs" />
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
     <Compile Include="UseCaseDiagram\ContextMenus\UseCaseDiagramBlankContextMenu.cs" />
+    <Compile Include="UseCaseDiagram\Editors\ActorEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UseCaseDiagram\Editors\ActorEditor.Designer.cs">
+      <DependentUpon>ActorEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UseCaseDiagram\Editors\UseCaseEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -336,6 +342,9 @@
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UseCaseDiagram\Editors\ActorEditor.resx">
+      <DependentUpon>ActorEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UseCaseDiagram\Editors\UseCaseEditor.resx">
       <DependentUpon>UseCaseEditor.cs</DependentUpon>
