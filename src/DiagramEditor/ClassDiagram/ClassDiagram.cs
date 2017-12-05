@@ -235,7 +235,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
         {
-            return model.AddAssociation(first, second);
+            return model.AddAggregation(first, second);
         }
 
         public GeneralizationRelationship AddGeneralization(CompositeType derivedType,

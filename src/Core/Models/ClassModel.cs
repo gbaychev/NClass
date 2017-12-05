@@ -115,6 +115,17 @@ namespace NClass.Core.Models
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>
+        public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
+        {
+            AssociationRelationship association = new AssociationRelationship(
+                first, second, AssociationType.Aggregation);
+            AddRelationship(association);
+            return association;
+        }
+
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="first"/> or <paramref name="second"/> is null.
+        /// </exception>
         public AssociationRelationship AddComposition(TypeBase first, TypeBase second)
         {
             AssociationRelationship composition = new AssociationRelationship(
