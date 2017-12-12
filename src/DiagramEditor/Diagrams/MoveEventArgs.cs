@@ -23,14 +23,14 @@ namespace NClass.DiagramEditor.Diagrams
 
 	public class MoveEventArgs : EventArgs
 	{
-		Size offset;
+		SizeF offset;
 
-		public MoveEventArgs(Size offset)
+		public MoveEventArgs(SizeF offset)
 		{
 			this.offset = offset;
 		}
 
-		public Size Offset
+		public SizeF Offset
 		{
 			get { return offset; }
 		}

@@ -21,19 +21,27 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 {
 	public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 
-	public class ResizeEventArgs : EventArgs
-	{
-		Size change;
+    public class ResizeEventArgs : EventArgs
+    {
+        SizeF positionChange;
+        SizeF sizeChange;
 
-		public ResizeEventArgs(Size change)
-		{
-			this.change = change;
-		}
+        public ResizeEventArgs(SizeF positionChange, SizeF sizeChange)
+        {
+            this.positionChange = positionChange;
+            this.sizeChange = sizeChange;
+        }
 
-		public Size Change
+        public SizeF PositionChange
+        {
+            get { return positionChange; }
+            set { positionChange = value; }
+        }
+
+        public SizeF SizeChange
 		{
-			get { return change; }
-			set { change = value; }
+			get { return sizeChange; }
+			set { sizeChange = value; }
 		}
 	}
 }

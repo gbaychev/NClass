@@ -23,40 +23,27 @@ namespace NClass.DiagramEditor
 
 	public class AbsoluteMouseEventArgs
 	{
-		float x;
-		float y;
-		MouseButtons button;
+        PointF location;
+        SizeF offset;
+        MouseButtons button;
 		bool handled = false;
 		float zoom;
-
-		public AbsoluteMouseEventArgs(MouseButtons button, float x, float y, float zoom)
-		{
-			this.button = button;
-			this.x = x;
-			this.y = y;
-			this.zoom = zoom;
-		}
 
 		public AbsoluteMouseEventArgs(MouseButtons button, PointF location, float zoom)
 		{
 			this.button = button;
-			this.x = location.X;
-			this.y = location.Y;
-			this.zoom = zoom;
+            this.location = location;
+            this.offset = SizeF.Empty;
+            this.zoom = zoom;
 		}
 
-		public AbsoluteMouseEventArgs(MouseEventArgs e, Point offset, float zoom)
-		{
-			this.button = e.Button;
-			this.x = (e.X + offset.X) / zoom;
-			this.y = (e.Y + offset.Y) / zoom;
-			this.zoom = zoom;
-		}
-
-		public AbsoluteMouseEventArgs(MouseEventArgs e, IDocument document)
-			: this(e, document.Offset, document.Zoom)
-		{
-		}
+        public AbsoluteMouseEventArgs(MouseButtons button, PointF location, SizeF offset, float zoom)
+        {
+            this.button = button;
+            this.location = location;
+            this.offset = offset;
+            this.zoom = zoom;
+        }
 
 		public MouseButtons Button
 		{
@@ -65,17 +52,22 @@ namespace NClass.DiagramEditor
 
 		public float X
 		{
-			get { return x; }
+			get { return location.X; }
 		}
 
 		public float Y
 		{
-			get { return y; }
-		}
+            get { return location.Y; }
+        }
 
-		public PointF Location
+        public SizeF Offset
+        {
+            get { return offset; }
+        }
+
+        public PointF Location
 		{
-			get { return new PointF(x, y); }
+			get { return location; }
 		}
 
 		public bool Handled
