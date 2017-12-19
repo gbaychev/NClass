@@ -26,6 +26,12 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         SizeF positionChange;
         SizeF sizeChange;
 
+        public ResizeEventArgs(SizeF sizeChange)
+        {
+            this.positionChange = Size.Empty;
+            this.sizeChange = sizeChange;
+        }
+
         public ResizeEventArgs(SizeF positionChange, SizeF sizeChange)
         {
             this.positionChange = positionChange;
