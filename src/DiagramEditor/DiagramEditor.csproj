@@ -68,6 +68,7 @@
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
+    <Compile Include="Diagrams\ConnectionCreator.cs" />
     <Compile Include="Diagrams\Connections\Connection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
     <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="ClassDiagram\Connections\Realization.cs" />
     <Compile Include="ClassDiagram\ContextMenus\ClassDiagramBlankContextMenu.cs" />
     <Compile Include="ClassDiagram\ContextMenus\DiagramContextMenu.cs" />
-    <Compile Include="ClassDiagram\ConnectionCreator.cs" />
+    <Compile Include="ClassDiagram\ClassConnectionCreator.cs" />
     <Compile Include="Diagrams\ClearTypeMode.cs" />
     <Compile Include="ClassDiagram\Editors\FloatingEditor.cs">
       <SubType>UserControl</SubType>

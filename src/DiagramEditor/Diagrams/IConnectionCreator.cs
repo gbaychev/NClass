@@ -17,10 +17,9 @@ using System.Drawing;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-    // TODO: simple marker interface for the connection creator
-    // ideally each diagram will have its own connection creator
-    // and the Diagram parent class will contain only an IConnectionCreator
-    // property. In this way ConnectionCreator may stay internal
+    /// <summary>
+    /// Simple marker interface for the connection creator
+    /// </summary>
     public interface IConnectionCreator
     {
         void MouseDown(AbsoluteMouseEventArgs e);

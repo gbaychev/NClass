@@ -500,7 +500,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override void CreateConnection(RelationshipType type)
         {
-            connectionCreator = new ConnectionCreator(this, type);
+            connectionCreator = new ClassConnectionCreator(this, type);
             base.CreateConnection(type);
         }
 
