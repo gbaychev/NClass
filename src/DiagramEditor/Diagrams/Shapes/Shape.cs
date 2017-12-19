@@ -31,8 +31,10 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		{
 			None = 0,
 			Right = 1,
-			Bottom = 2
-		}
+			Bottom = 2,
+            Left = 4,
+            Top = 8
+        }
 
 		public const int SelectionMargin = 12;
 		static readonly Pen selectionSquarePen = new Pen(Color.Black);
@@ -44,7 +46,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		Size size;
 		ResizeMode resizeMode = ResizeMode.None;
 		Size minimumSize = defaultMinSize;
-		PointF mouseDownLocation = PointF.Empty;
 		bool mouseLeft = true;
 		Cursor cursor = Cursors.Default;
 
@@ -111,7 +112,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (location != value)
 				{
 					Size offset = new Size(value.X - X, value.Y - Y);
-					mouseDownLocation += offset;
 					location = value;
 					OnMove(new MoveEventArgs(offset));
 					OnModified(EventArgs.Empty);
@@ -130,7 +130,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (location.X != value)
 				{
 					Size offset = new Size(value - X, 0);
-					mouseDownLocation.X += offset.Width;
 					location.X = value;
 					OnMove(new MoveEventArgs(offset));
 					OnModified(EventArgs.Empty);
@@ -149,7 +148,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (location.Y != value)
 				{
 					Size offset = new Size(0, value - Y);
-					mouseDownLocation.Y += offset.Height;
 					location.Y = value;
 					OnMove(new MoveEventArgs(offset));
 					OnModified(EventArgs.Empty);
@@ -173,8 +171,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (size != value)
 				{
 					Size change = new Size(value.Width - Width, value.Height - Height);
-					if (IsResizing) //TODO: ez kell?
-						mouseDownLocation += change;
 					size = value;
 					OnResize(new ResizeEventArgs(change));
 					OnModified(EventArgs.Empty);
@@ -196,8 +192,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (size.Width != value)
 				{
 					Size change = new Size(value - Width, 0);
-					if (IsResizing) //TODO: ez kell?
-						mouseDownLocation.X += change.Width;
 					size.Width = value;
 					OnResize(new ResizeEventArgs(change));
 					OnModified(EventArgs.Empty);
@@ -219,8 +213,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				if (size.Height != value)
 				{
 					Size change = new Size(0, value - Height);
-					if (IsResizing) //TODO: ez kell?
-						mouseDownLocation.Y += change.Height;
 					size.Height = value;
 					OnResize(new ResizeEventArgs(change));
 					OnModified(EventArgs.Empty);
@@ -339,36 +331,47 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			bool middle = (e.Y >= verCenter - squareSize / 2 &&
 				e.Y < verCenter + squareSize / 2);
 
-			if (right && (top || middle || bottom))
-				mode |= ResizeMode.Right;
+            if (right && (top || middle || bottom))
+                mode |= ResizeMode.Right;
+            else if (left && (top || middle || bottom))
+                mode |= ResizeMode.Left;
 
-			if (bottom && (left || center || right))
-				mode |= ResizeMode.Bottom;
+            if (bottom && (left || center || right))
+                mode |= ResizeMode.Bottom;
+            else if (top && (left || center || right))
+                mode |= ResizeMode.Top;
 
-			return mode;
-		}
+            return mode;
+        }
 
-		public Cursor GetCursor(AbsoluteMouseEventArgs e)
-		{
-			ResizeMode mode = GetResizeMode(e);
+        public Cursor GetCursor(AbsoluteMouseEventArgs e)
+        {
+            ResizeMode mode = GetResizeMode(e);
 
-			switch (mode)
-			{
-				case ResizeMode.Bottom:
-					return Cursors.SizeNS;
+            switch (mode)
+            {
+                case ResizeMode.Bottom:
+                case ResizeMode.Top:
+                    return Cursors.SizeNS;
 
-				case ResizeMode.Right:
-					return Cursors.SizeWE;
+                case ResizeMode.Right:
+                case ResizeMode.Left:
+                    return Cursors.SizeWE;
 
-				case ResizeMode.Bottom | ResizeMode.Right:
-					return Cursors.SizeNWSE;
+                case ResizeMode.Bottom | ResizeMode.Right:
+                case ResizeMode.Top | ResizeMode.Left:
+                    return Cursors.SizeNWSE;
 
-				default:
-					return Cursors.Default;
-			}
-		}
+                case ResizeMode.Bottom | ResizeMode.Left:
+                case ResizeMode.Top | ResizeMode.Right:
+                    return Cursors.SizeNESW;
 
-		protected internal sealed override Rectangle GetLogicalArea()
+                default:
+                    return Cursors.Default;
+            }
+        }
+
+        protected internal sealed override Rectangle GetLogicalArea()
 		{
 			return BorderRectangle;
 		}
@@ -450,19 +453,70 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			this.Location += offset;
 		}
 
-		protected internal override Size GetMaximalOffset(Size offset, int padding)
+        /// <summary>
+        /// Calculates maximum size change with respect to minimum shape size.
+        /// </summary>
+        /// <param name="change">Proposed size change</param>
+        /// <returns>Maximum size change</returns>
+        protected internal Size GetMaximumSizeChange(Size change)
+        {
+            Size newSize = this.Size;
+            newSize += change;
+
+            if (newSize.Width < MinimumSize.Width)
+                change.Width += MinimumSize.Width - newSize.Width;
+            if (newSize.Height < MinimumSize.Height)
+                change.Height += MinimumSize.Height - newSize.Height;
+
+            return change;
+        }
+
+        protected internal Size GetMinimumPositionChange(Size change)
+        {
+            Size newSize = this.Size;
+            newSize -= change;
+
+            if (newSize.Width < MinimumSize.Width)
+                change.Width -= MinimumSize.Width - newSize.Width;
+            if (newSize.Height < MinimumSize.Height)
+                change.Height -= MinimumSize.Height - newSize.Height;
+
+            return change;
+        }
+
+        protected internal void AdjustPositionChange(ref Size positionChange, ref Size sizeChange, int padding)
+        {
+            if (IsSelected)
+            {
+                Rectangle newPosition = this.BorderRectangle;
+                newPosition.Offset(positionChange.Width, positionChange.Height);
+
+                if (newPosition.Left < padding)
+                {
+                    positionChange.Width += (padding - newPosition.Left);
+                    sizeChange.Width -= (padding - newPosition.Left);
+                }
+                if (newPosition.Top < padding)
+                {
+                    positionChange.Height += (padding - newPosition.Top);
+                    sizeChange.Height -= (padding - newPosition.Top);
+                }
+            }
+        }
+
+        protected internal override Size GetMaximumPositionChange(Size change, int padding)
 		{
 			if (IsSelected)
 			{
 				Rectangle newPosition = this.BorderRectangle;
-				newPosition.Offset(offset.Width, offset.Height);
+				newPosition.Offset(change.Width, change.Height);
 
 				if (newPosition.Left < padding)
-					offset.Width += (padding - newPosition.Left);
+					change.Width += (padding - newPosition.Left);
 				if (newPosition.Top < padding)
-					offset.Height += (padding - newPosition.Top);
+					change.Height += (padding - newPosition.Top);
 			}
-			return offset;
+			return change;
 		}
 
 		protected internal bool Contains(PointF point)
@@ -656,27 +710,43 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			}
 		}
 
-		private void PerformResize(PointF mouseLocation)
+        private void PerformDragging(SizeF mouseOffset)
+        {
+            OnDragging(new MoveEventArgs(mouseOffset));
+        }
+
+        private void PerformResize(SizeF mouseOffset)
 		{
-			Size change = Size.Empty;
+			SizeF sizeChange = SizeF.Empty;
+            SizeF positionChange = SizeF.Empty;
 
-			if ((resizeMode & ResizeMode.Right) != 0)
-			{
-				int offset = (int) (mouseLocation.X - mouseDownLocation.X);
-				change.Width += offset;
-			}
-			if ((resizeMode & ResizeMode.Bottom) != 0)
-			{
-				int offset = (int) (mouseLocation.Y - mouseDownLocation.Y);
-				change.Height += offset;
-			}
+            if ((resizeMode & ResizeMode.Right) != 0)
+            {
+                sizeChange.Width += mouseOffset.Width;
+            }
+            else if ((resizeMode & ResizeMode.Left) != 0)
+            {
+                positionChange.Width += mouseOffset.Width;
+                sizeChange.Width -= mouseOffset.Width;
+            }
 
-			ResizeEventArgs e = new ResizeEventArgs(change);
-			OnResizing(e);
-			Size += e.Change;
-		}
+            if ((resizeMode & ResizeMode.Bottom) != 0)
+            {
+                sizeChange.Height += mouseOffset.Height;
+            }
+            else if ((resizeMode & ResizeMode.Top) != 0)
+            {
+                positionChange.Height += mouseOffset.Height;
+                sizeChange.Height -= mouseOffset.Height;
+            }
 
-		protected virtual void CopyFrom(Shape shape)
+            ResizeEventArgs e = new ResizeEventArgs(positionChange, sizeChange);
+            OnResizing(e);
+			Size += e.SizeChange.ToSize();
+            Location += e.PositionChange.ToSize();
+        }
+
+        protected virtual void CopyFrom(Shape shape)
 		{
 			location = shape.location;
 			size = shape.size;
@@ -690,7 +760,6 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
 		protected override void OnMouseDown(AbsoluteMouseEventArgs e)
 		{
-			mouseDownLocation = e.Location;
 			base.OnMouseDown(e);
 		}
 
@@ -700,15 +769,11 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
 			if (IsResizing)
 			{
-				PerformResize(e.Location);
+				PerformResize(e.Offset);
 			}
 			else if (IsMousePressed && e.Button == MouseButtons.Left)
 			{
-				Size offset = new Size(
-					(int) (e.X - mouseDownLocation.X),
-					(int) (e.Y - mouseDownLocation.Y));
-
-				OnDragging(new MoveEventArgs(offset));
+                PerformDragging(e.Offset);
 			}
 		}
 

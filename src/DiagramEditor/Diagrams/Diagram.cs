@@ -31,48 +31,53 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	public abstract class Diagram<T> : IDiagram where T : Model, new()
-	{
-		protected enum State
-		{
-			Normal,
-			Multiselecting,
-			CreatingShape,
-			CreatingConnection,
-			Dragging
-		}
+    public abstract class Diagram<T> : IDiagram where T : Model, new()
+    {
+        protected enum State
+        {
+            Normal,
+            Multiselecting,
+            CreatingShape,
+            CreatingConnection,
+            Dragging
+        }
 
-		protected ElementList<Shape> shapes = new ElementList<Shape>();
-		protected ElementList<Connection> connections = new ElementList<Connection>();
-		protected DiagramElement activeElement = null;
-		protected Point offset = Point.Empty;
-		protected float zoom = 1.0F;
-		protected Size size = DiagramConstants.MinSize;
+        protected ElementList<Shape> shapes = new ElementList<Shape>();
+        protected ElementList<Connection> connections = new ElementList<Connection>();
+        protected DiagramElement activeElement = null;
+        protected Point offset = Point.Empty;
+        protected float zoom = 1.0F;
+        protected Size size = DiagramConstants.MinSize;
 
-		protected State state = State.Normal;
-		protected bool selectioning = false;
-		protected RectangleF selectionFrame = RectangleF.Empty;
-		protected PointF mouseLocation = PointF.Empty;
-		protected bool redrawSuspended = false;
-		protected int selectedShapeCount = 0;
-		protected int selectedConnectionCount = 0;
-		protected Rectangle shapeOutline = Rectangle.Empty;
-		protected EntityType shapeType;
+        protected State state = State.Normal;
+        protected bool selectioning = false;
+        protected RectangleF selectionFrame = RectangleF.Empty;
+        protected PointF mousePreviousLocation = PointF.Empty;
+        protected PointF mouseLocation = PointF.Empty;
+        protected bool redrawSuspended = false;
+        protected int selectedShapeCount = 0;
+        protected int selectedConnectionCount = 0;
+        protected Rectangle shapeOutline = Rectangle.Empty;
+        protected EntityType shapeType;
         protected IConnectionCreator connectionCreator = null;
-	    protected EntityType newShapeType;
-	    protected ContextMenu diagramContextMenu;
-	    protected DynamicMenu diagramDynamicMenu;
+        protected EntityType newShapeType;
+        protected ContextMenu diagramContextMenu;
+        protected DynamicMenu diagramDynamicMenu;
+
+        //Variables used for snapping when draggin and resising shapes
+        protected SizeF positionChangeCumulation = SizeF.Empty;
+        protected SizeF sizeChangeCumulation = SizeF.Empty;
 
         public event EventHandler Modified;
         public event EventHandler OffsetChanged;
-		public event EventHandler SizeChanged;
-		public event EventHandler ZoomChanged;
-		public event EventHandler StatusChanged;
-		public event EventHandler SelectionChanged;
-		public event EventHandler NeedsRedraw;
-		public event EventHandler ClipboardAvailabilityChanged;
-		public event PopupWindowEventHandler ShowingWindow;
-		public event PopupWindowEventHandler HidingWindow;
+        public event EventHandler SizeChanged;
+        public event EventHandler ZoomChanged;
+        public event EventHandler StatusChanged;
+        public event EventHandler SelectionChanged;
+        public event EventHandler NeedsRedraw;
+        public event EventHandler ClipboardAvailabilityChanged;
+        public event PopupWindowEventHandler ShowingWindow;
+        public event PopupWindowEventHandler HidingWindow;
         public event EventHandler Renamed;
         bool isDirty = false;
         bool loading = false;
@@ -1021,7 +1026,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void MouseDown(AbsoluteMouseEventArgs e)
 		{
-			RedrawSuspended = true;
+            RedrawSuspended = true;
 			if (state == State.CreatingShape)
 			{
 				AddCreatedShape();
@@ -1098,8 +1103,8 @@ namespace NClass.DiagramEditor.Diagrams
 		public void MouseMove(AbsoluteMouseEventArgs e)
 		{
 			RedrawSuspended = true;
-
-			mouseLocation = e.Location;
+            mousePreviousLocation = mouseLocation;
+            mouseLocation = e.Location;
 			if (state == State.Multiselecting)
 			{
 				selectionFrame = RectangleF.FromLTRB(
@@ -1128,7 +1133,10 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void MouseUp(AbsoluteMouseEventArgs e)
 		{
-			RedrawSuspended = true;
+            positionChangeCumulation = Size.Empty;
+            sizeChangeCumulation = Size.Empty;
+
+            RedrawSuspended = true;
 
 			if (state == State.Multiselecting)
 			{
@@ -1273,122 +1281,201 @@ namespace NClass.DiagramEditor.Diagrams
 			ActiveElement = (DiagramElement) sender;
 		}
 
-		private void shape_Dragging(object sender, MoveEventArgs e)
-		{
-			Size offset = e.Offset;
+        private bool CorrectChangeToSnapLeft(Shape shape, Shape otherShape, ref Size positionChange, ref Size sizeChange)
+        {
+            int xDist = otherShape.X - (shape.X + positionChange.Width);
+            if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
+            {
+                int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
+                int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
+                int distance = Math.Min(distance1, distance2);
 
-			// Align to other shapes
-			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
+                if (distance <= DiagramConstants.MaximalPrecisionDistance)
+                {
+                    positionChange.Width += xDist;
+                    sizeChange.Width -= xDist;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CorrectChangeToSnapTop(Shape shape, Shape otherShape, ref Size positionChange, ref Size sizeChange)
+        {
+            int yDist = otherShape.Y - (shape.Y + positionChange.Height);
+            if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
+            {
+                int distance1 = Math.Abs(shape.Left - otherShape.Right);
+                int distance2 = Math.Abs(otherShape.Left - shape.Right);
+                int distance = Math.Min(distance1, distance2);
+
+                if (distance <= DiagramConstants.MaximalPrecisionDistance)
+                {
+                    positionChange.Height += yDist;
+                    sizeChange.Height -= yDist;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CorrectChangeToSnapRight(Shape shape, Shape otherShape, ref Size sizeChange)
+        {
+            int xDist = otherShape.Right - (shape.Right + sizeChange.Width);
+            if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
+            {
+                int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
+                int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
+                int distance = Math.Min(distance1, distance2);
+
+                if (distance <= DiagramConstants.MaximalPrecisionDistance)
+                {
+                    sizeChange.Width += xDist;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CorrectChangeToSnapBottom(Shape shape, Shape otherShape, ref Size sizeChange)
+        {
+            int yDist = otherShape.Bottom - (shape.Bottom + sizeChange.Height);
+            if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
+            {
+                int distance1 = Math.Abs(shape.Left - otherShape.Right);
+                int distance2 = Math.Abs(otherShape.Left - shape.Right);
+                int distance = Math.Min(distance1, distance2);
+
+                if (distance <= DiagramConstants.MaximalPrecisionDistance)
+                {
+                    sizeChange.Height += yDist;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void shape_Dragging(object sender, MoveEventArgs e)
+		{
+            positionChangeCumulation += e.Offset;
+            Size positionChange = positionChangeCumulation.ToSize();
+            Size sizeChange = Size.Empty;
+
+            // Align to other shapes
+            if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
 			{
 				Shape shape = (Shape) sender;
 
-				foreach (Shape otherShape in shapes.GetUnselectedElements())
+                //Snap horizontally
+                foreach (Shape otherShape in shapes.GetUnselectedElements())
 				{
-					int xDist = otherShape.X - (shape.X + offset.Width);
-					int yDist = otherShape.Y - (shape.Y + offset.Height);
+                    bool snappedX = CorrectChangeToSnapLeft(shape, otherShape, ref positionChange, ref sizeChange);
 
-					if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
-					{
-						int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
-						int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
-						int distance = Math.Min(distance1, distance2);
+                    if(!snappedX)
+                        CorrectChangeToSnapRight(shape, otherShape, ref positionChange);
 
-						if (distance <= DiagramConstants.MaximalPrecisionDistance)
-							offset.Width += xDist;
-					}
-					if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
-					{
-						int distance1 = Math.Abs(shape.Left - otherShape.Right);
-						int distance2 = Math.Abs(otherShape.Left - shape.Right);
-						int distance = Math.Min(distance1, distance2);
+                    if (snappedX)
+                        break;
+                }
 
-						if (distance <= DiagramConstants.MaximalPrecisionDistance)
-							offset.Height += yDist;
-					}
-				}
-			}
-			
-			// Get maxmimal avaiable offset for the selected elements
-			foreach (Shape shape in shapes)
-			{
-				offset = shape.GetMaximalOffset(offset, DiagramConstants.DiagramPadding);
-			}
+                //Snap vertically
+                foreach (Shape otherShape in shapes.GetUnselectedElements())
+                {
+                    bool snappedY = CorrectChangeToSnapTop(shape, otherShape, ref positionChange, ref sizeChange);
+
+                    if (!snappedY)
+                        CorrectChangeToSnapBottom(shape, otherShape, ref positionChange);
+
+                    if (snappedY)
+                        break;
+                }
+            }
+
+            // Get adjust position change for the selected elements with respect to diagram edges padding
+            foreach (Shape shape in shapes)
+				shape.AdjustPositionChange(ref positionChange, ref sizeChange, DiagramConstants.DiagramPadding);
+
 			foreach (Connection connection in connections)
 			{
-				offset = connection.GetMaximalOffset(offset, DiagramConstants.DiagramPadding);
+				positionChange = connection.GetMaximumPositionChange(positionChange, DiagramConstants.DiagramPadding);
 			}
-			if (!offset.IsEmpty)
+
+			if (!positionChange.IsEmpty)
 			{
 				foreach (Shape shape in shapes.GetSelectedElements())
 				{
-					shape.Offset(offset);
+					shape.Offset(positionChange);
 				}
 				foreach (Connection connection in connections.GetSelectedElements())
 				{
-					connection.Offset(offset);
+					connection.Offset(positionChange);
 				}
-			}
-			RecalculateSize();
+            }
+
+            //Reset position change cumulation if shape resize will proceed
+            if (positionChange.Width != 0)
+                positionChangeCumulation.Width -= positionChange.Width;
+
+            if (positionChange.Height != 0)
+                positionChangeCumulation.Height -= positionChange.Height;
+
+            RecalculateSize();
 		}
 
-		private void shape_Resizing(object sender, ResizeEventArgs e)
+        private void shape_Resizing(object sender, ResizeEventArgs e)
 		{
+            positionChangeCumulation += e.PositionChange;
+            sizeChangeCumulation += e.SizeChange;
+            Size positionChange = positionChangeCumulation.ToSize();
+            Size sizeChange = sizeChangeCumulation.ToSize();
+
+			Shape shape = (Shape)sender;
+
 			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
 			{
-				Shape shape = (Shape) sender;
-				Size change = e.Change;
-
-				// Horizontal resizing
-				if (change.Width != 0)
+				foreach (Shape otherShape in shapes.GetUnselectedElements())
 				{
-					foreach (Shape otherShape in shapes.GetUnselectedElements())
+					if (otherShape != shape)
 					{
-						if (otherShape != shape)
-						{
-							int xDist = otherShape.Right - (shape.Right + change.Width);
-							if (Math.Abs(xDist) <= DiagramConstants.PrecisionSize)
-							{
-								int distance1 = Math.Abs(shape.Top - otherShape.Bottom);
-								int distance2 = Math.Abs(otherShape.Top - shape.Bottom);
-								int distance = Math.Min(distance1, distance2);
+                        if (positionChange.Width == 0)
+                            CorrectChangeToSnapRight(shape, otherShape, ref sizeChange);
+                        else
+                            CorrectChangeToSnapLeft(shape, otherShape, ref positionChange, ref sizeChange);
 
-								if (distance <= DiagramConstants.MaximalPrecisionDistance)
-								{
-									change.Width += xDist;
-									break;
-								}
-							}
-						}
-					}
+                        if (positionChange.Height == 0)
+                            CorrectChangeToSnapBottom(shape, otherShape, ref sizeChange);
+                        else
+                            CorrectChangeToSnapTop(shape, otherShape, ref positionChange, ref sizeChange);
+                    }
 				}
 
-				// Vertical resizing
-				if (change.Height != 0)
-				{
-					foreach (Shape otherShape in shapes.GetUnselectedElements())
-					{
-						if (otherShape != shape)
-						{
-							int yDist = otherShape.Bottom - (shape.Bottom + change.Height);
-							if (Math.Abs(yDist) <= DiagramConstants.PrecisionSize)
-							{
-								int distance1 = Math.Abs(shape.Left - otherShape.Right);
-								int distance2 = Math.Abs(otherShape.Left - shape.Right);
-								int distance = Math.Min(distance1, distance2);
+            }
 
-								if (distance <= DiagramConstants.MaximalPrecisionDistance)
-								{
-									change.Height += yDist;
-									break;
-								}
-							}
-						}
-					}
-				}
+            positionChange = shape.GetMinimumPositionChange(positionChange);
+            sizeChange = shape.GetMaximumSizeChange(sizeChange);
+            shape.AdjustPositionChange(ref positionChange, ref sizeChange, DiagramConstants.DiagramPadding);
 
-				e.Change = change;
-			}
-		}
+            //Reset size change cumulation if shape resize will proceed
+            if (sizeChange.Width != 0)
+                sizeChangeCumulation.Width -= sizeChange.Width;
+
+            if (sizeChange.Height != 0)
+                sizeChangeCumulation.Height -= sizeChange.Height;
+
+            //Reset position change cumulation if shape resize will proceed
+            if (positionChange.Width != 0)
+                positionChangeCumulation.Width -= positionChange.Width;
+
+            if (positionChange.Height != 0)
+                positionChangeCumulation.Height -= positionChange.Height;
+
+            e.PositionChange = positionChange;
+            e.SizeChange = sizeChange;
+        }
 
 		private void RemoveShape(Shape shape)
 		{
