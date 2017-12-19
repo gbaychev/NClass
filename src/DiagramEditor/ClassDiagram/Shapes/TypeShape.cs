@@ -98,7 +98,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 				{
 					Size oldSize = Size;
 					collapsed = value;
-					OnResize(new ResizeEventArgs(Size - oldSize));
+					OnResize(new ResizeEventArgs(Size.Empty, Size - oldSize));
 					OnModified(EventArgs.Empty);
 				}
 			}

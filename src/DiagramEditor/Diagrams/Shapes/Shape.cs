@@ -172,7 +172,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				{
 					Size change = new Size(value.Width - Width, value.Height - Height);
 					size = value;
-					OnResize(new ResizeEventArgs(change));
+					OnResize(new ResizeEventArgs(Size.Empty, change));
 					OnModified(EventArgs.Empty);
 				}
 			}
@@ -193,7 +193,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				{
 					Size change = new Size(value - Width, 0);
 					size.Width = value;
-					OnResize(new ResizeEventArgs(change));
+					OnResize(new ResizeEventArgs(Size.Empty, change));
 					OnModified(EventArgs.Empty);
 				}
 			}
@@ -214,7 +214,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 				{
 					Size change = new Size(0, value - Height);
 					size.Height = value;
-					OnResize(new ResizeEventArgs(change));
+					OnResize(new ResizeEventArgs(Size.Empty, change));
 					OnModified(EventArgs.Empty);
 				}
 			}
