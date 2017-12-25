@@ -1,5 +1,5 @@
 ﻿// NClass - Free class diagram editor
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2017 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -56,6 +56,20 @@ namespace NClass.Core.Models
             var useCase = new UseCase();
             AddEntity(useCase);
             return useCase;
+        }
+
+        public ExtendsRelationship AddExtends(UseCase first, UseCase second)
+        {
+            var extendsRelationship = new ExtendsRelationship(first, second);
+            AddRelationship(extendsRelationship);
+            return extendsRelationship;
+        }
+
+        public IncludesRelationship AddIncludes(UseCase first, UseCase second)
+        {
+            var includesRelationship = new IncludesRelationship(first, second);
+            AddRelationship(includesRelationship);
+            return includesRelationship;
         }
     }
 }

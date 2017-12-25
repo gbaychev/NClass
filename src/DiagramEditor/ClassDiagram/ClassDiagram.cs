@@ -1,5 +1,5 @@
 ﻿// NClass - Free class diagram editor
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2017 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -25,7 +25,6 @@ using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
-using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.Translations;
 
@@ -393,41 +392,39 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)
         {
+            switch (e.Relationship.RelationshipType)
             {
-                switch (e.Relationship.RelationshipType)
-                {
-                    case RelationshipType.Association:
-                        AddAssociation(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Association:
+                    AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Composition:
-                        AddComposition(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Composition:
+                    AddComposition(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Aggregation:
-                        AddAssociation(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Aggregation:
+                    AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Generalization:
-                        AddGeneralization(e.Relationship as GeneralizationRelationship);
-                        break;
+                case RelationshipType.Generalization:
+                    AddGeneralization(e.Relationship as GeneralizationRelationship);
+                    break;
 
-                    case RelationshipType.Realization:
-                        AddRealization(e.Relationship as RealizationRelationship);
-                        break;
+                case RelationshipType.Realization:
+                    AddRealization(e.Relationship as RealizationRelationship);
+                    break;
 
-                    case RelationshipType.Dependency:
-                        AddDependency(e.Relationship as DependencyRelationship);
-                        break;
+                case RelationshipType.Dependency:
+                    AddDependency(e.Relationship as DependencyRelationship);
+                    break;
 
-                    case RelationshipType.Nesting:
-                        AddNesting(e.Relationship as NestingRelationship);
-                        break;
+                case RelationshipType.Nesting:
+                    AddNesting(e.Relationship as NestingRelationship);
+                    break;
 
-                    case RelationshipType.Comment:
-                        AddCommentRelationship(e.Relationship as CommentRelationship);
-                        break;
-                }
+                case RelationshipType.Comment:
+                    AddCommentRelationship(e.Relationship as CommentRelationship);
+                    break;
             }
         }
 

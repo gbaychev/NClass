@@ -75,6 +75,8 @@
     <Compile Include="Models\UseCaseModel.cs" />
     <Compile Include="RelationshipEventArgs.cs" />
     <Compile Include="Relationships\AssociationType.cs" />
+    <Compile Include="Relationships\ExtendsRelationship.cs" />
+    <Compile Include="Relationships\IncludesRelationship.cs" />
     <Compile Include="Relationships\RelationshipType.cs" />
     <Compile Include="LangaugeManager.cs" />
     <Compile Include="ProjectItemEventArgs.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="IProjectItem.cs" />
     <Compile Include="ISerializableElement.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="Relationships\UseCaseRelationship.cs" />
     <Compile Include="SerializeEventArgs.cs" />
     <Compile Include="Entities\CompositeType.cs" />
     <Compile Include="Entities\TypeBase.cs">

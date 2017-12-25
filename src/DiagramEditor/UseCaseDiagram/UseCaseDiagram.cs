@@ -1,5 +1,5 @@
 ﻿// NClass - Free class diagram editor
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016 - 2017 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -21,6 +21,7 @@ using NClass.Core;
 using NClass.Core.Models;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
+using NClass.DiagramEditor.UseCaseDiagram.Connection;
 using NClass.DiagramEditor.UseCaseDiagram.ContextMenus;
 using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 
@@ -48,6 +49,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         public override void KeyDown(KeyEventArgs e)
         {
             base.KeyDown(e);
+        }
+
+        public override void CreateConnection(RelationshipType type)
+        {
+            connectionCreator = new UseCaseConnectionCreator(this, type);
+            base.CreateConnection(type);
         }
 
         public override void CreateShape(EntityType type)
@@ -139,9 +146,17 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)
         {
-            throw new System.NotImplementedException();
+            switch (e.Relationship.RelationshipType)
+            {
+                case RelationshipType.Extension:
+                    AddExtends(e.Relationship as ExtendsRelationship);
+                    break;
+                case RelationshipType.Inclusion:
+                    AddIncludes(e.Relationship as IncludesRelationship);
+                    break;
+            }
         }
-
+        
         public bool InsertActor(Actor actor)
         {
             if (actor == null || model.Entities.Contains(actor)) return false;
@@ -174,6 +189,58 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             }
 
             model.Deserialize(node);
+        }
+
+        public bool InsertIncludes(IncludesRelationship includesRelationship)
+        {
+            if (includesRelationship != null && 
+                !model.Relationships.Contains(includesRelationship) &&
+                model.Entities.Contains(includesRelationship.First) && 
+                model.Entities.Contains(includesRelationship.Second))
+            {
+                AddIncludes(includesRelationship);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool InsertExtends(ExtendsRelationship extendsRelationship)
+        {
+            if (extendsRelationship != null && 
+                !model.Relationships.Contains(extendsRelationship) &&
+                model.Entities.Contains(extendsRelationship.First) && 
+                model.Entities.Contains(extendsRelationship.Second))
+            {
+                AddExtends(extendsRelationship);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void AddIncludes(UseCase first, UseCase second)
+        {
+            model.AddIncludes(first, second);
+        }
+
+        private void AddIncludes(IncludesRelationship includesRelationship)
+        {
+            Shape startShape = GetShape(includesRelationship.First);
+            Shape endShape = GetShape(includesRelationship.Second);
+            AddConnection(new IncludesConnection(includesRelationship, startShape, endShape));
+        }
+
+        public void AddExtends(UseCase first, UseCase second)
+        {
+            model.AddExtends(first, second);
+        }
+
+        private void AddExtends(ExtendsRelationship extendsRelationship)
+        {
+            Shape startShape = GetShape(extendsRelationship.First);
+            Shape endShape = GetShape(extendsRelationship.Second);
+            AddConnection(new ExtendsConnection(extendsRelationship, startShape, endShape));
         }
     }
 }
