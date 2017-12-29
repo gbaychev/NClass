@@ -22,99 +22,97 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public abstract class Model : IModifiable
-	{
-		protected List<IEntity> entities = new List<IEntity>();
-		protected List<Relationship> relationships = new List<Relationship>();
-		protected bool isDirty = false;
-		protected bool loading = false;
+    public abstract class Model : IModifiable
+    {
+        protected List<IEntity> entities = new List<IEntity>();
+        protected List<Relationship> relationships = new List<Relationship>();
+        protected bool isDirty = false;
+        protected bool loading = false;
 
-		public event EventHandler Modified;
-		public event EntityEventHandler EntityAdded;
-		public event EntityEventHandler EntityRemoved;
-		public event RelationshipEventHandler RelationAdded;
-		public event RelationshipEventHandler RelationRemoved;
-		public event SerializeEventHandler Serializing;
-		public event SerializeEventHandler Deserializing;
+        public event EventHandler Modified;
+        public event EntityEventHandler EntityAdded;
+        public event EntityEventHandler EntityRemoved;
+        public event RelationshipEventHandler RelationAdded;
+        public event RelationshipEventHandler RelationRemoved;
+        public event SerializeEventHandler Serializing;
+        public event SerializeEventHandler Deserializing;
 
-	    public Project Project { get; set; }
-	    public string Name { get; set; }
+        public Project Project { get; set; }
+        public string Name { get; set; }
 
-	    public bool IsDirty
-		{
-			get { return isDirty; }
-		}
-        
-		public bool IsEmpty
-		{
-			get
-			{
-				return (entities.Count == 0 && relationships.Count == 0);
-			}
-		}
+        public bool IsDirty
+        {
+            get { return isDirty; }
+        }
 
-		void IModifiable.Clean()
-		{
-			isDirty = false;
-			//TODO: tagokat is tisztítani!
-		}
+        public bool IsEmpty
+        {
+            get { return (entities.Count == 0 && relationships.Count == 0); }
+        }
 
-		public IEnumerable<IEntity> Entities
-		{
-			get { return entities; }
-		}
+        void IModifiable.Clean()
+        {
+            isDirty = false;
+            //TODO: tagokat is tisztítani!
+        }
 
-		public IEnumerable<Relationship> Relationships
-		{
-			get { return relationships; }
-		}
-		protected void ElementChanged(object sender, EventArgs e)
-		{
-			OnModified(e);
-		}
+        public IEnumerable<IEntity> Entities
+        {
+            get { return entities; }
+        }
 
-		protected void AddEntity(IEntity entity)
-		{
-			entities.Add(entity);
-			entity.Modified += ElementChanged;
-			OnEntityAdded(new EntityEventArgs(entity));
-		}
+        public IEnumerable<Relationship> Relationships
+        {
+            get { return relationships; }
+        }
 
-	    public void RemoveEntity(IEntity entity)
-		{
-			if (entities.Remove(entity))
-			{
-				entity.Modified -= ElementChanged;
-				RemoveRelationships(entity);
-				OnEntityRemoved(new EntityEventArgs(entity));
-			}
-		}
+        protected void ElementChanged(object sender, EventArgs e)
+        {
+            OnModified(e);
+        }
 
-		private void RemoveRelationships(IEntity entity)
-		{
-			for (int i = 0; i < relationships.Count; i++)
-			{
-				Relationship relationship = relationships[i];
-				if (relationship.First == entity || relationship.Second == entity)
-				{
-					relationship.Detach();
-					relationship.Modified -= ElementChanged;
-					relationships.RemoveAt(i--);
-					OnRelationRemoved(new RelationshipEventArgs(relationship));
-				}
-			}
-		}
+        protected void AddEntity(IEntity entity)
+        {
+            entities.Add(entity);
+            entity.Modified += ElementChanged;
+            OnEntityAdded(new EntityEventArgs(entity));
+        }
 
-		public void RemoveRelationship(Relationship relationship)
-		{
-			if (relationships.Contains(relationship))
-			{
-				relationship.Detach();
-				relationship.Modified -= ElementChanged;
-				relationships.Remove(relationship);
-				OnRelationRemoved(new RelationshipEventArgs(relationship));
-			}
-		}
+        public void RemoveEntity(IEntity entity)
+        {
+            if (entities.Remove(entity))
+            {
+                entity.Modified -= ElementChanged;
+                RemoveRelationships(entity);
+                OnEntityRemoved(new EntityEventArgs(entity));
+            }
+        }
+
+        private void RemoveRelationships(IEntity entity)
+        {
+            for (int i = 0; i < relationships.Count; i++)
+            {
+                Relationship relationship = relationships[i];
+                if (relationship.First == entity || relationship.Second == entity)
+                {
+                    relationship.Detach();
+                    relationship.Modified -= ElementChanged;
+                    relationships.RemoveAt(i--);
+                    OnRelationRemoved(new RelationshipEventArgs(relationship));
+                }
+            }
+        }
+
+        public void RemoveRelationship(Relationship relationship)
+        {
+            if (relationships.Contains(relationship))
+            {
+                relationship.Detach();
+                relationship.Modified -= ElementChanged;
+                relationships.Remove(relationship);
+                OnRelationRemoved(new RelationshipEventArgs(relationship));
+            }
+        }
 
         public IEntity AddComment()
         {
@@ -142,15 +140,15 @@ namespace NClass.Core
         }
 
         public virtual void Serialize(XmlElement node)
-		{
+        {
             SaveEntitites(node);
             SaveRelationships(node);
 
             OnSerializing(new SerializeEventArgs(node));
         }
 
-		public void Deserialize(XmlElement node)
-		{
+        public void Deserialize(XmlElement node)
+        {
             if (node == null)
                 throw new ArgumentNullException("root");
             loading = true;
@@ -162,138 +160,140 @@ namespace NClass.Core
             loading = false;
         }
 
-		/// <exception cref="InvalidDataException">
-		/// The save format is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="root"/> is null.
-		/// </exception>
-		protected void LoadEntitites(XmlNode root)
-		{
-			if (root == null)
-				throw new ArgumentNullException("root");
+        /// <exception cref="InvalidDataException">
+        /// The save format is corrupt and could not be loaded.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="root"/> is null.
+        /// </exception>
+        protected void LoadEntitites(XmlNode root)
+        {
+            if (root == null)
+                throw new ArgumentNullException("root");
 
-			XmlNodeList nodeList = root.SelectNodes("Entities/Entity");
+            XmlNodeList nodeList = root.SelectNodes("Entities/Entity");
 
-			foreach (XmlElement node in nodeList)
-			{
-				try
-				{
-					string type = node.GetAttribute("type");
+            foreach (XmlElement node in nodeList)
+            {
+                try
+                {
+                    string type = node.GetAttribute("type");
 
-					IEntity entity = GetEntity(type);
-					entity.Deserialize(node);
-				}
-				catch (BadSyntaxException ex)
-				{
-					throw new InvalidDataException("Invalid entity.", ex);
-				}
-			}
-		}
+                    IEntity entity = GetEntity(type);
+                    entity.Deserialize(node);
+                }
+                catch (BadSyntaxException ex)
+                {
+                    throw new InvalidDataException("Invalid entity.", ex);
+                }
+            }
+        }
 
-	    protected abstract IEntity GetEntity(string type);
+        protected abstract IEntity GetEntity(string type);
 
-	    /// <exception cref="InvalidDataException">
-	    /// The save format is corrupt and could not be loaded.
-	    /// </exception>
-	    /// <exception cref="ArgumentNullException">
-	    /// <paramref name="root"/> is null.
-	    /// </exception>
-	    protected  abstract void LoadRelationships(XmlNode root);
-		
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		private void SaveEntitites(XmlElement node)
-		{
-			if (node == null)
-				throw new ArgumentNullException("root");
+        /// <exception cref="InvalidDataException">
+        /// The save format is corrupt and could not be loaded.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="root"/> is null.
+        /// </exception>
+        protected abstract void LoadRelationships(XmlNode root);
 
-			XmlElement entitiesChild = node.OwnerDocument.CreateElement("Entities");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="node"/> is null.
+        /// </exception>
+        private void SaveEntitites(XmlElement node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("root");
 
-			foreach (IEntity entity in entities)
-			{
-				XmlElement child = node.OwnerDocument.CreateElement("Entity");
+            XmlElement entitiesChild = node.OwnerDocument.CreateElement("Entities");
 
-				entity.Serialize(child);
-				child.SetAttribute("type", entity.EntityType.ToString());
-				entitiesChild.AppendChild(child);
-			}
-			node.AppendChild(entitiesChild);
-		}
+            foreach (IEntity entity in entities)
+            {
+                XmlElement child = node.OwnerDocument.CreateElement("Entity");
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="root"/> is null.
-		/// </exception>
-		private void SaveRelationships(XmlNode root)
-		{
-			if (root == null)
-				throw new ArgumentNullException("root");
+                entity.Serialize(child);
+                child.SetAttribute("type", entity.EntityType.ToString());
+                entitiesChild.AppendChild(child);
+            }
 
-			XmlElement relationsChild = root.OwnerDocument.CreateElement("Relationships");
+            node.AppendChild(entitiesChild);
+        }
 
-			foreach (Relationship relationship in relationships)
-			{
-				XmlElement child = root.OwnerDocument.CreateElement("Relationship");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="root"/> is null.
+        /// </exception>
+        private void SaveRelationships(XmlNode root)
+        {
+            if (root == null)
+                throw new ArgumentNullException("root");
 
-				int firstIndex = entities.IndexOf(relationship.First);
-				int secondIndex = entities.IndexOf(relationship.Second);
+            XmlElement relationsChild = root.OwnerDocument.CreateElement("Relationships");
 
-				relationship.Serialize(child);
-				child.SetAttribute("type", relationship.RelationshipType.ToString());
-				child.SetAttribute("first", firstIndex.ToString());
-				child.SetAttribute("second", secondIndex.ToString());
-				relationsChild.AppendChild(child);
-			}
-			root.AppendChild(relationsChild);
-		}
+            foreach (Relationship relationship in relationships)
+            {
+                XmlElement child = root.OwnerDocument.CreateElement("Relationship");
 
-		protected virtual void OnEntityAdded(EntityEventArgs e)
-		{
-			if (EntityAdded != null)
-				EntityAdded(this, e);
-			OnModified(EventArgs.Empty);
-		}
+                int firstIndex = entities.IndexOf(relationship.First);
+                int secondIndex = entities.IndexOf(relationship.Second);
 
-		protected virtual void OnEntityRemoved(EntityEventArgs e)
-		{
-			if (EntityRemoved != null)
-				EntityRemoved(this, e);
-			OnModified(EventArgs.Empty);
-		}
+                relationship.Serialize(child);
+                child.SetAttribute("type", relationship.RelationshipType.ToString());
+                child.SetAttribute("first", firstIndex.ToString());
+                child.SetAttribute("second", secondIndex.ToString());
+                relationsChild.AppendChild(child);
+            }
 
-		protected virtual void OnRelationAdded(RelationshipEventArgs e)
-		{
-			if (RelationAdded != null)
-				RelationAdded(this, e);
-			OnModified(EventArgs.Empty);
-		}
+            root.AppendChild(relationsChild);
+        }
 
-		protected virtual void OnRelationRemoved(RelationshipEventArgs e)
-		{
-			if (RelationRemoved != null)
-				RelationRemoved(this, e);
-			OnModified(EventArgs.Empty);
-		}
+        protected virtual void OnEntityAdded(EntityEventArgs e)
+        {
+            if (EntityAdded != null)
+                EntityAdded(this, e);
+            OnModified(EventArgs.Empty);
+        }
 
-		protected virtual void OnSerializing(SerializeEventArgs e)
-		{
-			if (Serializing != null)
-				Serializing(this, e);
-		}
+        protected virtual void OnEntityRemoved(EntityEventArgs e)
+        {
+            if (EntityRemoved != null)
+                EntityRemoved(this, e);
+            OnModified(EventArgs.Empty);
+        }
 
-		protected virtual void OnDeserializing(SerializeEventArgs e)
-		{
-			if (Deserializing != null)
-				Deserializing(this, e);
-			OnModified(EventArgs.Empty);
-		}
+        protected virtual void OnRelationAdded(RelationshipEventArgs e)
+        {
+            if (RelationAdded != null)
+                RelationAdded(this, e);
+            OnModified(EventArgs.Empty);
+        }
 
-		protected virtual void OnModified(EventArgs e)
-		{
-			isDirty = true;
-			if (Modified != null)
-				Modified(this, e);
-		}
-	}
+        protected virtual void OnRelationRemoved(RelationshipEventArgs e)
+        {
+            if (RelationRemoved != null)
+                RelationRemoved(this, e);
+            OnModified(EventArgs.Empty);
+        }
+
+        protected virtual void OnSerializing(SerializeEventArgs e)
+        {
+            if (Serializing != null)
+                Serializing(this, e);
+        }
+
+        protected virtual void OnDeserializing(SerializeEventArgs e)
+        {
+            if (Deserializing != null)
+                Deserializing(this, e);
+            OnModified(EventArgs.Empty);
+        }
+
+        protected virtual void OnModified(EventArgs e)
+        {
+            isDirty = true;
+            if (Modified != null)
+                Modified(this, e);
+        }
+    }
 }
