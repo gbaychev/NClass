@@ -33,10 +33,10 @@ namespace NClass.Core
             this.label = "<extends>";
         }
 
-        public override RelationshipType RelationshipType
-        {
-            get { return RelationshipType.Extension; }
-        }
+        public override bool SupportsLabel => true;
+
+        public override RelationshipType RelationshipType => RelationshipType.Extension;
+
         public override string ToString()
         {
             var firstName = string.IsNullOrEmpty(first.Name) ? "<use case>" : first.Name;

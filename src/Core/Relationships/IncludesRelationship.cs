@@ -36,10 +36,8 @@ namespace NClass.Core
 
         public override bool SupportsLabel => true;
 
-        public override RelationshipType RelationshipType
-        {
-            get { return RelationshipType.Inclusion; }
-        }
+        public override RelationshipType RelationshipType => RelationshipType.Inclusion;
+
         public override string ToString()
         {
             var firstName = string.IsNullOrEmpty(first.Name) ? "<use case>" : first.Name;
