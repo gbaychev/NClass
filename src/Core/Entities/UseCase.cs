@@ -18,7 +18,7 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public class UseCase : IUseCaseEntity
+    public class UseCase : Element, IUseCaseEntity
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
@@ -26,7 +26,6 @@ namespace NClass.Core
 
         public UseCase()
         {
-            
         }
 
         public UseCase(string name)
@@ -34,16 +33,9 @@ namespace NClass.Core
             this.Name = name;
         }
 
-        public event EventHandler Modified;
-        public bool IsDirty { get; }
-        public void Clean()
-        {
-            throw new NotImplementedException();
-        }
-
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 if (value == null)
@@ -52,15 +44,11 @@ namespace NClass.Core
                 if (name != value)
                 {
                     name = value;
-                    //FIXME
-                    //Changed();
+                    Changed();
                 }
             }
         }
-        public EntityType EntityType
-        {
-            get { return EntityType.UseCase; }
-        }
+        public EntityType EntityType => EntityType.UseCase;
 
         public UseCase Clone()
         {
@@ -81,8 +69,7 @@ namespace NClass.Core
 
         private void OnSerializing(SerializeEventArgs e)
         {
-            if (Serializing != null)
-                Serializing(this, e);
+            Serializing?.Invoke(this, e);
         }
 
         public void Deserialize(XmlElement node)
@@ -102,8 +89,12 @@ namespace NClass.Core
 
         private void OnDeserializing(SerializeEventArgs e)
         {
-            if (Deserializing != null)
-                Deserializing(this, e);
+            Deserializing?.Invoke(this, e);
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(this.name) ? "<use case>" : this.name;
         }
     }
 }

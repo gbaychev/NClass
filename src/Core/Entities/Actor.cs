@@ -18,29 +18,37 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public class Actor : IUseCaseEntity
+    public class Actor : Element, IUseCaseEntity
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
+        private string name;
         
         public Actor()
         {
-            this.Name = "Actor";
+            this.name = "Actor";
         }
 
         public Actor(string name)
         {
-            this.Name = name;
+            this.name = name;
         }
 
-        public event EventHandler Modified;
-        public bool IsDirty { get; }
-        public void Clean()
+        public string Name
         {
-            throw new NotImplementedException();
-        }
+            get => name;
+            set
+            {
+                if (value == null)
+                    value = string.Empty;
 
-        public string Name { get; set; }
+                if (name != value)
+                {
+                    name = value;
+                    Changed();
+                }
+            }
+        }
 
         public EntityType EntityType
         {
@@ -89,6 +97,11 @@ namespace NClass.Core
         public Actor Clone()
         {
             return new Actor(this.Name);
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(this.name) ? "<Actor>" : this.name;
         }
     }
 }
