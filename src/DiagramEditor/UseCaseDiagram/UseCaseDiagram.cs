@@ -272,5 +272,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             var endShape = GetShape(association.Second);
             AddConnection(new UseCaseAssociationConnection(association, startShape, endShape));
         }
+
+        public override string GetShortDescription()
+        {
+            return "Use Case Diagram";
+        }
     }
 }

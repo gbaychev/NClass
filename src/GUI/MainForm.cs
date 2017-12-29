@@ -387,12 +387,12 @@ namespace NClass.GUI
 			if (docManager.HasDocument)
 			{
 				lblStatus.Text = docManager.ActiveDocument.GetStatus();
-				lblLanguage.Text = docManager.ActiveDocument.GetShortDescription();
+				lblShortDesc.Text = docManager.ActiveDocument.GetShortDescription();
 			}
 			else
 			{
 				lblStatus.Text = string.Empty;
-				lblLanguage.Text = string.Empty;
+				lblShortDesc.Text = string.Empty;
 			}
 		}
 
