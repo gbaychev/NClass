@@ -29,8 +29,8 @@ namespace NClass.Core
         public ExtendsRelationship(UseCase first, UseCase second)
             : base(first, second)
         {
-            this.Label = "<extends>";
             Attach();
+            this.label = "<extends>";
         }
 
         public override RelationshipType RelationshipType

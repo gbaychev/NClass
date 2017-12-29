@@ -1,6 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2017 Georgi Baychev
-// 
+//  
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
 // Foundation; either version 3 of the License, or (at your option) any later version.
@@ -19,23 +19,21 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class ExtendsConnection : Diagrams.Connections.Connection
+    public class UseCaseAssociationConnection : Diagrams.Connections.Connection
     {
-        private ExtendsRelationship extendsRelationship;
+        private UseCaseAssociation association;
 
-        public ExtendsConnection(Relationship relationship, Shape firstShape, Shape secondShape) 
+        public UseCaseAssociationConnection(Relationship relationship, Shape firstShape, Shape secondShape)
             : base(relationship, firstShape, secondShape)
         {
-            this.extendsRelationship = (ExtendsRelationship)relationship;
+            this.association = (UseCaseAssociation)relationship;
         }
 
-        protected internal override Relationship Relationship
-        {
-            get { return extendsRelationship; }
-        }
+        protected internal override Relationship Relationship => association;
+        
         protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
         {
-            if (diagram.DiagramType != DiagramType.UseCaseDiagram)
+            if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             UseCase firstType = first.Entity as UseCase;
@@ -43,8 +41,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 
             if (firstType != null && secondType != null)
             {
-                var clone = extendsRelationship.Clone(firstType, secondType);
-                return ((UseCaseDiagram)diagram).InsertExtends(clone);
+                var clone = association.Clone(firstType, secondType);
+                return ((UseCaseDiagram)diagram).InsertAssociation(association);
             }
             else
             {

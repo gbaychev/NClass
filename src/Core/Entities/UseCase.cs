@@ -18,7 +18,7 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public class UseCase : IEntity
+    public class UseCase : IUseCaseEntity
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;

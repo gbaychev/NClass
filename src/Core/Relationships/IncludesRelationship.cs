@@ -30,8 +30,8 @@ namespace NClass.Core
         public IncludesRelationship(UseCase first, UseCase second)
             : base(first, second)
         {
-            this.Label = "<includes>";
             Attach();
+            this.label = "<includes>";
         }
 
         public override bool SupportsLabel => true;

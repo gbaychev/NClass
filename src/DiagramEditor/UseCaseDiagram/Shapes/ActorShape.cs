@@ -23,7 +23,7 @@ using NClass.DiagramEditor.UseCaseDiagram.Editors;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 {
-    public class ActorShape : Shape
+    public class ActorShape : UseCaseShapeBase
     {
         private bool isEditorShown = false;
         private ActorEditor editor;
@@ -204,5 +204,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             HideEditor();
             base.OnMove(e);
         }
+
+        public Actor Actor => actor;
+
+        public override IUseCaseEntity UseCaseEntity => this.actor;
     }
 }

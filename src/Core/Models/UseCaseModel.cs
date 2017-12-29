@@ -71,5 +71,12 @@ namespace NClass.Core.Models
             AddRelationship(includesRelationship);
             return includesRelationship;
         }
+
+        public UseCaseAssociation AddAssocation(IUseCaseEntity first, IUseCaseEntity second)
+        {
+            var assocationRelationship = new UseCaseAssociation(first, second);
+            AddRelationship(assocationRelationship);
+            return assocationRelationship;
+        }
     }
 }

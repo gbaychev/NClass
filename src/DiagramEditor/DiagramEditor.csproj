@@ -270,6 +270,7 @@
     <Compile Include="ClassDiagram\Shapes\TypeShape.cs" />
     <Compile Include="UseCaseDiagram\Connection\IncludesConnection.cs" />
     <Compile Include="UseCaseDiagram\Connection\ExtendsConnection.cs" />
+    <Compile Include="UseCaseDiagram\Connection\UseCaseAssociationConnection.cs" />
     <Compile Include="UseCaseDiagram\ContextMenus\UseCaseDiagramBlankContextMenu.cs" />
     <Compile Include="UseCaseDiagram\Editors\ActorEditor.cs">
       <SubType>UserControl</SubType>
@@ -285,6 +286,7 @@
     </Compile>
     <Compile Include="UseCaseDiagram\Shapes\ActorShape.cs" />
     <Compile Include="UseCaseDiagram\Shapes\UseCaseShape.cs" />
+    <Compile Include="UseCaseDiagram\Shapes\UseCaseShapeBase.cs" />
     <Compile Include="UseCaseDiagram\UseCaseConnectionCreator.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagram.cs" />
     <Compile Include="UseCaseDiagram\UseCaseDiagramDynamicMenu.cs" />

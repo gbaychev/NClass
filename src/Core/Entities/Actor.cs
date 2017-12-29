@@ -18,7 +18,7 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public class Actor : IEntity
+    public class Actor : IUseCaseEntity
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;

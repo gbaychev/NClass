@@ -69,6 +69,7 @@
     <Compile Include="BadSyntaxException.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\EntityType.cs" />
+    <Compile Include="Entities\IUseCaseEntity.cs" />
     <Compile Include="Entities\UseCase.cs" />
     <Compile Include="Members\MemberType.cs" />
     <Compile Include="Models\ClassModel.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="IProjectItem.cs" />
     <Compile Include="ISerializableElement.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="Relationships\UseCaseAssociation.cs" />
     <Compile Include="Relationships\UseCaseRelationship.cs" />
     <Compile Include="SerializeEventArgs.cs" />
     <Compile Include="Entities\CompositeType.cs" />

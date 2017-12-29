@@ -38,18 +38,18 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.Inclusion:
                     CreateIncludes();
                     break;
+                case RelationshipType.UseCaseAssocation:
+                    CreateAssocation();
+                    break;
             }
 
             created = true;
             diagram.Redraw();
         }
-
+        
         private void CreateExtends()
         {
-            var shape1 = first as UseCaseShape;
-            var shape2 = second as UseCaseShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
             {
                 diagram.AddExtends(shape1.UseCase, shape2.UseCase);
             }
@@ -61,12 +61,21 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         private void CreateIncludes()
         {
-            var shape1 = first as UseCaseShape;
-            var shape2 = second as UseCaseShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
             {
                 diagram.AddIncludes(shape1.UseCase, shape2.UseCase);
+            }
+            else
+            {
+                MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+            }
+        }
+
+        private void CreateAssocation()
+        {
+            if (first is UseCaseShapeBase shape1 && second is UseCaseShapeBase shape2)
+            {
+                diagram.AddAssociation(shape1.UseCaseEntity, shape2.UseCaseEntity);
             }
             else
             {

@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.Core.Models;
+using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Connection;
@@ -154,6 +155,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.Inclusion:
                     AddIncludes(e.Relationship as IncludesRelationship);
                     break;
+                case RelationshipType.UseCaseAssocation:
+                    AddAssocation(e.Relationship as UseCaseAssociation);
+                    break;
             }
         }
         
@@ -219,6 +223,20 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return false;
         }
 
+        public bool InsertAssociation(UseCaseAssociation association)
+        {
+            if (association != null &&
+                !model.Relationships.Contains(association) &&
+                model.Entities.Contains(association.First) &&
+                model.Entities.Contains(association.Second))
+            {
+                AddAssocation(association);
+                return true;
+            }
+
+            return false;
+        }
+
         public void AddIncludes(UseCase first, UseCase second)
         {
             model.AddIncludes(first, second);
@@ -241,6 +259,18 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             Shape startShape = GetShape(extendsRelationship.First);
             Shape endShape = GetShape(extendsRelationship.Second);
             AddConnection(new ExtendsConnection(extendsRelationship, startShape, endShape));
+        }
+
+        public void AddAssociation(IUseCaseEntity first, IUseCaseEntity second)
+        {
+            model.AddAssocation(first, second);
+        }
+
+        private void AddAssocation(UseCaseAssociation association)
+        {
+            var startShape = GetShape(association.First);
+            var endShape = GetShape(association.Second);
+            AddConnection(new UseCaseAssociationConnection(association, startShape, endShape));
         }
     }
 }

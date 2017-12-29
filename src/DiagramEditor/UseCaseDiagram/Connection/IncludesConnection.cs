@@ -36,7 +36,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 
         protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
         {
-            if (diagram.DiagramType != DiagramType.ClassDiagram)
+            if (diagram.DiagramType != DiagramType.UseCaseDiagram)
                 return false;
 
             UseCase firstType = first.Entity as UseCase;

@@ -23,7 +23,7 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 {
-    public class UseCaseShape : Shape
+    public class UseCaseShape : UseCaseShapeBase
     {
         private bool isEditorShown = false;
         private UseCaseEditor editor;
@@ -194,5 +194,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             return new Rectangle(0, 0, DefaultWidth, DefaultHeight);
         }
+
+        public override IUseCaseEntity UseCaseEntity => this.useCase;
     }
 }
