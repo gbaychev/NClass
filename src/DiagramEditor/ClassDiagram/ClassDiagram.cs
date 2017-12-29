@@ -39,9 +39,9 @@ namespace NClass.DiagramEditor.ClassDiagram
         }
 
         /// <exception cref="ArgumentNullException">
-		/// <paramref name="language"/> is null.
-		/// </exception>
-		public ClassDiagram(Language language) : this()
+        /// <paramref name="language"/> is null.
+        /// </exception>
+        public ClassDiagram(Language language) : this()
         {
             model = new ClassModel(language);
             model.EntityRemoved += OnEntityRemoved;
@@ -58,9 +58,9 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public Language Language
         {
-            get { return model.Language;}
+            get { return model.Language; }
         }
-        
+
         public bool InsertStructure(StructureType structure)
         {
             if (structure != null && !model.Entities.Contains(structure) &&
@@ -109,7 +109,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             return false;
         }
 
-        
 
         public bool InsertClass(ClassType newClass)
         {
@@ -134,7 +133,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
             return false;
         }
-        
+
 
         public bool InsertDependency(DependencyRelationship dependency)
         {
@@ -185,9 +184,9 @@ namespace NClass.DiagramEditor.ClassDiagram
         }
 
         /// <exception cref="ArgumentNullException">
-		/// <paramref name="first"/> or <paramref name="second"/> is null.
-		/// </exception>
-		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
+        /// <paramref name="first"/> or <paramref name="second"/> is null.
+        /// </exception>
+        public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
         {
             return model.AddAssociation(first, second);
         }
@@ -321,7 +320,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             AddShape(new EnumShape(enumType));
         }
-        
+
         public override Shape AddShape(EntityType type)
         {
             switch (type)
@@ -467,6 +466,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                         break;
                 }
             }
+
             base.KeyDown(e);
             RedrawSuspended = false;
         }
@@ -491,7 +491,8 @@ namespace NClass.DiagramEditor.ClassDiagram
                     shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
                     break;
             }
-            shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
+
+            shapeOutline.Location = new Point((int) mouseLocation.X, (int) mouseLocation.Y);
             Redraw();
         }
 
@@ -528,6 +529,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model.Deserializing += OnDeserializing;
                 model.Name = this.name;
             }
+
             model.Deserialize(node);
         }
 
@@ -536,5 +538,4 @@ namespace NClass.DiagramEditor.ClassDiagram
             return Strings.Language + ": " + model.Language.ToString();
         }
     }
-
 }
