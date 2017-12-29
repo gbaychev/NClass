@@ -55,8 +55,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                 shadowBrush.Color = style.ShadowColor;
                 g.TranslateTransform(style.ShadowOffset.Width, style.ShadowOffset.Height);
                 g.FillEllipse(shadowBrush, Location.X + style.ShadowOffset.Width, Location.Y + style.ShadowOffset.Height, Width, Height);
+                g.TranslateTransform(-style.ShadowOffset.Width, -style.ShadowOffset.Height);
             }
-
+            
             g.DrawEllipse(new Pen(style.UseCaseBorderColor, style.UseCaseBorderWidth), Location.X, Location.Y, Size.Width, Size.Height);
             g.FillEllipse(new SolidBrush(style.UseCaseBackColor), Location.X, Location.Y, Width, Height);
         }
