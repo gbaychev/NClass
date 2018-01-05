@@ -78,5 +78,11 @@ namespace NClass.Core.Models
             AddRelationship(assocationRelationship);
             return assocationRelationship;
         }
+
+        public void AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
+        {
+            var generalization = new UseCaseGeneralization(first, second);
+            AddRelationship(generalization);
+        }
     }
 }

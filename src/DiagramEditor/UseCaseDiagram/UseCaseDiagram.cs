@@ -273,6 +273,32 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             AddConnection(new UseCaseAssociationConnection(association, startShape, endShape));
         }
 
+        public void AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
+        {
+            model.AddGeneralization(first, second);
+        }
+
+        private void AddGeneralization(UseCaseGeneralization generalization)
+        {
+            var startShape = GetShape(generalization.First);
+            var endShape = GetShape(generalization.Second);
+            AddConnection(new UseCaseGeneralizationConnection(generalization, startShape, endShape));
+        }
+
+        public bool InsertGeneralization(UseCaseGeneralization generalization)
+        {
+            if (generalization != null &&
+                !model.Relationships.Contains(generalization) &&
+                model.Entities.Contains(generalization.First) &&
+                model.Entities.Contains(generalization.Second))
+            {
+                AddGeneralization(generalization);
+                return true;
+            }
+
+            return false;
+        }
+
         public override string GetShortDescription()
         {
             return "Use Case Diagram";

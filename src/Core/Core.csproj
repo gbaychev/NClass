@@ -86,6 +86,7 @@
     <Compile Include="IProjectItem.cs" />
     <Compile Include="ISerializableElement.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="Relationships\UseCaseGeneralization.cs" />
     <Compile Include="Relationships\UseCaseAssociation.cs" />
     <Compile Include="Relationships\UseCaseRelationship.cs" />
     <Compile Include="SerializeEventArgs.cs" />

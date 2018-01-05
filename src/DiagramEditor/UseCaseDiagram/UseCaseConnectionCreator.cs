@@ -41,12 +41,15 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.UseCaseAssocation:
                     CreateAssocation();
                     break;
+                case RelationshipType.UseCaseGeneralization:
+                    CreateGeneralization();
+                    break;
             }
 
             created = true;
             diagram.Redraw();
         }
-        
+
         private void CreateExtends()
         {
             if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
@@ -76,6 +79,18 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             if (first is UseCaseShapeBase shape1 && second is UseCaseShapeBase shape2)
             {
                 diagram.AddAssociation(shape1.UseCaseEntity, shape2.UseCaseEntity);
+            }
+            else
+            {
+                MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+            }
+        }
+
+        private void CreateGeneralization()
+        {
+            if (first is UseCaseShapeBase shape1 && second is UseCaseShapeBase shape2)
+            {
+                diagram.AddGeneralization(shape1.UseCaseEntity, shape2.UseCaseEntity);
             }
             else
             {
