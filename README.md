@@ -25,6 +25,13 @@ Still, NClass is a great tool, although it is missing some important features. T
   - Undo/Redo
   - Many more to come. If you have an idea, don't hesitate to open an issue
 
+## Slack :talk:
+
+If you have a discussion or talk about NClass, you can do it now on Slack too.
+Drop an email to nclass dot editor at gmail dot com with subject NClass to get an invite.
+
+Please bear in mind that currently the response times on Slack are slow.
+
 
 License
 ----
