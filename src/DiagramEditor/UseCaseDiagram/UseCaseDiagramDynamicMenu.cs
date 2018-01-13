@@ -31,6 +31,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         private ToolStripMenuItem mnuAddNewAssociation;
         private ToolStripMenuItem mnuAddNewExtends;
         private ToolStripMenuItem mnuAddNewIncludes;
+        private ToolStripMenuItem mnuAddNewGeneralization;
         #endregion
 
         #region Toolstrip Items
@@ -39,6 +40,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         private ToolStripButton toolNewAssociation;
         private ToolStripButton toolNewExtends;
         private ToolStripButton toolNewIncludes;
+        private ToolStripButton toolNewGeneralization;
         #endregion
 
         private UseCaseDiagramDynamicMenu()
@@ -60,7 +62,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             if (diagram != null)
             {
-                diagram.SelectionChanged -= new EventHandler(diagram_SelectionChanged);
+                diagram.SelectionChanged -= diagram_SelectionChanged;
             }
 
             if (document == null)
@@ -69,14 +71,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             }
             else
             {
-                // TODO do this in a sane way
-                diagram = document as UseCaseDiagram;
-                if (diagram == null)
-                {
-                    throw new Exception("This is not a use case diagram");
-                }
-                diagram.SelectionChanged += new EventHandler(diagram_SelectionChanged);
-
+                diagram = (UseCaseDiagram)document;
+                diagram.SelectionChanged += diagram_SelectionChanged;
             };
         }
 
@@ -89,6 +85,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.mnuAddNewAssociation = new ToolStripMenuItem(Strings.AddNewAssociation, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseAssocation));
             this.mnuAddNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension));
             this.mnuAddNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion));
+            this.mnuAddNewGeneralization = new ToolStripMenuItem(Strings.AddNewGeneralization, Resources.Generalization, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseGeneralization));
 
             this.mnuNewElement.DropDownItems.Add(this.mnuNewUseCase);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewActor);
@@ -97,6 +94,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewAssociation);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewExtends);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewIncludes);
+            this.mnuNewElement.DropDownItems.Add(this.mnuAddNewGeneralization);
             this.mnuNewElement.DropDownItems.Add(this.mnuNewCommentRelationship);
 
             this.toolNewUseCase = new ToolStripButton(Strings.AddNewUseCase, Resources.UseCase, (o, e) => diagram?.CreateShape(EntityType.UseCase)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
@@ -104,6 +102,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.toolNewAssociation = new ToolStripButton(Strings.Association, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseAssocation)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewExtends = new ToolStripButton(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewIncludes = new ToolStripButton(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewGeneralization = new ToolStripButton(Strings.AddNewGeneralization, Resources.Generalization, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseGeneralization)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
 
             this.elementsToolStrip.Items.Add(this.toolNewUseCase);
             this.elementsToolStrip.Items.Add(this.toolNewActor);
@@ -112,6 +111,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.elementsToolStrip.Items.Add(this.toolNewAssociation);
             this.elementsToolStrip.Items.Add(this.toolNewExtends);
             this.elementsToolStrip.Items.Add(this.toolNewIncludes);
+            this.elementsToolStrip.Items.Add(this.toolNewGeneralization);
             this.elementsToolStrip.Items.Add(this.toolNewCommentRelationship);
             this.elementsToolStrip.Items.Add(new ToolStripSeparator());
             this.elementsToolStrip.Items.Add(this.toolDelete);
@@ -121,6 +121,5 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             //throw new NotImplementedException();
         }
-
     }
 }
