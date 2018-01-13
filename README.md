@@ -5,7 +5,7 @@ NClass is a free tool to easily create UML class diagrams with C# and Java langu
 
 Still, NClass is a great tool, although it is missing some important features. The goal of this project is to restart the development of NClass, adding the missing features. 
 
-## Existing features
+## Existing features :computer:
 
  - C# and Java support with many language specific elements
  - Simple and easy to use user interface
@@ -17,7 +17,7 @@ Still, NClass is a great tool, although it is missing some important features. T
  - Multilingual user interface
  - Mono support for non-Windows users
 
-## Some of the things to come
+## Some of the things to come :construction:
 
   - Bringing the NClass' support of C# and Java up-to-date with current version of the languages
   - Sequence diagrams
@@ -33,7 +33,7 @@ Drop an email to nclass dot editor at gmail dot com with subject NClass to get a
 Please bear in mind that currently the response times on Slack are slow.
 
 
-License
+License :page_with_curl:
 ----
 
 NClass is totally free and licensed under the [GNU General Public License](http://nclass.sourceforge.net/).
