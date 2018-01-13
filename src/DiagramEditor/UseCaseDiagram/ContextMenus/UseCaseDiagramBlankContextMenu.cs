@@ -1,6 +1,6 @@
 // NClass - Free class diagram editor
 // Copyright (C) 2006-2007 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016 - 2018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -30,8 +30,13 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
 
         #region MenuItem fields
         ToolStripMenuItem mnuAddNewElement;
-        ToolStripMenuItem mnuAddNewActor;
-        ToolStripMenuItem mnuAddNewUseCase;
+        ToolStripMenuItem mnuNewActor;
+        ToolStripMenuItem mnuNewUseCase;
+        ToolStripMenuItem mnuNewComment;
+        ToolStripMenuItem mnuNewAssociation;
+        ToolStripMenuItem mnuNewExtends;
+        ToolStripMenuItem mnuNewIncludes;
+        ToolStripMenuItem mnuNewGeneralization;
         ToolStripMenuItem mnuNewCommentRelationship;
 
         ToolStripMenuItem mnuPaste;
@@ -67,18 +72,28 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
         {
             mnuAddNewElement = new ToolStripMenuItem(Strings.MenuNew, Resources.NewElement);
 
-            mnuAddNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, mnuAddNewActor_Click);
-            mnuAddNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, mnuAddNewUseCase_Click);
-            mnuNewCommentRelationship = new ToolStripMenuItem(Strings.MenuCommentRelationship, Resources.CommentRel, mnuNewCommentRelationship_Click);
+            mnuNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, (s, e) => Diagram?.CreateShape(EntityType.Actor));
+            mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, (s, e) => Diagram?.CreateShape(EntityType.UseCase));
+            mnuNewComment = new ToolStripMenuItem(Strings.MenuComment, Resources.Comment, (s, e) => Diagram?.CreateShape(EntityType.Comment));
+            mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseAssocation));
+            mnuNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (s, e) => Diagram?.CreateConnection(RelationshipType.Inclusion));
+            mnuNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends, (s, e) => Diagram?.CreateConnection(RelationshipType.Extension));
+            mnuNewGeneralization = new ToolStripMenuItem(Strings.MenuGeneralization, Resources.Generalization, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseGeneralization));
+            mnuNewCommentRelationship = new ToolStripMenuItem(Strings.MenuCommentRelationship, Resources.CommentRel, (s, e) => Diagram?.CreateConnection(RelationshipType.Comment));
 
-            mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, mnuPaste_Click);
-            mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, mnuSaveAsImage_Click);
-            mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, mnuSelectAll_Click);
+            mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, (s, e) => Diagram?.Paste());
+            mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, (s, e) => Diagram?.SaveAsImage());
+            mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, (s, e) => Diagram?.SelectAll());
 
             mnuAddNewElement.DropDownItems.AddRange(new ToolStripItem[] {
-                mnuAddNewActor,
-                mnuAddNewUseCase,
+                mnuNewActor,
+                mnuNewUseCase,
+                mnuNewComment,
                 new ToolStripSeparator(),
+                mnuNewAssociation,
+                mnuNewIncludes,
+                mnuNewExtends,
+                mnuNewGeneralization,
                 mnuNewCommentRelationship
             });
             
@@ -89,42 +104,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
                 mnuSaveAsImage,
                 mnuSelectAll
             });
-        }
-
-        private void mnuAddNewActor_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null)
-                Diagram.CreateShape(EntityType.Actor);
-        }
-
-        private void mnuAddNewUseCase_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null)
-                Diagram.CreateShape(EntityType.UseCase);
-        }
-
-        private void mnuNewCommentRelationship_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null)
-                Diagram.CreateConnection(RelationshipType.Comment);
-        }
-
-        private void mnuPaste_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null)
-                Diagram.Paste();
-        }
-
-        private void mnuSaveAsImage_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null && !Diagram.IsEmpty)
-                Diagram.SaveAsImage();
-        }
-
-        private void mnuSelectAll_Click(object sender, EventArgs e)
-        {
-            if (Diagram != null)
-                Diagram.SelectAll();
         }
     }
 }
