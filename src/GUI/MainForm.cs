@@ -536,6 +536,7 @@ namespace NClass.GUI
         {
             mnuNewCSharpDiagram.Enabled = Workspace.Default.HasActiveProject;
             mnuNewJavaDiagram.Enabled = Workspace.Default.HasActiveProject;
+            mnuNewUseCaseDiagram.Enabled = Workspace.Default.HasActiveProject;
         }
 
         private void mnuNewProject_Click(object sender, EventArgs e)
