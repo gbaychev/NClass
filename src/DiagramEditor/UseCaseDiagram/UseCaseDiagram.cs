@@ -19,7 +19,6 @@ using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.Core.Models;
-using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Connection;
@@ -37,7 +36,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             model.EntityAdded += OnEntityAdded;
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
-			model.Deserializing += OnDeserializing;
+            model.Deserializing += OnDeserializing;
             model.Project = this.Project;
             model.Name = this.name;
 
@@ -93,11 +92,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case EntityType.Actor:
                     AddActor();
                     break;
-                
+
                 case EntityType.UseCase:
                     AddUseCase();
                     break;
-                    
+
                 default:
                     return null;
             }
@@ -160,7 +159,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                     break;
             }
         }
-        
+
         public bool InsertActor(Actor actor)
         {
             if (actor == null || model.Entities.Contains(actor)) return false;
@@ -197,9 +196,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public bool InsertIncludes(IncludesRelationship includesRelationship)
         {
-            if (includesRelationship != null && 
+            if (includesRelationship != null &&
                 !model.Relationships.Contains(includesRelationship) &&
-                model.Entities.Contains(includesRelationship.First) && 
+                model.Entities.Contains(includesRelationship.First) &&
                 model.Entities.Contains(includesRelationship.Second))
             {
                 AddIncludes(includesRelationship);
@@ -211,9 +210,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public bool InsertExtends(ExtendsRelationship extendsRelationship)
         {
-            if (extendsRelationship != null && 
+            if (extendsRelationship != null &&
                 !model.Relationships.Contains(extendsRelationship) &&
-                model.Entities.Contains(extendsRelationship.First) && 
+                model.Entities.Contains(extendsRelationship.First) &&
                 model.Entities.Contains(extendsRelationship.Second))
             {
                 AddExtends(extendsRelationship);
