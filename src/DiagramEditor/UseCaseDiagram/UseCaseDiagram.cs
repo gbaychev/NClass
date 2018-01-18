@@ -157,6 +157,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.UseCaseAssocation:
                     AddAssocation(e.Relationship as UseCaseAssociation);
                     break;
+                case RelationshipType.UseCaseGeneralization:
+                    AddGeneralization(e.Relationship as UseCaseGeneralization);
+                    break;
             }
         }
 
