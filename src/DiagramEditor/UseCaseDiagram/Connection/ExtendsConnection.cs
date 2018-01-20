@@ -62,5 +62,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 
             g.DrawLines(linePen, Arrowhead.OpenArrowPoints);
         }
+
+        protected override bool IsDashed => true;
     }
 }
