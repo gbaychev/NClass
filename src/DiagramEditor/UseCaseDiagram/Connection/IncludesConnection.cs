@@ -13,7 +13,9 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System.Drawing;
 using NClass.Core;
+using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
@@ -22,6 +24,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
     public class IncludesConnection : Diagrams.Connections.Connection
     {
         private IncludesRelationship includesRelationship;
+        private Pen linePen = new Pen(Color.Black);
 
         public IncludesConnection(Relationship relationship, Shape firstShape, Shape secondShape) 
             : base(relationship, firstShape, secondShape)
@@ -51,6 +54,14 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
             {
                 return false;
             }
+        }
+
+        protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
+        {
+            this.linePen.Color = style.RelationshipColor;
+            this.linePen.Width = style.RelationshipWidth;
+
+            g.DrawLines(linePen, Arrowhead.OpenArrowPoints);
         }
     }
 }
