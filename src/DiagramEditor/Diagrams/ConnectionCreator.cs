@@ -15,8 +15,10 @@
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams.Shapes;
+using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
 {
@@ -146,6 +148,36 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-        protected abstract void CreateConnection();
+        protected virtual void CreateConnection()
+        {
+            switch (type)
+            {
+                case RelationshipType.Comment:
+                    CreateCommentRelationship();
+                    break;
+            }
+
+            created = true;
+            diagram.Redraw();
+        }
+
+        private void CreateCommentRelationship()
+        {
+            CommentShape shape1 = first as CommentShape;
+            CommentShape shape2 = second as CommentShape;
+
+            if (shape1 != null)
+            {
+                diagram.AddCommentRelationship(shape1.Comment, second.Entity);
+            }
+            else if (shape2 != null)
+            {
+                diagram.AddCommentRelationship(shape2.Comment, first.Entity);
+            }
+            else
+            {
+                MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+            }
+        }
     }
 }

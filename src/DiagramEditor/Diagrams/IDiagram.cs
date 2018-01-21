@@ -57,5 +57,6 @@ namespace NClass.DiagramEditor.Diagrams
         void AutoHeightOfSelectedShapes();
         int SelectedShapeCount { get; }
         event EventHandler SelectionChanged;
+        CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
     }
 }

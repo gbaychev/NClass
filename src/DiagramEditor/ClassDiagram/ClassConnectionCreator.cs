@@ -1,6 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016 - 2018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -14,15 +14,11 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using NClass.Translations;
 using NClass.DiagramEditor.Diagrams;
-using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {
@@ -64,14 +60,9 @@ namespace NClass.DiagramEditor.ClassDiagram
                 case RelationshipType.Nesting:
                     CreateNesting();
                     break;
-
-                case RelationshipType.Comment:
-                    CreateCommentRelationship();
-                    break;
             }
 
-            created = true;
-            diagram.Redraw();
+            base.CreateConnection();
         }
 
         private void CreateAssociation()
@@ -193,25 +184,6 @@ namespace NClass.DiagramEditor.ClassDiagram
                 {
                     MessageBox.Show(Strings.ErrorCannotCreateRelationship);
                 }
-            }
-            else
-            {
-                MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-            }
-        }
-
-        private void CreateCommentRelationship()
-        {
-            CommentShape shape1 = first as CommentShape;
-            CommentShape shape2 = second as CommentShape;
-
-            if (shape1 != null)
-            {
-                diagram.AddCommentRelationship(shape1.Comment, second.Entity);
-            }
-            else if (shape2 != null)
-            {
-                diagram.AddCommentRelationship(shape2.Comment, first.Entity);
             }
             else
             {

@@ -160,6 +160,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.UseCaseGeneralization:
                     AddGeneralization(e.Relationship as UseCaseGeneralization);
                     break;
+                case RelationshipType.Comment:
+                    AddCommentRelationship(e.Relationship as CommentRelationship);
+                    break;
             }
         }
 

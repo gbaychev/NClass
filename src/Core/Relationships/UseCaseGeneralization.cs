@@ -26,6 +26,8 @@ namespace NClass.Core
         {
             this.first = first ?? throw new ArgumentNullException(nameof(first));
             this.second = second ?? throw new ArgumentNullException(nameof(second));
+
+            Attach();
         }
         
         public sealed override IEntity First
@@ -67,6 +69,11 @@ namespace NClass.Core
             var generalization = new UseCaseGeneralization(first, second);
             generalization.CopyFrom(this);
             return generalization;
+        }
+
+        protected override void OnAttaching(EventArgs e)
+        {
+            base.OnAttaching(e);
         }
     }
 }

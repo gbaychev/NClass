@@ -16,6 +16,7 @@
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 using NClass.Translations;
 
@@ -46,10 +47,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                     break;
             }
 
-            created = true;
-            diagram.Redraw();
+            base.CreateConnection();
         }
-
+        
         private void CreateExtends()
         {
             if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
