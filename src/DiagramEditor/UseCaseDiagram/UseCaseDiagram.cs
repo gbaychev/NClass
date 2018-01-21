@@ -154,7 +154,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.Inclusion:
                     AddIncludes(e.Relationship as IncludesRelationship);
                     break;
-                case RelationshipType.UseCaseAssocation:
+                case RelationshipType.UseCaseAssociation:
                     AddAssocation(e.Relationship as UseCaseAssociation);
                     break;
                 case RelationshipType.UseCaseGeneralization:

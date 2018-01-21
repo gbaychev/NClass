@@ -56,7 +56,7 @@ namespace NClass.Core
             }
         }
 
-        public override RelationshipType RelationshipType => RelationshipType.UseCaseAssocation;
+        public override RelationshipType RelationshipType => RelationshipType.UseCaseAssociation;
         public override string ToString()
         {
             return $"{first.Name} --- {second.Name}";

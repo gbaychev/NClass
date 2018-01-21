@@ -75,7 +75,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             mnuNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, (s, e) => Diagram?.CreateShape(EntityType.Actor));
             mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, (s, e) => Diagram?.CreateShape(EntityType.UseCase));
             mnuNewComment = new ToolStripMenuItem(Strings.MenuComment, Resources.Comment, (s, e) => Diagram?.CreateShape(EntityType.Comment));
-            mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseAssocation));
+            mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseAssociation));
             mnuNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (s, e) => Diagram?.CreateConnection(RelationshipType.Inclusion));
             mnuNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends, (s, e) => Diagram?.CreateConnection(RelationshipType.Extension));
             mnuNewGeneralization = new ToolStripMenuItem(Strings.MenuGeneralization, Resources.Generalization, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseGeneralization));

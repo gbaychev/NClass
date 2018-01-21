@@ -39,7 +39,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case RelationshipType.Inclusion:
                     CreateIncludes();
                     break;
-                case RelationshipType.UseCaseAssocation:
+                case RelationshipType.UseCaseAssociation:
                     CreateAssocation();
                     break;
                 case RelationshipType.UseCaseGeneralization:

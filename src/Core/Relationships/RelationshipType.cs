@@ -31,6 +31,6 @@ namespace NClass.Core
         Inclusion,
         ActorGeneralization,
         UseCaseGeneralization,
-	    UseCaseAssocation
+	    UseCaseAssociation
 	}
 }

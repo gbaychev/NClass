@@ -13,8 +13,10 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.IO;
 using System.Xml;
+using NClass.Translations;
 
 namespace NClass.Core.Models
 {
@@ -40,8 +42,74 @@ namespace NClass.Core.Models
 
         protected override void LoadRelationships(XmlNode root)
         {
-            // FIXME - removed the not implemented exception
-			// in order to test the loading of entities
+            if (root == null)
+                throw new ArgumentNullException("root");
+
+            var nodeList = root.SelectNodes("Relationships/Relationship");
+            foreach (XmlElement node in nodeList)
+            {
+                var type = node.GetAttribute("type");
+                var firstString = node.GetAttribute("first");
+                var secondString = node.GetAttribute("second");
+
+                if (!int.TryParse(firstString, out var firstIndex) ||
+                    !int.TryParse(secondString, out var secondIndex))
+                {
+                    throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
+                }
+
+                if (firstIndex < 0 || firstIndex >= entities.Count ||
+                    secondIndex < 0 || secondIndex >= entities.Count)
+                {
+                    throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
+                }
+
+                try
+                {
+                    IEntity first = entities[firstIndex];
+                    IEntity second = entities[secondIndex];
+                    Relationship relationship;
+
+                    switch (type)
+                    {
+                        case "UseCaseAssociation":
+                            relationship = AddAssocation(first as IUseCaseEntity, second as IUseCaseEntity);
+                            break;
+
+                        case "UseCaseGeneralization":
+                            relationship = AddGeneralization(first as IUseCaseEntity, second as IUseCaseEntity);
+                            break;
+
+                        case "Extension":
+                            relationship = AddExtends(first as UseCase, second as UseCase);
+                            break;
+
+                        case "Inclusion":
+                            relationship = AddIncludes(first as UseCase, second as UseCase);
+                            break;
+
+                        case "Comment":
+                            if (first is Comment)
+                                relationship = AddCommentRelationship(first as Comment, second);
+                            else
+                                relationship = AddCommentRelationship(second as Comment, first);
+                            break;
+
+                        default:
+                            throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
+                    }
+
+                    relationship.Deserialize(node);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    throw new InvalidDataException("Invalid relationship.", ex);
+                }
+                catch (RelationshipException ex)
+                {
+                    throw new InvalidDataException("Invalid relationship.", ex);
+                }
+            }
         }
 
         public Actor AddActor()
@@ -79,10 +147,11 @@ namespace NClass.Core.Models
             return assocationRelationship;
         }
 
-        public void AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
+        public UseCaseGeneralization AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
         {
             var generalization = new UseCaseGeneralization(first, second);
             AddRelationship(generalization);
+            return generalization;
         }
     }
 }
