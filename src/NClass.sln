@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{A2918CE1-6894-4FC9-A864-4651769D0274}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B3B7D798-3D52-47F0-B1A7-A91BC5FE184F} = {B3B7D798-3D52-47F0-B1A7-A91BC5FE184F}
@@ -21,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagramEditor", "DiagramEditor\DiagramEditor.csproj", "{F52A7548-E60A-485B-9C84-1D2871416DB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFExport", "PDFExport\PDFExport.csproj", "{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,8 +126,23 @@ Global
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E158E123-7711-420D-AF6B-FADA098D3F54}
 	EndGlobalSection
 EndGlobal
