@@ -39,10 +39,13 @@ namespace Tests
             var second = diagram.AddShape(EntityType.Actor);
 
             diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity);
+            var relationship = diagram.Model.Relationships.First();
 
             Assert.That(diagram.Model.Entities, Has.Exactly(2).Items);
             Assert.That(diagram.Model.Relationships, Has.Exactly(1).Items);
-            Assert.That(diagram.Model.Relationships.First().RelationshipType, Is.EqualTo(RelationshipType.UseCaseGeneralization));
+            Assert.That(relationship.RelationshipType, Is.EqualTo(RelationshipType.UseCaseGeneralization));
+            Assert.That(relationship.First, Is.EqualTo(first.Entity));
+            Assert.That(relationship.Second, Is.EqualTo(second.Entity));
         }
 
         [Test]
@@ -50,6 +53,31 @@ namespace Tests
         {
             var first = diagram.AddShape(EntityType.Actor);
             var second = diagram.AddShape(EntityType.UseCase);
+
+            Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
+        }
+
+        [Test]
+        public void UseCaseCanInheritUseCase()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity);
+            var relationship = diagram.Model.Relationships.First();
+
+            Assert.That(diagram.Model.Entities, Has.Exactly(2).Items);
+            Assert.That(diagram.Model.Relationships, Has.Exactly(1).Items);
+            Assert.That(relationship.RelationshipType, Is.EqualTo(RelationshipType.UseCaseGeneralization));
+            Assert.That(relationship.First, Is.EqualTo(first.Entity));
+            Assert.That(relationship.Second, Is.EqualTo(second.Entity));
+        }
+
+        [Test]
+        public void UseCaseCannotInheritActor()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.Actor);
 
             Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
         }

@@ -71,12 +71,21 @@ namespace NClass.Core
             return generalization;
         }
 
+        //TODO: localize this method
         protected override void OnAttaching(EventArgs e)
         {
+            if (!(first is Actor || first is UseCase) &&
+                !(second is Actor || second is UseCase))
+            {
+                throw new RelationshipException($"{first.EntityType.ToString()} cannot inherit from ${second.EntityType.ToString()}");
+            }
             if (first is Actor && second is UseCase)
             {
-                //TODO: localize this
                 throw new RelationshipException("Actor cannot inherit from use case");
+            }
+            if (first is UseCase && second is Actor)
+            {
+                throw new RelationshipException("Use case cannot inherit from actor");
             }
             base.OnAttaching(e);
         }
