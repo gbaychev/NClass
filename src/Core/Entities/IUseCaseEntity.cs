@@ -20,6 +20,6 @@ namespace NClass.Core
     /// </summary>
     public interface IUseCaseEntity : IEntity
     {
-        
+        IUseCaseEntity SpecializedEntity { get; set; }
     }
 }

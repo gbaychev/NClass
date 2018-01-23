@@ -103,5 +103,7 @@ namespace NClass.Core
         {
             return string.IsNullOrEmpty(this.name) ? "<Actor>" : this.name;
         }
+
+        public IUseCaseEntity SpecializedEntity { get; set; }
     }
 }

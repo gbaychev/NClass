@@ -13,7 +13,6 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
 using System.Linq;
 using NClass.Core;
 using NUnit.Framework;
@@ -55,6 +54,56 @@ namespace Tests
             var second = diagram.AddShape(EntityType.UseCase);
 
             Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
+        }
+
+        [Test]
+        public void ActorInheritanceCannotBeDuplicated()
+        {
+            var first = diagram.AddShape(EntityType.Actor);
+            var second = diagram.AddShape(EntityType.Actor);
+
+            diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity);
+
+            Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
+        }
+
+        [Test]
+        public void UseCaseInheritanceCannotBeDuplicated()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity);
+
+            Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
+        }
+
+        [Test]
+        public void ActorInheritanceIsProperlyCleaned()
+        {
+            var first = diagram.AddShape(EntityType.Actor);
+            var second = diagram.AddShape(EntityType.Actor);
+
+            var entity = (IUseCaseEntity) first.Entity;
+            diagram.AddGeneralization(entity, (IUseCaseEntity)second.Entity);
+            var relationship = diagram.Model.Relationships.First();
+            diagram.RemoveRelationship(relationship);
+            
+            Assert.That(entity.SpecializedEntity, Is.Null);
+        }
+
+        [Test]
+        public void UseCaseInheritanceIsProperlyCleaned()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            var entity = (IUseCaseEntity)first.Entity;
+            diagram.AddGeneralization(entity, (IUseCaseEntity)second.Entity);
+            var relationship = diagram.Model.Relationships.First();
+            diagram.RemoveRelationship(relationship);
+
+            Assert.That(entity.SpecializedEntity, Is.Null);
         }
 
         [Test]
@@ -107,7 +156,7 @@ namespace Tests
         }
 
         [Test]
-        public void ExtendRelationshipIsProperlyCleand()
+        public void ExtendRelationshipIsProperlyCleaned()
         {
             var first = diagram.AddShape(EntityType.UseCase);
             var second = diagram.AddShape(EntityType.UseCase);
@@ -119,7 +168,7 @@ namespace Tests
         }
 
         [Test]
-        public void IncludeRelationshipIsProperlyCleand()
+        public void IncludeRelationshipIsProperlyCleaned()
         {
             var first = diagram.AddShape(EntityType.UseCase);
             var second = diagram.AddShape(EntityType.UseCase);

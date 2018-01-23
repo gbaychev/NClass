@@ -26,7 +26,7 @@ namespace NClass.Core
 
         public UseCase ExtendedUseCase { get; set; }
         public UseCase IncludedUseCase { get; set; }
-        public UseCase GeneralizedUseCase { get; set; }
+        public IUseCaseEntity SpecializedEntity { get; set; }
 
         public UseCase()
         {

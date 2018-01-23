@@ -81,6 +81,7 @@ namespace NClass.Core
             {
                 throw new RelationshipException($"{first.EntityType.ToString()} cannot inherit from ${second.EntityType.ToString()}");
             }
+
             if (first is Actor && second is UseCase)
             {
                 throw new RelationshipException("Actor cannot inherit from use case");
@@ -89,6 +90,21 @@ namespace NClass.Core
             {
                 throw new RelationshipException("Use case cannot inherit from actor");
             }
+
+            if (first.SpecializedEntity == second ||
+                second.SpecializedEntity == first)
+            {
+                throw new RelationshipException("Generalization already exists between the two entities");
+            }
+
+            first.SpecializedEntity = second;
+        }
+
+        protected override void OnDetaching(EventArgs e)
+        {
+            base.OnDetaching(e);
+
+            first.SpecializedEntity = null;
         }
     }
 }
