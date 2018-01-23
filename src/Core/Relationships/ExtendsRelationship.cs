@@ -69,7 +69,7 @@ namespace NClass.Core
         {
             base.OnDetaching(e);
 
-            second.ExtendedUseCase = null;
+            first.ExtendedUseCase = null;
         }
     }
 }

@@ -105,5 +105,29 @@ namespace Tests
             Assert.Throws<RelationshipException>(() => diagram.AddIncludes((UseCase)first.Entity, (UseCase)second.Entity));
             Assert.Throws<RelationshipException>(() => diagram.AddIncludes((UseCase)second.Entity, (UseCase)first.Entity));
         }
+
+        [Test]
+        public void ExtendRelationshipIsProperlyCleand()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddExtends((UseCase)first.Entity, (UseCase)second.Entity);
+            diagram.RemoveRelationship(diagram.Model.Relationships.First());
+            var useCase = (UseCase)first.Entity;
+            Assert.That(useCase.ExtendedUseCase, Is.Null);
+        }
+
+        [Test]
+        public void IncludeRelationshipIsProperlyCleand()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddIncludes((UseCase)first.Entity, (UseCase)second.Entity);
+            diagram.RemoveRelationship(diagram.Model.Relationships.First());
+            var useCase = (UseCase)first.Entity;
+            Assert.That(useCase.IncludedUseCase, Is.Null);
+        }
     }
 }
