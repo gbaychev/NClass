@@ -74,6 +74,8 @@ namespace NClass.Core
         //TODO: localize this method
         protected override void OnAttaching(EventArgs e)
         {
+            base.OnAttaching(e);
+
             if (!(first is Actor || first is UseCase) &&
                 !(second is Actor || second is UseCase))
             {
@@ -87,7 +89,6 @@ namespace NClass.Core
             {
                 throw new RelationshipException("Use case cannot inherit from actor");
             }
-            base.OnAttaching(e);
         }
     }
 }

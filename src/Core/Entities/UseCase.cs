@@ -24,6 +24,10 @@ namespace NClass.Core
         public event SerializeEventHandler Deserializing;
         private string name = string.Empty;
 
+        public UseCase ExtendedUseCase { get; set; }
+        public UseCase IncludedUseCase { get; set; }
+        public UseCase GeneralizedUseCase { get; set; }
+
         public UseCase()
         {
         }

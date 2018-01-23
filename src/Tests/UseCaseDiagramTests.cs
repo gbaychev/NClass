@@ -81,5 +81,29 @@ namespace Tests
 
             Assert.Throws<RelationshipException>(() => diagram.AddGeneralization((IUseCaseEntity)first.Entity, (IUseCaseEntity)second.Entity));
         }
+
+        [Test]
+        public void CannotDuplicateExtendRelationship()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddExtends((UseCase) first.Entity, (UseCase) second.Entity);
+            
+            Assert.Throws<RelationshipException>(() => diagram.AddExtends((UseCase)first.Entity, (UseCase)second.Entity));
+            Assert.Throws<RelationshipException>(() => diagram.AddExtends((UseCase)second.Entity, (UseCase)first.Entity));
+        }
+
+        [Test]
+        public void CannotDuplicateIncludeRelationship()
+        {
+            var first = diagram.AddShape(EntityType.UseCase);
+            var second = diagram.AddShape(EntityType.UseCase);
+
+            diagram.AddIncludes((UseCase)first.Entity, (UseCase)second.Entity);
+
+            Assert.Throws<RelationshipException>(() => diagram.AddIncludes((UseCase)first.Entity, (UseCase)second.Entity));
+            Assert.Throws<RelationshipException>(() => diagram.AddIncludes((UseCase)second.Entity, (UseCase)first.Entity));
+        }
     }
 }

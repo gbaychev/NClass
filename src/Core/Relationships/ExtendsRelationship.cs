@@ -22,6 +22,8 @@ namespace NClass.Core
     /// </summary>
     public sealed class ExtendsRelationship : UseCaseRelationship
     {
+        /// <param name="first">The extending use case</param>
+        /// <param name="second">The extended use case</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> is null.-or-
         /// <paramref name="second"/> is null.
@@ -29,7 +31,6 @@ namespace NClass.Core
         public ExtendsRelationship(UseCase first, UseCase second)
             : base(first, second)
         {
-            Attach();
             this.label = "<extends>";
         }
 
@@ -49,6 +50,26 @@ namespace NClass.Core
             var extendsRelationship = new ExtendsRelationship(firstUseCase, secondUseCase);
             extendsRelationship.CopyFrom(this);
             return extendsRelationship;
+        }
+
+        //TODO: localize this method
+        protected override void OnAttaching(EventArgs e)
+        {
+            base.OnAttaching(e);
+            if (first.ExtendedUseCase == second ||
+                second.ExtendedUseCase == first)
+            {
+                throw new RelationshipException("An extend relationship already exists between those two entities");
+            }
+
+            first.ExtendedUseCase = second;
+        }
+
+        protected override void OnDetaching(EventArgs e)
+        {
+            base.OnDetaching(e);
+
+            second.ExtendedUseCase = null;
         }
     }
 }

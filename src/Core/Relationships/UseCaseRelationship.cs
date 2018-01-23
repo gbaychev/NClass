@@ -28,8 +28,10 @@ namespace NClass.Core
         /// </exception>
         public UseCaseRelationship(UseCase first, UseCase second)
         {
-            this.First = first;
-            this.Second = second;
+            this.First = first ?? throw new ArgumentException(nameof(first));
+            this.Second = second ?? throw new ArgumentException(nameof(second));
+
+            Attach();
         }
 
         public override IEntity First

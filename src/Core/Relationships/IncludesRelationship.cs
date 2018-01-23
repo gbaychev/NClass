@@ -30,7 +30,6 @@ namespace NClass.Core
         public IncludesRelationship(UseCase first, UseCase second)
             : base(first, second)
         {
-            Attach();
             this.label = "<includes>";
         }
 
@@ -50,6 +49,26 @@ namespace NClass.Core
             var includesRelationship = new IncludesRelationship(firstUseCase, secondUseCase);
             includesRelationship.CopyFrom(this);
             return includesRelationship;
+        }
+
+        //TODO: localize this method
+        protected override void OnAttaching(EventArgs e)
+        {
+            base.OnAttaching(e);
+            if (first.IncludedUseCase == second ||
+                second.IncludedUseCase == first)
+            {
+                throw new RelationshipException("An include relationship already exists between those two entities");
+            }
+
+            first.IncludedUseCase = second;
+        }
+
+        protected override void OnDetaching(EventArgs e)
+        {
+            base.OnDetaching(e);
+
+            first.IncludedUseCase = null;
         }
     }
 }
