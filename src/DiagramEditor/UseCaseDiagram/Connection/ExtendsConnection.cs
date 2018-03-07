@@ -27,7 +27,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
         private Pen linePen = new Pen(Color.Black);
 
         public ExtendsConnection(Relationship relationship, Shape firstShape, Shape secondShape) 
-            : base(relationship, firstShape, secondShape)
+            : base(relationship, firstShape, secondShape, true)
         {
             this.extendsRelationship = (ExtendsRelationship)relationship;
         }

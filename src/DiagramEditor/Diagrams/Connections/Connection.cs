@@ -24,7 +24,6 @@ using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
-using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Connections
@@ -60,12 +59,14 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 		public event EventHandler RouteChanged;
 		public event BendPointEventHandler BendPointMove;
 
+	    private bool simpleConnection = false;
+
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="relationship"/> is null.-or-
 		/// <paramref name="startShape"/> is null.-or-
 		/// <paramref name="endShape"/> is null.
 		/// </exception>
-		protected Connection(Relationship relationship, Shape startShape, Shape endShape)
+		protected Connection(Relationship relationship, Shape startShape, Shape endShape, bool simpleConnection = false)
 		{
 			if (relationship == null)
 				throw new ArgumentNullException("relationship");
@@ -74,13 +75,16 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 			if (endShape == null)
 				throw new ArgumentNullException("endShape");
 
+		    this.simpleConnection = simpleConnection;
+
 			this.startShape = startShape;
 			this.endShape = endShape;
 			InitOrientations();
-			bendPoints.Add(new BendPoint(startShape, true));
-			bendPoints.Add(new BendPoint(endShape, false));
 
-			startShape.Move += ShapeMoving;
+            bendPoints.Add(new BendPoint(startShape, true));
+            bendPoints.Add(new BendPoint(endShape, false));
+
+            startShape.Move += ShapeMoving;
 			startShape.Resize += StartShapeResizing;
 			endShape.Move += ShapeMoving;
 			endShape.Resize += EndShapeResizing;
@@ -578,9 +582,18 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 						route[length - 1].X -= endOffset;
 				}
 
-				g.DrawLines(DiagramConstants.SelectionPen, route);
-				
-				if (zoom > UndreadableZoom)
+			    var oldSmoothingMode = g.SmoothingMode;
+			    if (this.simpleConnection)
+			    {
+			        g.SmoothingMode = SmoothingMode.AntiAlias;
+			    }
+                g.DrawLines(DiagramConstants.SelectionPen, route);
+			    if (this.simpleConnection)
+			    {
+			        g.SmoothingMode = oldSmoothingMode;
+			    }
+
+			    if (zoom > UndreadableZoom)
 				{
 					foreach (BendPoint point in bendPoints)
 						point.Draw(g, true, zoom, offset);
@@ -857,19 +870,29 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 		{
 			routeCache.Clear();
 
-			FlowDirection direction = AddStartSegment();
+		    if (!simpleConnection)
+		    {
+		        FlowDirection direction = AddStartSegment();
 
-			LinkedListNode<BendPoint> current = bendPoints.First;
-			while (current != bendPoints.Last)
-			{
-				direction = AddInnerSegment(current, direction);
-				current = current.Next;
-			}
+		        LinkedListNode<BendPoint> current = bendPoints.First;
+		        while (current != bendPoints.Last)
+		        {
+		            direction = AddInnerSegment(current, direction);
+		            current = current.Next;
+		        }
 
-			AddEndSegment();
+		        AddEndSegment();
+		    }
+		    else
+		    {
+                AddStartSegment();
+                AddEndSegment();
+                // remove the middle point
+                routeCache.RemoveAt(1);
+            }
 
-			routeCacheArray = routeCache.ToArray();
-			Array.Reverse(routeCacheArray);
+		    routeCacheArray = routeCache.ToArray();
+            Array.Reverse(routeCacheArray);
 		}
 
 		private FlowDirection AddInnerSegment(LinkedListNode<BendPoint> current, FlowDirection direction)
@@ -1398,72 +1421,132 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
 		private bool Picked(PointF mouseLocation, float zoom)
 		{
-			float tolerance = PickTolerance / zoom;
-
-			for (int i = 0; i < routeCache.Count - 1; i++)
-			{
-				float x = mouseLocation.X;
-				float y = mouseLocation.Y;
-				float x1 = routeCache[i].X;
-				float y1 = routeCache[i].Y;
-				float x2 = routeCache[i + 1].X;
-				float y2 = routeCache[i + 1].Y;
-
-				if (x1 == x2)
-				{
-					if ((x >= x1 - tolerance) && (x <= x1 + tolerance) &&
-						(y >= y1 && y <= y2 || y >= y2 && y <= y1))
-					{
-						return true;
-					}
-				}
-				else // y1 == y2
-				{
-					if ((y >= y1 - tolerance) && (y <= y1 + tolerance) &&
-						(x >= x1 && x <= x2 || x >= x2 && x <= x1))
-					{
-						return true;
-					}
-				}
-			}
-
-			return false;
+			return this.simpleConnection ? SimplePicked(mouseLocation, zoom) :
+                                           RoutedPicked(mouseLocation, zoom);
 		}
 
-		private bool Picked(RectangleF rectangle)
+	    private bool SimplePicked(PointF mouseLocation, float zoom)
+	    {
+	        float tolerance = PickTolerance / zoom / 2;
+	        var p1 = routeCache[0];
+	        var p2 = routeCache[1];
+	        var totalDistance = Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
+            var firstDistance = Math.Sqrt(Math.Pow(p1.X - mouseLocation.X, 2) + Math.Pow(p1.Y - mouseLocation.Y, 2));
+	        var secondDistance = Math.Sqrt(Math.Pow(p2.X - mouseLocation.X, 2) + Math.Pow(p2.Y - mouseLocation.Y, 2));
+            return Math.Abs(firstDistance + secondDistance - totalDistance) < tolerance ;
+	    }
+
+	    private bool RoutedPicked(PointF mouseLocation, float zoom)
+	    {
+	        float tolerance = PickTolerance / zoom;
+
+	        for (int i = 0; i < routeCache.Count - 1; i++)
+	        {
+	            float x = mouseLocation.X;
+	            float y = mouseLocation.Y;
+	            float x1 = routeCache[i].X;
+	            float y1 = routeCache[i].Y;
+	            float x2 = routeCache[i + 1].X;
+	            float y2 = routeCache[i + 1].Y;
+
+	            if (x1 == x2)
+	            {
+	                if ((x >= x1 - tolerance) && (x <= x1 + tolerance) &&
+	                    (y >= y1 && y <= y2 || y >= y2 && y <= y1))
+	                {
+	                    return true;
+	                }
+	            }
+	            else // y1 == y2
+	            {
+	                if ((y >= y1 - tolerance) && (y <= y1 + tolerance) &&
+	                    (x >= x1 && x <= x2 || x >= x2 && x <= x1))
+	                {
+	                    return true;
+	                }
+	            }
+	        }
+
+	        return false;
+        }
+
+
+        private bool Picked(RectangleF rectangle)
 		{
-			for (int i = 0; i < routeCache.Count - 1; i++)
-			{
-				if (rectangle.Contains(routeCache[i]) || rectangle.Contains(routeCache[i + 1]))
-					return true;
-
-				float x1 = routeCache[i].X;
-				float y1 = routeCache[i].Y;
-				float x2 = routeCache[i + 1].X;
-				float y2 = routeCache[i + 1].Y;
-
-				if (x1 == x2)
-				{
-					if (x1 >= rectangle.Left && x1 <= rectangle.Right && (
-						y1 < rectangle.Top && y2 > rectangle.Bottom ||
-						y2 < rectangle.Top && y1 > rectangle.Bottom))
-					{
-						return true;
-					}
-				}
-				else // y1 == y2
-				{
-					if (y1 >= rectangle.Top && y1 <= rectangle.Bottom && (
-						x1 < rectangle.Left && x2 > rectangle.Right ||
-						x2 < rectangle.Left && x1 > rectangle.Right))
-					{
-						return true;
-					}
-				}
-			}
-
-			return false;
+		    return this.simpleConnection ? SimplePicked(rectangle) : RoutedPicked(rectangle);
 		}
+
+	    private bool SimplePicked(RectangleF rectangle)
+	    {
+	        if(LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X, rectangle.Y), new PointF(rectangle.X + rectangle.Width, rectangle.Y)))
+	           return true;
+            if(LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X + rectangle.Width, rectangle.Y), new PointF(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height)))
+	            return true;
+            if(LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height), new PointF(rectangle.X, rectangle.Y + rectangle.Height)))
+                return true;
+	        if(LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X, rectangle.Y + rectangle.Height), new PointF(rectangle.X, rectangle.Y)))
+                return true;
+
+	        return rectangle.Contains(routeCache[0]) && rectangle.Contains(routeCache[1]);
+	    }
+
+	    private bool LineIntersectsLine(PointF l1p1, PointF l1p2, PointF l2p1, PointF l2p2)
+	    {
+	        float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
+	        float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
+
+	        if (d == 0)
+	        {
+	            return false;
+	        }
+
+	        float r = q / d;
+
+	        q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
+	        float s = q / d;
+
+	        if (r < 0 || r > 1 || s < 0 || s > 1)
+	        {
+	            return false;
+	        }
+
+	        return true;
+	    }
+
+        private bool RoutedPicked(RectangleF rectangle)
+	    {
+	        for (int i = 0; i < routeCache.Count - 1; i++)
+	        {
+	            if (rectangle.Contains(routeCache[i]) || rectangle.Contains(routeCache[i + 1]))
+	                return true;
+
+	            float x1 = routeCache[i].X;
+	            float y1 = routeCache[i].Y;
+	            float x2 = routeCache[i + 1].X;
+	            float y2 = routeCache[i + 1].Y;
+
+	            if (x1 == x2)
+	            {
+	                if (x1 >= rectangle.Left && x1 <= rectangle.Right && (
+	                        y1 < rectangle.Top && y2 > rectangle.Bottom ||
+	                        y2 < rectangle.Top && y1 > rectangle.Bottom))
+	                {
+	                    return true;
+	                }
+	            }
+	            else // y1 == y2
+	            {
+	                if (y1 >= rectangle.Top && y1 <= rectangle.Bottom && (
+	                        x1 < rectangle.Left && x2 > rectangle.Right ||
+	                        x2 < rectangle.Left && x1 > rectangle.Right))
+	                {
+	                    return true;
+	                }
+	            }
+	        }
+
+	        return false;
+        }
 
 		internal override void MousePressed(AbsoluteMouseEventArgs e)
 		{
@@ -1578,7 +1661,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 			while (bendPoint != null && index < routeCache.Count - 1)
 			{
 				BendPoint point = bendPoint.Value;
-				while (point.Location != routeCache[index])
+				while (point.Location != routeCache[index] && index < routeCache.Count - 1)
 					index++;
 
 				if (point.X < padding)
