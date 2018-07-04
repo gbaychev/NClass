@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{A2918CE1-6894-4FC9-A864-4651769D0274}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B3B7D798-3D52-47F0-B1A7-A91BC5FE184F} = {B3B7D798-3D52-47F0-B1A7-A91BC5FE184F}
