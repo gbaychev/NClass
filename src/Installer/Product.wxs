@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="NClass" Manufacturer="NClass" Language="1033" Version="2.0.4.0" UpgradeCode="5a74ead8-4152-4fd6-9382-4b4e58252e52">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate />
+
+    <Feature Id="NClass" Title="NClass Core Components" Level="1">
+      <ComponentGroupRef Id="CoreComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="NClass" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="CoreComponents" Directory="INSTALLFOLDER">
+      <Component Id="Core" Guid="A26D8AC2-7F32-4D1B-A600-D421F2AE5FD0">
+        <File Id="C_NClass.CodeGenerator.dll" Name="NClass.CodeGenerator.dll" Source="files/NClass.CodeGenerator.dll" />
+        <File Id="C_NClass.Core.dll" Name="NClass.Core.dll" Source="files/NClass.Core.dll"/>
+        <File Id="C_NClass.CSharp.dll" Name="NClass.CSharp.dll" Source="files/NClass.CSharp.dll"/>
+        <File Id="C_NClass.DiagramEditor.dll" Name="NClass.DiagramEditor.dll" Source="files/NClass.DiagramEditor.dll"/>
+        <File Id="C_NClass.exe" Name="NClass.exe" Source="files/NClass.exe"/>
+        <File Id="C_NClass.Java.dll" Name="NClass.Java.dll" Source="files/NClass.Java.dll"/>
+        <File Id="C_NClass.Translations.dll" Name="NClass.Translations.dll" Source="files/NClass.Translations.dll"/>
+      </Component>
+      <Component Id="Languages" Directory="INSTALLFOLDER">
+
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

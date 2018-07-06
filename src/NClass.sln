@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{A2918CE1-6894-4FC9-A864-4651769D0274}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B3B7D798-3D52-47F0-B1A7-A91BC5FE184F} = {B3B7D798-3D52-47F0-B1A7-A91BC5FE184F}
@@ -21,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagramEditor", "DiagramEditor\DiagramEditor.csproj", "{F52A7548-E60A-485B-9C84-1D2871416DB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFExport", "PDFExport\PDFExport.csproj", "{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Installer.wixproj", "{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,8 +126,22 @@ Global
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{53E9092C-848E-4D6A-9E8A-2ECD71BAEF04}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|Any CPU.Build.0 = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|x86.ActiveCfg = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Debug|x86.Build.0 = Debug|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Release|Any CPU.ActiveCfg = Release|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Release|x86.ActiveCfg = Release|x86
+		{2B8FF6C7-EF77-438E-B1B2-1037DEFE5D7B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62D11F8D-4AE3-42BC-9954-EEECFB8BAED7}
 	EndGlobalSection
 EndGlobal
