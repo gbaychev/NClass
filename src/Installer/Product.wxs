@@ -23,9 +23,7 @@
           <Directory Id="LANG_PTBR" Name="pt-BR" />
           <Directory Id="LANG_RU" Name="ru" />
           <Directory Id="LANG_ZHCN" Name="zh-CN" />
-          <Directory Id="PLUGINS_FOLDER" Name="Plugins">
-            <Directory Id="PLUGINS_TEMPLATES_FOLDER" Name="Templates"/>
-          </Directory>
+          <Directory Id="PLUGINS_TEMPLATES_FOLDER" Name="Templates"/>
         </Directory>
       </Directory>
     </Directory>
@@ -75,7 +73,7 @@
         <File Source="files/zh-cn/NClass.Translations.resources.dll" Id="F_zh_cn_NClass.Translations.resources.dll" />
       </Component>
     </ComponentGroup>
-    <ComponentGroup Id="CG_Plugins" Directory="PLUGINS_FOLDER">
+    <ComponentGroup Id="CG_Plugins" Directory="INSTALLFOLDER">
       <Component Id="C_AssemblyImport.dll">
         <File Source="files/Plugins/AssemblyImport.dll" />
       </Component>

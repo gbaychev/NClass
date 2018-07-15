@@ -32,7 +32,10 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>robocopy /S "$(ProjectDir)..\GUI\bin\$(ConfigurationName)" "$(ProjectDir)files" %2a.exe %2a.dll %2a.template</PreBuildEvent>
+    <PreBuildEvent>del /S /F /Q "$(ProjectDir)files\%2a"
+robocopy /S "$(ProjectDir)..\GUI\bin\$(ConfigurationName)" "$(ProjectDir)files" %2a.exe %2a.dll %2a.template
+set rce=%25errorlevel%25
+if not %25rce%25==1 exit %25rce%25 else exit 0</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
