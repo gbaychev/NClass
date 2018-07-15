@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-	  <ComponentGroup Id="CG_Plugins" Directory="INSTALLFOLDER">
+	  <ComponentGroup Id="CG_Plugins" Directory="PLUGINS_FOLDER">
 	    <Component Id="C_AssemblyImport.dll">
-	      <File Source="files/Plugins/AssemblyImport.dll" />
+	      <File Source="files/plugins/AssemblyImport.dll" />
 	    </Component>
 	    <Component Id="C_NReflect.dll">
-	      <File Source="files/Plugins/NReflect.dll" />
+	      <File Source="files/plugins/NReflect.dll" />
 	    </Component>
 	    <Component Id="C_PDFExport.dll">
-	      <File Source="files/Plugins/PDFExport.dll" />
+	      <File Source="files/plugins/PDFExport.dll" />
 	    </Component>
 	    <Component Id="C_PdfSharp.dll">
-	      <File Source="files/Plugins/PdfSharp.dll" />
+	      <File Source="files/plugins/PdfSharp.dll" />
 	    </Component>
 	    <ComponentGroupRef Id="CG_PluginTemplates"/>
 	  </ComponentGroup>

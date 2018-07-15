@@ -31,7 +31,9 @@
           <Directory Id="LANG_PTBR" Name="pt-BR" />
           <Directory Id="LANG_RU" Name="ru" />
           <Directory Id="LANG_ZHCN" Name="zh-CN" />
-          <Directory Id="PLUGINS_TEMPLATES_FOLDER" Name="Templates"/>
+          <Directory Id="PLUGINS_FOLDER" Name="Plugins">
+            <Directory Id="PLUGINS_TEMPLATES_FOLDER" Name="Templates"/>
+          </Directory>
         </Directory>
       </Directory>
     </Directory>
