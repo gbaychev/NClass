@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+	  <ComponentGroup Id="CG_Languages">
+	    <Component Id="C_LangDe" Directory="LANG_DE">
+	      <File Source="files/de/NClass.Translations.resources.dll" Id="F_de_NClass.Translations.resources.dll"/>
+	    </Component>
+	    <Component Id="C_LangEs" Directory="LANG_ES">
+	      <File Source="files/es/NClass.Translations.resources.dll" Id="F_es_NClass.Translations.resources.dll" />
+	    </Component>
+	    <Component Id="C_LangHu" Directory="LANG_HU">
+	      <File Source="files/hu/NClass.Translations.resources.dll" Id="F_hu_NClass.Translations.resources.dll"/>
+	    </Component>
+	    <Component Id="C_LangPtBr" Directory="LANG_PTBR">
+	      <File Source="files/pt-BR/NClass.Translations.resources.dll" Id="F_pt_br_NClass.Translations.resources.dll"/>
+	    </Component>
+	    <Component Id="C_LangRu" Directory="LANG_RU">
+	      <File Source="files/ru/NClass.Translations.resources.dll" Id="F_ru_NClass.Translations.resources.dll" />
+	    </Component>
+	    <Component Id="C_LangZhCn" Directory="LANG_ZHCN">
+	      <File Source="files/zh-cn/NClass.Translations.resources.dll" Id="F_zh_cn_NClass.Translations.resources.dll" />
+	    </Component>
+	  </ComponentGroup>
+	</Fragment>
+</Wix>

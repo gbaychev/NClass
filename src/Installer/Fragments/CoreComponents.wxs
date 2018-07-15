@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="CG_CoreComponents" Directory="INSTALLFOLDER">
+      <Component Id="C_NClass.CodeGenerator.dll" Guid="A26D8AC2-7F32-4D1B-A600-D421F2AE5FD0">
+        <File Source="files/NClass.CodeGenerator.dll" />
+      </Component>
+      <Component Id="C_NClass.Core.dll">
+        <File Source="files/NClass.Core.dll"/>
+      </Component>
+      <Component Id="C_NClass.CSharp.dll">
+        <File Source="files/NClass.CSharp.dll"/>
+      </Component>
+      <Component Id="C_NClass.DiagramEditor.dll">
+        <File Source="files/NClass.DiagramEditor.dll"/>
+      </Component>
+      <Component Id="C_NClass.exe">
+        <File Source="files/NClass.exe" />
+      </Component>
+      <Component Id="C_NClass.Java.dll">
+        <File Source="files/NClass.Java.dll"/>
+      </Component>
+      <Component Id="C_NClass.Translations.dll">
+        <File Source="files/NClass.Translations.dll"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
