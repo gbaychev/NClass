@@ -3,14 +3,22 @@
   <Product Id="*" Name="NClass" Manufacturer="NClass" Language="1033" Version="2.0.4.0" UpgradeCode="5a74ead8-4152-4fd6-9382-4b4e58252e52">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of NClass is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
-    <Feature Id="NClass" Title="NClass Core Components" Level="1">
+    <Feature Id="NClass" Title="NClass Core Components" Level="1" ConfigurableDirectory='INSTALLFOLDER'>
       <ComponentGroupRef Id="CG_CoreComponents" />
       <ComponentGroupRef Id="CG_Languages"/>
       <ComponentGroupRef Id="CG_Plugins"/>
     </Feature>
+
+    <WixVariable Id="WixUILicenseRtf" Value="ui\License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="ui\nclass_banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="ui\nclass_dialog.bmp" />
+
+    <UIRef Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
   </Product>
 
   <Fragment>
