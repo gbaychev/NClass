@@ -10,15 +10,19 @@
       <ComponentGroupRef Id="CG_CoreComponents" />
       <ComponentGroupRef Id="CG_Languages"/>
       <ComponentGroupRef Id="CG_Plugins"/>
+      <ComponentRef Id="C_DesktopShortcut"/>
+      <ComponentRef Id="C_StartMenuShortcut"/>
     </Feature>
 
     <WixVariable Id="WixUILicenseRtf" Value="ui\License.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="ui\nclass_banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="ui\nclass_dialog.bmp" />
 
-    <UIRef Id="WixUI_InstallDir" />
+    <UIRef Id="MyWixUI_InstallDir" />
     <UIRef Id="WixUI_ErrorProgressText" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Property Id="INSTALLDESKTOPSHORTCUT" Secure="yes" Value="1"/>
+    <Property Id="INSTALLSTARTMENUSHORTCUT" Secure="yes" Value="1"/>
   </Product>
 
   <Fragment>
@@ -36,6 +40,33 @@
           </Directory>
         </Directory>
       </Directory>
+      <Directory Id="ProgramMenuFolder" />
+      <Directory Id="DesktopFolder" />
     </Directory>
+
+    <DirectoryRef Id="ProgramMenuFolder">
+      <Component Id="C_StartMenuShortcut" Guid="62656894-C299-4398-9ABF-B002A54C6A6C">
+        <Shortcut Id="S_StartMenuShortcut"
+                  Name="NClass"
+                  Description="Free UML Editor"
+                  Target="[!nclass_exe]"
+                  WorkingDirectory="APPLICATIONROOTDIRECTORY"
+                  Icon="nclass.ico" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <Condition>INSTALLSTARTMENUSHORTCUT</Condition>
+        <RegistryValue Root="HKCU" Key="Software\NClass" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="C_DesktopShortcut" Guid="98CBFFD9-7CD8-4C23-A2E7-E0E4FA81022B">
+        <RegistryValue Root="HKCU" Key="Software\NClass" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        <Condition>INSTALLDESKTOPSHORTCUT</Condition>
+        <Shortcut Id="S_DesktopShortcut" Directory="DesktopFolder" Name="NClass"
+                  WorkingDirectory='INSTALLDIR' Icon="nclass.ico" IconIndex="0" Target="[!nclass_exe]">
+          <Icon Id="nclass.ico" SourceFile="ui\nclass.ico"/>
+        </Shortcut>
+      </Component>
+    </DirectoryRef>
   </Fragment>
 </Wix>

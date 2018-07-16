@@ -15,7 +15,7 @@
         <File Source="files/NClass.DiagramEditor.dll"/>
       </Component>
       <Component Id="C_NClass.exe">
-        <File Source="files/NClass.exe" />
+        <File Source="files/NClass.exe" Id="nclass_exe"/>
       </Component>
       <Component Id="C_NClass.Java.dll">
         <File Source="files/NClass.Java.dll"/>

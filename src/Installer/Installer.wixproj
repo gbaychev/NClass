@@ -22,6 +22,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fragments\CoreComponents.wxs" />
+    <Compile Include="Fragments\MyInstallDir.wxs" />
+    <Compile Include="Fragments\MyWixUI_InstallDir.wxs" />
     <Compile Include="Fragments\Plugins.wxs" />
     <Compile Include="Fragments\Languages.wxs" />
     <Compile Include="Product.wxs" />
