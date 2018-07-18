@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
+    <Icon Id="I_DiagramIcon" SourceFile="$(var.SolutionDir)icons\diagram.ico" />
     <ComponentGroup Id="CG_CoreComponents" Directory="BINFOLDER">
       <Component Id="C_NClass.Core.dll">
         <File Source="$(var.Core.TargetPath)" />
@@ -13,6 +14,13 @@
       </Component>
       <Component Id="C_NClass.exe">
         <File Source="$(var.GUI.TargetPath)" Id="nclass_exe"/>
+        <!-- https://stackoverflow.com/questions/2772452/how-to-associate-application-with-existing-file-types-using-wix-installer -->
+        <ProgId Id="NClass.Document" Description="NClass project File" Icon="I_DiagramIcon" Advertise="yes">
+          <Extension Id="ncp">
+            <Verb Id="open" Command="Open with NClass" Argument="&quot;%1&quot;" />
+            <MIME Advertise="yes" ContentType="application/ncp" Default="yes" />
+          </Extension>
+        </ProgId>
       </Component>
       <Component Id="C_NClass.Java.dll">
         <File Source="$(var.Java.TargetPath)"/>
