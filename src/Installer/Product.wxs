@@ -10,6 +10,7 @@
       <ComponentGroupRef Id="CG_CoreComponents" />
       <ComponentGroupRef Id="CG_Languages"/>
       <ComponentGroupRef Id="CG_Plugins"/>
+      <ComponentGroupRef Id="CG_MiscComponents"/>
       <ComponentRef Id="C_DesktopShortcut"/>
       <ComponentRef Id="C_StartMenuShortcut"/>
     </Feature>
@@ -29,15 +30,23 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="NClass">
-          <Directory Id="LANG_DE" Name="de" />
-          <Directory Id="LANG_ES" Name="es" />
-          <Directory Id="LANG_HU" Name="hu" />
-          <Directory Id="LANG_PTBR" Name="pt-BR" />
-          <Directory Id="LANG_RU" Name="ru" />
-          <Directory Id="LANG_ZHCN" Name="zh-CN" />
-          <Directory Id="PLUGINS_FOLDER" Name="Plugins">
-            <Directory Id="PLUGINS_TEMPLATES_FOLDER" Name="Templates"/>
+          <Directory Id="BINFOLDER" Name="bin">
+            <Directory Id="LANG_FOLDER" Name="Lang">
+              <Directory Id="LANG_DE_FOLDER" Name="de" />
+              <Directory Id="LANG_ES_FOLDER" Name="es" />
+              <Directory Id="LANG_HU_FOLDER" Name="hu" />
+              <Directory Id="LANG_PTBR_FOLDER" Name="pt-BR" />
+              <Directory Id="LANG_RU_FOLDER" Name="ru" />
+              <Directory Id="LANG_ZHCN_FOLDER" Name="zh-CN" />
+            </Directory> 
+            <Directory Id="PLUGINS_FOLDER" Name="Plugins">
+              <Directory Id="PLUGINS_FOLDER_LANG_DE" Name="de" />
+            </Directory>
+            <Directory Id="TEMPLATES_FOLDER" Name="Templates"/>
           </Directory>
+          <Directory Id="DOC_FOLDER" Name="doc"/>
+          <Directory Id="EXAMPLES_FOLDER" Name="examples" />
+          <Directory Id="STYLES_FOLDER" Name="styles" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder" />

@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment>
-	  <ComponentGroup Id="CG_Plugins" Directory="PLUGINS_FOLDER">
-	    <Component Id="C_AssemblyImport.dll">
-	      <File Source="files/plugins/AssemblyImport.dll" />
-	    </Component>
-	    <Component Id="C_NReflect.dll">
-	      <File Source="files/plugins/NReflect.dll" />
-	    </Component>
-	    <Component Id="C_PDFExport.dll">
-	      <File Source="files/plugins/PDFExport.dll" />
-	    </Component>
-	    <Component Id="C_PdfSharp.dll">
-	      <File Source="files/plugins/PdfSharp.dll" />
-	    </Component>
-	    <ComponentGroupRef Id="CG_PluginTemplates"/>
-	  </ComponentGroup>
-	  <ComponentGroup Id="CG_PluginTemplates">
-	    <Component Id="C_Csproj.Template" Directory="PLUGINS_TEMPLATES_FOLDER">
-	      <File Source="files/Templates/csproj.template" />
-	    </Component>
-	    <Component Id="C_Sln.Template" Directory="PLUGINS_TEMPLATES_FOLDER">
-	      <File Source="files/Templates/sln.template" />
-	    </Component>
-	  </ComponentGroup>
-	</Fragment>
+  <Fragment>
+    <ComponentGroup Id="CG_Plugins">
+      <ComponentGroupRef Id="CG_AssemblyImport" />
+      <ComponentGroupRef Id="CG_PDFExport"/>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_AssemblyImport">
+      <Component Id="C_AssemblyImport.dll" Directory="PLUGINS_FOLDER">
+        <File Source="$(var.AssemblyImport.TargetPath)" />
+      </Component>
+      <Component Id="C_NReflect.dll" Directory="PLUGINS_FOLDER">
+        <File Source="$(var.AssemblyImport.ProjectDir)libs\NReflect.dll" />
+      </Component>
+      <Component Id="C_AssemblyImport.resources.dll" Directory="PLUGINS_FOLDER_LANG_DE">
+        <File Source="$(var.AssemblyImport.TargetDir)de\AssemblyImport.resources.dll" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_PDFExport">
+      <Component Id="C_PDFExport.resources.dll" Directory="PLUGINS_FOLDER_LANG_DE">
+        <File Source="$(var.PDFExport.TargetDir)de\PDFExport.resources.dll" />
+      </Component>
+      <Component Id="C_PDFExport.dll" Directory="PLUGINS_FOLDER">
+        <File Source="$(var.PDFExport.TargetPath)" />
+      </Component>
+      <Component Id="C_PdfSharp.dll" Directory="PLUGINS_FOLDER">
+        <File Source="$(var.PDFExport.ProjectDir)\libs\PdfSharp.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 </Wix>

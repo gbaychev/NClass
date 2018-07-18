@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
-    <ComponentGroup Id="CG_CoreComponents" Directory="INSTALLFOLDER">
-      <Component Id="C_NClass.CodeGenerator.dll" Guid="A26D8AC2-7F32-4D1B-A600-D421F2AE5FD0">
-        <File Source="files/NClass.CodeGenerator.dll" />
-      </Component>
+    <ComponentGroup Id="CG_CoreComponents" Directory="BINFOLDER">
       <Component Id="C_NClass.Core.dll">
-        <File Source="files/NClass.Core.dll"/>
+        <File Source="$(var.Core.TargetPath)" />
       </Component>
       <Component Id="C_NClass.CSharp.dll">
-        <File Source="files/NClass.CSharp.dll"/>
+        <File Source="$(var.CSharp.TargetPath)" />
       </Component>
       <Component Id="C_NClass.DiagramEditor.dll">
-        <File Source="files/NClass.DiagramEditor.dll"/>
+        <File Source="$(var.DiagramEditor.TargetPath)" />
       </Component>
       <Component Id="C_NClass.exe">
-        <File Source="files/NClass.exe" Id="nclass_exe"/>
+        <File Source="$(var.GUI.TargetPath)" Id="nclass_exe"/>
       </Component>
       <Component Id="C_NClass.Java.dll">
-        <File Source="files/NClass.Java.dll"/>
+        <File Source="$(var.Java.TargetPath)"/>
       </Component>
-      <Component Id="C_NClass.Translations.dll">
-        <File Source="files/NClass.Translations.dll"/>
+      <Component Id="C_diagram.ico">
+        <File Source="$(var.SolutionDir)icons\diagram.ico"  />
+      </Component>
+      <Component Id="C_app.config">
+        <File Source="$(var.GUI.TargetDir)NClass.exe.config" />
+      </Component>
+
+      <ComponentGroupRef Id="CG_CodeGenerator"/>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_CodeGenerator" Directory="BINFOLDER">
+      <Component Id="C_NClass.CodeGenerator.dll">
+        <File Source="$(var.CodeGenerator.TargetPath)" />
+      </Component>
+      <ComponentGroupRef Id="CG_CodeGeneratorTemplates" />
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_CodeGeneratorTemplates">
+      <Component Id="C_Csproj.Template" Directory="TEMPLATES_FOLDER">
+        <File Source="$(var.CodeGenerator.ProjectDir)\Templates\csproj.template" />
+      </Component>
+      <Component Id="C_Sln.Template" Directory="TEMPLATES_FOLDER">
+        <File Source="$(var.CodeGenerator.ProjectDir)\Templates\sln.template" />
       </Component>
     </ComponentGroup>
   </Fragment>
