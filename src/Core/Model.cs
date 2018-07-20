@@ -26,8 +26,8 @@ namespace NClass.Core
 	{
 		protected List<IEntity> entities = new List<IEntity>();
 		protected List<Relationship> relationships = new List<Relationship>();
-		protected bool isDirty = false;
-		protected bool loading = false;
+	    private bool isDirty = false;
+	    private bool loading = false;
 
 		public event EventHandler Modified;
 		public event EntityEventHandler EntityAdded;
@@ -38,37 +38,27 @@ namespace NClass.Core
 		public event SerializeEventHandler Deserializing;
 
 	    public Project Project { get; set; }
-	    public string Name { get; set; }
+	    private string name;
+	    public string Name {
+	        get => name ?? Strings.Untitled;
+	        set => name = value;
+	    }
 
-	    public bool IsDirty
-		{
-			get { return isDirty; }
-		}
-        
-		public bool IsEmpty
-		{
-			get
-			{
-				return (entities.Count == 0 && relationships.Count == 0);
-			}
-		}
+	    public bool IsDirty => isDirty;
 
-		void IModifiable.Clean()
+	    public bool IsEmpty => (entities.Count == 0 && relationships.Count == 0);
+
+	    void IModifiable.Clean()
 		{
 			isDirty = false;
 			//TODO: tagokat is tisztítani!
 		}
 
-		public IEnumerable<IEntity> Entities
-		{
-			get { return entities; }
-		}
+		public IEnumerable<IEntity> Entities => entities;
 
-		public IEnumerable<Relationship> Relationships
-		{
-			get { return relationships; }
-		}
-		protected void ElementChanged(object sender, EventArgs e)
+	    public IEnumerable<Relationship> Relationships => relationships;
+
+	    protected void ElementChanged(object sender, EventArgs e)
 		{
 			OnModified(e);
 		}
@@ -225,50 +215,43 @@ namespace NClass.Core
 
 		protected virtual void OnEntityAdded(EntityEventArgs e)
 		{
-			if (EntityAdded != null)
-				EntityAdded(this, e);
-			OnModified(EventArgs.Empty);
+            EntityAdded?.Invoke(this, e);
+            OnModified(EventArgs.Empty);
 		}
 
 		protected virtual void OnEntityRemoved(EntityEventArgs e)
 		{
-			if (EntityRemoved != null)
-				EntityRemoved(this, e);
-			OnModified(EventArgs.Empty);
+            EntityRemoved?.Invoke(this, e);
+            OnModified(EventArgs.Empty);
 		}
 
 		protected virtual void OnRelationAdded(RelationshipEventArgs e)
 		{
-			if (RelationAdded != null)
-				RelationAdded(this, e);
-			OnModified(EventArgs.Empty);
+            RelationAdded?.Invoke(this, e);
+            OnModified(EventArgs.Empty);
 		}
 
 		protected virtual void OnRelationRemoved(RelationshipEventArgs e)
 		{
-			if (RelationRemoved != null)
-				RelationRemoved(this, e);
-			OnModified(EventArgs.Empty);
+            RelationRemoved?.Invoke(this, e);
+            OnModified(EventArgs.Empty);
 		}
 
 		protected virtual void OnSerializing(SerializeEventArgs e)
 		{
-			if (Serializing != null)
-				Serializing(this, e);
-		}
+            Serializing?.Invoke(this, e);
+        }
 
 		protected virtual void OnDeserializing(SerializeEventArgs e)
 		{
-			if (Deserializing != null)
-				Deserializing(this, e);
-			OnModified(EventArgs.Empty);
+            Deserializing?.Invoke(this, e);
+            OnModified(EventArgs.Empty);
 		}
 
 		protected virtual void OnModified(EventArgs e)
 		{
 			isDirty = true;
-			if (Modified != null)
-				Modified(this, e);
-		}
+            Modified?.Invoke(this, e);
+        }
 	}
 }

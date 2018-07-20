@@ -97,12 +97,12 @@ namespace NClass.DiagramEditor.Diagrams
 		/// <paramref name="name"/> cannot be empty string.
 		/// </exception>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="language"/> is null.
 		/// </exception>
 		public Diagram(string name)
 		{
 		    this.name = name;
-        }
+		    this.Model.Name = name;
+		}
 
         #region Abstract Methods and Properties
         public abstract void KeyDown(KeyEventArgs e);
@@ -112,10 +112,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
         #endregion
 
-        public Model Model
-        {
-            get { return this.model; }
-        }
+        public Model Model => this.model;
 
         public string Name
 	    {
