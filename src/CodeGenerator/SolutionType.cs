@@ -1,5 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 20018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -17,7 +18,7 @@ namespace NClass.CodeGenerator
 {
 	public enum SolutionType
 	{
-		VisualStudio2005,
-		VisualStudio2008
+		VisualStudio2015,
+		VisualStudio2017
 	}
 }

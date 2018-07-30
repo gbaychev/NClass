@@ -253,8 +253,8 @@
 			this.cboSolutionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSolutionType.FormattingEnabled = true;
 			this.cboSolutionType.Items.AddRange(new object[] {
-            "Visual Studio 2005",
-            "Visual Studio 2008"});
+            "Visual Studio 2015",
+            "Visual Studio 2017"});
 			this.cboSolutionType.Location = new System.Drawing.Point(311, 83);
 			this.cboSolutionType.Name = "cboSolutionType";
 			this.cboSolutionType.Size = new System.Drawing.Size(271, 21);
