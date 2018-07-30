@@ -29,104 +29,56 @@ namespace NClass.GUI
 
 		private class VersionInfo
 		{
-			Version mainVersion;
-			string translationVersion;
-			string versionName;
-			string notes;
-			string downloadPageUrl;
-
-			/// <exception cref="ArgumentException">
+		    /// <exception cref="ArgumentException">
 			/// <paramref name="version"/> is an invalid value.
 			/// </exception>
 			/// <exception cref="ArgumentNullException">
-			/// <paramref name="version"/>, <paramref name="translationVersion"/>, 
 			/// <paramref name="versionName"/>, <paramref name="downloadPageUrl"/>, or
 			/// <paramref name="notes"/> is null.
 			/// </exception>
-			public VersionInfo(string version, string translationVersion, string versionName,
-				string downloadPageUrl, string notes)
+			public VersionInfo(string version, string versionName, string downloadPageUrl, string notes)
 			{
 				if (version == null)
 					throw new ArgumentNullException("version");
-				if (translationVersion == null)
-					throw new ArgumentNullException("translationVersion");
 				if (versionName == null)
 					throw new ArgumentNullException("versionName");
-				if (downloadPageUrl == null)
+				if (DownloadPageUrl == null)
 					throw new ArgumentNullException("downloadPageUrl");
 				if (notes == null)
 					throw new ArgumentNullException("notes");
 
 				try
 				{
-					this.mainVersion = new Version(version);
+					this.MainVersion = new Version(version);
 				}
 				catch
 				{
 					throw new ArgumentException("Version string is invalid.", "version");
 				}
-				this.translationVersion = translationVersion;
-				this.versionName = versionName;
-				this.downloadPageUrl = downloadPageUrl;
-				this.notes = notes;
+				this.VersionName = versionName;
+				this.DownloadPageUrl = DownloadPageUrl;
+				this.Notes = notes;
 			}
 
-			public Version MainVersion
-			{
-				get { return mainVersion; }
-			}
+			public Version MainVersion { get; }
 
-			public string TranslationVersion
-			{
-				get { return translationVersion; }
-			}
 
-			public string VersionName
-			{
-				get { return versionName; }
-			}
+		    public string VersionName { get; }
 
-			public string DownloadPageUrl
-			{
-				get { return downloadPageUrl; }
-			}
+		    public string DownloadPageUrl { get; }
 
-			public string Notes
-			{
-				get { return notes; }
-			}
+		    public string Notes { get; }
 
-			public bool IsUpdated
-			{
-				get
-				{
-					return (IsMainProgramUpdated || IsTranslationUpdated);
-				}
-			}
+		    public bool IsUpdated => IsMainProgramUpdated;
 
-			public bool IsMainProgramUpdated
-			{
-				get
-				{
-					return (MainVersion.CompareTo(Program.CurrentVersion) > 0);
-				}
-			}
-
-			public bool IsTranslationUpdated
-			{
-				get
-				{
-					string currentTranslationVersion = Strings.TranslationVersion;
-					return (TranslationVersion.CompareTo(currentTranslationVersion) > 0);
-				}
-			}
-
+		    public bool IsMainProgramUpdated => (MainVersion.CompareTo(Program.CurrentVersion) > 0);
+		    
 			public override string ToString()
 			{
 				if (VersionName == null)
 					return MainVersion.ToString();
 				else
-					return string.Format("{0} ({1})", VersionName, MainVersion);
+					return $"{VersionName} ({MainVersion})";
 			}
 		}
 
@@ -162,7 +114,7 @@ namespace NClass.GUI
 				string url = root["DownloadPageUrl"].InnerText;
 				string notes = root["Notes"].InnerText.Trim();
 
-				return new VersionInfo(version, translationVersion, name, url, notes);
+				return new VersionInfo(version, name, url, notes);
 			}
 			catch (WebException)
 			{
