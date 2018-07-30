@@ -250,11 +250,20 @@ namespace NClass.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Balazs Tihanyi.
+        ///   Looks up a localized string similar to Georgi Baychev.
         /// </summary>
         public static string Author {
             get {
                 return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balazs Tihanyi.
+        /// </summary>
+        public static string AuthorRetired {
+            get {
+                return ResourceManager.GetString("AuthorRetired", resourceCulture);
             }
         }
         

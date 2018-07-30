@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Text;
 using System.Windows.Forms;
 using NClass.Translations;
 
@@ -27,24 +28,31 @@ namespace NClass.GUI.Dialogs
 		}
 
 		private void UpdateTexts()
-		{
-			this.Text = Strings.AboutNClass;
-			lblTitle.Text = Program.GetVersionString();
-			lblCopyright.Text = "Copyright (C) 2006-2009 " + Strings.Author;
-			lblStatus.Text = string.Format(Strings.BetaVersion);
-			lnkEmail.Text = Strings.SendEmail;
-			lnkHomepage.Text = Strings.VisitHomepage;
-			btnClose.Text = Strings.ButtonClose;
+        {
+            this.Text = Strings.AboutNClass;
+            lblTitle.Text = Program.GetVersionString();
+            lblCopyright.Text = GetAuthorText();
+            lblStatus.Text = string.Format(Strings.BetaVersion);
+            lnkEmail.Text = Strings.SendEmail;
+            lnkHomepage.Text = Strings.VisitHomepage;
+            btnClose.Text = Strings.ButtonClose;
 
-			lnkHomepage.Links.Clear();
-			lnkEmail.Links.Clear();
-			lnkHomepage.Links.Add(0, lnkHomepage.Text.Length, Properties.Resources.WebAddress);
-			lnkEmail.Links.Add(0, lnkEmail.Text.Length,
-				"mailto:" + Properties.Resources.MailAddress + "?subject=NClass");
-			lblTranslator.Text = Strings.Translator;
-		}
+            lnkHomepage.Links.Clear();
+            lnkEmail.Links.Clear();
+            lnkHomepage.Links.Add(0, lnkHomepage.Text.Length, Properties.Resources.WebAddress);
+            lnkEmail.Links.Add(0, lnkEmail.Text.Length,
+                "mailto:" + Properties.Resources.MailAddress + "?subject=NClass");
+            lblTranslator.Text = Strings.Translator;
+        }
 
-		protected override void OnLoad(EventArgs e)
+        private string GetAuthorText()
+        {
+            var sb = new StringBuilder($"Copyright (C) 2016-2018 {Strings.Author}");
+            sb.Append($"\r\nCopyright (C) 2006-2009 {Strings.AuthorRetired}");
+            return sb.ToString();
+        }
+
+        protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
 			UpdateTexts();
