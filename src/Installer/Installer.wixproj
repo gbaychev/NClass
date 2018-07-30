@@ -53,6 +53,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Make-Zip.ps1" />
     <Content Include="ui\nclass_banner.bmp" />
     <Content Include="ui\nclass.ico" />
     <Content Include="ui\license.rtf" />
@@ -139,6 +140,9 @@
   </Target>
   <PropertyGroup>
     <PreBuildEvent />
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>powershell.exe $(ProjectDir)Make-Zip.ps1</PostBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
