@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem>
+  <Name>ImportDefault.dll</Name>
+  <Language>CSharp</Language>
+  <Entities>
+    <Entity type="Class">
+      <Name>Project</Name>
+      <Access>Public</Access>
+      <Location left="12" top="12" />
+      <Size width="162" height="216" />
+      <Collapsed>False</Collapsed>
+      <Member type="Method">public static void Main()</Member>
+      <Modifier>Static</Modifier>
+    </Entity>
+  </Entities>
+  <Relationships />
+</ProjectItem>

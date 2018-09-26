@@ -14,9 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Xml;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace NClass.Core
 {
@@ -312,5 +310,10 @@ namespace NClass.Core
 		}
 
 		protected internal abstract Field Clone(CompositeType newParent);
+
+		/// <exception cref="BadSyntaxException">
+		/// The <paramref name="declaration"/> does not fit to the syntax.
+		/// </exception>
+		public abstract void InitFromDeclaration(IFieldDeclaration declaration);
 	}
 }

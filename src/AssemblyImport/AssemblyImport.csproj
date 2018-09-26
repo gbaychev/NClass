@@ -65,6 +65,14 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ImageComboBoxItem.cs" />
+    <Compile Include="Declarations\NRArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\NRConstructorDeclaration.cs" />
+    <Compile Include="Declarations\NREventDeclaration.cs" />
+    <Compile Include="Declarations\NRFieldDeclaration.cs" />
+    <Compile Include="Declarations\NRPropertyDeclaration.cs" />
+    <Compile Include="Declarations\NRMethodDeclaration.cs" />
+    <Compile Include="Declarations\NROperatorDeclaration.cs" />
+    <Compile Include="Declarations\NRParameterDeclaration.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="NClassImportFilter.cs" />
     <Compile Include="ImportSettings.cs" />
@@ -93,6 +101,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UnsafeTypesPresentException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

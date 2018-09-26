@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem>
+  <Name>ImportProperties.dll</Name>
+  <Language>CSharp</Language>
+  <Entities>
+    <Entity type="Class">
+      <Name>ImportProperties</Name>
+      <Access>Public</Access>
+      <Location left="12" top="12" />
+      <Size width="162" height="216" />
+      <Collapsed>False</Collapsed>
+      <Member type="Property">public int Prop1 { get; set; }</Member>
+      <Member type="Property">public int Prop2 { get; }</Member>
+      <Member type="Property">public int Prop3 { get; private set; }</Member>
+      <Member type="Property">public int Prop4 { set; }</Member>
+      <Member type="Property">public int this[int fst, int snd] { get; }</Member>
+      <Member type="Constructor">public ImportProperties()</Member>
+      <Modifier>None</Modifier>
+    </Entity>
+  </Entities>
+  <Relationships />
+</ProjectItem>

@@ -1,4 +1,6 @@
 using NClass.Core;
+using NReflect;
+using NReflect.NRCode;
 
 namespace NClass.AssemblyImport
 {
@@ -57,6 +59,34 @@ namespace NClass.AssemblyImport
         default:
           return ClassModifier.None;
       }
+    }
+
+    /// <summary>
+    /// Converts the parameter modifier of the NReflect library into the corresponding
+    /// NClass parameter modifier.
+    /// </summary>
+    /// <param name="parameterModifier">The parameter modifier of the NReflect library to convert.</param>
+    /// <returns>The converted NClass parameter modifier.</returns>
+    public static ParameterModifier ToNClass(this NReflect.Modifier.ParameterModifier parameterModifier)
+    {
+      switch (parameterModifier)
+      {
+        case NReflect.Modifier.ParameterModifier.In:
+          return ParameterModifier.In;
+        case NReflect.Modifier.ParameterModifier.InOut:
+          return ParameterModifier.Inout;
+        case NReflect.Modifier.ParameterModifier.Out:
+          return ParameterModifier.Out;
+        case NReflect.Modifier.ParameterModifier.Params:
+          return ParameterModifier.Params;
+        default:
+          return ParameterModifier.In;
+      }
+    }
+
+    public static string ToNClass(this NRTypeUsage type)
+    {
+      return type.Declaration().TrimEnd('&');
     }
 
     #endregion

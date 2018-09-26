@@ -70,7 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadSyntaxException.cs" />
+    <Compile Include="Declarations\IArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\IEventDeclaration.cs" />
+    <Compile Include="Declarations\IFieldDeclaration.cs" />
+    <Compile Include="Declarations\IMemberDeclaration.cs" />
+    <Compile Include="Declarations\IParameterDeclaration.cs" />
+    <Compile Include="Declarations\IPropertyDeclaration.cs" />
     <Compile Include="Entities\EntityType.cs" />
+    <Compile Include="Declarations\IMethodDeclaration.cs" />
     <Compile Include="Members\MemberType.cs" />
     <Compile Include="Models\ClassModel.cs" />
     <Compile Include="RelationshipEventArgs.cs" />

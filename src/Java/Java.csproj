@@ -65,16 +65,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaEnumValue.cs" />
-    <Compile Include="JavaArgumentList.cs" />
-    <Compile Include="JavaClass.cs" />
-    <Compile Include="JavaConstructor.cs" />
-    <Compile Include="JavaEnum.cs" />
-    <Compile Include="JavaField.cs" />
-    <Compile Include="JavaInterface.cs" />
-    <Compile Include="JavaLanguage.cs" />
-    <Compile Include="JavaMethod.cs" />
-    <Compile Include="JavaParameter.cs" />
+    <Compile Include="Declarations\IJavaArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\IJavaConstructorDeclaration.cs" />
+    <Compile Include="Declarations\IJavaFieldDeclaration.cs" />
+    <Compile Include="Declarations\IJavaMethodDeclaration.cs" />
+    <Compile Include="Declarations\IJavaParameterDeclaration.cs" />
+    <Compile Include="Declarations\JavaArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\JavaConstructorDeclaration.cs" />
+    <Compile Include="Declarations\JavaMethodDeclaration.cs" />
+    <Compile Include="Declarations\JavaFieldDeclaration.cs" />
+    <Compile Include="Declarations\JavaParameterDeclaration.cs" />
+    <Compile Include="Members\JavaEnumValue.cs" />
+    <Compile Include="Members\JavaArgumentList.cs" />
+    <Compile Include="Members\JavaClass.cs" />
+    <Compile Include="Members\JavaConstructor.cs" />
+    <Compile Include="Members\JavaEnum.cs" />
+    <Compile Include="Members\JavaField.cs" />
+    <Compile Include="Members\JavaInterface.cs" />
+    <Compile Include="Members\JavaLanguage.cs" />
+    <Compile Include="Members\JavaMethod.cs" />
+    <Compile Include="Members\JavaParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

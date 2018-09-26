@@ -73,12 +73,17 @@ namespace NClass.Core
 		/// <exception cref="ReservedNameException">
 		/// The parameter name is already exists.
 		/// </exception>
-		public abstract Parameter ModifyParameter(Parameter parmeter, string declaration);
+		public abstract Parameter ModifyParameter(Parameter parameter, string declaration);
 
 		/// <exception cref="BadSyntaxException">
 		/// The <paramref name="declaration"/> does not fit to the syntax.
 		/// </exception>
 		public abstract void InitFromString(string declaration);
+
+		/// <exception cref="BadSyntaxException">
+		/// The <paramref name="declaration"/> does not fit to the syntax.
+		/// </exception>
+		public abstract void InitFromDeclaration(IArgumentListDeclaration<IParameterDeclaration> declaration);
 
 		public abstract ArgumentList Clone();
 	}

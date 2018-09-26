@@ -1057,7 +1057,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			shape.IsSelected = true;
 			shape.IsActive = true;
-			if (shape is TypeShape) //TODO: nem szÈp
+			if (shape is TypeShape) //TODO: nem sz√©p
 				shape.ShowEditor();
 		}
 
@@ -1497,7 +1497,7 @@ namespace NClass.DiagramEditor.Diagrams
 			RecalculateSize();
 		}
 
-		//TODO: legyenek ink·bb hivatkoz·sok a shape-ekhez
+		//TODO: legyenek ink√°bb hivatkoz√°sok a shape-ekhez
 		protected Shape GetShape(IEntity entity)
 		{
 			foreach (Shape shape in shapes)

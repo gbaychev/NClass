@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem>
+  <Name>ImportOperators.dll</Name>
+  <Language>CSharp</Language>
+  <Entities>
+    <Entity type="Class">
+      <Name>ImportOperators</Name>
+      <Access>Public</Access>
+      <Location left="12" top="12" />
+      <Size width="162" height="216" />
+      <Collapsed>False</Collapsed>
+      <Member type="Constructor">public ImportOperators()</Member>
+      <Member type="Method">public static AssemblyImport.Tests.ImportOperators op_Addition(AssemblyImport.Tests.ImportOperators first, AssemblyImport.Tests.ImportOperators second)</Member>
+      <Member type="Method">public static AssemblyImport.Tests.ImportOperators op_Implicit(int value)</Member>
+      <Modifier>None</Modifier>
+    </Entity>
+  </Entities>
+  <Relationships />
+</ProjectItem>
