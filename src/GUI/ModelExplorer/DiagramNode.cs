@@ -17,9 +17,12 @@
 using System;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.CSharp;
 using NClass.DiagramEditor;
+using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
 using NClass.GUI.Properties;
+using NClass.Java;
 using NClass.Translations;
 
 namespace NClass.GUI.ModelExplorer
@@ -49,13 +52,32 @@ namespace NClass.GUI.ModelExplorer
 			if (diagram == null)
 				throw new ArgumentNullException("diagram");
 
+		    var imageKey = ImageKeyForDiagram(diagram);
 			this.diagram = diagram;
 			this.Text = diagram.Name;
-			this.ImageKey = "diagram";
-			this.SelectedImageKey = "diagram";
+			this.ImageKey = imageKey;
+			this.SelectedImageKey = imageKey;
 
 			diagram.Renamed += new EventHandler(diagram_Renamed);
 		}
+
+	    private string ImageKeyForDiagram(IDiagram diagram)
+	    {
+	        switch (diagram.DiagramType)
+	        {
+                case DiagramType.ClassDiagram:
+                    var doc = (ClassDiagram) diagram;
+                    if (doc.Language == CSharpLanguage.Instance)
+                        return "csharp";
+                    else if (doc.Language == JavaLanguage.Instance)
+                        return "java";
+                    break;
+                default:
+                    return string.Empty;
+	        }
+
+	        return string.Empty;
+	    }
 
 		public IDiagram Diagram
 		{
