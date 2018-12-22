@@ -16,10 +16,13 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Xml;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NClass.Translations;
+using Octokit;
 
 namespace NClass.GUI
 {
@@ -40,13 +43,6 @@ namespace NClass.GUI
             {
                 if (version == null)
                     throw new ArgumentNullException("version");
-                if (versionName == null)
-                    throw new ArgumentNullException("versionName");
-                if (DownloadPageUrl == null)
-                    throw new ArgumentNullException("downloadPageUrl");
-                if (notes == null)
-                    throw new ArgumentNullException("notes");
-
                 try
                 {
                     this.MainVersion = new Version(version);
@@ -55,13 +51,13 @@ namespace NClass.GUI
                 {
                     throw new ArgumentException("Version string is invalid.", "version");
                 }
-                this.VersionName = versionName;
-                this.DownloadPageUrl = DownloadPageUrl;
-                this.Notes = notes;
+
+                this.VersionName = versionName ?? throw new ArgumentNullException("versionName");
+                this.DownloadPageUrl = downloadPageUrl ?? throw new ArgumentNullException("downloadPageUrl");
+                this.Notes = notes ?? throw new ArgumentNullException("notes");
             }
 
             public Version MainVersion { get; }
-
 
             public string VersionName { get; }
 
@@ -88,35 +84,29 @@ namespace NClass.GUI
         /// <exception cref="InvalidDataException">
         /// Could not read the version informations.
         /// </exception>
-        private static VersionInfo GetVersionManifestInfo()
+        private static async Task<VersionInfo> GetVersionManifestInfo()
         {
             try
             {
-                XmlDocument document = new XmlDocument();
-                document.Load(VersionUrl);
-                XmlElement root = document.DocumentElement;
+                var githubClient = new GitHubClient(new ProductHeaderValue("NClass"));
+                var latestRelease = await githubClient.Repository.Release.GetLatest("gbaychev", "nclass");
 
-                // Get main version information
-                XmlElement versionElement = root["Version"];
-                string version = versionElement.InnerText;
-
-                // Get translation version information
-                XmlNodeList translationElements = root.SelectNodes(
-                    "TranslationVersions/" + Strings.TranslationName);
-                string translationVersion;
-                if (translationElements.Count == 0)
-                    translationVersion = Strings.TranslationVersion;
-                else
-                    translationVersion = translationElements[0].InnerText;
+                var versionRegex = new Regex(@"^releases/v(\d{1,}\.\d{1,}(\.\d{1,})?)(-beta|-pre)?$");
+                var match = versionRegex.Match(latestRelease.TagName);
+                var version = match.Groups[1].Value;
 
                 // Get other informations
-                string name = root["VersionName"].InnerText;
-                string url = root["DownloadPageUrl"].InnerText;
-                string notes = root["Notes"].InnerText.Trim();
+                var name = latestRelease.Name;
+                var url = latestRelease.HtmlUrl;
+                var notes = latestRelease.Body;
 
                 return new VersionInfo(version, name, url, notes);
             }
-            catch (WebException)
+            catch (Octokit.NotFoundException)
+            {
+                throw;
+            }
+            catch (HttpRequestException)
             {
                 throw;
             }
@@ -131,14 +121,19 @@ namespace NClass.GUI
             System.Diagnostics.Process.Start(url);
         }
 
-        public static void CheckForUpdates()
+        public static async Task CheckForUpdates()
         {
             try
             {
-                VersionInfo info = GetVersionManifestInfo();
+                VersionInfo info = await GetVersionManifestInfo();
                 ShowNewVersionInfo(info);
             }
-            catch (WebException)
+            catch (Octokit.NotFoundException)
+            {
+                MessageBox.Show(Strings.ErrorReleasesNotFound, Strings.Error, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (HttpRequestException)
             {
                 MessageBox.Show(Strings.ErrorConnectToServer,
                     Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);

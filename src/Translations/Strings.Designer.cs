@@ -1234,6 +1234,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No releases found.
+        /// </summary>
+        public static string ErrorReleasesNotFound {
+            get {
+                return ResourceManager.GetString("ErrorReleasesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a reserved name..
         /// </summary>
         public static string ErrorReservedName {

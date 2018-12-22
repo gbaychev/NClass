@@ -836,9 +836,9 @@ namespace NClass.GUI
 				MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void mnuCheckForUpdates_Click(object sender, EventArgs e)
+		private async void mnuCheckForUpdates_Click(object sender, EventArgs e)
 		{
-			UpdatesChecker.CheckForUpdates();
+			await UpdatesChecker.CheckForUpdates();
 		}
 
 		private void mnuAbout_Click(object sender, EventArgs e)

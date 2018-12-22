@@ -1158,4 +1158,8 @@ Do you still want to continue?</value>
   <data name="Author" xml:space="preserve">
     <value>Georgi Baychev</value>
   </data>
+  <data name="ErrorReleasesNotFound" xml:space="preserve">
+    <value>No releases found</value>
+    <comment>Could not find any releases on Github</comment>
+  </data>
 </root>
