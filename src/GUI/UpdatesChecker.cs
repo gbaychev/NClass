@@ -28,8 +28,6 @@ namespace NClass.GUI
 {
     public static class UpdatesChecker
     {
-        const string VersionUrl = "http://nclass.sourceforge.net/version.xml";
-
         private class VersionInfo
         {
             /// <exception cref="ArgumentException">
