@@ -21,6 +21,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NClass.GUI.Dialogs;
 using NClass.Translations;
 using Octokit;
 
@@ -63,9 +64,7 @@ namespace NClass.GUI
 
             public string Notes { get; }
 
-            public bool IsUpdated => IsMainProgramUpdated;
-
-            public bool IsMainProgramUpdated => (MainVersion.CompareTo(Program.CurrentVersion) > 0);
+            public bool IsUpdated => (MainVersion.CompareTo(Program.CurrentVersion) > 0);
 
             public override string ToString()
             {
@@ -96,7 +95,7 @@ namespace NClass.GUI
                 // Get other informations
                 var name = latestRelease.Name;
                 var url = latestRelease.HtmlUrl;
-                var notes = latestRelease.Body;
+                var notes = ConvertMarkdownToHtml(latestRelease.Body);
 
                 return new VersionInfo(version, name, url, notes);
             }
@@ -112,6 +111,24 @@ namespace NClass.GUI
             {
                 throw new InvalidDataException();
             }
+        }
+
+        private static string ConvertMarkdownToHtml(string markdown)
+        {
+            if (string.IsNullOrEmpty(markdown))
+            {
+                return string.Empty;
+            }
+
+            var html = new StringBuilder();
+
+            using (var reader = new StringReader(markdown))
+            using (var writer = new StringWriter(html))
+            {
+                CommonMark.CommonMarkConverter.Convert(reader, writer);
+            }
+
+            return html.ToString();
         }
 
         private static void OpenUrl(string url)
@@ -147,11 +164,8 @@ namespace NClass.GUI
         {
             if (info.IsUpdated)
             {
-                string text = GetVersionDescription(info);
-                string caption = Strings.CheckingForUpdates;
-
-                DialogResult result = MessageBox.Show(text, caption,
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                var updateDialog = new UpdateDialog(Strings.CheckingForUpdates, info.VersionName,  info.Notes);
+                var result = updateDialog.ShowDialog();
 
                 if (result == DialogResult.Yes)
                     OpenUrl(info.DownloadPageUrl);
@@ -162,27 +176,6 @@ namespace NClass.GUI
                     Strings.NoUpdates, Strings.CheckingForUpdates,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private static string GetVersionDescription(VersionInfo info)
-        {
-            StringBuilder builder = new StringBuilder(512);
-
-            if (info.IsMainProgramUpdated)
-            {
-                // Header text
-                builder.AppendFormat("{0}: {1}\n\n",
-                    Strings.NewVersion, info.VersionName);
-
-                // Main program's changes
-                builder.Append(info.Notes);
-                builder.Append("\n\n");
-            }
-
-            // Download text
-            builder.Append(Strings.ProgramDownload);
-
-            return builder.ToString();
         }
     }
 }
