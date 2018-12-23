@@ -14,6 +14,8 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using NClass.Translations;
@@ -43,6 +45,8 @@ namespace NClass.GUI.Dialogs
             lnkEmail.Links.Add(0, lnkEmail.Text.Length,
                 "mailto:" + Properties.Resources.MailAddress + "?subject=NClass");
             lblTranslator.Text = Strings.Translator;
+            var informationalAttribute = (AssemblyInformationalVersionAttribute)Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false).FirstOrDefault();
+            lblBuildInfo.Text = informationalAttribute?.InformationalVersion ?? string.Empty;
         }
 
         private string GetAuthorText()

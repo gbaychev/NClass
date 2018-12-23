@@ -36,6 +36,7 @@
             this.picHomepage = new System.Windows.Forms.PictureBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.lblTranslator = new System.Windows.Forms.Label();
+            this.lblBuildInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picEmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHomepage)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +54,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(284, 203);
+            this.btnClose.Location = new System.Drawing.Point(284, 216);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 5;
@@ -64,7 +65,7 @@
             // 
             this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCopyright.Location = new System.Drawing.Point(60, 53);
+            this.lblCopyright.Location = new System.Drawing.Point(63, 66);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(245, 46);
             this.lblCopyright.TabIndex = 9;
@@ -78,7 +79,7 @@
             this.lnkHomepage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkHomepage.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.lnkHomepage.LinkColor = System.Drawing.Color.Black;
-            this.lnkHomepage.Location = new System.Drawing.Point(57, 168);
+            this.lnkHomepage.Location = new System.Drawing.Point(57, 181);
             this.lnkHomepage.Name = "lnkHomepage";
             this.lnkHomepage.Size = new System.Drawing.Size(127, 13);
             this.lnkHomepage.TabIndex = 7;
@@ -96,7 +97,7 @@
             this.lnkEmail.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkEmail.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.lnkEmail.LinkColor = System.Drawing.Color.Black;
-            this.lnkEmail.Location = new System.Drawing.Point(57, 127);
+            this.lnkEmail.Location = new System.Drawing.Point(57, 140);
             this.lnkEmail.Name = "lnkEmail";
             this.lnkEmail.Size = new System.Drawing.Size(173, 13);
             this.lnkEmail.TabIndex = 6;
@@ -109,7 +110,7 @@
             // picEmail
             // 
             this.picEmail.Image = global::NClass.GUI.Properties.Resources.Mail;
-            this.picEmail.Location = new System.Drawing.Point(14, 118);
+            this.picEmail.Location = new System.Drawing.Point(14, 131);
             this.picEmail.Name = "picEmail";
             this.picEmail.Size = new System.Drawing.Size(32, 32);
             this.picEmail.TabIndex = 10;
@@ -118,7 +119,7 @@
             // picHomepage
             // 
             this.picHomepage.Image = global::NClass.GUI.Properties.Resources.Web;
-            this.picHomepage.Location = new System.Drawing.Point(15, 160);
+            this.picHomepage.Location = new System.Drawing.Point(15, 173);
             this.picHomepage.Name = "picHomepage";
             this.picHomepage.Size = new System.Drawing.Size(30, 30);
             this.picHomepage.TabIndex = 11;
@@ -128,7 +129,7 @@
             // 
             this.lblStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lblStatus.Location = new System.Drawing.Point(95, 99);
+            this.lblStatus.Location = new System.Drawing.Point(95, 112);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(181, 13);
             this.lblStatus.TabIndex = 12;
@@ -139,11 +140,21 @@
             // lblTranslator
             // 
             this.lblTranslator.AutoSize = true;
-            this.lblTranslator.Location = new System.Drawing.Point(12, 208);
+            this.lblTranslator.Location = new System.Drawing.Point(12, 221);
             this.lblTranslator.Name = "lblTranslator";
             this.lblTranslator.Size = new System.Drawing.Size(54, 13);
             this.lblTranslator.TabIndex = 13;
             this.lblTranslator.Text = "Translator";
+            // 
+            // lblBuildInfo
+            // 
+            this.lblBuildInfo.AutoSize = true;
+            this.lblBuildInfo.Location = new System.Drawing.Point(145, 53);
+            this.lblBuildInfo.Name = "lblBuildInfo";
+            this.lblBuildInfo.Size = new System.Drawing.Size(80, 13);
+            this.lblBuildInfo.TabIndex = 14;
+            this.lblBuildInfo.Text = "branch-git-hash";
+            this.lblBuildInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AboutDialog
             // 
@@ -151,7 +162,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(371, 237);
+            this.ClientSize = new System.Drawing.Size(371, 244);
+            this.Controls.Add(this.lblBuildInfo);
             this.Controls.Add(this.lblTranslator);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.picHomepage);
@@ -186,6 +198,6 @@
 		private System.Windows.Forms.PictureBox picHomepage;
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.Label lblTranslator;
-
-	}
+        private System.Windows.Forms.Label lblBuildInfo;
+    }
 }
