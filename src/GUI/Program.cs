@@ -74,16 +74,8 @@ namespace NClass.GUI
 
 		public static string GetVersionString()
 		{
-			if (CurrentVersion.Minor == 0)
-			{
-				return string.Format("NClass {0}.0", CurrentVersion.Major);
-			}
-			else
-			{
-				return string.Format("NClass {0}.{1:00}",
-					CurrentVersion.Major, CurrentVersion.Minor);
-			}
-		}
+		    return $"NClass {CurrentVersion.Major}.{CurrentVersion.Minor}.{CurrentVersion.Revision}";
+        }
 
 		private static void LoadFiles(string[] args)
 		{

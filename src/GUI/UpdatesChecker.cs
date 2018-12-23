@@ -88,9 +88,12 @@ namespace NClass.GUI
                 var githubClient = new GitHubClient(new ProductHeaderValue("NClass"));
                 var latestRelease = await githubClient.Repository.Release.GetLatest("gbaychev", "nclass");
 
-                var versionRegex = new Regex(@"^releases/v(\d{1,}\.\d{1,}(\.\d{1,})?)(-beta|-pre)?$");
+                // semver
+                var versionRegex = new Regex(@"^releases/v(?<majorminor>\d{1,}\.\d{1,})\.(?<patch>\d{1,})(-beta|-pre)?$", RegexOptions.ExplicitCapture);
                 var match = versionRegex.Match(latestRelease.TagName);
-                var version = match.Groups[1].Value;
+                // seriously, whoever retard at microsoft decided that 'build' should be before 'revision'
+                // in System.Version should be stoned to death. 'build' must not be patched in the assembly version
+                var version = $"{match.Groups["majorminor"].Value}.0.{match.Groups["patch"].Value}";
 
                 // Get other informations
                 var name = latestRelease.Name;
