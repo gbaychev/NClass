@@ -41,6 +41,9 @@ Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\de\PDFExport.resources.dll dist\b
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\csproj.template dist\bin\Templates\csproj.template
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\sln.template dist\bin\Templates\sln.template
 Copy-New-Item ..\..\..\..\doc\changelog.txt dist\doc\changelog.txt
+Copy-New-Item ..\..\..\..\doc\commonmark.net.txt dist\doc\commonmark.net.txt
+Copy-New-Item ..\..\..\..\doc\ocktokit.license.txt dist\doc\ocktokit.license.txt
+Copy-New-Item ..\..\..\..\doc\pdfsharp.txt dist\doc\pdfsharp.txt
 Copy-New-Item ..\..\..\..\doc\license.txt dist\doc\license.txt
 Copy-New-Item ..\..\..\..\doc\readme.txt dist\doc\readme.txt
 Copy-New-Item ..\..\..\..\examples\shapes.ncp dist\examples\shapes.ncp

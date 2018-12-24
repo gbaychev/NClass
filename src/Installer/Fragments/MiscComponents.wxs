@@ -23,6 +23,15 @@
       <Component Id="C_License">
         <File Source="$(var.SolutionDir)..\doc\license.txt" />
       </Component>
+      <Component Id="C_OcktokitLicense">
+        <File Source="$(var.SolutionDir)..\doc\ocktokit.license.txt" />
+      </Component>
+      <Component Id="C_PdfSharpLicense">
+        <File Source="$(var.SolutionDir)..\doc\pdfsharp.license.txt" />
+      </Component>
+      <Component Id="C_CommonmarkNetLicense">
+        <File Source="$(var.SolutionDir)..\doc\commonmark.net.license.txt" />
+      </Component>
       <Component Id="C_Readme">
         <File Source="$(var.SolutionDir)..\doc\readme.txt" />
       </Component>
