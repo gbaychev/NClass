@@ -65,5 +65,10 @@ namespace NClass.Core
 
 			return builder.ToString();
 		}
+
+	  /// <exception cref="BadSyntaxException">
+	  /// The <paramref name="declaration"/> does not fit to the syntax.
+	  /// </exception>
+	  public abstract void InitFromDeclaration(IMethodDeclaration declaration);
 	}
 }

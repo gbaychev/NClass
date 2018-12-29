@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NReflect;
 using NReflect.Filter;
+using NReflect.NRAttributes;
 using NReflect.NREntities;
 using NReflect.NRMembers;
 using NReflect.NRParameters;
@@ -219,14 +221,24 @@ namespace NClass.AssemblyImport
       return IsUnsafePointer(nrProperty.Type) ? false : filter.Reflect(nrProperty);
     }
 
+    public bool Reflect(NRAttribute nrAttribute)
+    {
+      return filter.Reflect(nrAttribute); // TODO: improve
+    }
+
+    public bool Reflect(NRModule nrModule)
+    {
+      return filter.Reflect(nrModule); // TODO: improve
+    }
+
     /// <summary>
     /// Returns <c>true</c> if the given type represents an unsafe pointer.
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <returns><c>true</c> if the given type represents an unsafe pointer.</returns>
-    private bool IsUnsafePointer(string type)
+    private bool IsUnsafePointer(NRTypeUsage type)
     {
-      if (type.Contains("*"))
+      if (type.Name.Contains("*"))
       {
         UnsafeTypesPresent = true;
         return true;

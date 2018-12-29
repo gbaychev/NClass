@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem>
+  <Name>ImportEvents.dll</Name>
+  <Language>CSharp</Language>
+  <Entities>
+    <Entity type="Class">
+      <Name>ImportEvents</Name>
+      <Access>Public</Access>
+      <Location left="12" top="12" />
+      <Size width="162" height="216" />
+      <Collapsed>False</Collapsed>
+      <Member type="Event">public event System.EventHandler&lt;System.EventArgs&gt; OnClick</Member>
+      <Member type="Constructor">public ImportEvents()</Member>
+      <Modifier>None</Modifier>
+    </Entity>
+  </Entities>
+  <Relationships />
+</ProjectItem>

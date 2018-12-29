@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem>
+  <Name>ImportMethods.dll</Name>
+  <Language>CSharp</Language>
+  <Entities>
+    <Entity type="Class">
+      <Name>ImportMethods</Name>
+      <Access>Public</Access>
+      <Location left="12" top="12" />
+      <Size width="162" height="216" />
+      <Collapsed>False</Collapsed>
+      <Member type="Constructor">static ImportMethods()</Member>
+      <Member type="Constructor">private ImportMethods(int val)</Member>
+      <Member type="Constructor">private ImportMethods(int value1, int value2)</Member>
+      <Member type="Method">private int Method1(System.Tuple&lt;int, int?&gt;[] array, out int value)</Member>
+      <Member type="Method">private System.Collections.Generic.IEnumerable&lt;System.Tuple&lt;System.ConsoleKey, System.ConsoleKey?&gt;&gt; Method2()</Member>
+      <Member type="Method">private void Method3(System.Collections.Generic.IEnumerable&lt;System.Tuple&lt;System.ConsoleKey, System.ConsoleKey?&gt;&gt; src)</Member>
+      <Member type="Method">protected virtual void Finalize()</Member>
+      <Modifier>None</Modifier>
+    </Entity>
+  </Entities>
+  <Relationships />
+</ProjectItem>
