@@ -31,6 +31,9 @@
       <Component Id="C_app.config">
         <File Source="$(var.GUI.TargetDir)NClass.exe.config" />
       </Component>
+      <Component Id="C_Octokit.dll">
+        <File Source="$(var.GUI.TargetDir)Octokit.dll" />
+      </Component>
 
       <ComponentGroupRef Id="CG_CodeGenerator"/>
     </ComponentGroup>

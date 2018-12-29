@@ -1,3 +1,15 @@
+Version 2.5.0 24-Dec-2018
+--------------------------
+* Separate model and diagram classes, allowing for the implementation of other type of diagrams
+* Whole project retargeted to .NET 4.7.2 (solution adjustment by Carlo)
+* Reworked the update checker so that SemVer is used
+* Reworked the update checker so that github releases are checked
+* The code generator now generates vs2015/vs2017 solutions/projects
+* Update dialog reworked
++ Top left resizing and shape snapping improvements (mrpetro)
+* Association problem when trying to create aggregation fix (mrpetro)
+* Fixed some build issues under linux
+
 Version 2.04 (06-Jun-2011)
 --------------------------
 + Optional parameters are supported

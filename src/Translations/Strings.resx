@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorInvalidDeclaration" xml:space="preserve">
     <value>Invalid declaration.</value>
@@ -266,7 +266,7 @@
   <data name="SendEmail" xml:space="preserve">
     <value>Send e-mail to the program's author</value>
   </data>
-  <data name="Author" xml:space="preserve">
+  <data name="AuthorRetired" xml:space="preserve">
     <value>Balazs Tihanyi</value>
     <comment>#</comment>
   </data>
@@ -1154,5 +1154,12 @@ Do you want to download the framework now?</value>
   <data name="CodeGenerationOverwriteConfirmation" xml:space="preserve">
     <value>The output directory is not empty, the previous files will be overwritten.
 Do you still want to continue?</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Georgi Baychev</value>
+  </data>
+  <data name="ErrorReleasesNotFound" xml:space="preserve">
+    <value>No releases found</value>
+    <comment>Could not find any releases on Github</comment>
   </data>
 </root>

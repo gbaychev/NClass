@@ -1102,4 +1102,7 @@ Szeretné most letölteni a szükséges keretrendszert a Microsoft honlapjáról
   <data name="ButtonClear" xml:space="preserve">
     <value>Törlés</value>
   </data>
+  <data name="AuthorRetired" xml:space="preserve">
+    <value>Balazs Tihanyi</value>
+  </data>
 </root>

@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GenerationResult.cs" />
     <Compile Include="ToolStripSimplifiedRenderer.cs" />
     <Compile Include="VSSolutionGenerator.cs" />

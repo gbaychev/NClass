@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorInvalidDeclaration" xml:space="preserve">
     <value>Fehlerhafte Deklaration</value>
@@ -264,7 +264,7 @@
     <value>Dem Autor eine E-Mail schicken</value>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Balazs Tihanyi</value>
+    <value>Georgi Baychev</value>
   </data>
   <data name="ItemsSelected" xml:space="preserve">
     <value>{0} ausgewählte Items.</value>
@@ -1145,5 +1145,8 @@
   </data>
   <data name="CodeGenerationOverwriteConfirmation" xml:space="preserve">
     <value>Das Ausgabeverzeichnis ist nicht leer, die alten Dateien werden überschrieben. Möchten Sie fortfahren?</value>
+  </data>
+  <data name="AuthorRetired" xml:space="preserve">
+    <value>Balazs Tihanyi</value>
   </data>
 </root>
