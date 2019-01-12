@@ -40,7 +40,14 @@ namespace NClass.DiagramEditor
 	[DefaultProperty("AttributeColor")]
 	public sealed class Style : IDisposable
 	{
-		static Style currentStyle;
+        private const int DEFAULT_PACKAGE_BORDER_WIDTH = 1;
+        private static readonly Color DEFAULT_PACKAGE_BACK_COLOR = Color.Wheat;
+        private static readonly Color DEFAULT_PACKAGE_NAME_COLOR = Color.Black;
+        private static readonly Color DEFAULT_PACKAGE_BORDER_COLOR = Color.Black;
+        private static readonly Font DEFAULT_PACKAGE_FONT = new Font("Arial", 9.00F, FontStyle.Bold);
+
+
+        static Style currentStyle;
 		static SortedList<string, Style> styles = new SortedList<string, Style>();
 
 		static string settingsDir = Path.Combine(
@@ -140,6 +147,14 @@ namespace NClass.DiagramEditor
 		Color commentBorderColor = Color.Black;
 		Color textColor = Color.Black;
 		Font commentFont = new Font("Tahoma", 8.25F);
+
+        // Package fields
+        int packageBorderWidth = DEFAULT_PACKAGE_BORDER_WIDTH;
+        bool isPackageBorderDashed = false;
+        Color packageBackColor = DEFAULT_PACKAGE_BACK_COLOR;
+        Color packageBorderColor = DEFAULT_PACKAGE_BORDER_COLOR;
+        Color packageTextColor = DEFAULT_PACKAGE_NAME_COLOR;
+        Font packageFont = DEFAULT_PACKAGE_FONT;
 
 		// Relationship fields
 		int relationshipDashSize = 5;
@@ -1324,6 +1339,108 @@ namespace NClass.DiagramEditor
 
 		#endregion
 
+        #region Package properties
+
+        [DisplayName("Background Color"), Category("Package")]
+        [Description("The background color for the package.")]
+        [DefaultValue(typeof(Color), "White")]
+        public Color PackageBackColor
+        {
+            get
+            {
+                if (packageBackColor.IsEmpty)
+                    packageBackColor = DEFAULT_PACKAGE_BACK_COLOR;
+
+                return packageBackColor;
+            }
+            set { packageBackColor = value; }
+        }
+
+        [DisplayName("Border Color"), Category("Package")]
+        [Description("The border color for the package.")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color PackageBorderColor
+        {
+            get
+            {
+                if (packageBorderColor.IsEmpty)
+                    packageBorderColor = DEFAULT_PACKAGE_BORDER_COLOR;
+
+                return packageBorderColor;
+            }
+            set { packageBorderColor = value; }
+        }
+
+        [DisplayName("Border Width"), Category("Package")]
+        [Description("The border width for the package.")]
+        [DefaultValue(1)]
+        public int PackageBorderWidth
+        {
+            get
+            {
+                //This has to be checked in case there is already existing user styles old connfiguration without package styles
+                if (packageBorderWidth == 0)
+                    packageBorderWidth = DEFAULT_PACKAGE_BORDER_WIDTH;
+
+                return packageBorderWidth;
+            }
+            set
+            {
+                if (value < 1)
+                    packageBorderWidth = 1;
+                else
+                    packageBorderWidth = value;
+            }
+        }
+
+        [DisplayName("Dashed Border"), Category("Package")]
+        [Description("Whether the border for the package will be dashed.")]
+        [DefaultValue(false)]
+        public bool IsPackageBorderDashed
+        {
+            get { return isPackageBorderDashed; }
+            set { isPackageBorderDashed = value; }
+        }
+
+        [DisplayName("Font"), Category("Package")]
+        [Description("The font of the displayed name text for the package.")]
+        public Font PackageFont
+        {
+            get
+            {
+                //This has to be checked in case there is already existing user styles old connfiguration without package styles
+                if (packageFont == null)
+                    packageFont = DEFAULT_PACKAGE_FONT;
+
+                return packageFont;
+            }
+            set
+            {
+                if (value != null && packageFont != value)
+                {
+                    packageFont.Dispose();
+                    packageFont = value;
+                }
+            }
+        }
+
+        [DisplayName("Text Color"), Category("Package")]
+        [Description("The name text color for the package.")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color PackageTextColor
+        {
+            get
+            {
+                if (packageTextColor.IsEmpty)
+                    packageTextColor = DEFAULT_PACKAGE_NAME_COLOR;
+
+                return packageTextColor;
+            }
+            set { packageTextColor = value; }
+        }
+
+        #endregion
+
 		#region Relationship properties
 
 		[DisplayName("Dash Size"), Category("(Relationship)")]
@@ -1411,6 +1528,7 @@ namespace NClass.DiagramEditor
 			newStyle.staticMemberFont = (Font) StaticMemberFont.Clone();
 			newStyle.abstractMemberFont = (Font) AbstractMemberFont.Clone();
 			newStyle.commentFont = (Font) CommentFont.Clone();
+            newStyle.packageFont = (Font)PackageFont.Clone();
 			newStyle.relationshipTextFont = (Font) RelationshipTextFont.Clone();
 
 			return newStyle;
@@ -1425,6 +1543,7 @@ namespace NClass.DiagramEditor
 			staticMemberFont.Dispose();
 			abstractMemberFont.Dispose();
 			commentFont.Dispose();
+            packageFont.Dispose();
 			relationshipTextFont.Dispose();
 		}
 

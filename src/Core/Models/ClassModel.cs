@@ -45,6 +45,13 @@ namespace NClass.Core.Models
             get { return language; }
         }
 
+        public Package AddPackage()
+        {
+            Package newPackage = Language.CreatePackage();
+            AddEntity(newPackage);
+            return newPackage;
+        }
+
         public ClassType AddClass()
         {
             ClassType newClass = Language.CreateClass();
@@ -184,7 +191,7 @@ namespace NClass.Core.Models
         /// <exception cref="ArgumentNullException">
         /// <paramref name="parentType"/> or <paramref name="innerType"/> is null.
         /// </exception>
-        public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
+        public NestingRelationship AddNesting(INestable parentType, INestableChild innerType)
         {
             NestingRelationship nesting = new NestingRelationship(parentType, innerType);
 
@@ -261,7 +268,7 @@ namespace NClass.Core.Models
                             break;
 
                         case "Nesting":
-                            relationship = AddNesting(first as CompositeType, second as TypeBase);
+							relationship = AddNesting(first as INestable, second as INestableChild);
                             break;
 
                         case "Comment":
@@ -315,7 +322,8 @@ namespace NClass.Core.Models
                 case "Delegate":
                 case "DelegateType":    // Old file format
                     return AddDelegate();
-
+                case "Package":
+                    return AddPackage();
                 case "Comment":
                     return AddComment();
 

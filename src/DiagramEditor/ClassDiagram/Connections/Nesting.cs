@@ -80,8 +80,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
-            CompositeType firstType = first.Entity as CompositeType;
-			TypeBase secondType = second.Entity as TypeBase;
+            INestable firstType = first.Entity as INestable;
+			INestableChild secondType = second.Entity as INestableChild;
 			
 			if (firstType != null && secondType != null)
 			{

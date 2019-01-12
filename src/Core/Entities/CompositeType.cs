@@ -59,8 +59,6 @@ namespace NClass.Core
 
 		public abstract bool SupportsEvents { get; }
 
-		public abstract bool SupportsNesting { get; }
-
 		public abstract bool IsAllowedParent { get; }
 
 		public abstract bool IsAllowedChild { get; }
@@ -107,10 +105,6 @@ namespace NClass.Core
 			}
 		}
 
-		public IEnumerable<TypeBase> NestedChilds
-		{
-			get { return nestedChilds; }
-		}
 
 		/// <exception cref="InvalidOperationException">
 		/// The type does not support fields.
@@ -250,21 +244,6 @@ namespace NClass.Core
 				if (OperationList.Remove((Operation) member))
 					Changed();
 			}
-		}
-
-		internal void AddNestedChild(TypeBase type)
-		{
-			if (type != null && !nestedChilds.Contains(type))
-			{
-				nestedChilds.Add(type);
-				Changed();
-			}
-		}
-
-		internal void RemoveNestedChild(TypeBase type)
-		{
-			if (type != null && nestedChilds.Remove(type))
-				Changed();
 		}
 
 		public Operation GetDefinedOperation(Operation operation)

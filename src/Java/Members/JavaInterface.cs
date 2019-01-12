@@ -40,7 +40,7 @@ namespace NClass.Java
 			}
 			set
 			{
-				if (IsNested ||
+				if (IsTypeNested ||
 					value == AccessModifier.Default ||
 					value == AccessModifier.Public)
 				{
@@ -77,13 +77,14 @@ namespace NClass.Java
 		/// <exception cref="ArgumentException">
 		/// The <paramref name="value"/> is already a child member of the type.
 		/// </exception>
-		public override CompositeType NestingParent
+		public override INestable NestingParent
 		{
 			get
 			{
 				return base.NestingParent;
 			}
-			protected set
+
+			set
 			{
 				try {
 					RaiseChangedEvent = false;
@@ -146,7 +147,7 @@ namespace NClass.Java
 				builder.Append(Language.GetAccessString(AccessModifier, true));
 				builder.Append(" ");
 			}
-			if (IsNested)
+			if (IsTypeNested)
 				builder.Append("static ");
 
 			builder.AppendFormat("interface {0}", Name);

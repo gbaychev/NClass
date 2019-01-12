@@ -505,6 +505,11 @@ namespace NClass.Java
 			}
 		}
 
+        protected override Package CreatePackage()
+        {
+            return new JavaPackage();
+        }
+
 		protected override ClassType CreateClass()
 		{
 			return new JavaClass();

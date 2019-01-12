@@ -70,6 +70,14 @@
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />
+    <Compile Include="ClassDiagram\Editors\PackageEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\PackageEditor.designer.cs">
+      <DependentUpon>PackageEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Shapes\PackageShape.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
     <Compile Include="Diagrams\Connections\Connection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
@@ -320,6 +328,9 @@
     <EmbeddedResource Include="ClassDiagram\Editors\MemberEditor.resx">
       <DependentUpon>MemberEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\PackageEditor.resx">
+      <DependentUpon>PackageEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

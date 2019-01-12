@@ -124,7 +124,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 				toolPublic.Visible = false;
 			}
 			// Protected Internal
-			if (type.IsNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.ProtectedInternal))
+			if (type.IsTypeNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.ProtectedInternal))
 			{
 				toolProtint.Visible = true;
 				toolProtint.Text = language.ValidAccessModifiers[AccessModifier.ProtectedInternal];
@@ -146,7 +146,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 				toolInternal.Visible = false;
 			}
 			// Protected
-			if (type.IsNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.Protected))
+			if (type.IsTypeNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.Protected))
 			{
 				toolProtected.Visible = true;
 				toolProtected.Text = language.ValidAccessModifiers[AccessModifier.Protected];
@@ -157,7 +157,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 				toolProtected.Visible = false;
 			}
 			// Private
-			if (type.IsNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.Private))
+			if (type.IsTypeNested && language.ValidAccessModifiers.ContainsKey(AccessModifier.Private))
 			{
 				toolPrivate.Visible = true;
 				toolPrivate.Text = language.ValidAccessModifiers[AccessModifier.Private];

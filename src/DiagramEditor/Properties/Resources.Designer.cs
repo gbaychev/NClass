@@ -903,6 +903,16 @@ namespace NClass.DiagramEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Package {
+            get {
+                object obj = ResourceManager.GetObject("Package", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Parameter {
             get {
                 object obj = ResourceManager.GetObject("Parameter", resourceCulture);

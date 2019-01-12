@@ -109,6 +109,18 @@ namespace NClass.DiagramEditor.ClassDiagram
             return false;
         }
 
+        public bool InsertPackage(Package package)
+        {
+            if (package != null && !model.Entities.Contains(package) &&
+                package.Language == model.Language)
+            {
+                AddPackage(package);
+                return true;
+            }
+
+            return false;
+        }
+
         public bool InsertComment(Comment comment)
         {
             if (comment != null && !model.Entities.Contains(comment))
@@ -279,7 +291,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             return dependency;
         }
 
-        public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
+        public NestingRelationship AddNesting(INestable parentType, INestableChild innerType)
         {
             return model.AddNesting(parentType, innerType);
         }
@@ -305,9 +317,19 @@ namespace NClass.DiagramEditor.ClassDiagram
             return commentRelationship;
         }
 
+        public Package AddPackage()
+        {
+            return model.AddPackage();
+        }
+
         public ClassType AddClass()
         {
             return model.AddClass();
+        }
+
+        private void AddPackage(Package package)
+        {
+            AddShape(new PackageShape(package));
         }
 
         private void AddClass(ClassType classType)
@@ -370,6 +392,10 @@ namespace NClass.DiagramEditor.ClassDiagram
             {
                 switch (type)
                 {
+                    case EntityType.Package:
+                        AddPackage();
+                        break;
+
                     case EntityType.Class:
                         AddClass();
                         break;
@@ -408,6 +434,10 @@ namespace NClass.DiagramEditor.ClassDiagram
             {
                 switch (e.Entity.EntityType)
                 {
+                    case EntityType.Package:
+                        AddPackage(e.Entity as Package);
+                        break;
+
                     case EntityType.Class:
                         AddClass(e.Entity as ClassType);
                         break;
@@ -589,7 +619,9 @@ namespace NClass.DiagramEditor.ClassDiagram
                     case EntityType.Structure:
                         shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
                         break;
-
+                    case EntityType.Package:
+                        shapeOutline = PackageShape.GetOutline(Style.CurrentStyle);
+                        break;
                     case EntityType.Comment:
                         shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
                         break;

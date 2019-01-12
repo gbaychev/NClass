@@ -28,6 +28,7 @@
 			this.toolSepEntities = new System.Windows.Forms.ToolStripSeparator();
 			this.toolSepRelationships = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuAddNewElement = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewPackage = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNewClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNewStructure = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNewInterface = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,7 @@
 			this.mnuAutoLayout = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuExpandAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolNewPackage = new System.Windows.Forms.ToolStripButton();
 			this.toolNewClass = new System.Windows.Forms.ToolStripButton();
 			this.toolNewStructure = new System.Windows.Forms.ToolStripButton();
 			this.toolNewInterface = new System.Windows.Forms.ToolStripButton();
@@ -204,6 +206,7 @@
 			this.elementsToolStrip.Dock = System.Windows.Forms.DockStyle.None;
 			this.elementsToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.elementsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolNewPackage,
             this.toolNewClass,
             this.toolNewStructure,
             this.toolNewInterface,
@@ -239,6 +242,7 @@
 			// mnuAddNewElement
 			// 
 			this.mnuAddNewElement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuNewPackage,
             this.mnuNewClass,
             this.mnuNewStructure,
             this.mnuNewInterface,
@@ -258,6 +262,15 @@
 			this.mnuAddNewElement.Name = "mnuAddNewElement";
 			this.mnuAddNewElement.Size = new System.Drawing.Size(170, 22);
 			this.mnuAddNewElement.Text = "&Add New";
+            // 
+            // mnuNewPackage
+            // 
+            this.mnuNewPackage.Image = global::NClass.DiagramEditor.Properties.Resources.Package;
+            this.mnuNewPackage.Name = "mnuNewPackage";
+            this.mnuNewPackage.Size = new System.Drawing.Size(191, 22);
+            this.mnuNewPackage.Text = "&Package";
+            this.mnuNewPackage.Click += new System.EventHandler(this.mnuNewPackage_Click);
+
 			// 
 			// mnuNewClass
 			// 
@@ -508,6 +521,16 @@
 			this.mnuExpandAll.Size = new System.Drawing.Size(161, 22);
 			this.mnuExpandAll.Text = "&Expand All";
 			this.mnuExpandAll.Click += new System.EventHandler(this.mnuExpandAll_Click);
+            // 
+            // toolNewPackage
+            // 
+            this.toolNewPackage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolNewPackage.Image = global::NClass.DiagramEditor.Properties.Resources.Package;
+            this.toolNewPackage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolNewPackage.Name = "toolNewPackage";
+            this.toolNewPackage.Size = new System.Drawing.Size(23, 22);
+            this.toolNewPackage.Click += new System.EventHandler(this.mnuNewPackage_Click);
+
 			// 
 			// toolNewClass
 			// 
@@ -665,6 +688,7 @@
 
 		private System.Windows.Forms.MenuStrip menuStrip;
 		private System.Windows.Forms.ToolStripMenuItem mnuAddNewElement;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewPackage;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewClass;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewStructure;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewInterface;
@@ -703,6 +727,7 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuExpandAll;
 		private System.Windows.Forms.ToolStripMenuItem mnuDiagram;
 		private System.Windows.Forms.ToolStripMenuItem mnuFormat;
+        private System.Windows.Forms.ToolStripButton toolNewPackage;
 		private System.Windows.Forms.ToolStripButton toolNewClass;
 		private System.Windows.Forms.ToolStripButton toolNewStructure;
 		private System.Windows.Forms.ToolStripButton toolNewInterface;

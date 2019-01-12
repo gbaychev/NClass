@@ -93,6 +93,7 @@
     <Compile Include="Members\CSharpField.cs" />
     <Compile Include="Members\CSharpInterface.cs" />
     <Compile Include="Members\CSharpMethod.cs" />
+    <Compile Include="Members\CSharpNamespace.cs" />
     <Compile Include="Members\CSharpParameter.cs" />
     <Compile Include="Members\CSharpEvent.cs" />
     <Compile Include="Members\CSharpDestructor.cs" />

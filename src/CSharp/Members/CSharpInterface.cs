@@ -41,7 +41,7 @@ namespace NClass.CSharp
 			}
 			set
 			{
-				if (IsNested ||
+				if (IsTypeNested ||
 					value == AccessModifier.Default ||
 					value == AccessModifier.Internal ||
 					value == AccessModifier.Public)
@@ -74,13 +74,14 @@ namespace NClass.CSharp
 		/// <exception cref="ArgumentException">
 		/// The <paramref name="value"/> is already a child member of the type.
 		/// </exception>
-		public override CompositeType NestingParent
+		public override INestable NestingParent
 		{
 			get
 			{
 				return base.NestingParent;
 			}
-			protected set
+
+			set
 			{
 				try {
 					RaiseChangedEvent = false;

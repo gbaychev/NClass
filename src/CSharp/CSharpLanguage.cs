@@ -578,6 +578,11 @@ namespace NClass.CSharp
 				return modifier.ToString().ToLower();
 		}
 
+        protected override Package CreatePackage()
+        {
+            return new CSharpNamespace();
+        }
+
 		protected override ClassType CreateClass()
 		{
 			return new CSharpClass();

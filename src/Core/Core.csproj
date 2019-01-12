@@ -77,9 +77,16 @@
     <Compile Include="Declarations\IParameterDeclaration.cs" />
     <Compile Include="Declarations\IPropertyDeclaration.cs" />
     <Compile Include="Entities\EntityType.cs" />
+    <Compile Include="Entities\INestable.cs" />
+    <Compile Include="Entities\INestableChild.cs" />
+    <Compile Include="Entities\NestableChildHelper.cs" />
+    <Compile Include="Entities\NestableHelper.cs" />
+    <Compile Include="Entities\Package.cs" />
     <Compile Include="Declarations\IMethodDeclaration.cs" />
     <Compile Include="Members\MemberType.cs" />
     <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="NestingChildEventArgs.cs" />
+    <Compile Include="NestingEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationshipEventArgs.cs" />
     <Compile Include="Relationships\AssociationType.cs" />

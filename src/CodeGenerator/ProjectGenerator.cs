@@ -100,7 +100,7 @@ namespace NClass.CodeGenerator
 			{
 				TypeBase type = entity as TypeBase;
 
-				if (type != null && !type.IsNested)
+				if (type != null && !type.IsTypeNested)
 				{
 					SourceFileGenerator sourceFile = CreateSourceFileGenerator(type);
 
