@@ -41,10 +41,10 @@ namespace NClass.DiagramEditor
 	public sealed class Style : IDisposable
 	{
         private const int DEFAULT_PACKAGE_BORDER_WIDTH = 1;
-        private static readonly Color DEFAULT_PACKAGE_BACK_COLOR = Color.Wheat;
+        private static readonly Color DEFAULT_PACKAGE_BACK_COLOR = Color.LightYellow;
         private static readonly Color DEFAULT_PACKAGE_NAME_COLOR = Color.Black;
         private static readonly Color DEFAULT_PACKAGE_BORDER_COLOR = Color.Black;
-        private static readonly Font DEFAULT_PACKAGE_FONT = new Font("Arial", 9.00F, FontStyle.Bold);
+        private readonly Font DEFAULT_PACKAGE_FONT = new Font("Arial", 9.00F, FontStyle.Bold);
 
 
         static Style currentStyle;
@@ -154,7 +154,8 @@ namespace NClass.DiagramEditor
         Color packageBackColor = DEFAULT_PACKAGE_BACK_COLOR;
         Color packageBorderColor = DEFAULT_PACKAGE_BORDER_COLOR;
         Color packageTextColor = DEFAULT_PACKAGE_NAME_COLOR;
-        Font packageFont = DEFAULT_PACKAGE_FONT;
+        Color packageHoveringRectangleColor = Color.Black;
+        Font packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
 
 		// Relationship fields
 		int relationshipDashSize = 5;
@@ -1410,7 +1411,7 @@ namespace NClass.DiagramEditor
             {
                 //This has to be checked in case there is already existing user styles old connfiguration without package styles
                 if (packageFont == null)
-                    packageFont = DEFAULT_PACKAGE_FONT;
+                    packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
 
                 return packageFont;
             }
@@ -1425,7 +1426,7 @@ namespace NClass.DiagramEditor
         }
 
         [DisplayName("Text Color"), Category("Package")]
-        [Description("The name text color for the package.")]
+        [Description("The name of the text color for the package.")]
         [DefaultValue(typeof(Color), "Black")]
         public Color PackageTextColor
         {
@@ -1439,11 +1440,26 @@ namespace NClass.DiagramEditor
             set { packageTextColor = value; }
         }
 
+	    [DisplayName("Hover Color"), Category("Package")]
+	    [Description("The color of the rectangle displayed on hover.")]
+	    [DefaultValue(typeof(Color), "Black")]
+	    public Color HoveringRectangleColor
+	    {
+	        get
+	        {
+	            if (packageHoveringRectangleColor.IsEmpty)
+	                packageHoveringRectangleColor = Color.Gray;
+
+	            return packageHoveringRectangleColor;
+	        }
+	        set => packageHoveringRectangleColor = value;
+	    }
+
         #endregion
 
-		#region Relationship properties
+        #region Relationship properties
 
-		[DisplayName("Dash Size"), Category("(Relationship)")]
+        [DisplayName("Dash Size"), Category("(Relationship)")]
 		[Description("The lengths of alternating dashes and spaces in dashed lines.")]
 		[DefaultValue(5)]
 		public int RelationshipDashSize

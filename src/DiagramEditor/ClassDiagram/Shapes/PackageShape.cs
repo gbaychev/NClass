@@ -266,14 +266,13 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             path.Dispose();
 
             // draw the hovering rectangle
-            // TODO: refactor this to style later
             if (areShapesHovering)
             {
-                using (var pen = new Pen(Color.BlueViolet, 2))
+                using (var pen = new Pen(Style.CurrentStyle.HoveringRectangleColor, 2))
                 {
                     pen.DashStyle = DashStyle.Dash;
                     var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
-                    mouseOverRect.Inflate(2, 2);
+                    mouseOverRect.Inflate(MarginSize, MarginSize);
                     g.DrawRectangle(pen, mouseOverRect);
                 }
             }
@@ -412,9 +411,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             {
                 if(shape == this)
                     continue;
-                if(ChildrenShapes.Contains(shape))
-                    continue;
                 shape.ParentShape = this;
+                if (ChildrenShapes.Contains(shape))
+                    continue;
                 ChildrenShapes.Add(shape);
                 if (shape is IShapeContainer container)
                     container.SortOrder = this.SortOrder + 1;
