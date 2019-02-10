@@ -33,11 +33,7 @@ namespace NClass.Core
             {
                 if (nestingParent != value)
                 {
-                    if (nestingParent != null)
-                        nestingParent.RemoveNestedChild(nestableChild);
                     nestingParent = value;
-                    if (nestingParent != null)
-                        nestingParent.AddNestedChild(nestableChild);
                     OnNestingParentChanged(new NestingChildEventArgs(nestingParent));
                 }
             }
