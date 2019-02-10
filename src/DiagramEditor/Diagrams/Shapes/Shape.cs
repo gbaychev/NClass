@@ -53,6 +53,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		public event MoveEventHandler Dragging;
 		public event ResizeEventHandler Resizing;
 		public event ResizeEventHandler Resize;
+	    public event EventHandler Renamed;
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="entity"/> is null.
@@ -244,7 +245,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			set { Y = value - Height; }
 		}
 
-		public Rectangle BorderRectangle
+		public virtual Rectangle BorderRectangle
 		{
 			get { return new Rectangle(Location, Size); }
 		}
@@ -548,7 +549,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			return MinimumSize.Height;
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
 		{
 			return ShapeContextMenu.Default.GetMenuItems(diagram);
 		}
@@ -832,5 +833,12 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		{
 			return Entity.ToString();
 		}
+
+	    protected void OnRenamed(EventArgs e)
+	    {
+            Renamed?.Invoke(this, e);
+	    }
+
+	    public Shape ParentShape { get; set; }
 	}
 }

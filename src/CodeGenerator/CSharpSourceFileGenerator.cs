@@ -59,15 +59,13 @@ namespace NClass.CodeGenerator
 
         private string GetNamespaceDeclaration(TypeBase type)
         {
-            var namespaceDeclaration = RootNamespace;
+            var namespaceDeclaration = Settings.Default.UseRootNamespace ? RootNamespace : string.Empty;
 
-            var parentPackage = type.NestingParent as Package;
-
-            if (parentPackage != null)
-                namespaceDeclaration += "." + parentPackage.FullName;
-
-            if (!string.IsNullOrWhiteSpace(namespaceDeclaration))
-                namespaceDeclaration = "namespace " + namespaceDeclaration;
+            if (type.NestingParent is Package parentPackage)
+                if (Settings.Default.UseRootNamespace)
+                    namespaceDeclaration += "." + parentPackage.FullName;
+                else
+                    namespaceDeclaration = parentPackage.FullName;
 
             return namespaceDeclaration;
         }

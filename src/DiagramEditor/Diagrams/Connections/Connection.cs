@@ -1654,7 +1654,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
 		protected abstract bool CloneRelationship(IDiagram diagram, Shape first, Shape second);
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
 		{
 			return ConnectionContextMenu.Default.GetMenuItems(diagram);
 		}

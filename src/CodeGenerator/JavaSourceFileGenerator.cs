@@ -55,15 +55,13 @@ namespace NClass.CodeGenerator
 
         private string GetPackageDeclaration(TypeBase type)
         {
-            var packageDeclaration = RootNamespace;
+            var packageDeclaration = Settings.Default.UseRootNamespace ? RootNamespace : string.Empty;
 
-            var parentPackage = type.NestingParent as Package;
-
-            if (parentPackage != null)
-                packageDeclaration += "." + parentPackage.FullName;
-
-            if (!string.IsNullOrWhiteSpace(packageDeclaration))
-                packageDeclaration = "package " + packageDeclaration + ";";
+            if (type.NestingParent is Package parentPackage)
+                if(Settings.Default.UseRootNamespace)
+                    packageDeclaration += "." + parentPackage.FullName;
+                else
+                    packageDeclaration += parentPackage.FullName;
 
             return packageDeclaration;
         }

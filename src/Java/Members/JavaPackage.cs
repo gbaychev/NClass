@@ -16,7 +16,7 @@ namespace NClass.Java
         /// The <paramref name="name"/> does not fit to the syntax.
         /// </exception>
         internal JavaPackage(string name) : base(name)
-		{
+        {
         }
 
         public override Language Language

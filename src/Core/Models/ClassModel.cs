@@ -26,18 +26,14 @@ namespace NClass.Core.Models
 
         public ClassModel()
         {
-            
         }
 
         /// <exception cref="ArgumentNullException">
         /// <paramref name="language"/> is null.
         /// </exception>
-        public ClassModel(Language language)
+        public ClassModel(Language language) : this()
         {
-            if (language == null)
-                throw new ArgumentException("Language cannot be null");
-
-            this.language = language;
+            this.language = language ?? throw new ArgumentException("Language cannot be null");
         }
 
         public Language Language
@@ -340,5 +336,6 @@ namespace NClass.Core.Models
 
             base.Serialize(node);
         }
+
     }
 }

@@ -71,6 +71,12 @@
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />
+    <Compile Include="ClassDiagram\Editors\DesignerHelperWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\DesignerHelperWindow.Designer.cs">
+      <DependentUpon>DesignerHelperWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClassDiagram\Editors\PackageEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -173,6 +179,7 @@
     </Compile>
     <Compile Include="Diagrams\IConnectionCreator.cs" />
     <Compile Include="Diagrams\IDiagram.cs" />
+    <Compile Include="Diagrams\Shapes\IShapeContainer.cs" />
     <Compile Include="GdiGraphics.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="IClipboardItem.cs" />

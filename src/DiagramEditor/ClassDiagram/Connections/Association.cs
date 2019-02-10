@@ -107,7 +107,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 			}
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
 		{
 			return AssociationContextMenu.Default.GetMenuItems(diagram);
 		}

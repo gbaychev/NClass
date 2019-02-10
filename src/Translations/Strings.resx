@@ -1175,7 +1175,7 @@ Do you still want to continue?</value>
     <value>&amp;Package</value>
   </data>
   <data name="Package" xml:space="preserve">
-    <value>package</value>
+    <value>Package</value>
   </data>
   <data name="MenuEditPackage" xml:space="preserve">
     <value>&amp;Edit package...</value>

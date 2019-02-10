@@ -260,7 +260,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
 		protected internal abstract override bool DeleteSelectedMember(bool showConfirmation);
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
 		{
 			return TypeShapeContextMenu.Default.GetMenuItems(diagram);
 		}
@@ -298,6 +298,12 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 		protected override void OnMouseDown(AbsoluteMouseEventArgs e)
 		{
 			base.OnMouseDown(e);
+
+            // deselect the parent
+		    if (ParentShape != null)
+		    {
+		        ParentShape.IsSelected = false;
+		    }
 
 			if (IsChevronPressed(e.Location))
 			{

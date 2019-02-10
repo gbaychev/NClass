@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             model = new ClassModel(language);
             model.EntityRemoved += OnEntityRemoved;
             model.EntityAdded += OnEntityAdded;
+            model.EntityNested += OnEntityNested;
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
             model.Deserializing += OnDeserializing;
@@ -55,7 +57,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
         }
-
+        
         public Language Language
         {
             get { return model.Language;}
@@ -507,6 +509,15 @@ namespace NClass.DiagramEditor.ClassDiagram
             }
         }
 
+        private void OnEntityNested(object sender, EntityEventArgs e)
+        {
+            var containerEntity = (IEntity) sender;
+            var childEntity = e.Entity;
+            var containerShape = (IShapeContainer)GetShape(containerEntity);
+            var childShape = GetShape(childEntity);
+            containerShape.AttachShapes(new List<Shape> {childShape});
+        }
+
         public override void KeyDown(KeyEventArgs e)
         {
             {
@@ -603,32 +614,30 @@ namespace NClass.DiagramEditor.ClassDiagram
             }
         }
 
-        public override void CreateShape(EntityType type)
+        public override void CreateShape(EntityType type, Point? where = null)
         {
-            {
-                state = State.CreatingShape;
-                shapeType = type;
-                newShapeType = type;
+            base.CreateShape(type);
 
-                switch (type)
-                {
-                    case EntityType.Class:
-                    case EntityType.Delegate:
-                    case EntityType.Enum:
-                    case EntityType.Interface:
-                    case EntityType.Structure:
-                        shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
-                        break;
-                    case EntityType.Package:
-                        shapeOutline = PackageShape.GetOutline(Style.CurrentStyle);
-                        break;
-                    case EntityType.Comment:
-                        shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
-                        break;
-                }
-                shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
-                Redraw();
+            switch (type)
+            {
+                case EntityType.Class:
+                case EntityType.Delegate:
+                case EntityType.Enum:
+                case EntityType.Interface:
+                case EntityType.Structure:
+                    shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
+                    break;
+                case EntityType.Package:
+                    shapeOutline = PackageShape.GetOutline(Style.CurrentStyle);
+                    break;
+                case EntityType.Comment:
+                    shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
+                    break;
             }
+
+            //shapeOutline.Location = new Point((int) mouseLocation.X, (int) mouseLocation.Y);
+            shapeOutline.Location = where ?? new Point((int)mouseLocation.X, (int)mouseLocation.Y);
+            Redraw();
         }
 
         public override void CreateConnection(RelationshipType type)
@@ -659,6 +668,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model = new ClassModel(language);
                 model.EntityRemoved += OnEntityRemoved;
                 model.EntityAdded += OnEntityAdded;
+                model.EntityNested += OnEntityNested;
                 model.RelationRemoved += OnRelationRemoved;
                 model.RelationAdded += OnRelationAdded;
                 model.Deserializing += OnDeserializing;

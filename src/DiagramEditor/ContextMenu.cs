@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
@@ -25,8 +26,11 @@ namespace NClass.DiagramEditor
 
 		List<ToolStripItem> menuItems = new List<ToolStripItem>();
 
-		public IEnumerable<ToolStripItem> GetMenuItems(IDocument document)
+	    protected PointF? menuPosition;
+
+		public IEnumerable<ToolStripItem> GetMenuItems(IDocument document, PointF? openedAt = null)
 		{
+		    this.menuPosition = openedAt;
 			ValidateMenuItems(document);
 			return menuItems;
 		}

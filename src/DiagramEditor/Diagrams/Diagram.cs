@@ -18,11 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
+using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams.Connections;
@@ -44,6 +46,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         protected ElementList<Shape> shapes = new ElementList<Shape>();
         protected ElementList<Connection> connections = new ElementList<Connection>();
+        protected ElementList<Shape> containers = new ElementList<Shape>();
         protected DiagramElement activeElement = null;
         protected Point offset = Point.Empty;
         protected float zoom = 1.0F;
@@ -61,10 +64,10 @@ namespace NClass.DiagramEditor.Diagrams
         protected EntityType shapeType;
         protected IConnectionCreator connectionCreator = null;
         protected EntityType newShapeType;
-        protected ContextMenu diagramContextMenu;
+        protected DiagramContextMenu diagramContextMenu;
         protected DynamicMenu diagramDynamicMenu;
 
-        //Variables used for snapping when draggin and resising shapes
+        //Variables used for snapping when dragging and resizing shapes
         protected SizeF positionChangeCumulation = SizeF.Empty;
         protected SizeF sizeChangeCumulation = SizeF.Empty;
 
@@ -87,6 +90,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 	    public DiagramType DiagramType { get; protected set; }
 
+
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor
 		protected Diagram()
@@ -106,7 +110,14 @@ namespace NClass.DiagramEditor.Diagrams
 
         #region Abstract Methods and Properties
         public abstract void KeyDown(KeyEventArgs e);
-        public abstract void CreateShape(EntityType type);
+
+        public virtual void CreateShape(EntityType type, Point? where = null)
+        {
+            state = State.CreatingShape;
+            shapeType = type;
+            newShapeType = type;
+        }
+
         public abstract Shape AddShape(EntityType type);
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
@@ -375,37 +386,43 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-		private IEnumerable<DiagramElement> GetElementsInDisplayOrder()
-		{
-			foreach (Shape shape in shapes.GetSelectedElements())
-				yield return shape;
+        private IEnumerable<DiagramElement> GetElementsInDisplayOrder()
+        {
+            foreach(var shape in shapes.GetSelectedElements().Where(s => !(s is IShapeContainer)))
+                yield return shape;
 
-			foreach (Connection connection in connections.GetSelectedElements())
-				yield return connection;
-			
-			foreach (Connection connection in connections.GetUnselectedElements())
-				yield return connection;
-			
-			foreach (Shape shape in shapes.GetUnselectedElements())
-				yield return shape;
-		}
+            foreach (Connection connection in connections.GetSelectedElements())
+                yield return connection;
 
-		private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
-		{
-			foreach (Shape shape in shapes.GetUnselectedElementsReversed())
-				yield return shape;
-			
-			foreach (Connection connection in connections.GetUnselectedElementsReversed())
-				yield return connection;
-			
-			foreach (Connection connection in connections.GetSelectedElementsReversed())
-				yield return connection;
+            foreach (Connection connection in connections.GetUnselectedElements())
+                yield return connection;
 
-			foreach (Shape shape in shapes.GetSelectedElementsReversed())
-				yield return shape;
-		}
+            foreach (Shape shape in shapes.GetUnselectedElements().Where(s => !(s is IShapeContainer)))
+                    yield return shape;
 
-		public void CloseWindows()
+            foreach (var container in shapes.Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderByDescending(s => s.SortOrder).ToList())
+                yield return (Shape)container;
+        }
+
+        private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
+        {
+            foreach (var container in shapes.GetReversedList().Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderBy(s => s.SortOrder).ToList())
+                yield return (Shape)container;
+
+            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Where(s => !(s is IShapeContainer)))
+                yield return shape;
+
+            foreach (Connection connection in connections.GetUnselectedElementsReversed())
+                yield return connection;
+
+            foreach (Connection connection in connections.GetSelectedElementsReversed())
+                yield return connection;
+
+            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is IShapeContainer)))
+                yield return shape;
+        }
+
+        public void CloseWindows()
 		{
 			if (ActiveElement != null)
 				ActiveElement.HideEditor();
@@ -496,7 +513,7 @@ namespace NClass.DiagramEditor.Diagrams
 				g.DrawRectangle(DiagramConstants.SelectionPen,
 					frame.X * Zoom - Offset.X,
 					frame.Y * Zoom - Offset.Y,
-					frame.Width * Zoom,
+					frame.Width * Zoom,  
 					frame.Height * Zoom);
 			}
 
@@ -553,7 +570,13 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void Print(IGraphics g, bool selectedOnly, Style style)
 		{
-			foreach (Shape shape in shapes.GetReversedList())
+		    foreach (Shape shape in shapes.GetReversedList().Where(s => s is IShapeContainer))
+		    {
+		        if (!selectedOnly || shape.IsSelected)
+		            shape.Draw(g, false, style);
+		    }
+
+            foreach (Shape shape in shapes.GetReversedList().Where(s => !(s is IShapeContainer)))
 			{
 				if (!selectedOnly || shape.IsSelected)
 					shape.Draw(g, false, style);
@@ -862,7 +885,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			OnSelectionChanged(EventArgs.Empty);
 			OnClipboardAvailabilityChanged(EventArgs.Empty);
-			OnSatusChanged(EventArgs.Empty);
+			OnStatusChanged(EventArgs.Empty);
 
 			selectioning = false;
 			RedrawSuspended = false;
@@ -946,10 +969,12 @@ namespace NClass.DiagramEditor.Diagrams
 				Intersector<ToolStripItem> intersector = new Intersector<ToolStripItem>();
 				ContextMenu.MenuStrip.Items.Clear();
 
-				foreach (Shape shape in GetSelectedShapes())
-					intersector.AddSet(shape.GetContextMenuItems(this));
-				foreach (Connection connection in GetSelectedConnections())
-					intersector.AddSet(connection.GetContextMenuItems(this));
+			    foreach (Shape shape in GetSelectedShapes())
+			    {
+			        intersector.AddSet(shape.GetContextMenuItems(this, e.Location));
+			    }
+			    foreach (Connection connection in GetSelectedConnections())
+					intersector.AddSet(connection.GetContextMenuItems(this, e.Location));
 
 				foreach (ToolStripItem menuItem in intersector.GetIntersection())
 					ContextMenu.MenuStrip.Items.Add(menuItem);
@@ -964,6 +989,12 @@ namespace NClass.DiagramEditor.Diagrams
 				return ContextMenu.MenuStrip;
 			}
 		}
+
+        public ContextMenu GetContextMenu()
+        {
+            diagramContextMenu.ValidateMenuItems(this);
+            return diagramContextMenu;
+        }
 
 		public string GetStatus()
 		{
@@ -1057,6 +1088,8 @@ namespace NClass.DiagramEditor.Diagrams
 
 			shape.IsSelected = true;
 			shape.IsActive = true;
+		    if (shapes.Where(s => s is IShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is IShapeContainer container)
+                container.AttachShapes(new List<Shape> { shape });
 			if (shape is TypeShape) //TODO: nem szép
 				shape.ShowEditor();
 		}
@@ -1128,7 +1161,39 @@ namespace NClass.DiagramEditor.Diagrams
 			RedrawSuspended = false;
 		}
 
-		public void MouseUp(AbsoluteMouseEventArgs e)
+        IEnumerable<Shape> GetShapesToBeRemovedFromContainer(IShapeContainer container)
+        {
+            foreach (var selectedShape in GetSelectedShapes())
+            {
+                if(selectedShape.ParentShape == container && container.ContainsShape(selectedShape.Location))
+                    continue;
+
+                yield return selectedShape;
+            }
+        }
+
+        void ContainerElementMouseUp(IShapeContainer container)
+        {
+
+            if (this.selectedShapeCount > 0)
+            {
+                if (container.HasHoveringShapes)
+                {
+                    var newShapes = this.GetSelectedShapes().ToList();
+                    container.AttachShapes(newShapes);
+                }
+                else
+                {
+                    container.DetachShapes(GetShapesToBeRemovedFromContainer(container).ToList());
+                }
+            }
+            else
+            {
+                container.ExitHover();
+            }
+        }
+
+        public void MouseUp(AbsoluteMouseEventArgs e)
 		{
             positionChangeCumulation = Size.Empty;
             sizeChangeCumulation = Size.Empty;
@@ -1142,13 +1207,22 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 			else
 			{
-				foreach (DiagramElement element in GetElementsInDisplayOrder())
-				{
-					element.MouseUpped(e);
+			    foreach (DiagramElement element in GetElementsInDisplayOrder())
+			    {
+                    if (element is IShapeContainer container)
+                    { 
+                        ContainerElementMouseUp(container);
+                    }
+                    element.MouseUpped(e);
 				}
-			}
 
-			RedrawSuspended = false;
+			    if (state == State.Dragging)
+			    {
+			        state = State.Normal;
+			    }
+            }
+
+            RedrawSuspended = false;
 		}
 
 		private void TrySelectElements()
@@ -1173,7 +1247,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			OnSelectionChanged(EventArgs.Empty);
 			OnClipboardAvailabilityChanged(EventArgs.Empty);
-			OnSatusChanged(EventArgs.Empty);
+			OnStatusChanged(EventArgs.Empty);
 			Redraw();
 
 			selectioning = false;
@@ -1252,6 +1326,11 @@ namespace NClass.DiagramEditor.Diagrams
 			shape.Dragging += shape_Dragging;
 			shape.Resizing += shape_Resizing;
 			shape.SelectionChanged += shape_SelectionChanged;
+		    shape.Renamed += shape_Renamed;
+		    if (shape is IShapeContainer container)
+		    {
+		        container.OnEnterHover += container_OnHover;
+		    }
 			shapes.AddFirst(shape);
 			RecalculateSize();
 		}
@@ -1357,23 +1436,31 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         private void shape_Dragging(object sender, MoveEventArgs e)
-		{
+        {
+            this.state = State.Dragging;
             positionChangeCumulation += e.Offset;
             Size positionChange = positionChangeCumulation.ToSize();
             Size sizeChange = Size.Empty;
 
-            // Align to other shapes
+            Shape senderShape = (Shape)sender;
+
+            // Align to other shapes, but if the user is dragging a shape, containg nested shapes, do not snap
             if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
 			{
-				Shape shape = (Shape) sender;
-
-                //Snap horizontally
+			    //Snap horizontally
                 foreach (Shape otherShape in shapes.GetUnselectedElements())
 				{
-                    bool snappedX = CorrectChangeToSnapLeft(shape, otherShape, ref positionChange, ref sizeChange);
+                    // do not snap container and children when dragging
+                    if((senderShape is IShapeContainer parentShape && parentShape.ChildrenShapes.Contains(otherShape) ||
+                        senderShape.ParentShape == otherShape))
+				    {
+                        continue;
+				    }
+
+                    bool snappedX = CorrectChangeToSnapLeft(senderShape, otherShape, ref positionChange, ref sizeChange);
 
                     if(!snappedX)
-                        CorrectChangeToSnapRight(shape, otherShape, ref positionChange);
+                        CorrectChangeToSnapRight(senderShape, otherShape, ref positionChange);
 
                     if (snappedX)
                         break;
@@ -1382,13 +1469,34 @@ namespace NClass.DiagramEditor.Diagrams
                 //Snap vertically
                 foreach (Shape otherShape in shapes.GetUnselectedElements())
                 {
-                    bool snappedY = CorrectChangeToSnapTop(shape, otherShape, ref positionChange, ref sizeChange);
+                    // do not snap container and children when dragging
+                    if ((senderShape is IShapeContainer parentSHape && parentSHape.ChildrenShapes.Contains(otherShape) ||
+                         senderShape.ParentShape == otherShape))
+                    {
+                        continue;
+                    }
+
+                    bool snappedY = CorrectChangeToSnapTop(senderShape, otherShape, ref positionChange, ref sizeChange);
 
                     if (!snappedY)
-                        CorrectChangeToSnapBottom(shape, otherShape, ref positionChange);
+                        CorrectChangeToSnapBottom(senderShape, otherShape, ref positionChange);
 
                     if (snappedY)
                         break;
+                }
+
+            }
+
+            foreach (var otherShape in shapes.GetUnselectedElements().Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderByDescending(s => s.SortOrder))
+            {
+                if (otherShape.ContainsShape(senderShape.Location))
+                {
+                    otherShape.EnterHover();
+                    break;
+                }
+                else
+                {
+                    otherShape.ExitHover();
                 }
             }
 
@@ -1485,7 +1593,7 @@ namespace NClass.DiagramEditor.Diagrams
 				selectedShapeCount--;
 				OnSelectionChanged(EventArgs.Empty);
 				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnSatusChanged(EventArgs.Empty);
+				OnStatusChanged(EventArgs.Empty);
 			}
 			shape.Diagram = null;
 			shape.Modified -= element_Modified;
@@ -1493,11 +1601,24 @@ namespace NClass.DiagramEditor.Diagrams
 			shape.Dragging -= shape_Dragging;
 			shape.Resizing -= shape_Resizing;
 			shape.SelectionChanged -= shape_SelectionChanged;
+		    shape.Renamed -= shape_Renamed;
+		    if (shape is IShapeContainer container)
+		    {
+		        container.OnEnterHover -= container_OnHover;
+		    }
 			shapes.Remove(shape);
 			RecalculateSize();
 		}
 
-		//TODO: legyenek inkább hivatkozások a shape-ekhez
+        private void container_OnHover(object sender, EventArgs e)
+        {
+            foreach (var container in shapes.GetUnselectedElements().Where(s => s is IShapeContainer && s != sender).Cast<IShapeContainer>())
+            {
+                container.ExitHover();
+            }
+        }
+
+        //TODO: legyenek inkább hivatkozások a shape-ekhez
 		protected Shape GetShape(IEntity entity)
 		{
 			foreach (Shape shape in shapes)
@@ -1537,7 +1658,7 @@ namespace NClass.DiagramEditor.Diagrams
 				selectedConnectionCount--;
 				OnSelectionChanged(EventArgs.Empty);
 				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnSatusChanged(EventArgs.Empty);
+				OnStatusChanged(EventArgs.Empty);
 			}
 			connection.Diagram = null;
 			connection.Modified -= element_Modified;
@@ -1556,22 +1677,27 @@ namespace NClass.DiagramEditor.Diagrams
 				Shape shape = (Shape) sender;
 
 				if (shape.IsSelected)
-				{
-					selectedShapeCount++;
-					shapes.ShiftToFirstPlace(shape);
-				}
-				else
+                {
+                    selectedShapeCount++;
+                    shapes.ShiftToFirstPlace(shape);
+                }
+                else
 				{
 					selectedShapeCount--;
 				}
 
 				OnSelectionChanged(EventArgs.Empty);
 				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnSatusChanged(EventArgs.Empty);
+				OnStatusChanged(EventArgs.Empty);
 			}
 		}
 
-		private void connection_SelectionChanged(object sender, EventArgs e)
+        private void shape_Renamed(object sender, EventArgs e)
+        {
+            OnStatusChanged(e);
+        }
+
+        private void connection_SelectionChanged(object sender, EventArgs e)
 		{
 			if (!selectioning)
 			{
@@ -1589,7 +1715,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 				OnSelectionChanged(EventArgs.Empty);
 				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnSatusChanged(EventArgs.Empty);
+				OnStatusChanged(EventArgs.Empty);
 			}
 		}
 
@@ -1704,7 +1830,7 @@ namespace NClass.DiagramEditor.Diagrams
 			CloseWindows();
 		}
 
-		protected virtual void OnSatusChanged(EventArgs e)
+		protected virtual void OnStatusChanged(EventArgs e)
 		{
 			if (StatusChanged != null)
 				StatusChanged(this, e);

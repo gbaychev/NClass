@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Connections;
@@ -33,7 +34,7 @@ namespace NClass.DiagramEditor.Diagrams
         void ShowWindow(PopupWindow window);
         void HideWindow(PopupWindow window);
         IEnumerable<Connection> GetSelectedConnections();
-        void CreateShape(EntityType type);
+        void CreateShape(EntityType type, Point? where = null);
         void CreateConnection(RelationshipType type);
         void SaveAsImage();
         void SaveAsImage(bool selectedOnly);

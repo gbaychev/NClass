@@ -68,5 +68,6 @@ namespace NClass.DiagramEditor
 		void KeyDown(KeyEventArgs e);
 
 		ContextMenuStrip GetContextMenu(AbsoluteMouseEventArgs e);
+	    ContextMenu GetContextMenu();
 	}
 }

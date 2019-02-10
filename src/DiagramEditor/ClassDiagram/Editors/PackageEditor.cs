@@ -20,16 +20,18 @@ using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
-	public sealed partial class PackageEditor : EditorWindow
-	{
+	public sealed partial class PackageEditor : DesignerHelperWindow
+    {
 		PackageShape shape = null;
 
 		public PackageEditor()
 		{
 			InitializeComponent();
+            errorProvider.SetIconAlignment(this, ErrorIconAlignment.TopLeft);
 		}
 
 		protected override void OnLocationChanged(EventArgs e)
@@ -40,6 +42,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 		internal override void Init(DiagramElement element)
 		{
 			shape = (PackageShape) element;
+
+            errorProvider.SetError(this, null);
 			
 			txtName.BackColor = Style.CurrentStyle.PackageBackColor;
 			txtName.ForeColor = Style.CurrentStyle.PackageTextColor;
@@ -66,25 +70,50 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 					(int) (absolute.X * diagram.Zoom) - diagram.Offset.X + ParentLocation.X,
 					(int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y + ParentLocation.Y,
 					(int) (absolute.Width * diagram.Zoom),
-					(int) (absolute.Height * diagram.Zoom));
+					(int) (absolute.Height * diagram.Zoom * 1.05f));
 
                 this.txtName.Width = (int)(absolute.Width * diagram.Zoom);
-                this.txtName.Height = (int)(absolute.Height * diagram.Zoom);
+                this.txtName.Height = (int)(absolute.Height * diagram.Zoom * 1.05f);
             }
 		}
 
 		public override void ValidateData()
 		{
-			shape.Name = txtName.Text;
+		    TryValidateData();
 		}
 
-		private void txtPackage_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        private bool TryValidateData()
+        {
+            try
+            {
+                shape.Name = txtName.Text;
+                errorProvider.SetError(this, null);
+                return true;
+            }
+            catch (BadSyntaxException e)
+            {
+                errorProvider.SetError(this, e.Message);
+                return false;
+            }
+        }
+
+		private void txtPackage_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Enter && e.Modifiers != Keys.None ||
-				e.KeyCode == Keys.Escape)
-			{
-				shape.HideEditor();
-			}
+		    switch (e.KeyCode)
+		    {
+		        case Keys.Enter:
+		            e.Handled = true;
+                    if (TryValidateData())
+		            {
+		                shape.HideEditor();
+		            }
+		            break;
+
+		        case Keys.Escape:
+		            shape.HideEditor();
+		            e.Handled = true;
+		            break;
+		    }
 		}
 	}
 }

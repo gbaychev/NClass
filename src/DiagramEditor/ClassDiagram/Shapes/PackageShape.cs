@@ -19,6 +19,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.ClassDiagram.Editors;
 using NClass.Core;
@@ -29,7 +31,7 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Shapes
 {
-    internal sealed class PackageShape : Shape
+    internal sealed class PackageShape : Shape, IShapeContainer
     {
         const float LabelRatio = 0.4f;
 
@@ -47,6 +49,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         static StringFormat nameFormat = new StringFormat(StringFormat.GenericTypographic);
         Package package;
         bool editorShowed = false;
+        private bool areShapesHovering;
+        public List<Shape> ChildrenShapes { get; set; }
 
         static PackageShape()
         {
@@ -66,6 +70,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             this.package = package;
 
             MinimumSize = new Size(DefaultWidth, DefaultHeight);
+            areShapesHovering = false;
+            ChildrenShapes = new List<Shape>();
             package.Modified += delegate { UpdateMinSize(); };
         }
 
@@ -82,7 +88,25 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         public string Name
         {
             get { return package.Name; }
-            set { package.Name = value; }
+            set
+            {
+                if (package.Name != value)
+                {
+                    package.Name = value;
+                    OnRenamed(EventArgs.Empty);
+                }
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                if (this.ParentShape is PackageShape parentPackage)
+                    return parentPackage.FullName + "." + Name;
+                else
+                    return Name;
+            }
         }
 
         protected override Size DefaultSize
@@ -114,12 +138,19 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         protected override void OnMove(MoveEventArgs e)
         {
             base.OnMove(e);
+
+            // drag together only the non-selected shapes
+            foreach (var shape in this.ChildrenShapes.Where(s => !s.IsSelected))
+            {
+                shape.Location += new Size((int)e.Offset.Width, (int)e.Offset.Height);
+            }
             HideEditor();
         }
 
         void UpdateMinSize()
         {
-            MinimumSize = new Size(MinimumSize.Width, GetRequiredHeight());
+            //TODO: fix min size
+            MinimumSize = this.BorderRectangle.Size;
         }
 
         protected override void OnResize(ResizeEventArgs e)
@@ -183,9 +214,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             }
         }
 
-        protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+        protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
         {
-            return PackageShapeContextMenu.Default.GetMenuItems(diagram);
+            return PackageShapeContextMenu.Default.GetMenuItems(diagram, openedAt);
         }
 
         private void DrawSurface(IGraphics g, bool onScreen, Style style)
@@ -233,6 +264,19 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             g.DrawPath(borderPen, path);
 
             path.Dispose();
+
+            // draw the hovering rectangle
+            // TODO: refactor this to style later
+            if (areShapesHovering)
+            {
+                using (var pen = new Pen(Color.BlueViolet, 2))
+                {
+                    pen.DashStyle = DashStyle.Dash;
+                    var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
+                    mouseOverRect.Inflate(2, 2);
+                    g.DrawRectangle(pen, mouseOverRect);
+                }
+            }
         }
 
         private static StringAlignment GetHorizontalAlignment(ContentAlignment alignment)
@@ -290,7 +334,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         internal Rectangle GetNameRectangle()
         {
             var headerFontHeight = (int)Style.CurrentStyle.IdentifierFont.GetHeight();
-            var nameFontHeight = (int)Style.CurrentStyle.PackageFont.GetHeight();
+            var nameFontHeight = (int)(Style.CurrentStyle.PackageFont.GetHeight() * 1.05f);
 
             return new Rectangle(
                 Left + MarginSize, Top + MarginSize + headerFontHeight,
@@ -347,7 +391,76 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         public override string ToString()
         {
-            return Strings.Package;
+            return $"{this.FullName} : {Strings.Package}";
+        }
+
+       public void EnterHover()
+        {
+            areShapesHovering = true;
+            OnEnterHover?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ExitHover()
+        {
+            areShapesHovering = false;
+        }
+
+        public void AttachShapes(List<Shape> shapes)
+        {
+            areShapesHovering = false;
+            foreach (var shape in shapes)
+            {
+                if(shape == this)
+                    continue;
+                if(ChildrenShapes.Contains(shape))
+                    continue;
+                shape.ParentShape = this;
+                ChildrenShapes.Add(shape);
+                if (shape is IShapeContainer container)
+                    container.SortOrder = this.SortOrder + 1;
+                this.package.AddNestedChild(shape.Entity as INestableChild);
+
+                this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
+            }
+            NeedsRedraw = true;
+        }
+
+        public void DetachShapes(List<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+            {
+                if (!ChildrenShapes.Contains(shape))
+                    continue;
+
+                shape.ParentShape = null;
+                if (shape is IShapeContainer container)
+                    container.SortOrder = 0;
+                ChildrenShapes.Remove(shape);
+                this.package.RemoveNestedChild(shape.Entity as INestableChild);
+            }
+        }
+
+        public bool HasHoveringShapes => areShapesHovering;
+        public bool ContainsShape(PointF location)
+        {
+            return this.Contains(location);
+        }
+
+        public event EventHandler OnEnterHover;
+        public int SortOrder { get; set; }
+
+        public override Rectangle BorderRectangle
+        {
+            get
+            {
+                var border = base.BorderRectangle;
+                foreach (var shape in ChildrenShapes)
+                {
+                    border = Rectangle.Union(border, shape.BorderRectangle);
+                }
+
+                return border;
+            }
         }
     }
 }

@@ -144,10 +144,7 @@ namespace NClass.Core
 
         public override string GetDeclaration()
         {
-            //TODO: In order to get the correct declaration of package (namespace) a RootNamespace is required
-            //for the process. It cannot be provided easy way here.
-            //Package would need to "know" the model it's in. Model could provide RootNamespace somehow.
-            throw new NotImplementedException("Package.GetDeclaration");
+            return this.FullName;
         }
 
         public override string ToString()
@@ -165,11 +162,13 @@ namespace NClass.Core
         public void AddNestedChild(INestableChild type)
         {
             nestableHelper.AddNestedChild(type);
+            type.NestingParent = this;
         }
 
         public void RemoveNestedChild(INestableChild type)
         {
             nestableHelper.RemoveNestedChild(type);
+            type.NestingParent = null;
         }
 
         public bool IsNestedAncestor(INestableChild type)
