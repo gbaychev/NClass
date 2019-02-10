@@ -179,7 +179,7 @@
     </Compile>
     <Compile Include="Diagrams\IConnectionCreator.cs" />
     <Compile Include="Diagrams\IDiagram.cs" />
-    <Compile Include="Diagrams\Shapes\IShapeContainer.cs" />
+    <Compile Include="Diagrams\Shapes\ShapeContainer.cs" />
     <Compile Include="GdiGraphics.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="IClipboardItem.cs" />

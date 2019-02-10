@@ -31,7 +31,7 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Shapes
 {
-    internal sealed class PackageShape : Shape, IShapeContainer
+    internal sealed class PackageShape : ShapeContainer
     {
         const float LabelRatio = 0.4f;
 
@@ -47,10 +47,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         static SolidBrush identifierBrush = new SolidBrush(Color.Black);
         static StringFormat headerFormat = new StringFormat(StringFormat.GenericTypographic);
         static StringFormat nameFormat = new StringFormat(StringFormat.GenericTypographic);
-        Package package;
         bool editorShowed = false;
-        private bool areShapesHovering;
-        public List<Shape> ChildrenShapes { get; set; }
 
         static PackageShape()
         {
@@ -67,34 +64,26 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         /// </exception>
         internal PackageShape(Package package) : base(package)
         {
-            this.package = package;
+            this.container = package;
 
             MinimumSize = new Size(DefaultWidth, DefaultHeight);
             areShapesHovering = false;
-            ChildrenShapes = new List<Shape>();
             package.Modified += delegate { UpdateMinSize(); };
         }
 
-        public override IEntity Entity
-        {
-            get { return package; }
-        }
+        public override IEntity Entity => container;
 
-        public Package Package
-        {
-            get { return package; }
-        }
+        public Package Package => (Package)container;
 
         public string Name
         {
-            get { return package.Name; }
+            get => container.Name;
             set
             {
-                if (package.Name != value)
-                {
-                    package.Name = value;
-                    OnRenamed(EventArgs.Empty);
-                }
+                if (container.Name == value) return;
+
+                Package.Name = value;
+                OnRenamed(EventArgs.Empty);
             }
         }
 
@@ -108,14 +97,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     return Name;
             }
         }
-
-        protected override Size DefaultSize
-        {
-            get
-            {
-                return new Size(DefaultWidth, DefaultHeight);
-            }
-        }
+        protected override Size DefaultSize => new Size(DefaultWidth, DefaultHeight);
 
         protected override bool CloneEntity(IDiagram diagram)
         {
@@ -326,7 +308,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         {
             return (
                 style.ShowSignature ||
-                style.ShowStereotype && package.Stereotype != null
+                style.ShowStereotype && Package.Stereotype != null
             );
         }
 
@@ -342,7 +324,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         private void DrawHeaderText(IGraphics g, Style style)
         {
-            var name = package.Name;
+            var name = Package.Name;
 
             RectangleF headerRegion = new Rectangle(Left + MarginSize, Top + MarginSize,
                                                     (int)(Width * LabelRatio) - MarginSize, (int)style.IdentifierFont.GetHeight());
@@ -359,7 +341,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             if (HasIdentifier(style))
             {
                 // Draw stereotype to the top
-                g.DrawString(package.Stereotype, style.IdentifierFont,
+                g.DrawString(Package.Stereotype, style.IdentifierFont,
                     identifierBrush, headerRegion, headerFormat);
 
                 // Draw name to the bottom
@@ -393,61 +375,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             return $"{this.FullName} : {Strings.Package}";
         }
 
-       public void EnterHover()
-        {
-            areShapesHovering = true;
-            OnEnterHover?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void ExitHover()
-        {
-            areShapesHovering = false;
-        }
-
-        public void AttachShapes(List<Shape> shapes)
-        {
-            areShapesHovering = false;
-            foreach (var shape in shapes)
-            {
-                if(shape == this)
-                    continue;
-                shape.ParentShape = this;
-                if (ChildrenShapes.Contains(shape))
-                    continue;
-                ChildrenShapes.Add(shape);
-                if (shape is IShapeContainer container)
-                    container.SortOrder = this.SortOrder + 1;
-                this.package.AddNestedChild(shape.Entity as INestableChild);
-
-                this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
-            }
-            NeedsRedraw = true;
-        }
-
-        public void DetachShapes(List<Shape> shapes)
-        {
-            foreach (var shape in shapes)
-            {
-                if (!ChildrenShapes.Contains(shape))
-                    continue;
-
-                shape.ParentShape = null;
-                if (shape is IShapeContainer container)
-                    container.SortOrder = 0;
-                ChildrenShapes.Remove(shape);
-                this.package.RemoveNestedChild(shape.Entity as INestableChild);
-            }
-        }
-
-        public bool HasHoveringShapes => areShapesHovering;
-        public bool ContainsShape(PointF location)
-        {
-            return this.Contains(location);
-        }
-
-        public event EventHandler OnEnterHover;
-        public int SortOrder { get; set; }
-
         public override Rectangle BorderRectangle
         {
             get
@@ -460,6 +387,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
                 return border;
             }
+        }
+
+        protected override void UpdateSize()
+        {
+            this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
         }
     }
 }

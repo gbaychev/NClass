@@ -388,7 +388,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         private IEnumerable<DiagramElement> GetElementsInDisplayOrder()
         {
-            foreach(var shape in shapes.GetSelectedElements().Where(s => !(s is IShapeContainer)))
+            foreach(var shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
                 yield return shape;
 
             foreach (Connection connection in connections.GetSelectedElements())
@@ -397,19 +397,19 @@ namespace NClass.DiagramEditor.Diagrams
             foreach (Connection connection in connections.GetUnselectedElements())
                 yield return connection;
 
-            foreach (Shape shape in shapes.GetUnselectedElements().Where(s => !(s is IShapeContainer)))
+            foreach (Shape shape in shapes.GetUnselectedElements().Where(s => !(s is ShapeContainer)))
                     yield return shape;
 
-            foreach (var container in shapes.Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderByDescending(s => s.SortOrder).ToList())
+            foreach (var container in shapes.Where(s => s is ShapeContainer).Cast<ShapeContainer>().OrderByDescending(s => s.SortOrder).ToList())
                 yield return (Shape)container;
         }
 
         private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
         {
-            foreach (var container in shapes.GetReversedList().Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderBy(s => s.SortOrder).ToList())
+            foreach (var container in shapes.GetReversedList().Where(s => s is ShapeContainer).Cast<ShapeContainer>().OrderBy(s => s.SortOrder).ToList())
                 yield return (Shape)container;
 
-            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Where(s => !(s is IShapeContainer)))
+            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Where(s => !(s is ShapeContainer)))
                 yield return shape;
 
             foreach (Connection connection in connections.GetUnselectedElementsReversed())
@@ -418,7 +418,7 @@ namespace NClass.DiagramEditor.Diagrams
             foreach (Connection connection in connections.GetSelectedElementsReversed())
                 yield return connection;
 
-            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is IShapeContainer)))
+            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
                 yield return shape;
         }
 
@@ -570,13 +570,13 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void Print(IGraphics g, bool selectedOnly, Style style)
 		{
-		    foreach (Shape shape in shapes.GetReversedList().Where(s => s is IShapeContainer))
+		    foreach (Shape shape in shapes.GetReversedList().Where(s => s is ShapeContainer))
 		    {
 		        if (!selectedOnly || shape.IsSelected)
 		            shape.Draw(g, false, style);
 		    }
 
-            foreach (Shape shape in shapes.GetReversedList().Where(s => !(s is IShapeContainer)))
+            foreach (Shape shape in shapes.GetReversedList().Where(s => !(s is ShapeContainer)))
 			{
 				if (!selectedOnly || shape.IsSelected)
 					shape.Draw(g, false, style);
@@ -1088,7 +1088,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			shape.IsSelected = true;
 			shape.IsActive = true;
-		    if (shapes.Where(s => s is IShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is IShapeContainer container)
+		    if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
                 container.AttachShapes(new List<Shape> { shape });
 			if (shape is TypeShape) //TODO: nem szép
 				shape.ShowEditor();
@@ -1161,18 +1161,18 @@ namespace NClass.DiagramEditor.Diagrams
 			RedrawSuspended = false;
 		}
 
-        IEnumerable<Shape> GetShapesToBeRemovedFromContainer(IShapeContainer container)
+        IEnumerable<Shape> GetShapesToBeRemovedFromContainer(ShapeContainer container)
         {
             foreach (var selectedShape in GetSelectedShapes())
             {
-                if(selectedShape.ParentShape == container && container.ContainsShape(selectedShape.Location))
+                if(selectedShape.ParentShape == container && container.Contains(selectedShape.Location))
                     continue;
 
                 yield return selectedShape;
             }
         }
 
-        void ContainerElementMouseUp(IShapeContainer container)
+        void ContainerElementMouseUp(ShapeContainer container)
         {
 
             if (this.selectedShapeCount > 0)
@@ -1209,7 +1209,7 @@ namespace NClass.DiagramEditor.Diagrams
 			{
 			    foreach (DiagramElement element in GetElementsInDisplayOrder())
 			    {
-                    if (element is IShapeContainer container)
+                    if (element is ShapeContainer container)
                     { 
                         ContainerElementMouseUp(container);
                     }
@@ -1327,7 +1327,7 @@ namespace NClass.DiagramEditor.Diagrams
 			shape.Resizing += shape_Resizing;
 			shape.SelectionChanged += shape_SelectionChanged;
 		    shape.Renamed += shape_Renamed;
-		    if (shape is IShapeContainer container)
+		    if (shape is ShapeContainer container)
 		    {
 		        container.OnEnterHover += container_OnHover;
 		    }
@@ -1451,7 +1451,7 @@ namespace NClass.DiagramEditor.Diagrams
                 foreach (Shape otherShape in shapes.GetUnselectedElements())
 				{
                     // do not snap container and children when dragging
-                    if((senderShape is IShapeContainer parentShape && parentShape.ChildrenShapes.Contains(otherShape) ||
+                    if((senderShape is ShapeContainer parentShape && parentShape.ChildrenShapes.Contains(otherShape) ||
                         senderShape.ParentShape == otherShape))
 				    {
                         continue;
@@ -1470,7 +1470,7 @@ namespace NClass.DiagramEditor.Diagrams
                 foreach (Shape otherShape in shapes.GetUnselectedElements())
                 {
                     // do not snap container and children when dragging
-                    if ((senderShape is IShapeContainer parentSHape && parentSHape.ChildrenShapes.Contains(otherShape) ||
+                    if ((senderShape is ShapeContainer parentSHape && parentSHape.ChildrenShapes.Contains(otherShape) ||
                          senderShape.ParentShape == otherShape))
                     {
                         continue;
@@ -1487,9 +1487,9 @@ namespace NClass.DiagramEditor.Diagrams
 
             }
 
-            foreach (var otherShape in shapes.GetUnselectedElements().Where(s => s is IShapeContainer).Cast<IShapeContainer>().OrderByDescending(s => s.SortOrder))
+            foreach (var otherShape in shapes.GetUnselectedElements().Where(s => s is ShapeContainer).Cast<ShapeContainer>().OrderByDescending(s => s.SortOrder))
             {
-                if (otherShape.ContainsShape(senderShape.Location))
+                if (otherShape.Contains(senderShape.Location))
                 {
                     otherShape.EnterHover();
                     break;
@@ -1602,7 +1602,7 @@ namespace NClass.DiagramEditor.Diagrams
 			shape.Resizing -= shape_Resizing;
 			shape.SelectionChanged -= shape_SelectionChanged;
 		    shape.Renamed -= shape_Renamed;
-		    if (shape is IShapeContainer container)
+		    if (shape is ShapeContainer container)
 		    {
 		        container.OnEnterHover -= container_OnHover;
 		    }
@@ -1612,7 +1612,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         private void container_OnHover(object sender, EventArgs e)
         {
-            foreach (var container in shapes.GetUnselectedElements().Where(s => s is IShapeContainer && s != sender).Cast<IShapeContainer>())
+            foreach (var container in shapes.GetUnselectedElements().Where(s => s is ShapeContainer && s != sender).Cast<ShapeContainer>())
             {
                 container.ExitHover();
             }

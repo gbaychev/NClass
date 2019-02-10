@@ -513,7 +513,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             var containerEntity = (IEntity) sender;
             var childEntity = e.Entity;
-            var containerShape = (IShapeContainer)GetShape(containerEntity);
+            var containerShape = (ShapeContainer)GetShape(containerEntity);
             var childShape = GetShape(childEntity);
             containerShape.AttachShapes(new List<Shape> {childShape});
         }
