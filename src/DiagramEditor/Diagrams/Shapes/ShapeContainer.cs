@@ -64,17 +64,42 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 shape.ParentShape = this;
                 if (ChildrenShapes.Contains(shape))
                     continue;
+                shape.Dropped += ChildDropped;
+                shape.Resize += ChildResized;
                 ChildrenShapes.Add(shape);
                 if (shape is ShapeContainer container)
                     container.SortOrder = this.SortOrder + 1;
                 this.containerEntity.AddNestedChild(shape.Entity as INestableChild);
-
+                
                 UpdateSize();
             }
             NeedsRedraw = true;
         }
 
+        protected void ChildDropped(object sender, EventArgs args)
+        {
+            var shape = (Shape)sender;
+            if (shape.ParentShape != this)
+                return;
+            UpdateSize();
+            UpdateMinSize();
+        }
+
+        protected void ChildResized(object sender, ResizeEventArgs e)
+        {
+            var shape = (Shape)sender;
+            if (shape.ParentShape != this)
+                return;
+            UpdateSize();
+            UpdateMinSize();
+        }
+
         protected virtual void UpdateSize()
+        {
+
+        }
+
+        protected virtual void UpdateMinSize()
         {
 
         }
@@ -93,8 +118,11 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 shape.ParentShape = null;
                 if (shape is ShapeContainer container)
                     container.SortOrder = 0;
+                shape.Dropped -= ChildDropped;
+                shape.Resize -= ChildResized;
                 ChildrenShapes.Remove(shape);
                 this.containerEntity.RemoveNestedChild(shape.Entity as INestableChild);
+                UpdateMinSize();
             }
         }
         /// <summary>

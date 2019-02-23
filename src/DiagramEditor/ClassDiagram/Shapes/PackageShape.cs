@@ -38,6 +38,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         public const int DefaultWidth = 320;
         public const int DefaultHeight = 350;
         const int MarginSize = 8;
+        private readonly Size marginSize = new Size(MarginSize, MarginSize);
 
         static PackageEditor editor = new PackageEditor();
         static Pen borderPen = new Pen(Color.Black);
@@ -128,11 +129,22 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             }
             HideEditor();
         }
-
-        void UpdateMinSize()
+        protected override void UpdateMinSize()
         {
-            //TODO: fix min size
-            MinimumSize = this.BorderRectangle.Size;
+            var defaultRectangle = new Rectangle(this.Location.X, this.Location.Y, DefaultWidth, DefaultHeight);
+            var minRectangle = defaultRectangle;
+            var shouldAddMargin = false;
+            foreach (var childrenShape in ChildrenShapes)
+            {
+                if (!defaultRectangle.Contains(childrenShape.BorderRectangle))
+                    shouldAddMargin = true;
+                minRectangle = Rectangle.Union(minRectangle, childrenShape.BorderRectangle);
+            }
+
+            if (shouldAddMargin)
+                MinimumSize = minRectangle.Size + marginSize;
+            else
+                MinimumSize = minRectangle.Size;
         }
 
         protected override void OnResize(ResizeEventArgs e)
@@ -239,11 +251,16 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             // Draw borders & background
             g.FillPath(backgroundBrush, path);
             g.DrawPath(borderPen, path);
-
+            
             // Draw package split line 
             path.Reset();
             path.AddLine(Left, Top + textHeight + 2 * MarginSize, packageSplitPos + MarginSize, Top + textHeight + 2 * MarginSize);
             g.DrawPath(borderPen, path);
+            //g.DrawLine(new Pen(Color.Chartreuse), Left, Top, (int)packageSplitPos, Top);
+            //g.DrawLine(new Pen(Color.Red), (int)packageSplitPos, Top, (int)packageSplitPos + MarginSize, Top + (int)textHeight + 2 * MarginSize);
+            //g.DrawLine(new Pen(Color.Green), (int)packageSplitPos + MarginSize, Top + (int)textHeight + 2 * MarginSize, Right, Top + (int)textHeight + 2 * MarginSize);
+            //g.DrawLine(new Pen(Color.Cyan), Right, Top + (int)textHeight + 2 * MarginSize, Right, Bottom);
+            //g.DrawLine(new Pen(Color.BlueViolet), Right, Bottom, Left, Bottom);
 
             path.Dispose();
         }
@@ -254,7 +271,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             {
                 pen.DashPattern = new[] { 3f, 3f, 1f, 3f, 3f };
                 var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
-                mouseOverRect.Inflate(MarginSize, MarginSize);
+                mouseOverRect.Inflate(marginSize);
                 g.DrawRectangle(pen, mouseOverRect);
             }
         }
@@ -378,24 +395,22 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         {
             return $"{this.FullName} : {Strings.Package}";
         }
-
-        public override Rectangle BorderRectangle
-        {
-            get
-            {
-                var border = base.BorderRectangle;
-                //foreach (var shape in ChildrenShapes)
-                //{
-                //    border = Rectangle.Union(border, shape.BorderRectangle);
-                //}
-
-                return border;
-            }
-        }
-
+        
         protected override void UpdateSize()
         {
-          //  this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
+            var border = this.BorderRectangle;
+            var shouldAddMargin = false;
+            foreach (var shape in ChildrenShapes)
+            {
+                if (!this.BorderRectangle.Contains(shape.BorderRectangle))
+                    shouldAddMargin = true;
+                border = Rectangle.Union(border, shape.BorderRectangle);
+            }
+
+            if (shouldAddMargin)
+                this.Size = border.Size + marginSize;
+            else
+                this.Size = border.Size;
         }
     }
 }
