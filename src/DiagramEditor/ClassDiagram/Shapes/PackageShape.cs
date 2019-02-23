@@ -64,23 +64,23 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         /// </exception>
         internal PackageShape(Package package) : base(package)
         {
-            this.container = package;
+            this.containerEntity = package;
 
             MinimumSize = new Size(DefaultWidth, DefaultHeight);
             areShapesHovering = false;
             package.Modified += delegate { UpdateMinSize(); };
         }
 
-        public override IEntity Entity => container;
+        public override IEntity Entity => containerEntity;
 
-        public Package Package => (Package)container;
+        public Package Package => (Package)containerEntity;
 
         public string Name
         {
-            get => container.Name;
+            get => containerEntity.Name;
             set
             {
-                if (container.Name == value) return;
+                if (containerEntity.Name == value) return;
 
                 Package.Name = value;
                 OnRenamed(EventArgs.Empty);
@@ -246,17 +246,16 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             g.DrawPath(borderPen, path);
 
             path.Dispose();
+        }
 
-            // draw the hovering rectangle
-            if (areShapesHovering)
+        private void DrawHoveringRectangle(IGraphics g, bool onScreen, Style style)
+        {
+            using (var pen = new Pen(Style.CurrentStyle.HoveringRectangleColor, 1))
             {
-                using (var pen = new Pen(Style.CurrentStyle.HoveringRectangleColor, 2))
-                {
-                    pen.DashStyle = DashStyle.Dash;
-                    var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
-                    mouseOverRect.Inflate(MarginSize, MarginSize);
-                    g.DrawRectangle(pen, mouseOverRect);
-                }
+                pen.DashPattern = new[] { 3f, 3f, 1f, 3f, 3f };
+                var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
+                mouseOverRect.Inflate(MarginSize, MarginSize);
+                g.DrawRectangle(pen, mouseOverRect);
             }
         }
 
@@ -358,6 +357,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         {
             DrawSurface(g, onScreen, style);
             DrawHeaderText(g, style);
+            // draw the hovering rectangle
+            if (areShapesHovering)
+            {
+                DrawHoveringRectangle(g, onScreen, style);
+            }
         }
 
         protected override float GetRequiredWidth(Graphics g, Style style)
@@ -380,10 +384,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             get
             {
                 var border = base.BorderRectangle;
-                foreach (var shape in ChildrenShapes)
-                {
-                    border = Rectangle.Union(border, shape.BorderRectangle);
-                }
+                //foreach (var shape in ChildrenShapes)
+                //{
+                //    border = Rectangle.Union(border, shape.BorderRectangle);
+                //}
 
                 return border;
             }
@@ -391,7 +395,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         protected override void UpdateSize()
         {
-            this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
+          //  this.Size = this.BorderRectangle.Size + new Size(MarginSize, MarginSize);
         }
     }
 }

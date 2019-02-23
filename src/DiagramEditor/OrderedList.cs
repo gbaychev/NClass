@@ -121,31 +121,5 @@ namespace NClass.DiagramEditor
 				AddBefore(node, last);
 			}
 		}
-
-	    public void InsertAfter(T start, IEnumerable<T> values)
-	    {
-	        var currentNode = Find(start);
-	        if (currentNode == null)
-	            return;
-
-	        foreach (var value in values)
-	        {
-	            Remove(value);
-	            currentNode = this.AddAfter(currentNode, value);
-	        }
-	    }
-
-	    public void InsertBefore(T start, IEnumerable<T> values)
-	    {
-	        var currentNode = Find(start);
-	        if (currentNode == null)
-	            return;
-
-	        foreach (var value in values)
-	        {
-	            Remove(value);
-	            currentNode = this.AddBefore(currentNode, value);
-	        }
-	    }
     }
 }

@@ -110,12 +110,12 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 			get;
 		}
 
-		protected Shape StartShape
+		public Shape StartShape
 		{
 			get { return startShape; }
 		}
 
-		protected Shape EndShape
+		public Shape EndShape
 		{
 			get { return endShape; }
 		}

@@ -15,6 +15,8 @@
 
 using System;
 using System.IO;
+using System.Linq;
+using System.Net.Configuration;
 using System.Xml;
 using NClass.Translations;
 
@@ -46,6 +48,31 @@ namespace NClass.Core.Models
             Package newPackage = Language.CreatePackage();
             AddEntity(newPackage);
             return newPackage;
+        }
+
+        public bool InsertTypeEntity(TypeBase typeEntity)
+        {
+            if (typeEntity != null && !Entities.Contains(typeEntity) &&
+                typeEntity.Language == Language)
+            {
+                AddEntity(typeEntity);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public bool InsertPackage(Package package)
+        {
+            if (package != null && !Entities.Contains(package) &&
+                package.Language == Language)
+            {
+                AddEntity(package);
+                return true;
+            }
+
+            return false;
         }
 
         public ClassType AddClass()
@@ -96,6 +123,29 @@ namespace NClass.Core.Models
             Comment comment = new Comment();
             AddEntity(comment);
             return comment;
+        }
+
+        public bool InsertComment(Comment comment)
+        {
+            if (comment != null && !Entities.Contains(comment))
+            {
+                AddEntity(comment);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool InsertRelationship(Relationship relationship)
+        {
+            if (relationship != null && !Relationships.Contains(relationship) &&
+                Entities.Contains(relationship.First) && Entities.Contains(relationship.Second))
+            {
+                AddRelationship(relationship);
+                return true;
+            }
+
+            return false;
         }
 
         private void AddRelationship(Relationship relationship)

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using NClass.Core;
 
 namespace NClass.DiagramEditor.Diagrams.Shapes
@@ -28,7 +29,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
     {
         protected bool areShapesHovering;
 
-        protected INestable container;
+        protected INestable containerEntity;
 
         /// <summary>
         /// The contained shapes
@@ -66,7 +67,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 ChildrenShapes.Add(shape);
                 if (shape is ShapeContainer container)
                     container.SortOrder = this.SortOrder + 1;
-                this.container.AddNestedChild(shape.Entity as INestableChild);
+                this.containerEntity.AddNestedChild(shape.Entity as INestableChild);
 
                 UpdateSize();
             }
@@ -93,7 +94,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 if (shape is ShapeContainer container)
                     container.SortOrder = 0;
                 ChildrenShapes.Remove(shape);
-                this.container.RemoveNestedChild(shape.Entity as INestableChild);
+                this.containerEntity.RemoveNestedChild(shape.Entity as INestableChild);
             }
         }
         /// <summary>
@@ -112,8 +113,79 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         protected ShapeContainer(IEntity entity) : base(entity)
         {
-            this.container = (INestable)entity;
+            this.containerEntity = (INestable)entity;
             this.ChildrenShapes = new List<Shape>();
+        }
+
+        public bool IsTopmostContainer()
+        {
+            return this.ParentShape == null;
+        }
+
+        public bool IsContainerSelected()
+        {
+            return this.IsSelected || ChildrenShapes.Any(cs => cs.IsSelected);
+        }
+
+        public IEnumerable<Shape> Flatten()
+        {
+            foreach (var children in FlattenChildrenShapes(this.ChildrenShapes))
+            {
+                yield return children;
+            }
+
+            yield return this;
+        }
+
+        private IEnumerable<Shape> FlattenChildrenShapes(IEnumerable<Shape> childrenShapes)
+        {
+            foreach (var child in childrenShapes)
+            {
+                if (child is ShapeContainer container)
+                {
+                    foreach (var containerChild in FlattenChildrenShapes(container.ChildrenShapes))
+                    {
+                        yield return containerChild;
+                    }
+
+                    yield return container;
+                }
+                else
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        public IEnumerable<Shape> FlattenReverse(/*Predicate<Shape> match*/)
+        {
+            yield return this;
+
+            foreach (var child in FlattenChildrenShapesReverse(this.ChildrenShapes))
+            {
+                //if(match(child))
+                    yield return child;
+            }
+        }
+
+        private IEnumerable<Shape> FlattenChildrenShapesReverse(IEnumerable<Shape> childrenShapes)
+        {
+            foreach (var child in childrenShapes)
+            {
+                if (child is ShapeContainer container)
+                {
+                    if(container.IsContainerSelected())
+                        continue;
+
+                    yield return container;
+                    foreach (var containerChild in FlattenChildrenShapesReverse(container.ChildrenShapes))
+                    {
+                        yield return containerChild;
+                    }
+                }
+                else if(!child.IsSelected)
+                    yield return child;
+            }
         }
     }
 }

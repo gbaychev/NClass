@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -386,39 +387,167 @@ namespace NClass.DiagramEditor.Diagrams
 			}
 		}
 
-        private IEnumerable<DiagramElement> GetElementsInDisplayOrder()
+        public IEnumerable<Shape> GetShapesInDisplayOrder()
         {
-            foreach(var shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
-                yield return shape;
-
-            foreach (Connection connection in connections.GetSelectedElements())
-                yield return connection;
-
-            foreach (Connection connection in connections.GetUnselectedElements())
-                yield return connection;
-
-            foreach (Shape shape in shapes.GetUnselectedElements().Where(s => !(s is ShapeContainer)))
+            var enumeratedShapes = new HashSet<Shape>();
+            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
+                if (enumeratedShapes.Add(shape))
                     yield return shape;
 
-            foreach (var container in shapes.Where(s => s is ShapeContainer).Cast<ShapeContainer>().OrderByDescending(s => s.SortOrder).ToList())
-                yield return (Shape)container;
+            foreach (var container in shapes.Except(enumeratedShapes)
+                .Where(s => s is ShapeContainer container && container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.Flatten())
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
+
+            foreach (Shape shape in shapes.GetUnselectedElements().Except(enumeratedShapes)
+                .Where(s => !(s is ShapeContainer) && s.ParentShape == null))
+            {
+                if (enumeratedShapes.Add(shape))
+                {
+                    yield return shape;
+                }
+            }
+
+            foreach (var container in shapes
+                .Except(enumeratedShapes)
+                .Where(s => s is ShapeContainer container && container.IsTopmostContainer() && !container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.Flatten().Where(s => !s.IsSelected))
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
         }
 
-        private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
+        private IEnumerable<DiagramElement> GetElementsInDisplayOrder()
         {
-            foreach (var container in shapes.GetReversedList().Where(s => s is ShapeContainer).Cast<ShapeContainer>().OrderBy(s => s.SortOrder).ToList())
-                yield return (Shape)container;
+            var enumeratedShapes = new HashSet<Shape>();
+            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
+                if(enumeratedShapes.Add(shape))
+                    yield return shape;
 
-            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Where(s => !(s is ShapeContainer)))
-                yield return shape;
-
-            foreach (Connection connection in connections.GetUnselectedElementsReversed())
-                yield return connection;
+            foreach (var container in shapes.Except(enumeratedShapes)
+                .Where(s => s is ShapeContainer container && container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.Flatten())
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
 
             foreach (Connection connection in connections.GetSelectedElementsReversed())
                 yield return connection;
 
-            foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
+            foreach (Connection connection in connections.GetUnselectedElementsReversed())
+                yield return connection;
+
+            foreach (Shape shape in shapes.GetUnselectedElements().Except(enumeratedShapes)
+                .Where(s => !(s is ShapeContainer) && s.ParentShape == null))
+            {
+                if (enumeratedShapes.Add(shape))
+                {
+                    yield return shape;
+                }
+            }
+
+            foreach (var container in shapes
+                .Except(enumeratedShapes)
+                .Where(s => s is ShapeContainer container && container.IsTopmostContainer() && !container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.Flatten().Where(s => !s.IsSelected))
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
+        {
+            var enumeratedShapes = new HashSet<Shape>();
+            var enumeratedConnections = new HashSet<Connection>();
+            foreach (var container in shapes.GetReversedList()
+                .Where(s => s is ShapeContainer container && container.IsTopmostContainer() && !container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.FlattenReverse().Where(s => ! s.IsSelected))
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
+
+            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Except(enumeratedShapes)
+                .Where(s => !(s is ShapeContainer) && s.ParentShape == null))
+            {
+                if (enumeratedShapes.Add(shape))
+                {
+                    yield return shape;
+                }
+            }
+
+            foreach (var connection in connections.GetUnselectedElementsReversed().Where(c =>
+                enumeratedShapes.Contains(c.StartShape) && enumeratedShapes.Contains(c.EndShape)))
+            {
+                if(enumeratedConnections.Add(connection))
+                    yield return connection;
+            }
+
+            foreach (var connection in connections.GetSelectedElementsReversed().Where(c =>
+                enumeratedShapes.Contains(c.StartShape) && enumeratedShapes.Contains(c.EndShape)))
+            {
+                if (enumeratedConnections.Add(connection))
+                    yield return connection;
+            }
+
+            foreach (var container in shapes.GetReversedList()
+                .Except(enumeratedShapes)
+                .Where(s => s is ShapeContainer container && container.IsContainerSelected())
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.FlattenReverse())
+                {
+                    if (enumeratedShapes.Add(shape))
+                    {
+                        yield return shape;
+                    }
+                }
+            }
+
+            foreach (Connection connection in connections.GetUnselectedElementsReversed().Except(enumeratedConnections))
+                yield return connection;
+
+            foreach (Connection connection in connections.GetSelectedElementsReversed().Except(enumeratedConnections))
+                yield return connection;
+
+            foreach (Shape shape in shapes.GetSelectedElementsReversed().Except(enumeratedShapes).Where(s => !(s is ShapeContainer)))
                 yield return shape;
         }
 
@@ -570,17 +699,22 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void Print(IGraphics g, bool selectedOnly, Style style)
 		{
-		    foreach (Shape shape in shapes.GetReversedList().Where(s => s is ShapeContainer))
+		    var enumeratedShapes = new HashSet<Shape>();
+		    foreach (var container in shapes.GetReversedList()
+		        .Where(s => s is ShapeContainer container && (!selectedOnly || container.IsSelected))
+		        .Cast<ShapeContainer>()
+		        .OrderBy(s => s.SortOrder))
 		    {
-		        if (!selectedOnly || shape.IsSelected)
+		        foreach (var shape in container.FlattenReverse())
+		        {
+		            enumeratedShapes.Add(shape);
 		            shape.Draw(g, false, style);
+		        }
 		    }
 
-            foreach (Shape shape in shapes.GetReversedList().Where(s => !(s is ShapeContainer)))
-			{
-				if (!selectedOnly || shape.IsSelected)
-					shape.Draw(g, false, style);
-			}
+		    foreach (Shape shape in shapes.GetReversedList().Except(enumeratedShapes))
+		        shape.Draw(g, false, style);
+            
 			foreach (Connection connection in connections.GetReversedList())
 			{
 				if (!selectedOnly || connection.IsSelected)
@@ -1019,7 +1153,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		public void DeselectAll()
 		{
-			foreach (Shape shape in shapes)
+			foreach (Shape shape in shapes.ToList())
 			{
 				shape.IsSelected = false;
 				shape.IsActive = false;
@@ -1034,14 +1168,15 @@ namespace NClass.DiagramEditor.Diagrams
 
 		private void DeselectAllOthers(DiagramElement onlySelected)
 		{
-			foreach (Shape shape in shapes)
+			foreach (Shape shape in shapes.ToList())
 			{
 				if (shape != onlySelected)
 				{
 					shape.IsSelected = false;
 					shape.IsActive = false;
-				}
+                }
 			}
+		    
 			foreach (Connection connection in connections)
 			{
 				if (connection != onlySelected)
@@ -1051,6 +1186,40 @@ namespace NClass.DiagramEditor.Diagrams
 				}
 			}
 		}
+
+        private void DebugDrawOrder()
+        {
+            var methodName = new StackTrace().GetFrame(1).GetMethod().Name;
+            Debug.WriteLine($" ------ {methodName}");
+            Debug.WriteLine("DisplayOrder");
+            int i = 1;
+            foreach (var element in GetElementsInDisplayOrder())
+            {
+                if (element is Connection)
+                    continue;
+                Debug.Write($"{i++} {element}");
+                if (element is ShapeContainer c)
+                {
+                    Debug.Write($" sort order: {c.SortOrder}");
+                }
+                Debug.WriteLine("");
+            }
+
+            Debug.WriteLine("ReverseDisplayOrder");
+
+            i = 1;
+            foreach (var element in GetElementsInReversedDisplayOrder())
+            {
+                if (element is Connection)
+                    continue;
+                Debug.Write($"{i++} {element}");
+                if (element is ShapeContainer c)
+                {
+                    Debug.Write($" sort order: {c.SortOrder}");
+                }
+                Debug.WriteLine("");
+            }
+        }
 
 		public void MouseDown(AbsoluteMouseEventArgs e)
 		{
@@ -1088,7 +1257,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			shape.IsSelected = true;
 			shape.IsActive = true;
-		    if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
+		    if (shapes.GetReversedList().Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
                 container.AttachShapes(new List<Shape> { shape });
 			if (shape is TypeShape) //TODO: nem szép
 				shape.ShowEditor();
@@ -1161,38 +1330,6 @@ namespace NClass.DiagramEditor.Diagrams
 			RedrawSuspended = false;
 		}
 
-        IEnumerable<Shape> GetShapesToBeRemovedFromContainer(ShapeContainer container)
-        {
-            foreach (var selectedShape in GetSelectedShapes())
-            {
-                if(selectedShape.ParentShape == container && container.Contains(selectedShape.Location))
-                    continue;
-
-                yield return selectedShape;
-            }
-        }
-
-        void ContainerElementMouseUp(ShapeContainer container)
-        {
-
-            if (this.selectedShapeCount > 0)
-            {
-                if (container.HasHoveringShapes)
-                {
-                    var newShapes = this.GetSelectedShapes().ToList();
-                    container.AttachShapes(newShapes);
-                }
-                else
-                {
-                    container.DetachShapes(GetShapesToBeRemovedFromContainer(container).ToList());
-                }
-            }
-            else
-            {
-                container.ExitHover();
-            }
-        }
-
         public void MouseUp(AbsoluteMouseEventArgs e)
 		{
             positionChangeCumulation = Size.Empty;
@@ -1205,24 +1342,59 @@ namespace NClass.DiagramEditor.Diagrams
 				TrySelectElements();
 				state = State.Normal;
 			}
-			else
-			{
-			    foreach (DiagramElement element in GetElementsInDisplayOrder())
-			    {
-                    if (element is ShapeContainer container)
-                    { 
-                        ContainerElementMouseUp(container);
-                    }
-                    element.MouseUpped(e);
-				}
+            else if(state == State.Dragging)
+		    {
+		        var dropTarget = shapes.GetUnselectedElements()
+		                               .Where(s => s is ShapeContainer)
+		                               .Cast<ShapeContainer>()
+		                               .OrderByDescending(s => s.SortOrder)
+		                               .FirstOrDefault(s => s.Contains(GetSelectedShapes().First().Location));
 
-			    if (state == State.Dragging)
-			    {
-			        state = State.Normal;
-			    }
-            }
+		        if (dropTarget == null)
+		        {
+		            foreach (var selectedShape in GetSelectedShapes())
+		            {
+		                var parentShape = selectedShape.ParentShape as ShapeContainer;
+		                if (parentShape != null && !parentShape.IsSelected)
+		                {
+		                    parentShape?.DetachShapes(new List<Shape> {selectedShape});
+		                }
+		            }
+		        }
+		        else
+		        {
+		            foreach (var selectedShape in GetSelectedShapes())
+		            {
+		                var oldParent = selectedShape.ParentShape as ShapeContainer;
+		                if (oldParent != dropTarget)
+		                {
+		                    oldParent?.DetachShapes(new List<Shape> {selectedShape});
+                            dropTarget.AttachShapes(new List<Shape> {selectedShape});
+		                }
+		            }
+                }
 
-            RedrawSuspended = false;
+		        foreach (var diagramElement in GetElementsInDisplayOrder())
+		        {
+		            if (diagramElement is ShapeContainer container)
+		            {
+                        container.ExitHover();
+		                diagramElement.NeedsRedraw = true;
+		            }
+		            diagramElement.MouseUpped(e);
+		        }
+
+                state = State.Normal;
+		    }
+		    else
+		    {
+		        foreach (var diagramElement in GetElementsInDisplayOrder())
+		        {
+		            diagramElement.MouseUpped(e);
+		        }
+		    }
+
+		    RedrawSuspended = false;
 		}
 
 		private void TrySelectElements()

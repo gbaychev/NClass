@@ -14,6 +14,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using NClass.Core;
@@ -52,6 +53,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		void IClipboardItem.Paste(IDocument document)
 		{
+		    Console.WriteLine("Paste");
 			IDiagram diagram = (IDiagram) document;
 			if (diagram != null)
 			{
@@ -68,7 +70,24 @@ namespace NClass.DiagramEditor.Diagrams
 					pastedShapes[shape] = pasted;
 					success |= (pasted != null);
 				}
-				foreach (Connection connection in connections)
+                foreach (var shape in shapes)
+                {
+                    if (shape.ParentShape == null)
+                    {
+                        continue;
+                    }
+
+                    if (!pastedShapes.ContainsKey(shape.ParentShape) ||
+                        !pastedShapes.ContainsKey(shape))
+                    {
+                        continue;
+                    }
+
+                    var parentShape = (ShapeContainer)pastedShapes[shape.ParentShape];
+                    var childShape = pastedShapes[shape];
+                    parentShape.AttachShapes(new List<Shape> { childShape });
+                }
+                foreach (Connection connection in connections)
 				{
 					Shape first = GetShape(connection.Relationship.First);
 					Shape second = GetShape(connection.Relationship.Second);

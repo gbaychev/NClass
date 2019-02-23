@@ -300,7 +300,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 			base.OnMouseDown(e);
 
             // deselect the parent
-		    if (ParentShape != null)
+		    if (ParentShape != null && (Control.ModifierKeys != Keys.Control))
 		    {
 		        ParentShape.IsSelected = false;
 		    }
