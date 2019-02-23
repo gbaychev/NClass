@@ -28,7 +28,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
     public abstract class ShapeContainer : Shape
     {
         protected bool areShapesHovering;
-
+        protected Shape hoveringShape;
         protected INestable containerEntity;
 
         /// <summary>
@@ -38,9 +38,10 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         /// <summary>
         /// When the user is hovering on this shapes
         /// </summary>
-        public void EnterHover()
+        public void EnterHover(Shape hoveringShape)
         {
             areShapesHovering = true;
+            this.hoveringShape = hoveringShape;
             OnEnterHover?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
@@ -48,6 +49,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         /// </summary>
         public void ExitHover()
         {
+            hoveringShape = null;
             areShapesHovering = false;
         }
         /// <summary>
@@ -60,6 +62,8 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             foreach (var shape in shapes)
             {
                 if (shape == this)
+                    continue;
+                if (!AcceptsEntity(shape.Entity.EntityType))
                     continue;
                 shape.ParentShape = this;
                 if (ChildrenShapes.Contains(shape))
@@ -215,5 +219,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     yield return child;
             }
         }
+
+        protected abstract bool AcceptsEntity(EntityType type);
     }
 }

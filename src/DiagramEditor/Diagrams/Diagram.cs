@@ -1675,7 +1675,7 @@ namespace NClass.DiagramEditor.Diagrams
             {
                 if (otherShape.Contains(senderShape.Location))
                 {
-                    otherShape.EnterHover();
+                    otherShape.EnterHover(senderShape);
                     break;
                 }
                 else

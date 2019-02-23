@@ -147,6 +147,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                 MinimumSize = minRectangle.Size;
         }
 
+        protected override bool AcceptsEntity(EntityType type)
+        {
+            return true;
+        }
+
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);
@@ -221,6 +226,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
             float packageSplitPos = Left + Width * LabelRatio;
 
+            var gradientBrush = new LinearGradientBrush(this.BorderRectangle, Color.AntiqueWhite, Color.White, LinearGradientMode.Horizontal);
             // Update graphical objects
             backgroundBrush.Color = style.PackageBackColor;
             borderPen.Color = style.PackageBorderColor;
@@ -249,8 +255,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             }
 
             // Draw borders & background
-            g.FillPath(backgroundBrush, path);
+            g.FillPath(gradientBrush, path);
             g.DrawPath(borderPen, path);
+            gradientBrush.Dispose();
             
             // Draw package split line 
             path.Reset();
@@ -267,56 +274,18 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         private void DrawHoveringRectangle(IGraphics g, bool onScreen, Style style)
         {
-            using (var pen = new Pen(Style.CurrentStyle.HoveringRectangleColor, 1))
+
+            using (var pen = new Pen(style.HoveringRectangleColor, 1))
+            using (var brush = new HatchBrush(style.NonAcceptedShapesStyle, style.NonAcceptedShapesColor, Color.Transparent))
             {
                 pen.DashPattern = new[] { 3f, 3f, 1f, 3f, 3f };
                 var mouseOverRect = new Rectangle(this.Left, this.Top, this.Width, this.Height);
                 mouseOverRect.Inflate(marginSize);
                 g.DrawRectangle(pen, mouseOverRect);
-            }
-        }
-
-        private static StringAlignment GetHorizontalAlignment(ContentAlignment alignment)
-        {
-            switch (alignment)
-            {
-                case ContentAlignment.BottomLeft:
-                case ContentAlignment.MiddleLeft:
-                case ContentAlignment.TopLeft:
-                    return StringAlignment.Near;
-
-                case ContentAlignment.BottomCenter:
-                case ContentAlignment.MiddleCenter:
-                case ContentAlignment.TopCenter:
-                default:
-                    return StringAlignment.Center;
-
-                case ContentAlignment.BottomRight:
-                case ContentAlignment.MiddleRight:
-                case ContentAlignment.TopRight:
-                    return StringAlignment.Far;
-            }
-        }
-
-        private static StringAlignment GetVerticalAlignment(ContentAlignment alignment)
-        {
-            switch (alignment)
-            {
-                case ContentAlignment.TopLeft:
-                case ContentAlignment.TopCenter:
-                case ContentAlignment.TopRight:
-                    return StringAlignment.Near;
-
-                case ContentAlignment.MiddleLeft:
-                case ContentAlignment.MiddleCenter:
-                case ContentAlignment.MiddleRight:
-                default:
-                    return StringAlignment.Center;
-
-                case ContentAlignment.BottomLeft:
-                case ContentAlignment.BottomCenter:
-                case ContentAlignment.BottomRight:
-                    return StringAlignment.Far;
+                if (!AcceptsEntity(hoveringShape.Entity.EntityType))
+                {
+                    g.FillRectangle(brush, mouseOverRect);
+                }
             }
         }
 
