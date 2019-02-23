@@ -98,44 +98,37 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 
         private void mnuNewPackage_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Package, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Package, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewClass_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Class, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Class, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewStructure_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Structure, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Structure, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewInterface_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Interface, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Interface, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewEnum_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Enum, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Enum, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewDelegate_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Delegate, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Delegate, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
 
         private void mnuNewComment_Click(object sender, EventArgs e)
         {
-            Diagram?.CreateShape(EntityType.Comment, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
-            Diagram?.MouseDown(new AbsoluteMouseEventArgs(MouseButtons.Left, MenuStrip.Location, Single.Epsilon));
+            Diagram?.CreateShapeAt(EntityType.Comment, new Point((int)menuPosition.Value.X, (int)menuPosition.Value.Y));
         }
     }
 }

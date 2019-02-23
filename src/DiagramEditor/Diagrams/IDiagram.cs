@@ -35,6 +35,7 @@ namespace NClass.DiagramEditor.Diagrams
         void HideWindow(PopupWindow window);
         IEnumerable<Connection> GetSelectedConnections();
         void CreateShape(EntityType type, Point? where = null);
+        void CreateShapeAt(EntityType type, Point where);
         void CreateConnection(RelationshipType type);
         void SaveAsImage();
         void SaveAsImage(bool selectedOnly);

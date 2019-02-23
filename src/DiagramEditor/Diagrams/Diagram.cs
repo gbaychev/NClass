@@ -443,7 +443,7 @@ namespace NClass.DiagramEditor.Diagrams
             foreach (var container in shapes.Except(enumeratedShapes)
                 .Where(s => s is ShapeContainer container && container.IsContainerSelected())
                 .Cast<ShapeContainer>()
-                .OrderBy(s => s.SortOrder))
+                .OrderByDescending(s => s.SortOrder))
             {
                 foreach (var shape in container.Flatten())
                 {
@@ -473,7 +473,7 @@ namespace NClass.DiagramEditor.Diagrams
                 .Except(enumeratedShapes)
                 .Where(s => s is ShapeContainer container && container.IsTopmostContainer() && !container.IsContainerSelected())
                 .Cast<ShapeContainer>()
-                .OrderBy(s => s.SortOrder))
+                .OrderByDescending(s => s.SortOrder))
             {
                 foreach (var shape in container.Flatten().Where(s => !s.IsSelected))
                 {
@@ -1227,6 +1227,12 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
+        public void CreateShapeAt(EntityType entityType, Point where)
+        {
+            CreateShape(entityType, where);
+            AddCreatedShape();
+        }
+
 		public void MouseDown(AbsoluteMouseEventArgs e)
 		{
             RedrawSuspended = true;
@@ -1263,7 +1269,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 			shape.IsSelected = true;
 			shape.IsActive = true;
-		    if (shapes.GetReversedList().Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
+		    if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
                 container.AttachShapes(new List<Shape> { shape });
 			if (shape is TypeShape) //TODO: nem szép
 				shape.ShowEditor();
