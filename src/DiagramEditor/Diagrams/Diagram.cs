@@ -489,26 +489,32 @@ namespace NClass.DiagramEditor.Diagrams
         {
             var enumeratedShapes = new HashSet<Shape>();
             var enumeratedConnections = new HashSet<Connection>();
-            foreach (var container in shapes.GetReversedList()
-                .Where(s => s is ShapeContainer container && container.IsTopmostContainer() && !container.IsContainerSelected())
-                .Cast<ShapeContainer>()
-                .OrderBy(s => s.SortOrder))
+
+            foreach (var shape in shapes.GetUnselectedElementsReversed())
             {
-                foreach (var shape in container.FlattenReverse().Where(s => ! s.IsSelected))
+                if(shape.ParentShape != null)
+                    continue;
+                if (shape is ShapeContainer container)
+                {
+                    if (!container.IsTopmostContainer())
+                        continue;
+                    if (container.IsContainerSelected())
+                        continue;
+
+                    foreach (var s in container.FlattenReverse().Where(s => ! s.IsSelected))
+                    {
+                        if (enumeratedShapes.Add(s))
+                        {
+                            yield return s;
+                        }
+                    }
+                }
+                else
                 {
                     if (enumeratedShapes.Add(shape))
                     {
                         yield return shape;
                     }
-                }
-            }
-
-            foreach (Shape shape in shapes.GetUnselectedElementsReversed().Except(enumeratedShapes)
-                .Where(s => !(s is ShapeContainer) && s.ParentShape == null))
-            {
-                if (enumeratedShapes.Add(shape))
-                {
-                    yield return shape;
                 }
             }
 
