@@ -13,5 +13,6 @@
       <Modifier>Static</Modifier>
     </Entity>
   </Entities>
+  <Containers />
   <Relationships />
 </ProjectItem>

@@ -18,5 +18,6 @@
       <Modifier>None</Modifier>
     </Entity>
   </Entities>
+  <Containers />
   <Relationships />
 </ProjectItem>
