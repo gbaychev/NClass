@@ -226,7 +226,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
             float packageSplitPos = Left + Width * LabelRatio;
 
-            var gradientBrush = new LinearGradientBrush(this.BorderRectangle, Color.AntiqueWhite, Color.White, LinearGradientMode.Horizontal);
+            var gradientBrush = new LinearGradientBrush(this.BorderRectangle, style.PackageBackColor, style.PackageGradientColor, LinearGradientMode.Horizontal);
             // Update graphical objects
             backgroundBrush.Color = style.PackageBackColor;
             borderPen.Color = style.PackageBorderColor;

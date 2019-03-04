@@ -145,7 +145,7 @@ namespace NClass.DiagramEditor
 	    Color packageBorderColor = Color.Black;
         Color packageTextColor = Color.Black;
         Color packageHoveringRectangleColor = Color.Black;
-	    Color packageBackColor = Color.AntiqueWhite;
+	    Color packageBackColor = Color.White;
 	    Color packageGradientColor = Color.White;
 	    GradientStyle packageGradientStyle = GradientStyle.Horizontal;
         Font packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
@@ -198,7 +198,7 @@ namespace NClass.DiagramEditor
 	        packageBorderColor = Color.Black;
 	        packageTextColor = Color.Black;
 	        packageHoveringRectangleColor = Color.Black;
-	        packageBackColor = Color.AntiqueWhite;
+	        packageBackColor = Color.White;
 	        packageGradientColor = Color.White;
 	        packageGradientStyle = GradientStyle.Horizontal;
 	        packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
@@ -1577,7 +1577,6 @@ namespace NClass.DiagramEditor
 			commentFont.Dispose();
             packageFont.Dispose();
 			relationshipTextFont.Dispose();
-            packageFont.Dispose();
 		}
 
 		private static bool LoadStyles()
