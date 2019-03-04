@@ -24,7 +24,12 @@ using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
-	public sealed partial class PackageEditor : DesignerHelperWindow
+	public sealed partial class PackageEditor :
+#if DEBUG
+    DesignerHelperWindow
+#else
+    EditorWindow
+#endif
     {
 		PackageShape shape = null;
 
