@@ -20,17 +20,21 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public abstract class ClassType : SingleInharitanceType
+	public abstract class ClassType : SingleInharitanceType, INestable
 	{
 		ClassModifier modifier = ClassModifier.None;
 		ClassType baseClass = null;
 		int derivedClassCount = 0;
+        NestableHelper nestableHelper = null;
 
 		/// <exception cref="BadSyntaxException">
 		/// The <paramref name="name"/> does not fit to the syntax.
 		/// </exception>
 		protected ClassType(String name) : base(name)
 		{
+            nestableHelper = new NestableHelper(this);
+            nestableHelper.AddedNestedChild += (s, a) => Changed();
+            nestableHelper.RemovedNestedChild += (s, a) => Changed();
 		}
 
 		public sealed override EntityType EntityType
@@ -72,11 +76,6 @@ namespace NClass.Core
 		}
 
 		public override bool SupportsConstuctors
-		{
-			get { return true; }
-		}
-
-		public override bool SupportsNesting
 		{
 			get { return true; }
 		}
@@ -255,5 +254,29 @@ namespace NClass.Core
 			base.Deserialize(node);
 			RaiseChangedEvent = true;
 		}
+
+        #region INestable Implementation
+
+        public IEnumerable<INestableChild> NestedChilds
+        {
+            get { return nestableHelper.NestedChilds; }
+        }
+
+        public void AddNestedChild(INestableChild type)
+        {
+            nestableHelper.AddNestedChild(type);
+        }
+
+        public void RemoveNestedChild(INestableChild type)
+        {
+            nestableHelper.RemoveNestedChild(type);
+        }
+
+        public bool IsNestedAncestor(INestableChild type)
+        {
+            return nestableHelper.IsNestedAncestor(type);
+        }
+
+        #endregion
 	}
 }

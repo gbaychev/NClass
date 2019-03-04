@@ -15,6 +15,8 @@
 
 using System;
 using System.IO;
+using System.Linq;
+using System.Net.Configuration;
 using System.Xml;
 using NClass.Translations;
 
@@ -26,23 +28,51 @@ namespace NClass.Core.Models
 
         public ClassModel()
         {
-            
         }
 
         /// <exception cref="ArgumentNullException">
         /// <paramref name="language"/> is null.
         /// </exception>
-        public ClassModel(Language language)
+        public ClassModel(Language language) : this()
         {
-            if (language == null)
-                throw new ArgumentException("Language cannot be null");
-
-            this.language = language;
+            this.language = language ?? throw new ArgumentException("Language cannot be null");
         }
 
         public Language Language
         {
             get { return language; }
+        }
+
+        public Package AddPackage()
+        {
+            Package newPackage = Language.CreatePackage();
+            AddEntity(newPackage);
+            return newPackage;
+        }
+
+        public bool InsertTypeEntity(TypeBase typeEntity)
+        {
+            if (typeEntity != null && !Entities.Contains(typeEntity) &&
+                typeEntity.Language == Language)
+            {
+                AddEntity(typeEntity);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public bool InsertPackage(Package package)
+        {
+            if (package != null && !Entities.Contains(package) &&
+                package.Language == Language)
+            {
+                AddEntity(package);
+                return true;
+            }
+
+            return false;
         }
 
         public ClassType AddClass()
@@ -93,6 +123,29 @@ namespace NClass.Core.Models
             Comment comment = new Comment();
             AddEntity(comment);
             return comment;
+        }
+
+        public bool InsertComment(Comment comment)
+        {
+            if (comment != null && !Entities.Contains(comment))
+            {
+                AddEntity(comment);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool InsertRelationship(Relationship relationship)
+        {
+            if (relationship != null && !Relationships.Contains(relationship) &&
+                Entities.Contains(relationship.First) && Entities.Contains(relationship.Second))
+            {
+                AddRelationship(relationship);
+                return true;
+            }
+
+            return false;
         }
 
         private void AddRelationship(Relationship relationship)
@@ -184,7 +237,7 @@ namespace NClass.Core.Models
         /// <exception cref="ArgumentNullException">
         /// <paramref name="parentType"/> or <paramref name="innerType"/> is null.
         /// </exception>
-        public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
+        public NestingRelationship AddNesting(INestable parentType, INestableChild innerType)
         {
             NestingRelationship nesting = new NestingRelationship(parentType, innerType);
 
@@ -261,7 +314,7 @@ namespace NClass.Core.Models
                             break;
 
                         case "Nesting":
-                            relationship = AddNesting(first as CompositeType, second as TypeBase);
+							relationship = AddNesting(first as INestable, second as INestableChild);
                             break;
 
                         case "Comment":
@@ -315,7 +368,8 @@ namespace NClass.Core.Models
                 case "Delegate":
                 case "DelegateType":    // Old file format
                     return AddDelegate();
-
+                case "Package":
+                    return AddPackage();
                 case "Comment":
                     return AddComment();
 
@@ -332,5 +386,6 @@ namespace NClass.Core.Models
 
             base.Serialize(node);
         }
+
     }
 }

@@ -14,12 +14,11 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NClass.DiagramEditor
 {
-	public class OrderedList<T> : LinkedList<T>
+	public class OrderedList<T> : LinkedList<T> where T : class
 	{
 		public T FirstValue
 		{
@@ -122,5 +121,5 @@ namespace NClass.DiagramEditor
 				AddBefore(node, last);
 			}
 		}
-	}
+    }
 }

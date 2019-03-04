@@ -175,15 +175,15 @@ namespace NClass.AssemblyImport
 		/// <param name="nrRelationships">The relationships to add.</param>
 		private void AddRelationships(NRRelationships nrRelationships)
 		{
-			foreach(NRNesting nrNesting in nrRelationships.Nestings)
-			{
-				CompositeType parentType = types[nrNesting.ParentType] as CompositeType;
-				TypeBase innerType = types[nrNesting.InnerType];
-				if(parentType != null && innerType != null)
-				{
-					diagram.AddNesting(parentType, innerType);
-				}
-			}
+	        foreach(NRNesting nrNesting in nrRelationships.Nestings)
+	        {
+	            INestable parentType = types[nrNesting.ParentType] as INestable;
+	            INestableChild innerType = types[nrNesting.InnerType];
+	            if(parentType != null && innerType != null)
+	            {
+	              diagram.AddNesting(parentType, innerType);
+	            }
+	        }
 
 			foreach(NRGeneralization nrGeneralization in nrRelationships.Generalizations)
 			{

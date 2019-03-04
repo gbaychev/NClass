@@ -122,12 +122,10 @@ namespace NClass.GUI
 				g.SmoothingMode = SmoothingMode.AntiAlias;
 				g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-				Rectangle borders = this.ClientRectangle;
-				float zoom = GetZoom();
+                float zoom = GetZoom();
 				g.ScaleTransform(zoom, zoom);
-
 				DocumentVisualizer.DrawDocument(g);
-
+                
 				g.ResetTransform();
 
 				if (DocumentVisualizer.VisibleArea.Width < DocumentVisualizer.DocumentSize.Width ||

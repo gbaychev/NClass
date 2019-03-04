@@ -21,11 +21,12 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public abstract class TypeBase : LanguageElement, IEntity
+	public abstract class TypeBase : LanguageElement, IEntity, INestableChild
 	{
+        NestableChildHelper nestableChildHelper = null;
+
 		string name;
 		AccessModifier access = AccessModifier.Public;
-		CompositeType nestingParent = null;
 
 		public event SerializeEventHandler Serializing;
 		public event SerializeEventHandler Deserializing;
@@ -37,7 +38,9 @@ namespace NClass.Core
 		{
 			Initializing = true;
 			Name = name;
-			Initializing = false;
+            nestableChildHelper = new NestableChildHelper(this);
+            nestableChildHelper.NestingParentChanged += (s, a) => Changed();
+            Initializing = false;
 		}
 
 		/// <exception cref="BadSyntaxException">
@@ -102,43 +105,9 @@ namespace NClass.Core
 			}
 		}
 
-		/// <exception cref="RelationshipException">
-		/// Parent type does not support nesting.-or-
-		/// The inner type is already nested.-or-
-		/// The parent type is already a child member of the type.
-		/// </exception>
-		public virtual CompositeType NestingParent
+		public bool IsTypeNested
 		{
-			get
-			{
-				return nestingParent;
-			}
-			protected internal set
-			{
-				if (nestingParent != value) {
-					if (value == this) {
-						throw new RelationshipException(Strings.ErrorRecursiveNesting);
-					}
-					if (value != null && !value.SupportsNesting) {
-						throw new RelationshipException(Strings.ErrorNestingNotSupported);
-					}
-					if (value != null && value.IsNestedAncestor(this)) {
-						throw new RelationshipException(Strings.ErrorCyclicNesting);
-					}
-
-					if (nestingParent != null)
-						nestingParent.RemoveNestedChild(this);
-					nestingParent = value;
-					if (nestingParent != null)
-						nestingParent.AddNestedChild(this);
-					Changed();
-				}
-			}
-		}
-
-		public bool IsNested
-		{
-			get { return (NestingParent != null); }
+			get { return NestingParent != null && !(NestingParent is Package); }
 		}
 
 		public abstract Language Language
@@ -156,13 +125,15 @@ namespace NClass.Core
 			get;
 		}
 
-		private bool IsNestedAncestor(TypeBase type)
-		{
-			if (NestingParent != null && NestingParent.IsNestedAncestor(type))
-				return true;
-			else
-				return (type == this);
-		}
+		//public bool IsNestedAncestor(INestableChild type)
+		//{
+  //          var nestableChild = NestingParent as INestableChild;
+
+  //          if (nestableChild != null && nestableChild.IsNestedAncestor(type))
+		//		return true;
+		//	else
+		//		return (type == this);
+		//}
 
 		public abstract bool MoveUpItem(object item);
 
@@ -282,5 +253,15 @@ namespace NClass.Core
 		{
 			return Name + ": " + Signature;
 		}
+
+        #region INestableChild Implementation
+
+        public virtual INestable NestingParent
+        {
+            get { return nestableChildHelper.NestingParent; }
+            set { nestableChildHelper.NestingParent = value; }
+        }
+
+        #endregion
 	}
 }

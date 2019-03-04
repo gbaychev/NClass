@@ -84,6 +84,7 @@
     <Compile Include="Members\JavaInterface.cs" />
     <Compile Include="Members\JavaLanguage.cs" />
     <Compile Include="Members\JavaMethod.cs" />
+    <Compile Include="Members\JavaPackage.cs" />
     <Compile Include="Members\JavaParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

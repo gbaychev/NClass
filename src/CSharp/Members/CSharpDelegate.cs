@@ -42,7 +42,7 @@ namespace NClass.CSharp
 			}
 			set
 			{
-				if (IsNested ||
+				if (IsTypeNested ||
 					value == AccessModifier.Default ||
 					value == AccessModifier.Internal ||
 					value == AccessModifier.Public)

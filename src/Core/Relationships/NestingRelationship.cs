@@ -17,64 +17,92 @@ using System;
 using NClass.Translations;
 
 namespace NClass.Core
-{
-	public sealed class NestingRelationship : TypeRelationship
-	{
-		/// <exception cref="RelationshipException">
-		/// Cannot create nesting relationship.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="parentClass"/> is null.-or-
-		/// <paramref name="innerClass"/> is null.
-		/// </exception>
-		internal NestingRelationship(CompositeType parentType, TypeBase innerType)
-			: base(parentType, innerType)
-		{
-			Attach();
-		}
+{   
+	public sealed class NestingRelationship : Relationship
+    {
+        INestable first;
+        INestableChild second;
 
-		public override RelationshipType RelationshipType
-		{
-			get { return RelationshipType.Nesting; }
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="first"/> is null.-or-
+        /// <paramref name="second"/> is null.
+        /// </exception>
+        internal NestingRelationship(INestable first, INestableChild second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
 
-		private CompositeType ParentType
-		{
-			get { return (CompositeType) First; }
-		}
+            this.first = first;
+            this.second = second;
+            Attach();
+        }
 
-		private TypeBase InnerType
-		{
-			get { return (TypeBase) Second; }
-		}
+        //TODO: inkább abstract property-kre hivatkozzon
+        public sealed override IEntity First
+        {
+            get { return first; }
+            protected set { first = (INestable)value; }
+        }
 
-		public NestingRelationship Clone(CompositeType parentType, TypeBase innerType)
-		{
-			NestingRelationship nesting = new NestingRelationship(parentType, innerType);
-			nesting.CopyFrom(this);
-			return nesting;
-		}
+        public sealed override IEntity Second
+        {
+            get { return second; }
+            protected set { second = (INestableChild)value; }
+        }
 
-		/// <exception cref="RelationshipException">
-		/// Cannot finalize relationship.
-		/// </exception>
-		protected override void OnAttaching(EventArgs e)
-		{
-			if (InnerType.IsNested)
-				throw new RelationshipException(Strings.ErrorInnerTypeAlreadyNested);
+        public override RelationshipType RelationshipType
+        {
+            get { return RelationshipType.Nesting; }
+        }
 
-			InnerType.NestingParent = ParentType;
-		}
+        private INestable ParentType
+        {
+            get { return (INestable)First; }
+        }
 
-		protected override void OnDetaching(EventArgs e)
-		{
-			InnerType.NestingParent = null;
-		}
+        private INestableChild InnerType
+        {
+            get { return (INestableChild)Second; }
+        }
 
-		public override string ToString()
-		{
-			return string.Format("{0}: {1} (+)--> {2}",
-				Strings.Nesting, First.Name, Second.Name);
-		}
-	}
+        public NestingRelationship Clone(INestable parentType, INestableChild innerType)
+        {
+            NestingRelationship nesting = new NestingRelationship(parentType, innerType);
+            nesting.CopyFrom(this);
+            return nesting;
+        }
+
+        /// <exception cref="RelationshipException">
+        /// Cannot finalize relationship.
+        /// </exception>
+        protected override void OnAttaching(EventArgs e)
+        {
+            if (InnerType.NestingParent != null)
+                throw new RelationshipException(Strings.ErrorInnerTypeAlreadyNested);
+
+            if (ParentType == InnerType)
+                throw new RelationshipException(Strings.ErrorRecursiveNesting);
+
+            if (ParentType.IsNestedAncestor(InnerType))
+                throw new RelationshipException(Strings.ErrorCyclicNesting);
+
+            if(ParentType.EntityType != EntityType.Package && InnerType.EntityType == EntityType.Package)
+                throw new RelationshipException(Strings.ErrorPackageParentNotPackage);
+
+            InnerType.NestingParent = ParentType;
+        }
+
+        protected override void OnDetaching(EventArgs e)
+        {
+            InnerType.NestingParent = null;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} (+)--> {2}",
+                Strings.Nesting, First.Name, Second.Name);
+        }
+    }
 }

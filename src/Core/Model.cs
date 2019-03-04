@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using System.Linq;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -32,6 +33,7 @@ namespace NClass.Core
 		public event EventHandler Modified;
 		public event EntityEventHandler EntityAdded;
 		public event EntityEventHandler EntityRemoved;
+	    public event EntityEventHandler EntityNested;
 		public event RelationshipEventHandler RelationAdded;
 		public event RelationshipEventHandler RelationRemoved;
 		public event SerializeEventHandler Serializing;
@@ -108,7 +110,8 @@ namespace NClass.Core
 
 		public virtual void Serialize(XmlElement node)
 		{
-            SaveEntitites(node);
+            SaveEntities(node);
+            SaveEntityContainers(node);
             SaveRelationships(node);
 
             OnSerializing(new SerializeEventArgs(node));
@@ -121,6 +124,7 @@ namespace NClass.Core
             loading = true;
 
             LoadEntitites(node);
+            LoadEntityContainers(node);
             LoadRelationships(node);
 
             OnDeserializing(new SerializeEventArgs(node));
@@ -138,7 +142,7 @@ namespace NClass.Core
 			if (root == null)
 				throw new ArgumentNullException("root");
 
-			XmlNodeList nodeList = root.SelectNodes("Entities/Entity");
+			var nodeList = root.SelectNodes("Entities/Entity");
 
 			foreach (XmlElement node in nodeList)
 			{
@@ -148,6 +152,7 @@ namespace NClass.Core
 
 					IEntity entity = GetEntity(type);
 					entity.Deserialize(node);
+				    
 				}
 				catch (BadSyntaxException ex)
 				{
@@ -156,7 +161,28 @@ namespace NClass.Core
 			}
 		}
 
-	    protected abstract IEntity GetEntity(string type);
+	    protected void LoadEntityContainers(XmlNode root)
+	    {
+	        if (root == null)
+	            throw new ArgumentNullException("root");
+
+	        var nodeList = root.SelectNodes("Containers/Container");
+
+	        foreach (XmlElement node in nodeList)
+	        {
+	            int.TryParse(node.Attributes["entityIndex"].InnerText, out var containerIndex);
+	            var container = entities[containerIndex] as INestable;
+	            foreach (XmlElement childNode in node.ChildNodes)
+	            {
+	                int.TryParse(childNode.InnerText, out var childIndex);
+	                var childEntity = entities[childIndex] as INestableChild;
+	                container.AddNestedChild(childEntity);
+                    EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+	            }
+	        }
+	    }
+
+        protected abstract IEntity GetEntity(string type);
 
 	    /// <exception cref="InvalidDataException">
 	    /// The save format is corrupt and could not be loaded.
@@ -169,7 +195,7 @@ namespace NClass.Core
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="node"/> is null.
 		/// </exception>
-		private void SaveEntitites(XmlElement node)
+		private void SaveEntities(XmlElement node)
 		{
 			if (node == null)
 				throw new ArgumentNullException("root");
@@ -183,9 +209,37 @@ namespace NClass.Core
 				entity.Serialize(child);
 				child.SetAttribute("type", entity.EntityType.ToString());
 				entitiesChild.AppendChild(child);
-			}
-			node.AppendChild(entitiesChild);
+            }
+
+            node.AppendChild(entitiesChild);
 		}
+
+	    protected void SaveEntityContainers(XmlElement node)
+	    {
+	        if (node == null)
+	            throw new ArgumentNullException("root");
+
+	        XmlElement containersNode = node.OwnerDocument.CreateElement("Containers");
+
+            foreach (IEntity entity in entities.Where(e => e is INestable con && con.NestedChilds.Any()))
+            {
+                XmlElement child = node.OwnerDocument.CreateElement("Container");
+
+                int index = entities.IndexOf(entity);
+                child.SetAttribute("entityIndex", index.ToString());
+
+                foreach (var childEntity in ((INestable)entity).NestedChilds)
+                {
+                    var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
+                    childEntityNode.InnerText = entities.IndexOf(childEntity).ToString();
+                    child.AppendChild(childEntityNode);
+                }
+
+                containersNode.AppendChild(child);
+            }
+
+            node.AppendChild(containersNode);
+        }
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="root"/> is null.

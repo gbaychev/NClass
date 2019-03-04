@@ -231,7 +231,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         protected internal abstract Size GetMaximumPositionChange(Size offset, int padding);
 
-		protected internal abstract IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram);
+		protected internal abstract IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null);
 
 		[Obsolete]
 		protected internal abstract void Serialize(XmlElement node);

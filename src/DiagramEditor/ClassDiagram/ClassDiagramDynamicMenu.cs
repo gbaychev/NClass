@@ -93,7 +93,8 @@ namespace NClass.DiagramEditor.ClassDiagram
 			// Diagram menu
 			mnuDiagram.Text = Strings.MenuDiagram;
 			mnuAddNewElement.Text = Strings.MenuNew;
-			mnuNewClass.Text = Strings.MenuClass;
+            mnuNewPackage.Text = Strings.MenuPackage;
+            mnuNewClass.Text = Strings.MenuClass;
 			mnuNewStructure.Text = Strings.MenuStruct;
 			mnuNewInterface.Text = Strings.MenuInterface;
 			mnuNewEnum.Text = Strings.MenuEnum;
@@ -134,8 +135,9 @@ namespace NClass.DiagramEditor.ClassDiagram
 			mnuCollapseAll.Text = Strings.MenuCollapseAll;
 			mnuExpandAll.Text = Strings.MenuExpandAll;
 
-			// Toolbar
-			toolNewClass.Text = Strings.AddNewClass;
+            // Toolbar
+            toolNewPackage.Text = Strings.AddNewPackage;
+            toolNewClass.Text = Strings.AddNewClass;
 			toolNewStructure.Text = Strings.AddNewStructure;
 			toolNewInterface.Text = Strings.AddNewInterface;
 			toolNewEnum.Text = Strings.AddNewEnum;
@@ -160,6 +162,12 @@ namespace NClass.DiagramEditor.ClassDiagram
 			mnuGenerateCode.Enabled = hasContent;
 			mnuSaveAsImage.Enabled = hasContent;
 		}
+
+        private void mnuNewPackage_Click(object sender, EventArgs e)
+        {
+            if (diagram != null)
+                diagram.CreateShape(EntityType.Package);
+        }
 
 		private void mnuNewClass_Click(object sender, EventArgs e)
 		{

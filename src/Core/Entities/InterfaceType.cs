@@ -66,11 +66,6 @@ namespace NClass.Core
 			get { return false; }
 		}
 
-		public override bool SupportsNesting
-		{
-			get { return false; }
-		}
-
 		public override bool HasExplicitBase
 		{
 			get { return (baseList.Count > 0); }

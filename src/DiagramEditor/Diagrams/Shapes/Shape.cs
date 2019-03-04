@@ -48,11 +48,14 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		Size minimumSize = defaultMinSize;
 		bool mouseLeft = true;
 		Cursor cursor = Cursors.Default;
+	    private bool isBeingDragged;
 
 		public event MoveEventHandler Move;
 		public event MoveEventHandler Dragging;
 		public event ResizeEventHandler Resizing;
 		public event ResizeEventHandler Resize;
+	    public event EventHandler Renamed;
+	    public event EventHandler Dropped;
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="entity"/> is null.
@@ -64,6 +67,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
 			location = Point.Empty;
 			size = DefaultSize;
+		    isBeingDragged = false;
 
 			entity.Modified += delegate { OnModified(EventArgs.Empty); };
 
@@ -244,7 +248,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			set { Y = value - Height; }
 		}
 
-		public Rectangle BorderRectangle
+		public virtual Rectangle BorderRectangle
 		{
 			get { return new Rectangle(Location, Size); }
 		}
@@ -548,7 +552,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 			return MinimumSize.Height;
 		}
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
 		{
 			return ShapeContextMenu.Default.GetMenuItems(diagram);
 		}
@@ -780,6 +784,10 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		protected override void OnMouseUp(AbsoluteMouseEventArgs e)
 		{
 			base.OnMouseUp(e);
+		    if (isBeingDragged)
+		    {
+                OnDrop();
+		    }
 			resizeMode = ResizeMode.None;
 		}
 
@@ -802,9 +810,16 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
 		protected virtual void OnDragging(MoveEventArgs e)
 		{
+		    isBeingDragged = true;
 			if (Dragging != null)
 				Dragging(this, e);
 		}
+
+	    protected virtual void OnDrop()
+	    {
+	        isBeingDragged = false;
+            Dropped?.Invoke(this, EventArgs.Empty);
+	    }
 
 		protected virtual void OnResizing(ResizeEventArgs e)
 		{
@@ -832,5 +847,12 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 		{
 			return Entity.ToString();
 		}
+
+	    protected void OnRenamed(EventArgs e)
+	    {
+            Renamed?.Invoke(this, e);
+	    }
+
+	    public Shape ParentShape { get; set; }
 	}
 }

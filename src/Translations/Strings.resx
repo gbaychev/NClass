@@ -443,8 +443,14 @@
   <data name="ErrorCyclicNesting" xml:space="preserve">
     <value>Cyclic nesting relationships.</value>
   </data>
-  <data name="ErrorNestingNotSupported" xml:space="preserve">
+  <data name="ErrorPackageParentNotPackage" xml:space="preserve">
+    <value>Package can only be nested in other package.</value>
+  </data>
+  <data name="ErrorParentNestingNotSupported" xml:space="preserve">
     <value>Parent type does not support nesting.</value>
+  </data>
+  <data name="ErrorChildNestingNotSupported" xml:space="preserve">
+    <value>Child type does not support nesting.</value>
   </data>
   <data name="ErrorMemberTypeDoesNotExist" xml:space="preserve">
     <value>{0} type of member does not exist.</value>
@@ -728,6 +734,9 @@
   <data name="ErrorCouldNotLoadPlugins" xml:space="preserve">
     <value>There was an error while loading the plugins:
 {0}</value>
+  </data>
+  <data name="AddNewPackage" xml:space="preserve">
+    <value>Add New Package</value>
   </data>
   <data name="AddNewClass" xml:space="preserve">
     <value>Add New Class</value>
@@ -1161,5 +1170,14 @@ Do you still want to continue?</value>
   <data name="ErrorReleasesNotFound" xml:space="preserve">
     <value>No releases found</value>
     <comment>Could not find any releases on Github</comment>
+  </data>
+  <data name="MenuPackage" xml:space="preserve">
+    <value>&amp;Package</value>
+  </data>
+  <data name="Package" xml:space="preserve">
+    <value>Package</value>
+  </data>
+  <data name="MenuEditPackage" xml:space="preserve">
+    <value>&amp;Edit package...</value>
   </data>
 </root>

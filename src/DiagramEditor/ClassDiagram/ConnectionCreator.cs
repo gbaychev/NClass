@@ -70,7 +70,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 		{
 			Point mouseLocation = new Point((int) e.X, (int) e.Y);
 			
-			foreach (Shape shape in diagram.Shapes)
+			foreach (Shape shape in diagram.GetShapesInDisplayOrder())
 			{
 				if (shape.BorderRectangle.Contains(mouseLocation))
 				{
@@ -270,27 +270,26 @@ namespace NClass.DiagramEditor.ClassDiagram
 			}
 		}
 
-		private void CreateNesting()
-		{
-			CompositeTypeShape shape1 = first as CompositeTypeShape;
-			TypeShape shape2 = second as TypeShape;
+        private void CreateNesting()
+        {
+            INestable parent = first.Entity as INestable;
+            INestableChild child = second.Entity as INestableChild;
 
-			if (shape1 != null && shape2 != null)
-			{
-				try
-				{
-					diagram.AddNesting(shape1.CompositeType, shape2.TypeBase);
-				}
-				catch (RelationshipException)
-				{
-					MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-				}
-			}
-			else
-			{
-				MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-			}
-		}
+            try
+            {
+                if (parent == null)
+                    throw new RelationshipException(Strings.ErrorParentNestingNotSupported);
+
+                if (child == null)
+                    throw new RelationshipException(Strings.ErrorChildNestingNotSupported);
+
+                diagram.AddNesting(parent, child);
+            }
+            catch (RelationshipException ex)
+            {
+                MessageBox.Show(Strings.ErrorCannotCreateRelationship + " " + ex.Message);
+            }
+        }
 
 		private void CreateCommentRelationship()
 		{
