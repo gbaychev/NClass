@@ -225,6 +225,14 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="..\..\styles\Visual Studio Class Designer %28ClearType%29.dst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>styles\Visual Studio Class Designer %28ClearType%29.dst</Link>
+    </None>
+    <None Include="..\..\styles\Visual Studio Class Designer.dst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>styles\Visual Studio Class Designer.dst</Link>
+    </None>
     <None Include="WindowSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>WindowSettings.Designer.cs</LastGenOutput>

@@ -218,3 +218,4 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 src/Installer/files/*
+src/GUI/styles

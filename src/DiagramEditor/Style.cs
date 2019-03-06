@@ -21,8 +21,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
 {
@@ -45,8 +47,8 @@ namespace NClass.DiagramEditor
 			Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NClass");
 		static string stylesDir = Path.Combine(settingsDir, "UserStyles");
 		static string userStylePath = Path.Combine(settingsDir, "style.dst");
-
-		public static event EventHandler CurrentStyleChanged;
+	    
+        public static event EventHandler CurrentStyleChanged;
 
 		#region Fields
 
@@ -164,6 +166,7 @@ namespace NClass.DiagramEditor
 		static Style()
 		{
 			Directory.CreateDirectory(StylesDirectory);
+            CopyDefaultStyles();
 			LoadStyles();
 			if (!LoadCurrentStyle())
 			{
@@ -1601,6 +1604,34 @@ namespace NClass.DiagramEditor
 				return false;
 			}
 		}
+
+	    private static void CopyDefaultStyles()
+	    {
+	        try
+	        {
+	            var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                var defaultStylesPath = Path.Combine(currentDirectory, "styles");
+	            if (!Directory.Exists(defaultStylesPath))
+	            {
+                    defaultStylesPath = Path.Combine(currentDirectory, "..", "styles");
+                    if(!Directory.Exists(defaultStylesPath))
+                        return;
+	            }
+
+	            foreach (var file in Directory.GetFiles(defaultStylesPath))
+	            {
+	                var fileName = Path.GetFileName(file);
+	                var oldFile = Path.Combine(defaultStylesPath, fileName);
+	                var newFile = Path.Combine(stylesDir, fileName);
+                    if(!File.Exists(newFile))
+                        File.Copy(oldFile, newFile);
+	            }
+	        }
+	        catch 
+	        {
+	            // do nothing
+	        }
+	    }
 
 		private static bool LoadCurrentStyle()
 		{
