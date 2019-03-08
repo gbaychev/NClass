@@ -403,9 +403,20 @@ namespace NClass.Core
 				string typeName = typeAttribute.InnerText;
 				string assemblyName = assemblyAttribute.InnerText;
 
-				try
+                // This is some compatability fix with older file formats, pre 2.5
+			    const string oldTypeName = "NClass.DiagramEditor.ClassDiagram.Diagram";
+                const string newTypeName = "NClass.DiagramEditor.ClassDiagram.ClassDiagram";
+                var realAssemblyName = new AssemblyName(assemblyName);
+
+			    if (realAssemblyName.Version < new Version(2, 5) &&
+			        string.CompareOrdinal(oldTypeName, typeName) == 0)
+			    {
+			        typeName = newTypeName;
+			    }
+
+                try
 				{
-					Assembly assembly = Assembly.Load(assemblyName);
+				    Assembly assembly = Assembly.Load(assemblyName);
 					IProjectItem projectItem = (IProjectItem) assembly.CreateInstance(
 						typeName, false,
 						BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
