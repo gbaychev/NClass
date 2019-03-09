@@ -181,6 +181,7 @@
     <Compile Include="Diagrams\IDiagram.cs" />
     <Compile Include="Diagrams\Shapes\ShapeContainer.cs" />
     <Compile Include="GdiGraphics.cs" />
+    <Compile Include="BitmapHelper.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="IClipboardItem.cs" />
     <Compile Include="EditorControlEventArgs.cs" />
@@ -393,7 +394,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\csharp.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\java.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
