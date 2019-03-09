@@ -19,7 +19,7 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public sealed class Comment : Element, IEntity
+	public sealed class Comment : Element, INestableChild
 	{
 		string text = string.Empty;
 
@@ -143,5 +143,6 @@ namespace NClass.Core
 				return '"' + Text + '"';
 			}
 		}
+	    public INestable NestingParent { get; set; }
 	}
 }

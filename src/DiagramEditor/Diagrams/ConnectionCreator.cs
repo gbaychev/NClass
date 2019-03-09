@@ -66,7 +66,7 @@ namespace NClass.DiagramEditor.Diagrams
         {
             Point mouseLocation = new Point((int)e.X, (int)e.Y);
 
-            foreach (Shape shape in diagram.Shapes)
+            foreach (Shape shape in diagram.GetShapesInDisplayOrder())
             {
                 if (shape.BorderRectangle.Contains(mouseLocation))
                 {

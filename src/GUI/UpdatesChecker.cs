@@ -16,232 +16,169 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Xml;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using NClass.GUI.Dialogs;
 using NClass.Translations;
+using Octokit;
 
 namespace NClass.GUI
 {
-	public static class UpdatesChecker
-	{
-		const string VersionUrl = "http://nclass.sourceforge.net/version.xml";
+    public static class UpdatesChecker
+    {
+        private class VersionInfo
+        {
+            /// <exception cref="ArgumentException">
+            /// <paramref name="version"/> is an invalid value.
+            /// </exception>
+            /// <exception cref="ArgumentNullException">
+            /// <paramref name="versionName"/>, <paramref name="downloadPageUrl"/>, or
+            /// <paramref name="notes"/> is null.
+            /// </exception>
+            public VersionInfo(string version, string versionName, string downloadPageUrl, string notes)
+            {
+                if (version == null)
+                    throw new ArgumentNullException("version");
+                try
+                {
+                    this.MainVersion = new Version(version);
+                }
+                catch
+                {
+                    throw new ArgumentException("Version string is invalid.", "version");
+                }
 
-		private class VersionInfo
-		{
-			Version mainVersion;
-			string translationVersion;
-			string versionName;
-			string notes;
-			string downloadPageUrl;
+                this.VersionName = versionName ?? throw new ArgumentNullException("versionName");
+                this.DownloadPageUrl = downloadPageUrl ?? throw new ArgumentNullException("downloadPageUrl");
+                this.Notes = notes ?? throw new ArgumentNullException("notes");
+            }
 
-			/// <exception cref="ArgumentException">
-			/// <paramref name="version"/> is an invalid value.
-			/// </exception>
-			/// <exception cref="ArgumentNullException">
-			/// <paramref name="version"/>, <paramref name="translationVersion"/>, 
-			/// <paramref name="versionName"/>, <paramref name="downloadPageUrl"/>, or
-			/// <paramref name="notes"/> is null.
-			/// </exception>
-			public VersionInfo(string version, string translationVersion, string versionName,
-				string downloadPageUrl, string notes)
-			{
-				if (version == null)
-					throw new ArgumentNullException("version");
-				if (translationVersion == null)
-					throw new ArgumentNullException("translationVersion");
-				if (versionName == null)
-					throw new ArgumentNullException("versionName");
-				if (downloadPageUrl == null)
-					throw new ArgumentNullException("downloadPageUrl");
-				if (notes == null)
-					throw new ArgumentNullException("notes");
+            public Version MainVersion { get; }
 
-				try
-				{
-					this.mainVersion = new Version(version);
-				}
-				catch
-				{
-					throw new ArgumentException("Version string is invalid.", "version");
-				}
-				this.translationVersion = translationVersion;
-				this.versionName = versionName;
-				this.downloadPageUrl = downloadPageUrl;
-				this.notes = notes;
-			}
+            public string VersionName { get; }
 
-			public Version MainVersion
-			{
-				get { return mainVersion; }
-			}
+            public string DownloadPageUrl { get; }
 
-			public string TranslationVersion
-			{
-				get { return translationVersion; }
-			}
+            public string Notes { get; }
 
-			public string VersionName
-			{
-				get { return versionName; }
-			}
+            public bool IsUpdated => (MainVersion.CompareTo(Program.CurrentVersion) > 0);
 
-			public string DownloadPageUrl
-			{
-				get { return downloadPageUrl; }
-			}
+            public override string ToString()
+            {
+                if (VersionName == null)
+                    return MainVersion.ToString();
+                else
+                    return $"{VersionName} ({MainVersion})";
+            }
+        }
 
-			public string Notes
-			{
-				get { return notes; }
-			}
+        /// <exception cref="WebException">
+        /// Could not connect to the server.
+        /// </exception>
+        /// <exception cref="InvalidDataException">
+        /// Could not read the version informations.
+        /// </exception>
+        private static async Task<VersionInfo> GetVersionManifestInfo()
+        {
+            try
+            {
+                var githubClient = new GitHubClient(new ProductHeaderValue("NClass"));
+                var latestRelease = await githubClient.Repository.Release.GetLatest("gbaychev", "nclass");
 
-			public bool IsUpdated
-			{
-				get
-				{
-					return (IsMainProgramUpdated || IsTranslationUpdated);
-				}
-			}
+                // semver
+                var versionRegex = new Regex(@"^releases/v(?<majorminor>\d{1,}\.\d{1,})\.(?<patch>\d{1,})(-beta|-pre)?$", RegexOptions.ExplicitCapture);
+                var match = versionRegex.Match(latestRelease.TagName);
+                // seriously, whoever retard at microsoft decided that 'build' should be before 'revision'
+                // in System.Version should be stoned to death. 'build' must not be patched in the assembly version
+                var version = $"{match.Groups["majorminor"].Value}.0.{match.Groups["patch"].Value}";
 
-			public bool IsMainProgramUpdated
-			{
-				get
-				{
-					return (MainVersion.CompareTo(Program.CurrentVersion) > 0);
-				}
-			}
+                // Get other informations
+                var name = latestRelease.Name;
+                var url = latestRelease.HtmlUrl;
+                var notes = ConvertMarkdownToHtml(latestRelease.Body);
 
-			public bool IsTranslationUpdated
-			{
-				get
-				{
-					string currentTranslationVersion = Strings.TranslationVersion;
-					return (TranslationVersion.CompareTo(currentTranslationVersion) > 0);
-				}
-			}
+                return new VersionInfo(version, name, url, notes);
+            }
+            catch (Octokit.NotFoundException)
+            {
+                throw;
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+            catch
+            {
+                throw new InvalidDataException();
+            }
+        }
 
-			public override string ToString()
-			{
-				if (VersionName == null)
-					return MainVersion.ToString();
-				else
-					return string.Format("{0} ({1})", VersionName, MainVersion);
-			}
-		}
+        private static string ConvertMarkdownToHtml(string markdown)
+        {
+            if (string.IsNullOrEmpty(markdown))
+            {
+                return string.Empty;
+            }
 
-		/// <exception cref="WebException">
-		/// Could not connect to the server.
-		/// </exception>
-		/// <exception cref="InvalidDataException">
-		/// Could not read the version informations.
-		/// </exception>
-		private static VersionInfo GetVersionManifestInfo()
-		{
-			try
-			{
-				XmlDocument document = new XmlDocument();
-				document.Load(VersionUrl);
-				XmlElement root = document.DocumentElement;
+            var html = new StringBuilder();
 
-				// Get main version information
-				XmlElement versionElement = root["Version"];
-				string version = versionElement.InnerText;
+            using (var reader = new StringReader(markdown))
+            using (var writer = new StringWriter(html))
+            {
+                CommonMark.CommonMarkConverter.Convert(reader, writer);
+            }
 
-				// Get translation version information
-				XmlNodeList translationElements = root.SelectNodes(
-					"TranslationVersions/" + Strings.TranslationName);
-				string translationVersion;
-				if (translationElements.Count == 0)
-					translationVersion = Strings.TranslationVersion;
-				else
-					translationVersion = translationElements[0].InnerText;
+            return html.ToString();
+        }
 
-				// Get other informations
-				string name = root["VersionName"].InnerText;
-				string url = root["DownloadPageUrl"].InnerText;
-				string notes = root["Notes"].InnerText.Trim();
+        private static void OpenUrl(string url)
+        {
+            System.Diagnostics.Process.Start(url);
+        }
 
-				return new VersionInfo(version, translationVersion, name, url, notes);
-			}
-			catch (WebException)
-			{
-				throw;
-			}
-			catch
-			{
-				throw new InvalidDataException();
-			}
-		}
+        public static async Task CheckForUpdates()
+        {
+            try
+            {
+                VersionInfo info = await GetVersionManifestInfo();
+                ShowNewVersionInfo(info);
+            }
+            catch (Octokit.NotFoundException)
+            {
+                MessageBox.Show(Strings.ErrorReleasesNotFound, Strings.Error, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show(Strings.ErrorConnectToServer,
+                    Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidDataException)
+            {
+                MessageBox.Show(Strings.ErrorReadVersionData, Strings.Error,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-		private static void OpenUrl(string url)
-		{
-			System.Diagnostics.Process.Start(url);
-		}
+        private static void ShowNewVersionInfo(VersionInfo info)
+        {
+            if (info.IsUpdated)
+            {
+                var updateDialog = new UpdateDialog(Strings.CheckingForUpdates, info.VersionName,  info.Notes);
+                var result = updateDialog.ShowDialog();
 
-		public static void CheckForUpdates()
-		{
-			try
-			{
-				VersionInfo info = GetVersionManifestInfo();
-				ShowNewVersionInfo(info);
-			}
-			catch (WebException)
-			{
-				MessageBox.Show(Strings.ErrorConnectToServer,
-					Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			catch (InvalidDataException)
-			{
-				MessageBox.Show(Strings.ErrorReadVersionData, Strings.Error,
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-
-		private static void ShowNewVersionInfo(VersionInfo info)
-		{
-			if (info.IsUpdated)
-			{
-				string text = GetVersionDescription(info);
-				string caption = Strings.CheckingForUpdates;
-
-				DialogResult result = MessageBox.Show(text, caption,
-					MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-				if (result == DialogResult.Yes)
-					OpenUrl(info.DownloadPageUrl);
-			}
-			else
-			{
-				MessageBox.Show(
-					Strings.NoUpdates, Strings.CheckingForUpdates,
-					MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-		}
-
-		private static string GetVersionDescription(VersionInfo info)
-		{
-			StringBuilder builder = new StringBuilder(512);
-
-			if (info.IsMainProgramUpdated)
-			{
-				// Header text
-				builder.AppendFormat("{0}: {1}\n\n",
-					Strings.NewVersion, info.VersionName);
-
-				// Main program's changes
-				builder.Append(info.Notes);
-				builder.Append("\n\n");
-			}
-			else if (info.IsTranslationUpdated)
-			{
-				builder.AppendFormat("{0}\n\n", Strings.TranslationUpdated);
-			}
-
-			// Download text
-			builder.Append(Strings.ProgramDownload);
-
-			return builder.ToString();
-		}
-	}
+                if (result == DialogResult.Yes)
+                    OpenUrl(info.DownloadPageUrl);
+            }
+            else
+            {
+                MessageBox.Show(
+                    Strings.NoUpdates, Strings.CheckingForUpdates,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+    }
 }

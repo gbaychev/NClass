@@ -1,6 +1,7 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2019 Georgi Baychev
+// 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
 // Foundation; either version 3 of the License, or (at your option) any later version.
@@ -13,18 +14,20 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.IO;
-using System.Drawing;
-using System.ComponentModel;
-using System.Collections.Generic;
 using NClass.Translations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
 namespace NClass.DiagramEditor
 {
-	public enum GradientStyle
+    public enum GradientStyle
 	{
 		None,
 		Horizontal,
@@ -36,15 +39,15 @@ namespace NClass.DiagramEditor
 	[DefaultProperty("AttributeColor")]
 	public sealed class Style : IDisposable
 	{
-		static Style currentStyle;
+	    static Style currentStyle;
 		static SortedList<string, Style> styles = new SortedList<string, Style>();
 
 		static string settingsDir = Path.Combine(
 			Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NClass");
 		static string stylesDir = Path.Combine(settingsDir, "UserStyles");
 		static string userStylePath = Path.Combine(settingsDir, "style.dst");
-
-		public static event EventHandler CurrentStyleChanged;
+	    
+        public static event EventHandler CurrentStyleChanged;
 
 		#region Fields
 
@@ -137,8 +140,21 @@ namespace NClass.DiagramEditor
 		Color textColor = Color.Black;
 		Font commentFont = new Font("Tahoma", 8.25F);
 
-		// Relationship fields
-		int relationshipDashSize = 5;
+        // Package fields
+        int packageBorderWidth = 1;
+        bool isPackageBorderDashed = false;
+	    Color packageBorderColor = Color.Black;
+        Color packageTextColor = Color.Black;
+        Color packageHoveringRectangleColor = Color.Black;
+	    Color packageBackColor = Color.White;
+	    Color packageGradientColor = Color.White;
+	    GradientStyle packageGradientStyle = GradientStyle.Horizontal;
+        Font packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
+	    HatchStyle nonAcceptingShapesStyle = HatchStyle.BackwardDiagonal;
+	    Color nonAcceptingShapesColor = Color.LightGray;
+
+        // Relationship fields
+        int relationshipDashSize = 5;
 		int relationshipWidth = 1;
 		Color relationshipColor = Color.Black;
 		Color relationshipTextColor = Color.Black;
@@ -160,7 +176,8 @@ namespace NClass.DiagramEditor
         static Style()
 		{
 			Directory.CreateDirectory(StylesDirectory);
-            LoadStyles();
+            CopyDefaultStyles();
+			LoadStyles();
 			if (!LoadCurrentStyle())
 			{
 				CurrentStyle = new Style();
@@ -168,14 +185,63 @@ namespace NClass.DiagramEditor
 			}
 		}
 
-		public Style()
+        public Style()
 		{
 			abstractNameFont = new Font(nameFont, nameFont.Style | FontStyle.Italic);
 			staticMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Underline);
 			abstractMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Italic);
 		}
 
-		public static IEnumerable<Style> AvaiableStyles
+	    [OnDeserialized]
+	    private void SetFonts(StreamingContext context)
+	    {
+	        abstractNameFont = new Font(nameFont, nameFont.Style | FontStyle.Italic);
+	        staticMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Underline);
+	        abstractMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Italic);
+            SetPackageDefaults();
+            SetUseCaseDefaults();
+            SetActorDefaults();
+	    }
+
+        
+	    private void SetPackageDefaults()
+	    {
+	        if (packageFont != null) return;
+
+	        packageBorderWidth = 1;
+	        isPackageBorderDashed = false;
+	        packageBorderColor = Color.Black;
+	        packageTextColor = Color.Black;
+	        packageHoveringRectangleColor = Color.Black;
+	        packageBackColor = Color.White;
+	        packageGradientColor = Color.White;
+	        packageGradientStyle = GradientStyle.Horizontal;
+	        packageFont = new Font("Arial", 9.00F, FontStyle.Bold);
+	        nonAcceptingShapesStyle = HatchStyle.BackwardDiagonal;
+	        nonAcceptingShapesColor = Color.LightGray;
+	    }
+
+	    private void SetActorDefaults()
+	    {
+	        if (actorFont != null) return;
+
+	        actorFont = new Font("Tahoma", 8.25F);
+            actorColor = Color.Black;
+	        actorTextColor = Color.Black;
+        }
+
+	    private void SetUseCaseDefaults()
+	    {
+	        if (useCaseFont != null) return;
+
+	        useCaseFont = new Font("Tahoma", 8.25F);
+            useCaseBorderWidth = 1;
+	        useCaseBackColor = Color.White;
+	        useCaseBorderColor = Color.Black;
+	        useCaseTextColor = Color.Black;
+        }
+
+        public static IEnumerable<Style> AvaiableStyles
 		{
 			get { return styles.Values; }
 		}
@@ -1331,9 +1397,119 @@ namespace NClass.DiagramEditor
 
 		#endregion
 
-		#region Relationship properties
+        #region Package properties
 
-		[DisplayName("Dash Size"), Category("(Relationship)")]
+        [DisplayName("Background Color"), Category("Package")]
+        [Description("The background color for the package.")]
+        [DefaultValue(typeof(Color), "LightYellow")]
+        public Color PackageBackColor
+        {
+            get => packageBackColor;
+            set => packageBackColor = value;
+        }
+
+        [DisplayName("Border Color"), Category("Package")]
+        [Description("The border color for the package.")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color PackageBorderColor
+        {
+            get => packageBorderColor;
+            set => packageBorderColor = value;
+        }
+
+        [DisplayName("Border Width"), Category("Package")]
+        [Description("The border width for the package.")]
+        [DefaultValue(1)]
+        public int PackageBorderWidth
+        {
+            get => packageBorderWidth;
+            set => packageBorderWidth = value < 1 ? 1 : value;
+        }
+
+        [DisplayName("Dashed Border"), Category("Package")]
+        [Description("Whether the border for the package will be dashed.")]
+        [DefaultValue(false)]
+        public bool IsPackageBorderDashed
+        {
+            get => isPackageBorderDashed;
+            set => isPackageBorderDashed = value;
+        }
+
+        [DisplayName("Font"), Category("Package")]
+        [Description("The font of the displayed name text for the package.")]
+        [DefaultValue(typeof(Font), "Arial, 9.00 pt, style=Bold")]
+        public Font PackageFont
+        {
+            get => packageFont;
+            set
+            {
+                if (value != null && packageFont != value)
+                {
+                    packageFont.Dispose();
+                    packageFont = value;
+                }
+            }
+        }
+
+        [DisplayName("Text Color"), Category("Package")]
+        [Description("The name of the text color for the package.")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color PackageTextColor
+        {
+            get => packageTextColor;
+            set => packageTextColor = value;
+        }
+
+	    [DisplayName("Hover Color"), Category("Package")]
+	    [Description("The color of the rectangle displayed on hover.")]
+	    [DefaultValue(typeof(Color), "Gray")]
+	    public Color HoveringRectangleColor
+	    {
+	        get => packageHoveringRectangleColor;
+	        set => packageHoveringRectangleColor = value;
+	    }
+
+        [DisplayName("Gradient Color"), Category("Package")]
+        [Description("The gradient color for the package.")]
+        [DefaultValue(typeof(Color), "White")]
+        public Color PackageGradientColor
+        {
+                get => packageGradientColor;
+                set => packageGradientColor = value;
+        }
+        
+        [DisplayName("Gradient Style"), Category("Package")]
+        [Description("The gradient style for the package.")]
+        [DefaultValue(typeof(GradientStyle), "GradientStyle.Horizontal")]
+        public GradientStyle PackageGradientStyle
+        {
+            get => packageGradientStyle;
+            set => packageGradientStyle = value;
+        }
+
+        [DisplayName("Not Accepting Drop Shapes Style"), Category("Package")]
+        [Description("How a package should be displayed, if some of the hovering shapes cannot be dropped onto it")]
+        [DefaultValue(typeof(HatchStyle), "HatchStyle.BackwardsDiagonal")]
+        public HatchStyle NonAcceptedShapesStyle
+        {
+            get => nonAcceptingShapesStyle;
+            set => nonAcceptingShapesStyle = value;
+        }
+        
+        [DisplayName("Non Accepting Drop Shapes Color"), Category("Package")]
+        [Description("How a package should be colored, if some of the hovering shapes cannot be dropped onto it")]
+        [DefaultValue(typeof(Color), "LightGrey")]
+        public Color NonAcceptedShapesColor
+        {
+            get => nonAcceptingShapesColor;
+            set => nonAcceptingShapesColor = value;
+        }
+
+#endregion
+
+#region Relationship properties
+
+[DisplayName("Dash Size"), Category("(Relationship)")]
 		[Description("The lengths of alternating dashes and spaces in dashed lines.")]
 		[DefaultValue(5)]
 		public int RelationshipDashSize
@@ -1512,11 +1688,11 @@ namespace NClass.DiagramEditor
 			newStyle.staticMemberFont = (Font) StaticMemberFont.Clone();
 			newStyle.abstractMemberFont = (Font) AbstractMemberFont.Clone();
 			newStyle.commentFont = (Font) CommentFont.Clone();
+            newStyle.packageFont = (Font)PackageFont.Clone();
 			newStyle.relationshipTextFont = (Font) RelationshipTextFont.Clone();
 		    newStyle.useCaseFont =  UseCaseFont == null ? useCaseFont : (Font)UseCaseFont.Clone();
 		    newStyle.actorFont = ActorFont == null ? actorFont : (Font) ActorFont.Clone();
-
-			return newStyle;
+		    return newStyle;
 		}
 
 
@@ -1532,6 +1708,7 @@ namespace NClass.DiagramEditor
             commentFont.Dispose();
             relationshipTextFont.Dispose();
             actorFont.Dispose();
+            packageFont.Dispose();
             useCaseFont.Dispose();
         }
 
@@ -1557,6 +1734,34 @@ namespace NClass.DiagramEditor
 				return false;
 			}
 		}
+
+	    private static void CopyDefaultStyles()
+	    {
+	        try
+	        {
+	            var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                var defaultStylesPath = Path.Combine(currentDirectory, "styles");
+	            if (!Directory.Exists(defaultStylesPath))
+	            {
+                    defaultStylesPath = Path.Combine(currentDirectory, "..", "styles");
+                    if(!Directory.Exists(defaultStylesPath))
+                        return;
+	            }
+
+	            foreach (var file in Directory.GetFiles(defaultStylesPath))
+	            {
+	                var fileName = Path.GetFileName(file);
+	                var oldFile = Path.Combine(defaultStylesPath, fileName);
+	                var newFile = Path.Combine(stylesDir, fileName);
+                    if(!File.Exists(newFile))
+                        File.Copy(oldFile, newFile);
+	            }
+	        }
+	        catch 
+	        {
+	            // do nothing
+	        }
+	    }
 
 		private static bool LoadCurrentStyle()
 		{
@@ -1592,14 +1797,6 @@ namespace NClass.DiagramEditor
 			{
 				return null;
 			}
-		}
-
-		[OnDeserialized]
-		private void SetFonts(StreamingContext context)
-		{
-			abstractNameFont = new Font(nameFont, nameFont.Style | FontStyle.Italic);
-			staticMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Underline);
-			abstractMemberFont = new Font(memberFont, memberFont.Style | FontStyle.Italic);
 		}
 
 		public bool Save(string filePath)

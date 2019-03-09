@@ -57,28 +57,26 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             base.CreateConnection(type);
         }
 
-        public override void CreateShape(EntityType type)
+        public override void CreateShape(EntityType type, Point? where = null)
         {
-            {
-                state = State.CreatingShape;
-                shapeType = type;
-                newShapeType = type;
+            state = State.CreatingShape;
+            shapeType = type;
+            newShapeType = type;
 
-                switch (type)
-                {
-                    case EntityType.Actor:
-                        shapeOutline = ActorShape.GetOutline(Style.CurrentStyle);
-                        break;
-                    case EntityType.UseCase:
-                        shapeOutline = UseCaseShape.GetOutline(Style.CurrentStyle);
-                        break;
-                    case EntityType.Comment:
-                        shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
-                        break;
-                }
-                shapeOutline.Location = new Point((int)mouseLocation.X, (int)mouseLocation.Y);
-                Redraw();
+            switch (type)
+            {
+                case EntityType.Actor:
+                    shapeOutline = ActorShape.GetOutline(Style.CurrentStyle);
+                    break;
+                case EntityType.UseCase:
+                    shapeOutline = UseCaseShape.GetOutline(Style.CurrentStyle);
+                    break;
+                case EntityType.Comment:
+                    shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
+                    break;
             }
+            shapeOutline.Location = where ?? new Point((int)mouseLocation.X, (int)mouseLocation.Y);
+            Redraw();
         }
 
         public override Shape AddShape(EntityType type)

@@ -114,12 +114,12 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             get;
         }
 
-        protected Shape StartShape
+		public Shape StartShape
         {
             get { return startShape; }
         }
 
-        protected Shape EndShape
+		public Shape EndShape
         {
             get { return endShape; }
         }
@@ -332,7 +332,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (!bendPoint.RelativeToStartShape)
                     break;
-                bendPoint.ShapeResized(e.Change);
+				bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -346,7 +346,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (bendPoint.RelativeToStartShape)
                     break;
-                bendPoint.ShapeResized(e.Change);
+				bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -1319,9 +1319,26 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         protected internal sealed override void Offset(Size offset)
         {
             // Do nothing
+		}
+        protected internal void AdjustPositionChange(ref Size positionChange, int padding)
+        {
+            if (!IsSelected && !startShape.IsSelected && !endShape.IsSelected)
+                return;
+            foreach (BendPoint bendPoint in bendPoints)
+            {
+                if (IsSelected || (bendPoint.RelativeToStartShape && startShape.IsSelected) ||
+                    (!bendPoint.RelativeToStartShape && endShape.IsSelected))
+                {
+                    Point newLocation = bendPoint.Location + positionChange;
+                    if (newLocation.X < padding)
+                        positionChange.Width += (padding - newLocation.X);
+                    if (newLocation.Y < padding)
+                        positionChange.Height += (padding - newLocation.Y);
+                }
+            }
         }
 
-        protected internal override Size GetMaximalOffset(Size offset, int padding)
+        protected internal override Size GetMaximumPositionChange(Size offset, int padding)
         {
             if (!IsSelected && !startShape.IsSelected && !endShape.IsSelected)
                 return offset;
@@ -1717,7 +1734,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected abstract bool CloneRelationship(IDiagram diagram, Shape first, Shape second);
 
-        protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram)
+		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
         {
             return ConnectionContextMenu.Default.GetMenuItems(diagram);
         }

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using System.Linq;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -32,23 +33,23 @@ namespace NClass.Core
         public event EventHandler Modified;
         public event EntityEventHandler EntityAdded;
         public event EntityEventHandler EntityRemoved;
+        public event EntityEventHandler EntityNested;
         public event RelationshipEventHandler RelationAdded;
         public event RelationshipEventHandler RelationRemoved;
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
 
         public Project Project { get; set; }
-        public string Name { get; set; }
-
-        public bool IsDirty
+        private string name;
+        public string Name
         {
-            get { return isDirty; }
+            get => name ?? Strings.Untitled;
+            set => name = value;
         }
 
-        public bool IsEmpty
-        {
-            get { return (entities.Count == 0 && relationships.Count == 0); }
-        }
+        public bool IsDirty => isDirty;
+
+        public bool IsEmpty => (entities.Count == 0 && relationships.Count == 0);
 
         void IModifiable.Clean()
         {
@@ -56,15 +57,9 @@ namespace NClass.Core
             //TODO: tagokat is tisztítani!
         }
 
-        public IEnumerable<IEntity> Entities
-        {
-            get { return entities; }
-        }
+        public IEnumerable<IEntity> Entities => entities;
 
-        public IEnumerable<Relationship> Relationships
-        {
-            get { return relationships; }
-        }
+        public IEnumerable<Relationship> Relationships => relationships;
 
         protected void ElementChanged(object sender, EventArgs e)
         {
@@ -141,7 +136,8 @@ namespace NClass.Core
 
         public virtual void Serialize(XmlElement node)
         {
-            SaveEntitites(node);
+            SaveEntities(node);
+            SaveEntityContainers(node);
             SaveRelationships(node);
 
             OnSerializing(new SerializeEventArgs(node));
@@ -154,6 +150,7 @@ namespace NClass.Core
             loading = true;
 
             LoadEntitites(node);
+            LoadEntityContainers(node);
             LoadRelationships(node);
 
             OnDeserializing(new SerializeEventArgs(node));
@@ -171,7 +168,7 @@ namespace NClass.Core
             if (root == null)
                 throw new ArgumentNullException("root");
 
-            XmlNodeList nodeList = root.SelectNodes("Entities/Entity");
+            var nodeList = root.SelectNodes("Entities/Entity");
 
             foreach (XmlElement node in nodeList)
             {
@@ -189,6 +186,27 @@ namespace NClass.Core
             }
         }
 
+        protected void LoadEntityContainers(XmlNode root)
+        {
+            if (root == null)
+                throw new ArgumentNullException("root");
+
+            var nodeList = root.SelectNodes("Containers/Container");
+
+            foreach (XmlElement node in nodeList)
+            {
+                int.TryParse(node.Attributes["entityIndex"].InnerText, out var containerIndex);
+                var container = entities[containerIndex] as INestable;
+                foreach (XmlElement childNode in node.ChildNodes)
+                {
+                    int.TryParse(childNode.InnerText, out var childIndex);
+                    var childEntity = entities[childIndex] as INestableChild;
+                    container.AddNestedChild(childEntity);
+                    EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+                }
+            }
+        }
+
         protected abstract IEntity GetEntity(string type);
 
         /// <exception cref="InvalidDataException">
@@ -202,7 +220,7 @@ namespace NClass.Core
         /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
         /// </exception>
-        private void SaveEntitites(XmlElement node)
+        private void SaveEntities(XmlElement node)
         {
             if (node == null)
                 throw new ArgumentNullException("root");
@@ -219,6 +237,33 @@ namespace NClass.Core
             }
 
             node.AppendChild(entitiesChild);
+        }
+
+        protected void SaveEntityContainers(XmlElement node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("root");
+
+            XmlElement containersNode = node.OwnerDocument.CreateElement("Containers");
+
+            foreach (IEntity entity in entities.Where(e => e is INestable con && con.NestedChilds.Any()))
+            {
+                XmlElement child = node.OwnerDocument.CreateElement("Container");
+
+                int index = entities.IndexOf(entity);
+                child.SetAttribute("entityIndex", index.ToString());
+
+                foreach (var childEntity in ((INestable)entity).NestedChilds)
+                {
+                    var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
+                    childEntityNode.InnerText = entities.IndexOf(childEntity).ToString();
+                    child.AppendChild(childEntityNode);
+                }
+
+                containersNode.AppendChild(child);
+            }
+
+            node.AppendChild(containersNode);
         }
 
         /// <exception cref="ArgumentNullException">
@@ -250,50 +295,43 @@ namespace NClass.Core
 
         protected virtual void OnEntityAdded(EntityEventArgs e)
         {
-            if (EntityAdded != null)
-                EntityAdded(this, e);
+            EntityAdded?.Invoke(this, e);
             OnModified(EventArgs.Empty);
         }
 
         protected virtual void OnEntityRemoved(EntityEventArgs e)
         {
-            if (EntityRemoved != null)
-                EntityRemoved(this, e);
+            EntityRemoved?.Invoke(this, e);
             OnModified(EventArgs.Empty);
         }
 
         protected virtual void OnRelationAdded(RelationshipEventArgs e)
         {
-            if (RelationAdded != null)
-                RelationAdded(this, e);
+            RelationAdded?.Invoke(this, e);
             OnModified(EventArgs.Empty);
         }
 
         protected virtual void OnRelationRemoved(RelationshipEventArgs e)
         {
-            if (RelationRemoved != null)
-                RelationRemoved(this, e);
+            RelationRemoved?.Invoke(this, e);
             OnModified(EventArgs.Empty);
         }
 
         protected virtual void OnSerializing(SerializeEventArgs e)
         {
-            if (Serializing != null)
-                Serializing(this, e);
+            Serializing?.Invoke(this, e);
         }
 
         protected virtual void OnDeserializing(SerializeEventArgs e)
         {
-            if (Deserializing != null)
-                Deserializing(this, e);
+            Deserializing?.Invoke(this, e);
             OnModified(EventArgs.Empty);
         }
 
         protected virtual void OnModified(EventArgs e)
         {
             isDirty = true;
-            if (Modified != null)
-                Modified(this, e);
+            Modified?.Invoke(this, e);
         }
     }
 }

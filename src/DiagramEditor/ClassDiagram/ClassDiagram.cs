@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             model = new ClassModel(language);
             model.EntityRemoved += OnEntityRemoved;
             model.EntityAdded += OnEntityAdded;
+            model.EntityNested += OnEntityNested;
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
             model.Deserializing += OnDeserializing;
@@ -55,132 +57,62 @@ namespace NClass.DiagramEditor.ClassDiagram
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;
         }
-
-        public Language Language
-        {
-            get { return model.Language; }
-        }
+        
+        public Language Language => model.Language;
 
         public bool InsertStructure(StructureType structure)
         {
-            if (structure != null && !model.Entities.Contains(structure) &&
-                structure.Language == model.Language)
-            {
-                AddStructure(structure);
-                return true;
-            }
-
-            return false;
+            return model.InsertTypeEntity(structure);
         }
 
         public bool InsertInterface(InterfaceType newInterface)
         {
-            if (newInterface != null && !model.Entities.Contains(newInterface) &&
-                newInterface.Language == model.Language)
-            {
-                AddInterface(newInterface);
-                return true;
-            }
-
-            return false;
+            return model.InsertTypeEntity(newInterface);
         }
 
         public bool InsertEnum(EnumType newEnum)
         {
-            if (newEnum != null && !model.Entities.Contains(newEnum) &&
-                newEnum.Language == model.Language)
-            {
-                AddEnum(newEnum);
-                return true;
-            }
-
-            return false;
+            return model.InsertTypeEntity(newEnum);
         }
 
         public bool InsertDelegate(DelegateType newDelegate)
         {
-            if (newDelegate != null && !model.Entities.Contains(newDelegate) &&
-                newDelegate.Language == model.Language)
-            {
-                AddDelegate(newDelegate);
-                return true;
-            }
-
-            return false;
+            return model.InsertTypeEntity(newDelegate);
         }
 
+        public bool InsertPackage(Package package)
+        {
+            return model.InsertPackage(package);
+        }
 
         public bool InsertClass(ClassType newClass)
         {
-            if (newClass != null && !model.Entities.Contains(newClass) &&
-                newClass.Language == model.Language)
-            {
-                AddClass(newClass);
-                return true;
-            }
-
-            return false;
+            return model.InsertTypeEntity(newClass);
         }
 
         public bool InsertAssociation(AssociationRelationship associaton)
         {
-            if (associaton != null && !model.Relationships.Contains(associaton) &&
-                model.Entities.Contains(associaton.First) && model.Entities.Contains(associaton.Second))
-            {
-                AddAssociation(associaton);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(associaton);
         }
-
 
         public bool InsertDependency(DependencyRelationship dependency)
         {
-            if (dependency != null && !model.Relationships.Contains(dependency) &&
-                model.Entities.Contains(dependency.First) && model.Entities.Contains(dependency.Second))
-            {
-                AddDependency(dependency);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(dependency);
         }
 
         public bool InsertGeneralization(GeneralizationRelationship generalization)
         {
-            if (generalization != null && !model.Relationships.Contains(generalization) &&
-                model.Entities.Contains(generalization.First) && model.Entities.Contains(generalization.Second))
-            {
-                AddGeneralization(generalization);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(generalization);
         }
 
         public bool InsertNesting(NestingRelationship nesting)
         {
-            if (nesting != null && !model.Relationships.Contains(nesting) &&
-                model.Entities.Contains(nesting.First) && model.Entities.Contains(nesting.Second))
-            {
-                AddNesting(nesting);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(nesting);
         }
 
         public bool InsertRealization(RealizationRelationship realization)
         {
-            if (realization != null && !model.Relationships.Contains(realization) &&
-                model.Entities.Contains(realization.First) && model.Entities.Contains(realization.Second))
-            {
-                AddRealization(realization);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(realization);
         }
 
         /// <exception cref="ArgumentNullException">
@@ -214,7 +146,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public AssociationRelationship AddAggregation(TypeBase first, TypeBase second)
         {
-            return model.AddAssociation(first, second);
+            return model.AddAggregation(first, second);
         }
 
         public GeneralizationRelationship AddGeneralization(CompositeType derivedType,
@@ -258,7 +190,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             return dependency;
         }
 
-        public NestingRelationship AddNesting(CompositeType parentType, TypeBase innerType)
+        public NestingRelationship AddNesting(INestable parentType, INestableChild innerType)
         {
             return model.AddNesting(parentType, innerType);
         }
@@ -271,9 +203,19 @@ namespace NClass.DiagramEditor.ClassDiagram
             return nesting;
         }
 
+        public Package AddPackage()
+        {
+            return model.AddPackage();
+        }
+
         public ClassType AddClass()
         {
             return model.AddClass();
+        }
+
+        private void AddPackage(Package package)
+        {
+            AddShape(new PackageShape(package));
         }
 
         private void AddClass(ClassType classType)
@@ -325,6 +267,10 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             switch (type)
             {
+                case EntityType.Package:
+                    AddPackage();
+                    break;
+
                 case EntityType.Class:
                     AddClass();
                     break;
@@ -361,6 +307,10 @@ namespace NClass.DiagramEditor.ClassDiagram
         {
             switch (e.Entity.EntityType)
             {
+                case EntityType.Package:
+                    AddPackage(e.Entity as Package);
+                    break;
+
                 case EntityType.Class:
                     AddClass(e.Entity as ClassType);
                     break;
@@ -427,12 +377,20 @@ namespace NClass.DiagramEditor.ClassDiagram
             }
         }
 
+        private void OnEntityNested(object sender, EntityEventArgs e)
+        {
+            var containerEntity = (IEntity) sender;
+            var childEntity = e.Entity;
+            var containerShape = (ShapeContainer)GetShape(containerEntity);
+            var childShape = GetShape(childEntity);
+            containerShape.AttachShapes(new List<Shape> {childShape});
+        }
+
         public override void KeyDown(KeyEventArgs e)
         {
             //TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
             RedrawSuspended = true;
 
-            // Ctrl + Shift + ?
             if (e.Modifiers == (Keys.Control | Keys.Shift))
             {
                 switch (e.KeyCode)
@@ -471,11 +429,9 @@ namespace NClass.DiagramEditor.ClassDiagram
             RedrawSuspended = false;
         }
 
-        public override void CreateShape(EntityType type)
+        public override void CreateShape(EntityType type, Point? where = null)
         {
-            state = State.CreatingShape;
-            shapeType = type;
-            newShapeType = type;
+            base.CreateShape(type);
 
             switch (type)
             {
@@ -486,13 +442,16 @@ namespace NClass.DiagramEditor.ClassDiagram
                 case EntityType.Structure:
                     shapeOutline = TypeShape.GetOutline(Style.CurrentStyle);
                     break;
-
+                case EntityType.Package:
+                    shapeOutline = PackageShape.GetOutline(Style.CurrentStyle);
+                    break;
                 case EntityType.Comment:
                     shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
                     break;
             }
 
-            shapeOutline.Location = new Point((int) mouseLocation.X, (int) mouseLocation.Y);
+            //shapeOutline.Location = new Point((int) mouseLocation.X, (int) mouseLocation.Y);
+            shapeOutline.Location = where ?? new Point((int)mouseLocation.X, (int)mouseLocation.Y);
             Redraw();
         }
 
@@ -524,6 +483,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model = new ClassModel(language);
                 model.EntityRemoved += OnEntityRemoved;
                 model.EntityAdded += OnEntityAdded;
+                model.EntityNested += OnEntityNested;
                 model.RelationRemoved += OnRelationRemoved;
                 model.RelationAdded += OnRelationAdded;
                 model.Deserializing += OnDeserializing;

@@ -18,6 +18,7 @@ namespace NClass.Core
 {
 	public enum EntityType
 	{
+        Package,
 		Class,
 		Structure,
 		Interface,

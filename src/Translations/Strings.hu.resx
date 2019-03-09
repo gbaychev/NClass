@@ -1117,4 +1117,7 @@ Szeretné most letölteni a szükséges keretrendszert a Microsoft honlapjáról
   <data name="MenuUseCaseDiagram" xml:space="preserve">
     <value>Use Case Diagram</value>
   </data>
+  <data name="AuthorRetired" xml:space="preserve">
+    <value>Balazs Tihanyi</value>
+  </data>
 </root>

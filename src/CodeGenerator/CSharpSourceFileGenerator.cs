@@ -38,9 +38,13 @@ namespace NClass.CodeGenerator
 		protected override void WriteFileContent()
 		{
 			WriteUsings();
-			OpenNamespace();
+
+			var opened = OpenNamespace();
+
 			WriteType(Type);
-			CloseNamespace();
+
+			if(opened)
+				CloseNamespace();
 		}
 
 		private void WriteUsings()
@@ -53,11 +57,32 @@ namespace NClass.CodeGenerator
 				AddBlankLine();
 		}
 
-		private void OpenNamespace()
+        private string GetNamespaceDeclaration(TypeBase type)
+        {
+            var namespaceDeclaration = Settings.Default.UseRootNamespace ? RootNamespace : string.Empty;
+
+            if (type.NestingParent is Package parentPackage)
+                if (Settings.Default.UseRootNamespace)
+                    namespaceDeclaration += "." + parentPackage.FullName;
+                else
+                    namespaceDeclaration = parentPackage.FullName;
+
+            return namespaceDeclaration;
+        }
+
+		private bool OpenNamespace()
 		{
-			WriteLine("namespace " + RootNamespace);
+            var namespaceDeclaration = GetNamespaceDeclaration(Type);
+
+            //Technicaly it's possible to define type without namespace in C#
+            if (string.IsNullOrWhiteSpace(namespaceDeclaration))
+				return false;
+
+			WriteLine("namespace " + namespaceDeclaration);
 			WriteLine("{");
 			IndentLevel++;
+
+			return true;
 		}
 
 		private void CloseNamespace()

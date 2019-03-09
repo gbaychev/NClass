@@ -13,7 +13,9 @@
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;System&lt;/string&gt;
   &lt;string&gt;System.Collections.Generic&lt;/string&gt;
+  &lt;string&gt;System.Linq&lt;/string&gt;
   &lt;string&gt;System.Text&lt;/string&gt;
+  &lt;string&gt;System.Threading.Tasks&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="JavaImportList" Type="System.Collections.Specialized.StringCollection" Scope="User">
@@ -24,12 +26,15 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="SolutionType" Type="NClass.CodeGenerator.SolutionType" Scope="User">
-      <Value Profile="(Default)">VisualStudio2008</Value>
+      <Value Profile="(Default)">VisualStudio2017</Value>
     </Setting>
     <Setting Name="DestinationPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="UseNotImplementedExceptions" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UseRootNamespace" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

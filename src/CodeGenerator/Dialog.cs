@@ -63,6 +63,7 @@ namespace NClass.CodeGenerator
 			updIndentSize.Value = Settings.Default.IndentSize;
 			cboSolutionType.SelectedIndex = (int) Settings.Default.SolutionType;
 			chkNotImplemented.Checked = Settings.Default.UseNotImplementedExceptions;
+		    chkUseRootnamespace.Checked = Settings.Default.UseRootNamespace;
 			cboLanguage.SelectedIndex = 0;
 		}
 
@@ -259,6 +260,7 @@ namespace NClass.CodeGenerator
 			Settings.Default.IndentSize = (int) updIndentSize.Value;
 			Settings.Default.SolutionType = (SolutionType) cboSolutionType.SelectedIndex;
 			Settings.Default.UseNotImplementedExceptions = chkNotImplemented.Checked;
+		    Settings.Default.UseRootNamespace = chkUseRootnamespace.Checked;
 		}
 	}
 }

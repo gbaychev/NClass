@@ -30,6 +30,7 @@ namespace NClass.GUI
 		{
 			const int MinWidth = 60;
 			const int TextMargin = 20;
+		    public const int IconMargin = 20;
 
 			IDocument document;
 			TabBar parent;
@@ -81,7 +82,7 @@ namespace NClass.GUI
 			{
 				get
 				{
-					return Math.Max(MinWidth, (int) TextWidth + TextMargin);
+					return Math.Max(MinWidth, (int) TextWidth + TextMargin + IconMargin);
 				}
 			}
 
@@ -110,6 +111,64 @@ namespace NClass.GUI
 			{
 				return text;
 			}
+
+		    public Rectangle Bounds { get; private set; }
+
+		    public bool IsClosingSignActive { get; private set; }
+
+		    public void Draw(Graphics g, Rectangle tabRectangle, Brush activeTabBrush, Brush inactiveTabBrush,
+		        Pen borderPen, Brush textBrush, StringFormat stringFormat, Font activeTabFont, Font inactiveTabFont)
+		    {
+		        var top = (this.IsActive ? TopMargin : TopMargin + 2);
+
+		        var margin = (tabRectangle.Height - ClosingSignSize) / 2;
+		        var closingSignLeft = tabRectangle.Left + tabRectangle.Width - 4 - ClosingSignSize;
+                var tabBrush = (this.IsActive ? activeTabBrush : inactiveTabBrush);
+		        var imageRectangle = new Rectangle(tabRectangle.Left + 2, top + 2, 16, 16);
+		        var tabTextRectangle = new Rectangle(tabRectangle.Left + Tab.IconMargin, top, closingSignLeft - tabRectangle.Left - IconMargin, tabRectangle.Height);
+		        var icon = BitmapHelper.GetBitmapForDocument(Document);
+
+		        // To display bottom line for inactive tabs
+		        if (!IsActive)
+		        {
+		            tabRectangle.Height--;
+		            tabTextRectangle.Height--;
+		            imageRectangle.Height--;
+		        }
+
+		        this.Bounds = tabRectangle;
+
+		        g.FillRectangle(tabBrush, tabRectangle); // Draw background
+		        g.DrawRectangle(borderPen, tabRectangle); // Draw border
+
+		        var font = (IsActive) ? activeTabFont : inactiveTabFont;
+		        g.DrawImage(icon, imageRectangle);
+		        g.DrawString(Text, font, textBrush, tabTextRectangle, stringFormat);
+
+		        Color lineColor = IsClosingSignActive ? SystemColors.ControlText : SystemColors.ControlDark;
+		        Pen linePen = new Pen(lineColor, 2);
+
+		        g.DrawLine(linePen, closingSignLeft, tabRectangle.Top + margin, closingSignLeft + ClosingSignSize, tabRectangle.Top + margin + ClosingSignSize);
+		        g.DrawLine(linePen, closingSignLeft, tabRectangle.Top + margin + ClosingSignSize, closingSignLeft + ClosingSignSize, tabRectangle.Top + margin);
+		        linePen.Dispose();
+            }
+
+		    private bool IsOverClosingSign(Point location)
+		    {
+		        var margin = (Bounds.Height - ClosingSignSize) / 2;
+		        int closingSignLeft = Bounds.Left + Bounds.Width - 4 - ClosingSignSize;
+
+		        return (
+		            location.X >= closingSignLeft && location.X <= closingSignLeft + ClosingSignSize &&
+		            location.Y >= margin && location.Y <= margin + ClosingSignSize
+		        );
+		    }
+
+		    public void OnMouseMove(MouseEventArgs args)
+		    {
+		        IsClosingSignActive = IsOverClosingSign(args.Location);
+                this.parent.Invalidate(Bounds);
+		    }
 		}
 
 
@@ -135,12 +194,13 @@ namespace NClass.GUI
 		{
 			InitializeComponent();
 			UpdateTexts();
+		    DoubleBuffered = true;
 			this.BackColor = SystemColors.Control;
 			this.SetStyle(ControlStyles.Selectable, false);
 			this.SetStyle(ControlStyles.ResizeRedraw, true);
 
 			stringFormat = new StringFormat(StringFormat.GenericTypographic);
-			stringFormat.Alignment = StringAlignment.Center;
+			stringFormat.Alignment = StringAlignment.Near;
 			stringFormat.LineAlignment = StringAlignment.Center;
 			stringFormat.Trimming = StringTrimming.EllipsisCharacter;
 			stringFormat.FormatFlags |= StringFormatFlags.NoWrap;
@@ -328,7 +388,7 @@ namespace NClass.GUI
 			Tab selectedTab = PickTab(e.Location);
 			if (selectedTab != null)
 			{
-				if (e.Button == MouseButtons.Middle)
+				if (e.Button == MouseButtons.Middle || selectedTab.IsClosingSignActive)
 				{
 					docManager.Close(selectedTab.Document);
 				}
@@ -338,10 +398,6 @@ namespace NClass.GUI
 					grabbedTab = selectedTab;
 					originalPosition = e.X;
 				}
-			}
-			else if (docManager.HasDocument && IsOverClosingSign(e.Location))
-			{
-				docManager.Close(docManager.ActiveDocument);
 			}
 		}
 
@@ -365,23 +421,8 @@ namespace NClass.GUI
 				MoveTab(grabbedTab, e.Location);
 			}
 
-			bool overClosingSign = IsOverClosingSign(e.Location);
-			if (activeCloseButton != overClosingSign)
-			{
-				activeCloseButton = overClosingSign;
-				Invalidate();
-			}
-		}
-
-		private bool IsOverClosingSign(Point location)
-		{
-			int margin = (Height - ClosingSignSize) / 2;
-			int left = Width - margin - ClosingSignSize;
-
-			return (
-				location.X >= left && location.X <= left + ClosingSignSize &&
-				location.Y >= margin && location.Y <= margin + ClosingSignSize
-			);
+		    var tab = PickTab(e.Location);
+		    tab?.OnMouseMove(e);
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -415,7 +456,6 @@ namespace NClass.GUI
 			if (tabs.Count > 0)
 			{
 				DrawTabs(e.Graphics);
-				DrawCloseIcon(e.Graphics);
 			}
 		}
 
@@ -458,61 +498,33 @@ namespace NClass.GUI
 			}
 		}
 
-		private void DrawTabs(Graphics g)
-		{
-			Pen borderPen = new Pen(BorderColor);
-			Brush activeTabBrush = new SolidBrush(ActiveTabColor);
-			Brush inactiveTabBrush = new LinearGradientBrush(
-				new Rectangle(0, 5, Width, Height - 1), ActiveTabColor,
-				SystemColors.ControlLight, LinearGradientMode.Vertical);
-			Brush textBrush;
-			int left = LeftMargin;
+        private void DrawTabs(Graphics g)
+        {
+            var borderPen = new Pen(BorderColor);
+            var activeTabBrush = new SolidBrush(ActiveTabColor);
+            var inactiveTabBrush = new LinearGradientBrush(
+                new Rectangle(0, 5, Width, Height - 1), ActiveTabColor,
+                SystemColors.ControlLight, LinearGradientMode.Vertical);
+            var left = LeftMargin;
 
-			if (ForeColor.IsKnownColor)
-				textBrush = SystemBrushes.FromSystemColor(ForeColor);
-			else
-				textBrush = new SolidBrush(ForeColor);
+            var textBrush = ForeColor.IsKnownColor ? SystemBrushes.FromSystemColor(ForeColor) : new SolidBrush(ForeColor);
 
-			g.DrawLine(borderPen, 0, Height - 1, left, Height - 1);
-			foreach (Tab tab in tabs)
-			{
-				//TODO: szépíteni
-				bool isActiveTab = (tab == activeTab);
-				int top = (isActiveTab ? TopMargin : TopMargin + 2);
-				Brush tabBrush = (isActiveTab ? activeTabBrush : inactiveTabBrush);
-				Rectangle tabRectangle = new Rectangle(left, top, tab.Width, Height - top);
+            g.DrawLine(borderPen, 0, Height - 1, left, Height - 1);
+            foreach (Tab tab in tabs)
+            {
+                var top = (tab.IsActive ? TopMargin : TopMargin + 2);
+                var tabRectangle = new Rectangle(left, top, tab.Width, Height - top);
+                tab.Draw(g, tabRectangle, activeTabBrush, inactiveTabBrush, borderPen, textBrush, stringFormat, activeTabFont, Font);
+                left += tab.Width;
+            }
+            g.DrawLine(borderPen, left, Height - 1, Width - 1, Height - 1);
 
-				// To display bottom line for inactive tabs
-				if (!isActiveTab)
-					tabRectangle.Height--;
-
-				g.FillRectangle(tabBrush, tabRectangle); // Draw background
-				g.DrawRectangle(borderPen, tabRectangle); // Draw border
-				Font font = (isActiveTab) ? activeTabFont : Font;
-				g.DrawString(tab.Text, font, textBrush, tabRectangle, stringFormat);
-
-				left += tab.Width;
-			}
-			g.DrawLine(borderPen, left, Height - 1, Width - 1, Height - 1);
-
-			borderPen.Dispose();
-			if (!ForeColor.IsKnownColor)
-				textBrush.Dispose();
-			activeTabBrush.Dispose();
-			inactiveTabBrush.Dispose();
-		}
-
-		private void DrawCloseIcon(Graphics g)
-		{
-			Color lineColor = activeCloseButton ? SystemColors.ControlText : SystemColors.ControlDark;
-			int margin = (Height - ClosingSignSize) / 2;
-			int left = Width - margin - ClosingSignSize;
-			Pen linePen = new Pen(lineColor, 2);
-
-			g.DrawLine(linePen, left, margin, left + ClosingSignSize, margin + ClosingSignSize);
-			g.DrawLine(linePen, left, margin + ClosingSignSize, left + ClosingSignSize, margin);
-			linePen.Dispose();
-		}
+            borderPen.Dispose();
+            if (!ForeColor.IsKnownColor)
+                textBrush.Dispose();
+            activeTabBrush.Dispose();
+            inactiveTabBrush.Dispose();
+        }
 
 		private void contextMenu_Opening(object sender, CancelEventArgs e)
 		{

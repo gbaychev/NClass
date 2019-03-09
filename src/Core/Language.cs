@@ -254,7 +254,15 @@ namespace NClass.Core
 		/// </exception>
 		protected internal abstract void ValidateField(Field field);
 
-		protected internal abstract ClassType CreateClass();
+        /// <exception cref="InvalidOperationException">
+        /// The language does not support packages.
+        /// </exception>
+        protected internal abstract Package CreatePackage();
+
+        /// <exception cref="InvalidOperationException">
+        /// The language does not support classes.
+        /// </exception>
+        protected internal abstract ClassType CreateClass();
 
 		/// <exception cref="InvalidOperationException">
 		/// The language does not support structures.

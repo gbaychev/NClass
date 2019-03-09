@@ -70,12 +70,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadSyntaxException.cs" />
+    <Compile Include="Declarations\IArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\IEventDeclaration.cs" />
+    <Compile Include="Declarations\IFieldDeclaration.cs" />
+    <Compile Include="Declarations\IMemberDeclaration.cs" />
+    <Compile Include="Declarations\IParameterDeclaration.cs" />
+    <Compile Include="Declarations\IPropertyDeclaration.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\EntityType.cs" />
+    <Compile Include="Entities\INestable.cs" />
+    <Compile Include="Entities\INestableChild.cs" />
+    <Compile Include="Entities\NestableChildHelper.cs" />
+    <Compile Include="Entities\NestableHelper.cs" />
+    <Compile Include="Entities\Package.cs" />
+    <Compile Include="Declarations\IMethodDeclaration.cs" />
     <Compile Include="Entities\IUseCaseEntity.cs" />
     <Compile Include="Entities\UseCase.cs" />
     <Compile Include="Members\MemberType.cs" />
     <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="NestingChildEventArgs.cs" />
+    <Compile Include="NestingEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\UseCaseModel.cs" />
     <Compile Include="RelationshipEventArgs.cs" />
     <Compile Include="Relationships\AssociationType.cs" />
@@ -173,9 +188,7 @@
       <Name>Translations</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

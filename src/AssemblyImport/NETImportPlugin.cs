@@ -16,12 +16,16 @@
 
 using System;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using NClass.AssemblyImport.Lang;
 using NClass.CSharp;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
 using NClass.GUI;
+using NReflect;
+using NReflect.Filter;
 
 namespace NClass.AssemblyImport
 {
@@ -146,14 +150,52 @@ namespace NClass.AssemblyImport
           if(settingsForm.ShowDialog() == DialogResult.OK)
           {
             ClassDiagram diagram = new ClassDiagram(CSharpLanguage.Instance);
-            NETImport importer = new NETImport(diagram, settings);
-
-            if(importer.ImportAssembly(fileName))
+            if(ImportAssembly(fileName, diagram, settings))
             {
               Workspace.ActiveProject.Add(diagram);
             }
           }
         }
+      }
+    }
+
+    private bool ImportAssembly(string fileName, ClassDiagram diagram, ImportSettings settings)
+    {
+      if (string.IsNullOrEmpty(fileName))
+      {
+        MessageBox.Show(Strings.Error_NoAssembly, Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
+
+      try
+      {
+        NETImport importer = new NETImport(diagram, settings);
+        return importer.ImportAssembly(fileName);
+      }
+      catch (UnsafeTypesPresentException)
+      {
+        MessageBox.Show(null, Strings.UnsafeTypesPresent, Strings.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return true;
+      }
+      catch (ReflectionTypeLoadException)
+      {
+        MessageBox.Show(Strings.Error_MissingReferencedAssemblies, Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
+      catch (FileLoadException)
+      {
+        MessageBox.Show(Strings.Error_MissingReferencedAssemblies, Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
+      catch (BadImageFormatException)
+      {
+        MessageBox.Show(Strings.Error_BadImageFormat, Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(String.Format(Strings.Error_GeneralException, ex), Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
       }
     }
 

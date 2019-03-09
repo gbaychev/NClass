@@ -223,6 +223,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New Package.
+        /// </summary>
+        public static string AddNewPackage {
+            get {
+                return ResourceManager.GetString("AddNewPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New Realization.
         /// </summary>
         public static string AddNewRealization {
@@ -286,11 +295,20 @@ namespace NClass.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Balazs Tihanyi.
+        ///   Looks up a localized string similar to Georgi Baychev.
         /// </summary>
         public static string Author {
             get {
                 return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balazs Tihanyi.
+        /// </summary>
+        public static string AuthorRetired {
+            get {
+                return ResourceManager.GetString("AuthorRetired", resourceCulture);
             }
         }
         
@@ -854,6 +872,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child type does not support nesting..
+        /// </summary>
+        public static string ErrorChildNestingNotSupported {
+            get {
+                return ResourceManager.GetString("ErrorChildNestingNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to the server..
         /// </summary>
         public static string ErrorConnectToServer {
@@ -1152,15 +1179,6 @@ namespace NClass.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent type does not support nesting..
-        /// </summary>
-        public static string ErrorNestingNotSupported {
-            get {
-                return ResourceManager.GetString("ErrorNestingNotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No printers are installed..
         /// </summary>
         public static string ErrorNoPrinters {
@@ -1215,11 +1233,29 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Package can only be nested in other package..
+        /// </summary>
+        public static string ErrorPackageParentNotPackage {
+            get {
+                return ResourceManager.GetString("ErrorPackageParentNotPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter&apos;s type cannot be {0}..
         /// </summary>
         public static string ErrorParameterType {
             get {
                 return ResourceManager.GetString("ErrorParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent type does not support nesting..
+        /// </summary>
+        public static string ErrorParentNestingNotSupported {
+            get {
+                return ResourceManager.GetString("ErrorParentNestingNotSupported", resourceCulture);
             }
         }
         
@@ -1257,6 +1293,15 @@ namespace NClass.Translations {
         public static string ErrorRelationshipDoesNotExist {
             get {
                 return ResourceManager.GetString("ErrorRelationshipDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No releases found.
+        /// </summary>
+        public static string ErrorReleasesNotFound {
+            get {
+                return ResourceManager.GetString("ErrorReleasesNotFound", resourceCulture);
             }
         }
         
@@ -1891,6 +1936,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Edit package....
+        /// </summary>
+        public static string MenuEditPackage {
+            get {
+                return ResourceManager.GetString("MenuEditPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Enum.
         /// </summary>
         public static string MenuEnum {
@@ -2094,6 +2148,15 @@ namespace NClass.Translations {
         public static string MenuOptions {
             get {
                 return ResourceManager.GetString("MenuOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Package.
+        /// </summary>
+        public static string MenuPackage {
+            get {
+                return ResourceManager.GetString("MenuPackage", resourceCulture);
             }
         }
         
@@ -2589,6 +2652,15 @@ namespace NClass.Translations {
         public static string OverrideMembers {
             get {
                 return ResourceManager.GetString("OverrideMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package.
+        /// </summary>
+        public static string Package {
+            get {
+                return ResourceManager.GetString("Package", resourceCulture);
             }
         }
         

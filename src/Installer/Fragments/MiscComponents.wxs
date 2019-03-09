@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="CG_MiscComponents">
+      <ComponentGroupRef Id="CG_Styles"/>
+      <ComponentGroupRef Id="CG_Doc"/>
+      <ComponentGroupRef Id="CG_Examples"/>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_Styles" Directory="STYLES_FOLDER">
+      <Component Id="C_VSClassDesignerStyle">
+        <File Source="$(var.SolutionDir)..\styles\Visual Studio Class Designer.dst" />
+      </Component>
+      <Component Id="C_VSClassDesignerStyleClearType">
+        <File Source="$(var.SolutionDir)..\styles\Visual Studio Class Designer (ClearType).dst" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_Doc" Directory="DOC_FOLDER">
+      <Component Id="C_Changelog">
+        <File Source="$(var.SolutionDir)..\doc\changelog.txt" />
+      </Component>
+      <Component Id="C_License">
+        <File Source="$(var.SolutionDir)..\doc\license.txt" />
+      </Component>
+      <Component Id="C_OcktokitLicense">
+        <File Source="$(var.SolutionDir)..\doc\ocktokit.license.txt" />
+      </Component>
+      <Component Id="C_PdfSharpLicense">
+        <File Source="$(var.SolutionDir)..\doc\pdfsharp.license.txt" />
+      </Component>
+      <Component Id="C_CommonmarkNetLicense">
+        <File Source="$(var.SolutionDir)..\doc\commonmark.net.license.txt" />
+      </Component>
+      <Component Id="C_Readme">
+        <File Source="$(var.SolutionDir)..\doc\readme.txt" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CG_Examples" Directory="EXAMPLES_FOLDER">
+      <Component Id="C_Shapes.ncp">
+        <File Source="$(var.SolutionDir)..\examples\shapes.ncp" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

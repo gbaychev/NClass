@@ -44,9 +44,27 @@ namespace NClass.CodeGenerator
 
 		private void WritePackageDeclaration()
 		{
-			WriteLine("package " + RootNamespace + ";");
+            var packageDeclaration = GetPackageDeclaration(Type);
+
+            if (string.IsNullOrWhiteSpace(packageDeclaration))
+                throw new InvalidOperationException("package name for types must be not empty!");
+
+			WriteLine("package " + packageDeclaration + ";");
 			AddBlankLine();
 		}
+
+        private string GetPackageDeclaration(TypeBase type)
+        {
+            var packageDeclaration = Settings.Default.UseRootNamespace ? RootNamespace : string.Empty;
+
+            if (type.NestingParent is Package parentPackage)
+                if(Settings.Default.UseRootNamespace)
+                    packageDeclaration += "." + parentPackage.FullName;
+                else
+                    packageDeclaration += parentPackage.FullName;
+
+            return packageDeclaration;
+        }
 
 		private void WriteImportList()
 		{

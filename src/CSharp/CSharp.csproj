@@ -65,21 +65,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSharpEnumValue.cs" />
+    <Compile Include="Declarations\CSharpArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\CSharpConstructorDeclaration.cs" />
+    <Compile Include="Declarations\CSharpDestructorDeclaration.cs" />
+    <Compile Include="Declarations\CSharpEventDeclaration.cs" />
+    <Compile Include="Declarations\CSharpFieldDeclaration.cs" />
+    <Compile Include="Declarations\CSharpMethodNameDeclaration.cs" />
+    <Compile Include="Declarations\CSharpParameterDeclaration.cs" />
+    <Compile Include="Declarations\CSharpPropertyDeclaration.cs" />
+    <Compile Include="Declarations\CSharpEventNameDeclaration.cs" />
+    <Compile Include="Declarations\CSharpPropertyNameDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpArgumentListDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpDestructorDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpConstructorDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpEventDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpFieldDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpMethodDeclaration.cs" />
+    <Compile Include="Declarations\CSharpMethodDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpParameterDeclaration.cs" />
+    <Compile Include="Declarations\ICSharpPropertyDeclaration.cs" />
+    <Compile Include="Members\CSharpArgumentList.cs" />
+    <Compile Include="Members\CSharpEnumValue.cs" />
     <Compile Include="CSharpLanguage.cs" />
-    <Compile Include="CSharpArgumentList.cs" />
-    <Compile Include="CSharpClass.cs" />
-    <Compile Include="CSharpConstructor.cs" />
-    <Compile Include="CSharpEnum.cs" />
-    <Compile Include="CSharpField.cs" />
-    <Compile Include="CSharpInterface.cs" />
-    <Compile Include="CSharpMethod.cs" />
-    <Compile Include="CSharpParameter.cs" />
-    <Compile Include="CSharpEvent.cs" />
-    <Compile Include="CSharpDestructor.cs" />
-    <Compile Include="CSharpDelegate.cs" />
-    <Compile Include="CSharpProperty.cs" />
-    <Compile Include="CSharpStructure.cs" />
+    <Compile Include="Members\CSharpClass.cs" />
+    <Compile Include="Members\CSharpConstructor.cs" />
+    <Compile Include="Members\CSharpEnum.cs" />
+    <Compile Include="Members\CSharpField.cs" />
+    <Compile Include="Members\CSharpInterface.cs" />
+    <Compile Include="Members\CSharpMethod.cs" />
+    <Compile Include="Members\CSharpNamespace.cs" />
+    <Compile Include="Members\CSharpParameter.cs" />
+    <Compile Include="Members\CSharpEvent.cs" />
+    <Compile Include="Members\CSharpDestructor.cs" />
+    <Compile Include="Members\CSharpDelegate.cs" />
+    <Compile Include="Members\CSharpProperty.cs" />
+    <Compile Include="Members\CSharpStructure.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -118,9 +139,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

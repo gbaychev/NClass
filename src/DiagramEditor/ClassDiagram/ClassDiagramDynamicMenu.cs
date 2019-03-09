@@ -29,6 +29,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         #region 'New' Submenu Items
         private ToolStripMenuItem mnuNewClass;
+	    private ToolStripMenuItem mnuNewPackage;
         private ToolStripMenuItem mnuNewStructure;
         private ToolStripMenuItem mnuNewInterface;
         private ToolStripMenuItem mnuNewEnum;
@@ -53,6 +54,7 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripMenuItem mnuExpandAll;
 
         private ToolStripButton toolNewClass;
+	    private ToolStripButton toolNewPackage;
         private ToolStripButton toolNewStructure;
         private ToolStripButton toolNewInterface;
         private ToolStripButton toolNewEnum;
@@ -125,6 +127,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             base.InitComponents();
 
             this.mnuNewClass = new ToolStripMenuItem(Strings.AddNewClass, Resources.Class, (o, e) => diagram?.CreateShape(EntityType.Class));
+            this.mnuNewPackage = new ToolStripMenuItem(Strings.AddNewPackage, Resources.Package, (o, e) => diagram?.CreateShape(EntityType.Package));
             this.mnuNewStructure = new ToolStripMenuItem(Strings.AddNewStructure, Resources.Structure, (o, e) => diagram?.CreateShape(EntityType.Structure));
             this.mnuNewInterface = new ToolStripMenuItem(Strings.AddNewInterface, Resources.Interface32, (o, e) => diagram?.CreateShape(EntityType.Interface));
             this.mnuNewEnum = new ToolStripMenuItem(Strings.AddNewEnum, Resources.Enum, (o, e) => diagram?.CreateShape(EntityType.Enum));
@@ -155,6 +158,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuExpandAll = new ToolStripMenuItem(Strings.MenuExpandAll, Resources.ExpandAll, (o, e) => diagram?.ExpandAll());
 
             this.mnuNewElement.DropDownItems.Add(mnuNewClass);
+	        this.mnuNewElement.DropDownItems.Add(mnuNewPackage);
             this.mnuNewElement.DropDownItems.Add(mnuNewStructure);
             this.mnuNewElement.DropDownItems.Add(mnuNewInterface);
             this.mnuNewElement.DropDownItems.Add(mnuNewEnum);
@@ -182,6 +186,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuFormat.DropDownOpening += mnuFormat_DropDownOpening;
 
             this.toolNewClass = new ToolStripButton(Strings.AddNewClass, Resources.Class, (o, e) => diagram?.CreateShape(EntityType.Class)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewPackage = new ToolStripButton(Strings.AddNewPackage, Resources.Package, (o, e) => diagram?.CreateShape(EntityType.Package)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewStructure = new ToolStripButton(Strings.AddNewStructure, Resources.Structure, (o, e) => diagram?.CreateShape(EntityType.Structure)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewInterface = new ToolStripButton(Strings.AddNewInterface, Resources.Interface32, (o, e) => diagram?.CreateShape(EntityType.Interface)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewEnum = new ToolStripButton(Strings.AddNewEnum, Resources.Enum, (o, e) => diagram?.CreateShape(EntityType.Enum)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
@@ -195,6 +200,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.toolNewNesting = new ToolStripButton(Strings.AddNewNesting, Resources.Nesting, (o, e) => diagram?.CreateConnection(RelationshipType.Nesting)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             
 	        this.elementsToolStrip.Items.Add(this.toolNewClass);
+	        this.elementsToolStrip.Items.Add(this.toolNewPackage);
 	        this.elementsToolStrip.Items.Add(this.toolNewStructure);
 	        this.elementsToolStrip.Items.Add(this.toolNewInterface);
 	        this.elementsToolStrip.Items.Add(this.toolNewEnum);

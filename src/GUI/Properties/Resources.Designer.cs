@@ -141,7 +141,7 @@ namespace NClass.GUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to btihanyi@users.sourceforge.net.
+        ///   Looks up a localized string similar to nclass@gmail.com.
         /// </summary>
         internal static string MailAddress {
             get {
@@ -280,7 +280,7 @@ namespace NClass.GUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nclass.sourceforge.net/.
+        ///   Looks up a localized string similar to https://github.com/gbaychev/NClass.
         /// </summary>
         internal static string WebAddress {
             get {

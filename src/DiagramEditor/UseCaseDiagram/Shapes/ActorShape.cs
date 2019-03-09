@@ -97,9 +97,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         protected override void OnResize(ResizeEventArgs e)
         {
-            var change = e.Change;
-            Debug.WriteLine(change);
-            if (Math.Abs(change.Width) > Math.Abs(change.Height))
+            if (Math.Abs(e.SizeChange.Width) > Math.Abs(e.SizeChange.Height))
             {
                 this.size.Height = Proportion * this.Width;
             }

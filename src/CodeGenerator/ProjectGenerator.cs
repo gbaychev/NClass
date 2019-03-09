@@ -58,21 +58,21 @@ namespace NClass.CodeGenerator
 			get { return model; }
 		}
 
-		protected string RootNamespace
-		{
-			get
-			{
-				string projectName = Model.Project.Name;
-				string modelName = Model.Name;
+	    protected string RootNamespace
+	    {
+	        get
+	        {
+	            string projectName = Model.Project.Name;
+	            string modelName = Model.Name;
 
-				if (string.Equals(projectName, modelName, StringComparison.OrdinalIgnoreCase))
-					return modelName;
-				else
-					return projectName + "." + modelName;
-			}
-		}
+	            if (string.Equals(projectName, modelName, StringComparison.OrdinalIgnoreCase))
+	                return modelName;
+	            else
+	                return projectName + "." + modelName;
+	        }
+	    }
 
-		protected List<string> FileNames
+        protected List<string> FileNames
 		{
 			get { return fileNames; }
 		}
@@ -100,7 +100,7 @@ namespace NClass.CodeGenerator
 			{
 				TypeBase type = entity as TypeBase;
 
-				if (type != null && !type.IsNested)
+				if (type != null && !type.IsTypeNested)
 				{
 					SourceFileGenerator sourceFile = CreateSourceFileGenerator(type);
 

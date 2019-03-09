@@ -1,6 +1,6 @@
 // NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016-2018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -70,22 +70,22 @@ namespace NClass.CodeGenerator
 						line = line.Replace("${RootNamespace}", RootNamespace);
 						line = line.Replace("${AssemblyName}", ProjectName);
 
-						if (line.Contains("${VS2005:"))
+						if (line.Contains("${VS2015:"))
 						{
-							if (solutionType == SolutionType.VisualStudio2005)
-								line = Regex.Replace(line, @"\${VS2005:(?<content>.+?)}", "${content}");
+							if (solutionType == SolutionType.VisualStudio2015)
+								line = Regex.Replace(line, @"\${VS2015:(?<content>.+?)}", "${content}");
 							else
-								line = Regex.Replace(line, @"\${VS2005:(?<content>.+?)}", "");
+								line = Regex.Replace(line, @"\${VS2015:(?<content>.+?)}", "");
 
 							if (line.Length == 0)
 								continue;
 						}
-						if (line.Contains("${VS2008:"))
+						if (line.Contains("${VS2017:"))
 						{
-							if (solutionType == SolutionType.VisualStudio2008)
-								line = Regex.Replace(line, @"\${VS2008:(?<content>.+?)}", "${content}");
+							if (solutionType == SolutionType.VisualStudio2017)
+								line = Regex.Replace(line, @"\${VS2017:(?<content>.+?)}", "${content}");
 							else
-								line = Regex.Replace(line, @"\${VS2008:(?<content>.+?)}", "");
+								line = Regex.Replace(line, @"\${VS2017:(?<content>.+?)}", "");
 
 							if (line.Length == 0)
 								continue;

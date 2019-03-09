@@ -46,6 +46,9 @@ namespace NClass.DiagramEditor
 		public event EventHandler VisibleAreaChanged;
 		public event EventHandler MouseHWheel;
 
+        //Mouse location in document coordinates from last OnMouseMove event
+        PointF mouseDocPrevLocation = PointF.Empty;
+
 		IDocument document = null;
 		List<PopupWindow> windows = new List<PopupWindow>();
 
@@ -565,14 +568,22 @@ namespace NClass.DiagramEditor
 				MouseHWheel(this, e);
 		}
 
+        private PointF GetDocumentCoordinates(Point location)
+        {
+            return new PointF((location.X + Document.Offset.X) / Document.Zoom,
+                              (location.Y + Document.Offset.Y) / Document.Zoom);
+        }
+
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
-			
-			if (HasDocument)
+
+            if (HasDocument)
 			{
-				AbsoluteMouseEventArgs abs_e = new AbsoluteMouseEventArgs(e, Document);
-				Document.MouseDown(abs_e);
+                var mouseDocLocation = GetDocumentCoordinates(e.Location);
+                var mouseDocOffset = new SizeF(mouseDocLocation.X - mouseDocPrevLocation.X, mouseDocLocation.Y - mouseDocPrevLocation.Y);
+                AbsoluteMouseEventArgs abs_e = new AbsoluteMouseEventArgs(e.Button, mouseDocLocation, mouseDocOffset, Document.Zoom);
+                Document.MouseDown(abs_e);
 				if (e.Button == MouseButtons.Right)
 					this.ContextMenuStrip = Document.GetContextMenu(abs_e);
 			}
@@ -584,9 +595,12 @@ namespace NClass.DiagramEditor
 			
 			if (HasDocument)
 			{
-				Document.MouseMove(new AbsoluteMouseEventArgs(e, Document));
+                var mouseDocLocation = GetDocumentCoordinates(e.Location);
+                var mouseDocOffset = new SizeF(mouseDocLocation.X - mouseDocPrevLocation.X, mouseDocLocation.Y - mouseDocPrevLocation.Y);
+                Document.MouseMove(new AbsoluteMouseEventArgs(e.Button, mouseDocLocation, mouseDocOffset, Document.Zoom));
+                mouseDocPrevLocation = mouseDocLocation;
 			}
-		}
+        }
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
@@ -594,7 +608,9 @@ namespace NClass.DiagramEditor
 			
 			if (HasDocument)
 			{
-				Document.MouseUp(new AbsoluteMouseEventArgs(e, Document));
+                var mouseDocLocation = GetDocumentCoordinates(e.Location);
+                var mouseDocOffset = new SizeF(mouseDocLocation.X - mouseDocPrevLocation.X, mouseDocLocation.Y - mouseDocPrevLocation.Y);
+                Document.MouseUp(new AbsoluteMouseEventArgs(e.Button, mouseDocLocation, mouseDocOffset, Document.Zoom));
 			}
 		}
 
@@ -604,8 +620,10 @@ namespace NClass.DiagramEditor
 			
 			if (HasDocument)
 			{
-				Document.DoubleClick(new AbsoluteMouseEventArgs(e, Document));
-			}
+                var mouseDocLocation = GetDocumentCoordinates(e.Location);
+                var mouseDocOffset = new SizeF(mouseDocLocation.X - mouseDocPrevLocation.X, mouseDocLocation.Y - mouseDocPrevLocation.Y);
+                Document.DoubleClick(new AbsoluteMouseEventArgs(e.Button, mouseDocLocation, mouseDocOffset, Document.Zoom));
+            }
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)

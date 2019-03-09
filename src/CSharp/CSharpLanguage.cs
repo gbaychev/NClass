@@ -39,7 +39,7 @@ namespace NClass.CSharp
 		private const string ArrayPattern = @"(\s*\[\s*(,\s*)*\])*";
 
 		// System.String[]
-		internal const string BaseTypePattern = TypeNamePattern + ArrayPattern;
+		internal const string BaseTypePattern = TypeNamePattern + @"\??" + ArrayPattern;
 
 		// <System.String[], System.String[]>
 		private const string GenericPattern =
@@ -47,7 +47,7 @@ namespace NClass.CSharp
 		
 		// System.Collections.Generic.List<System.String[], System.String[]>[]
 		internal const string GenericTypePattern =
-			TypeNamePattern + @"(\s*" + GenericPattern + ")?" + ArrayPattern;
+			TypeNamePattern + @"(\s*" + GenericPattern + @")?\??" + ArrayPattern;
 		
 		// <List<int>[], List<string>>
 		private const string GenericPattern2 =
@@ -466,7 +466,7 @@ namespace NClass.CSharp
 			}
 			else {
 				throw new BadSyntaxException(Strings.ErrorInvalidTypeName);
-			}			
+			}
 		}
 
 		public override AccessModifier TryParseAccessModifier(string value)
@@ -577,6 +577,11 @@ namespace NClass.CSharp
 			else
 				return modifier.ToString().ToLower();
 		}
+
+        protected override Package CreatePackage()
+        {
+            return new CSharpNamespace();
+        }
 
 		protected override ClassType CreateClass()
 		{

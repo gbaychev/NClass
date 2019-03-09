@@ -1,6 +1,6 @@
 // NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016-2018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -16,19 +16,17 @@
 
 using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.CSharp;
 using NClass.Java;
-using System.Text;
 using NClass.Core.Models;
 
 namespace NClass.CodeGenerator
 {
 	internal sealed class VSSolutionGenerator : SolutionGenerator
 	{
-		SolutionType version = SolutionType.VisualStudio2008;
+		SolutionType version = SolutionType.VisualStudio2017;
 
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="project"/> is null.
@@ -46,33 +44,24 @@ namespace NClass.CodeGenerator
 			}
 			set
 			{
-				if (value == SolutionType.VisualStudio2005 ||
-					value == SolutionType.VisualStudio2008)
+				if (value == SolutionType.VisualStudio2015 ||
+					value == SolutionType.VisualStudio2017)
 				{
 					version = value;
 				}
 			}
 		}
 
-		private string VersionNumber
-		{
-			get
-			{
-				if (Version == SolutionType.VisualStudio2005)
-					return "9.00";
-				else
-					return "10.00";
-			}
-		}
+        private string VersionNumber => "12.00";
 
-		private string VersionString
+        private string VersionString
 		{
 			get
 			{
-				if (Version == SolutionType.VisualStudio2005)
-					return "Visual Studio 2005";
+				if (Version == SolutionType.VisualStudio2015)
+					return "Visual Studio 14";
 				else
-					return "Visual Studio 2008";
+					return "Visual Studio 15";
 			}
 		}
 

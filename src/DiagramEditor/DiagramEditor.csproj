@@ -70,6 +70,14 @@
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
+    <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />
+    <Compile Include="ClassDiagram\Editors\PackageEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassDiagram\Editors\PackageEditor.designer.cs">
+      <DependentUpon>PackageEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDiagram\Shapes\PackageShape.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
     <Compile Include="Diagrams\ConnectionCreator.cs" />
     <Compile Include="Diagrams\Connections\Connection.cs" />
@@ -169,7 +177,9 @@
     </Compile>
     <Compile Include="Diagrams\IConnectionCreator.cs" />
     <Compile Include="Diagrams\IDiagram.cs" />
+    <Compile Include="Diagrams\Shapes\ShapeContainer.cs" />
     <Compile Include="GdiGraphics.cs" />
+    <Compile Include="BitmapHelper.cs" />
     <Compile Include="IGraphics.cs" />
     <Compile Include="IClipboardItem.cs" />
     <Compile Include="EditorControlEventArgs.cs" />
@@ -231,6 +241,7 @@
     <Compile Include="DocumentEventArgs.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="Diagrams\MoveEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -348,6 +359,9 @@
       <DependentUpon>MemberEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ClassDiagram\Editors\PackageEditor.resx">
+      <DependentUpon>PackageEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -408,7 +422,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\csharp.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\java.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
