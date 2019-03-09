@@ -20,9 +20,7 @@ using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
-#if DEBUG
-using NClass.DiagramEditor.Diagrams.Editors;    
-#endif
+using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
