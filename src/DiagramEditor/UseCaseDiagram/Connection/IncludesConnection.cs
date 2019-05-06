@@ -19,25 +19,23 @@ using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class IncludesConnection : Diagrams.Connections.RoutedConnection
+    public class IncludesConnection : RoutedConnection
     {
-        private IncludesRelationship includesRelationship;
+        private readonly IncludesRelationship includesRelationship;
         private Pen linePen = new Pen(Color.Black);
 
-        public IncludesConnection(Relationship relationship, Shape firstShape, Shape secondShape) 
+        public IncludesConnection(IncludesRelationship relationship, Shape firstShape, Shape secondShape) 
             : base(relationship, firstShape, secondShape)
         {
-            this.includesRelationship = (IncludesRelationship)relationship;
+            this.includesRelationship = relationship;
         }
 
-        protected internal override Relationship Relationship
-        {
-            get { return includesRelationship; }
-        }
+        protected internal override Relationship Relationship => includesRelationship;
 
         protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
         {

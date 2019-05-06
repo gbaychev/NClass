@@ -23,13 +23,13 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
     public class UseCaseGeneralizationConnection : Diagrams.Connections.RoutedConnection
     {
-        private UseCaseGeneralization generalization;
+        private readonly UseCaseGeneralization generalization;
         private Pen linePen = new Pen(Color.Black);
 
-        public UseCaseGeneralizationConnection(Relationship relationship, Shape firstShape, Shape secondShape)
+        public UseCaseGeneralizationConnection(UseCaseGeneralization relationship, Shape firstShape, Shape secondShape)
             : base(relationship, firstShape, secondShape)
         {
-            this.generalization = (UseCaseGeneralization)relationship;
+            this.generalization = relationship;
         }
 
         protected internal override Relationship Relationship => generalization;

@@ -15,18 +15,19 @@
 
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class UseCaseAssociationConnection : Diagrams.Connections.RoutedConnection
+    public class UseCaseAssociationConnection : RoutedConnection
     {
-        private UseCaseAssociation association;
+        private readonly UseCaseAssociation association;
 
-        public UseCaseAssociationConnection(Relationship relationship, Shape firstShape, Shape secondShape)
+        public UseCaseAssociationConnection(UseCaseAssociation relationship, Shape firstShape, Shape secondShape)
             : base(relationship, firstShape, secondShape)
         {
-            this.association = (UseCaseAssociation)relationship;
+            this.association = relationship;
         }
 
         protected internal override Relationship Relationship => association;

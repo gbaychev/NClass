@@ -40,6 +40,8 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected bool copied = false;
 
+        protected const int PickTolerance = 4;
+
         protected AbstractConnection(Relationship relationship, Shape startShape, Shape endShape)
         {
             if (relationship == null)
@@ -216,5 +218,15 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         }
 
         protected internal abstract AbstractConnection Paste(IDiagram diagram, Size offset, Shape first, Shape second);
+        protected abstract bool Picked(PointF mouseLocation, float zoom);
+        protected abstract bool Picked(RectangleF rectangle);
+
+        protected virtual void DrawStartCap(IGraphics g, bool onScreen, Style style)
+        {
+        }
+
+        protected virtual void DrawEndCap(IGraphics g, bool onScreen, Style style)
+        {
+        }
     }
 }

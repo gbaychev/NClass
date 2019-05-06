@@ -32,7 +32,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
     {
         public const int Spacing = 25;
         public const int PrecisionSize = 6;
-        const int PickTolerance = 4;
         protected static readonly Size TextMargin = new Size(5, 3);
         static readonly float[] dashPattern = new float[] { 5, 5 };
         static Pen linePen = new Pen(Color.Black);
@@ -48,16 +47,14 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         public event EventHandler RouteChanged;
         public event BendPointEventHandler BendPointMove;
 
-        private bool simpleConnection = false;
 
         /// <exception cref="ArgumentNullException">
         /// <paramref name="relationship"/> is null.-or-
         /// <paramref name="startShape"/> is null.-or-
         /// <paramref name="endShape"/> is null.
         /// </exception>
-        protected RoutedConnection(Relationship relationship, Shape startShape, Shape endShape, bool simpleConnection = false) : base(relationship, startShape, endShape)
+        protected RoutedConnection(Relationship relationship, Shape startShape, Shape endShape) : base(relationship, startShape, endShape)
         {
-            this.simpleConnection = simpleConnection;
 
             InitOrientations();
 
@@ -378,14 +375,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             g.Transform = transformState;
         }
 
-        protected virtual void DrawStartCap(IGraphics g, bool onScreen, Style style)
-        {
-        }
-
-        protected virtual void DrawEndCap(IGraphics g, bool onScreen, Style style)
-        {
-        }
-
         private void DrawLabel(IGraphics g, bool onScreen, Style style)
         {
             if (Relationship.Label != null)
@@ -492,15 +481,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 }
 
                 var oldSmoothingMode = g.SmoothingMode;
-                if (this.simpleConnection)
-                {
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                }
                 g.DrawLines(DiagramConstants.SelectionPen, route);
-                if (this.simpleConnection)
-                {
-                    g.SmoothingMode = oldSmoothingMode;
-                }
 
                 if (zoom > UndreadableZoom)
                 {
@@ -779,26 +760,16 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         {
             routeCache.Clear();
 
-            if (!simpleConnection)
-            {
-                FlowDirection direction = AddStartSegment();
+            FlowDirection direction = AddStartSegment();
 
-                LinkedListNode<BendPoint> current = bendPoints.First;
-                while (current != bendPoints.Last)
-                {
-                    direction = AddInnerSegment(current, direction);
-                    current = current.Next;
-                }
-
-                AddEndSegment();
-            }
-            else
+            LinkedListNode<BendPoint> current = bendPoints.First;
+            while (current != bendPoints.Last)
             {
-                AddStartSegment();
-                AddEndSegment();
-                // remove the middle point
-                routeCache.RemoveAt(1);
+                direction = AddInnerSegment(current, direction);
+                current = current.Next;
             }
+
+            AddEndSegment();
 
             routeCacheArray = routeCache.ToArray();
             Array.Reverse(routeCacheArray);
@@ -1323,24 +1294,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             }
         }
 
-        private bool Picked(PointF mouseLocation, float zoom)
-        {
-            return this.simpleConnection ? SimplePicked(mouseLocation, zoom) :
-                                           RoutedPicked(mouseLocation, zoom);
-        }
-
-        private bool SimplePicked(PointF mouseLocation, float zoom)
-        {
-            float tolerance = PickTolerance / zoom / 2;
-            var p1 = routeCache[0];
-            var p2 = routeCache[1];
-            var totalDistance = Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
-            var firstDistance = Math.Sqrt(Math.Pow(p1.X - mouseLocation.X, 2) + Math.Pow(p1.Y - mouseLocation.Y, 2));
-            var secondDistance = Math.Sqrt(Math.Pow(p2.X - mouseLocation.X, 2) + Math.Pow(p2.Y - mouseLocation.Y, 2));
-            return Math.Abs(firstDistance + secondDistance - totalDistance) < tolerance;
-        }
-
-        private bool RoutedPicked(PointF mouseLocation, float zoom)
+        protected override bool Picked(PointF mouseLocation, float zoom)
         {
             float tolerance = PickTolerance / zoom;
 
@@ -1374,50 +1328,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             return false;
         }
 
-
-        private bool Picked(RectangleF rectangle)
-        {
-            return this.simpleConnection ? SimplePicked(rectangle) : RoutedPicked(rectangle);
-        }
-
-        private bool SimplePicked(RectangleF rectangle)
-        {
-            if (LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X, rectangle.Y), new PointF(rectangle.X + rectangle.Width, rectangle.Y)))
-                return true;
-            if (LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X + rectangle.Width, rectangle.Y), new PointF(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height)))
-                return true;
-            if (LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height), new PointF(rectangle.X, rectangle.Y + rectangle.Height)))
-                return true;
-            if (LineIntersectsLine(routeCache[0], routeCache[1], new PointF(rectangle.X, rectangle.Y + rectangle.Height), new PointF(rectangle.X, rectangle.Y)))
-                return true;
-
-            return rectangle.Contains(routeCache[0]) && rectangle.Contains(routeCache[1]);
-        }
-
-        private bool LineIntersectsLine(PointF l1p1, PointF l1p2, PointF l2p1, PointF l2p2)
-        {
-            float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
-            float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
-
-            if (d == 0)
-            {
-                return false;
-            }
-
-            float r = q / d;
-
-            q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
-            float s = q / d;
-
-            if (r < 0 || r > 1 || s < 0 || s > 1)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool RoutedPicked(RectangleF rectangle)
+        protected override bool Picked(RectangleF rectangle)
         {
             for (int i = 0; i < routeCache.Count - 1; i++)
             {

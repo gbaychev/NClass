@@ -17,25 +17,24 @@ using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class ExtendsConnection : Diagrams.Connections.RoutedConnection
+    public class ExtendsConnection : SimpleConnection
     {
-        private ExtendsRelationship extendsRelationship;
+        private readonly ExtendsRelationship extendsRelationship;
         private Pen linePen = new Pen(Color.Black);
 
-        public ExtendsConnection(Relationship relationship, Shape firstShape, Shape secondShape) 
-            : base(relationship, firstShape, secondShape, true)
+        public ExtendsConnection(ExtendsRelationship relationship, Shape firstShape, Shape secondShape)
+            : base(relationship, firstShape, secondShape)
         {
-            this.extendsRelationship = (ExtendsRelationship)relationship;
+            this.extendsRelationship = relationship;
         }
 
-        protected internal override Relationship Relationship
-        {
-            get { return extendsRelationship; }
-        }
+        protected internal override Relationship Relationship => extendsRelationship;
+
         protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
         {
             if (diagram.DiagramType != DiagramType.UseCaseDiagram)
