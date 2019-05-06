@@ -24,7 +24,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Nesting : Connection
+	internal sealed class Nesting : RoutedConnection
 	{
 		const int Radius = 9;
 		const int Diameter = Radius * 2;

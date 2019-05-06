@@ -46,7 +46,7 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         protected ElementList<Shape> shapes = new ElementList<Shape>();
-        protected ElementList<Connection> connections = new ElementList<Connection>();
+        protected ElementList<AbstractConnection> connections = new ElementList<AbstractConnection>();
         protected ElementList<Shape> containers = new ElementList<Shape>();
         protected DiagramElement activeElement = null;
         protected Point offset = Point.Empty;
@@ -215,27 +215,15 @@ namespace NClass.DiagramEditor.Diagrams
 	        }
         }
 
-	    public IEnumerable<Shape> Shapes
-		{
-			get { return shapes; }
-		}
+        public IEnumerable<Shape> Shapes => shapes;
 
-		protected internal ElementList<Shape> ShapeList
-		{
-			get { return shapes; }
-		}
+        protected internal ElementList<Shape> ShapeList => shapes;
 
-		public IEnumerable<Connection> Connections
-		{
-			get { return connections; }
-		}
+        public IEnumerable<AbstractConnection> Connections => connections;
 
-		protected internal ElementList<Connection> ConnectionList
-		{
-			get { return connections; }
-		}
+        protected internal ElementList<AbstractConnection> ConnectionList => connections;
 
-		public Point Offset
+        public Point Offset
 		{
 			get
 			{
@@ -422,7 +410,7 @@ namespace NClass.DiagramEditor.Diagrams
 			return shapes.GetSelectedElements();
 		}
 
-		public IEnumerable<Connection> GetSelectedConnections()
+		public IEnumerable<AbstractConnection> GetSelectedConnections()
 		{
 			return connections.GetSelectedElements();
 		}
@@ -434,7 +422,7 @@ namespace NClass.DiagramEditor.Diagrams
 				if (shape.IsSelected)
 					yield return shape;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection.IsSelected)
 					yield return connection;
@@ -508,10 +496,10 @@ namespace NClass.DiagramEditor.Diagrams
                 }
             }
 
-            foreach (Connection connection in connections.GetSelectedElementsReversed())
+            foreach (var connection in connections.GetSelectedElementsReversed())
                 yield return connection;
 
-            foreach (Connection connection in connections.GetUnselectedElementsReversed())
+            foreach (var connection in connections.GetUnselectedElementsReversed())
                 yield return connection;
 
             foreach (Shape shape in shapes.GetUnselectedElements().Except(enumeratedShapes)
@@ -542,7 +530,7 @@ namespace NClass.DiagramEditor.Diagrams
         private IEnumerable<DiagramElement> GetElementsInReversedDisplayOrder()
         {
             var enumeratedShapes = new HashSet<Shape>();
-            var enumeratedConnections = new HashSet<Connection>();
+            var enumeratedConnections = new HashSet<AbstractConnection>();
 
             foreach (var shape in shapes.GetUnselectedElementsReversed())
             {
@@ -601,10 +589,10 @@ namespace NClass.DiagramEditor.Diagrams
                 }
             }
 
-            foreach (Connection connection in connections.GetUnselectedElementsReversed().Except(enumeratedConnections))
+            foreach (var connection in connections.GetUnselectedElementsReversed().Except(enumeratedConnections))
                 yield return connection;
 
-            foreach (Connection connection in connections.GetSelectedElementsReversed().Except(enumeratedConnections))
+            foreach (var connection in connections.GetSelectedElementsReversed().Except(enumeratedConnections))
                 yield return connection;
 
             foreach (Shape shape in shapes.GetSelectedElementsReversed().Except(enumeratedShapes).Where(s => !(s is ShapeContainer)))
@@ -635,7 +623,7 @@ namespace NClass.DiagramEditor.Diagrams
 				{
 					elements.AddShape(shape);
 				}
-				foreach (Connection connection in GetSelectedConnections())
+				foreach (var connection in GetSelectedConnections())
 				{
 					elements.AddConnection(connection);
 				}
@@ -686,7 +674,7 @@ namespace NClass.DiagramEditor.Diagrams
 				if (clip.IntersectsWith(shape.GetVisibleArea(Zoom)))
 					shape.DrawSelectionLines(g, Zoom, Offset);
 			}
-			foreach (Connection connection in connections.GetSelectedElementsReversed())
+			foreach (var connection in connections.GetSelectedElementsReversed())
 			{
 				if (clip.IntersectsWith(connection.GetVisibleArea(Zoom)))
 					connection.DrawSelectionLines(g, Zoom, Offset);
@@ -775,7 +763,7 @@ namespace NClass.DiagramEditor.Diagrams
 		    foreach (Shape shape in shapes.GetReversedList().Except(enumeratedShapes))
 		        shape.Draw(g, false, style);
             
-			foreach (Connection connection in connections.GetReversedList())
+			foreach (var connection in connections.GetReversedList())
 			{
 				if (!selectedOnly || connection.IsSelected)
 					connection.Draw(g, false, style);
@@ -795,7 +783,7 @@ namespace NClass.DiagramEditor.Diagrams
 				if (area.Bottom + Padding > bottomMax)
 					bottomMax = area.Bottom + Padding;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				Rectangle area = connection.GetLogicalArea();
 				if (area.Right + Padding > rightMax)
@@ -1069,7 +1057,7 @@ namespace NClass.DiagramEditor.Diagrams
 			{
 				shape.IsSelected = true;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				connection.IsSelected = true;
 			}
@@ -1113,7 +1101,7 @@ namespace NClass.DiagramEditor.Diagrams
 				}
 				if (selectedConnectionCount > 0)
 				{
-					foreach (Connection connection in connections.GetModifiableList())
+					foreach (var connection in connections.GetModifiableList())
 					{
 						if (connection.IsSelected)
 							RemoveRelationship(connection.Relationship);
@@ -1141,7 +1129,7 @@ namespace NClass.DiagramEditor.Diagrams
 					return;
 				}					
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection.NeedsRedraw)
 				{
@@ -1167,7 +1155,7 @@ namespace NClass.DiagramEditor.Diagrams
 			    {
 			        intersector.AddSet(shape.GetContextMenuItems(this, e.Location));
 			    }
-			    foreach (Connection connection in GetSelectedConnections())
+			    foreach (var connection in GetSelectedConnections())
 					intersector.AddSet(connection.GetContextMenuItems(this, e.Location));
 
 				foreach (ToolStripItem menuItem in intersector.GetIntersection())
@@ -1218,7 +1206,7 @@ namespace NClass.DiagramEditor.Diagrams
 				shape.IsSelected = false;
 				shape.IsActive = false;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				connection.IsSelected = false;
 				connection.IsActive = false;
@@ -1237,7 +1225,7 @@ namespace NClass.DiagramEditor.Diagrams
                 }
 			}
 		    
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection != onlySelected)
 				{
@@ -1255,7 +1243,7 @@ namespace NClass.DiagramEditor.Diagrams
             int i = 1;
             foreach (var element in GetElementsInDisplayOrder())
             {
-                if (element is Connection)
+                if (element is AbstractConnection)
                     continue;
                 Debug.Write($"{i++} {element}");
                 if (element is ShapeContainer c)
@@ -1270,7 +1258,7 @@ namespace NClass.DiagramEditor.Diagrams
             i = 1;
             foreach (var element in GetElementsInReversedDisplayOrder())
             {
-                if (element is Connection)
+                if (element is AbstractConnection)
                     continue;
                 Debug.Write($"{i++} {element}");
                 if (element is ShapeContainer c)
@@ -1477,7 +1465,7 @@ namespace NClass.DiagramEditor.Diagrams
 				if (shape.TrySelect(selectionFrame))
 					selectedShapeCount++;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection.TrySelect(selectionFrame))
 					selectedConnectionCount++;
@@ -1519,7 +1507,7 @@ namespace NClass.DiagramEditor.Diagrams
 					}
 				}
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (!selectedOnly || connection.IsSelected)
 				{
@@ -1587,7 +1575,7 @@ namespace NClass.DiagramEditor.Diagrams
 				if (shape != sender)
 					shape.IsActive = false;
 			}
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection != sender)
 					connection.IsActive = false;
@@ -1742,7 +1730,7 @@ namespace NClass.DiagramEditor.Diagrams
             foreach (Shape shape in shapes)
 				shape.AdjustPositionChange(ref positionChange, ref sizeChange, DiagramConstants.DiagramPadding);
 
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				positionChange = connection.GetMaximumPositionChange(positionChange, DiagramConstants.DiagramPadding);
 			}
@@ -1753,7 +1741,7 @@ namespace NClass.DiagramEditor.Diagrams
 				{
 					shape.Offset(positionChange);
 				}
-				foreach (Connection connection in connections.GetSelectedElements())
+				foreach (var connection in connections.GetSelectedElements())
 				{
 					connection.Offset(positionChange);
 				}
@@ -1867,9 +1855,9 @@ namespace NClass.DiagramEditor.Diagrams
 			return null;
 		}
 
-		private Connection GetConnection(Relationship relationship)
+		private AbstractConnection GetConnection(Relationship relationship)
 		{
-			foreach (Connection connection in connections)
+			foreach (var connection in connections)
 			{
 				if (connection.Relationship == relationship)
 					return connection;
@@ -1877,38 +1865,65 @@ namespace NClass.DiagramEditor.Diagrams
 			return null;
 		}
 
-		protected void AddConnection(Connection connection)
-		{
-			connection.Diagram = this;
-			connection.Modified += element_Modified;
-			connection.Activating += element_Activating;
-			connection.SelectionChanged += connection_SelectionChanged;
-			connection.RouteChanged += connection_RouteChanged;
-			connection.BendPointMove += connection_BendPointMove;
-			connections.AddFirst(connection);
-			RecalculateSize();
-		}
+        protected void AddConnection(AbstractConnection connection)
+        {
+            connection.Diagram = this;
+            connection.Modified += element_Modified;
+            connection.Activating += element_Activating;
+            connection.SelectionChanged += connection_SelectionChanged;
+            connections.AddFirst(connection);
+            RecalculateSize();
+        }
 
-		private void RemoveConnection(Connection connection)
-		{
-			if (connection.IsSelected)
-			{
-				selectedConnectionCount--;
-				OnSelectionChanged(EventArgs.Empty);
-				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnStatusChanged(EventArgs.Empty);
-			}
-			connection.Diagram = null;
-			connection.Modified -= element_Modified;
-			connection.Activating -= element_Activating;
-			connection.SelectionChanged -= connection_SelectionChanged;
-			connection.RouteChanged -= connection_RouteChanged;
-			connection.BendPointMove -= connection_BendPointMove;
-			connections.Remove(connection);			
-			RecalculateSize();
-		}
+        protected void AddConnection(RoutedConnection connection)
+        {
+            connection.Diagram = this;
+            connection.Modified += element_Modified;
+            connection.Activating += element_Activating;
+            connection.SelectionChanged += connection_SelectionChanged;
+            connection.RouteChanged += connection_RouteChanged;
+            connection.BendPointMove += connection_BendPointMove;
+            connections.AddFirst(connection);
+            RecalculateSize();
+        }
 
-		private void shape_SelectionChanged(object sender, EventArgs e)
+        private void RemoveConnection(AbstractConnection connection)
+        {
+            if (connection.IsSelected)
+            {
+                selectedConnectionCount--;
+                OnSelectionChanged(EventArgs.Empty);
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+                OnStatusChanged(EventArgs.Empty);
+            }
+            connection.Diagram = null;
+            connection.Modified -= element_Modified;
+            connection.Activating -= element_Activating;
+            connection.SelectionChanged -= connection_SelectionChanged;
+            connections.Remove(connection);
+            RecalculateSize();
+        }
+
+        private void RemoveConnection(RoutedConnection connection)
+        {
+            if (connection.IsSelected)
+            {
+                selectedConnectionCount--;
+                OnSelectionChanged(EventArgs.Empty);
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+                OnStatusChanged(EventArgs.Empty);
+            }
+            connection.Diagram = null;
+            connection.Modified -= element_Modified;
+            connection.Activating -= element_Activating;
+            connection.SelectionChanged -= connection_SelectionChanged;
+            connection.RouteChanged -= connection_RouteChanged;
+            connection.BendPointMove -= connection_BendPointMove;
+            connections.Remove(connection);
+            RecalculateSize();
+        }
+
+        private void shape_SelectionChanged(object sender, EventArgs e)
 		{
 			if (!selectioning)
 			{
@@ -1939,7 +1954,7 @@ namespace NClass.DiagramEditor.Diagrams
 		{
 			if (!selectioning)
 			{
-				Connection connection = (Connection) sender;
+				var connection = (AbstractConnection) sender;
 
 				if (connection.IsSelected)
 				{
@@ -1959,7 +1974,7 @@ namespace NClass.DiagramEditor.Diagrams
 
 		private void connection_RouteChanged(object sender, EventArgs e)
 		{
-			Connection connection = (Connection) sender;
+			var connection = (RoutedConnection) sender;
 			connection.ValidatePosition(DiagramConstants.DiagramPadding);
 
 			RecalculateSize();
@@ -1975,7 +1990,7 @@ namespace NClass.DiagramEditor.Diagrams
 			// Snap bend points to others if possible
 			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
 			{
-				foreach (Connection connection in connections.GetSelectedElements())
+				foreach (var connection in connections.GetSelectedElements().OfType<RoutedConnection>())
 				{
 					foreach (BendPoint point in connection.BendPoints)
 					{
@@ -1984,11 +1999,11 @@ namespace NClass.DiagramEditor.Diagrams
 							int xDist = Math.Abs(e.BendPoint.X - point.X);
 							int yDist = Math.Abs(e.BendPoint.Y - point.Y);
 
-							if (xDist <= Connection.PrecisionSize)
+							if (xDist <= RoutedConnection.PrecisionSize)
 							{
 								e.BendPoint.X = point.X;
 							}
-							if (yDist <= Connection.PrecisionSize)
+							if (yDist <= RoutedConnection.PrecisionSize)
 							{
 								e.BendPoint.Y = point.Y;
 							}
@@ -2014,13 +2029,13 @@ namespace NClass.DiagramEditor.Diagrams
 			RemoveShape(shape);
 		}
 
-		protected void OnRelationRemoved(object sender,RelationshipEventArgs e)
-		{
-			Connection connection = GetConnection(e.Relationship);
-			RemoveConnection(connection);
-		}
+        protected void OnRelationRemoved(object sender, RelationshipEventArgs e)
+        {
+            var connection = GetConnection(e.Relationship);
+            RemoveConnection(connection);
+        }
 
-		protected void OnDeserializing(object sender, SerializeEventArgs e)
+        protected void OnDeserializing(object sender, SerializeEventArgs e)
 		{
             // Old file format
 			{
@@ -2036,7 +2051,7 @@ namespace NClass.DiagramEditor.Diagrams
 						currentShapeNode = currentShapeNode.Previous;
 					}
 
-					LinkedListNode<Connection> currentConnecitonNode = connections.Last;
+					LinkedListNode<AbstractConnection> currentConnecitonNode = connections.Last;
 					foreach (XmlElement connectionNode in positionsNode.SelectNodes("Connection"))
 					{
 						if (currentConnecitonNode == null)

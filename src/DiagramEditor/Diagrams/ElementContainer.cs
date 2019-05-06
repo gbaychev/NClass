@@ -30,7 +30,7 @@ namespace NClass.DiagramEditor.Diagrams
 		const int BaseOffset = 20;
 
 		List<Shape> shapes = new List<Shape>();
-		List<Connection> connections = new List<Connection>();
+		List<AbstractConnection> connections = new List<AbstractConnection>();
 		Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
 		int currentOffset = 0;
 	    private DiagramType sourceDiagramType;
@@ -46,7 +46,7 @@ namespace NClass.DiagramEditor.Diagrams
 			pastedShapes.Add(shape, null);
 		}
 
-		public void AddConnection(Connection connection)
+		public void AddConnection(AbstractConnection connection)
 		{
 			connections.Add(connection);
 		}
@@ -87,7 +87,7 @@ namespace NClass.DiagramEditor.Diagrams
                     var childShape = pastedShapes[shape];
                     parentShape.AttachShapes(new List<Shape> { childShape });
                 }
-                foreach (Connection connection in connections)
+                foreach (var connection in connections)
 				{
 					Shape first = GetShape(connection.Relationship.First);
 					Shape second = GetShape(connection.Relationship.Second);
@@ -95,7 +95,7 @@ namespace NClass.DiagramEditor.Diagrams
 					if (first != null && pastedShapes[first] != null &&
 						second != null && pastedShapes[second] != null)
 					{
-						Connection pasted = connection.Paste(
+						var pasted = connection.Paste(
 							diagram, offset, pastedShapes[first], pastedShapes[second]);
 						success |= (pasted != null);
 					}

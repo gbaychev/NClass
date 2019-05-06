@@ -80,7 +80,8 @@
     <Compile Include="ClassDiagram\Shapes\PackageShape.cs" />
     <Compile Include="Diagrams\ChevronMode.cs" />
     <Compile Include="Diagrams\ConnectionCreator.cs" />
-    <Compile Include="Diagrams\Connections\Connection.cs" />
+    <Compile Include="Diagrams\Connections\AbstractConnection.cs" />
+    <Compile Include="Diagrams\Connections\RoutedConnection.cs" />
     <Compile Include="ClassDiagram\Connections\Association.cs" />
     <Compile Include="ClassDiagram\Connections\Arrowhead.cs" />
     <Compile Include="ClassDiagram\Connections\BendPointEventArgs.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="ClassDiagram\Editors\FloatingEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Diagrams\Connections\SimpleConnection.cs" />
     <Compile Include="Diagrams\Editors\CommentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

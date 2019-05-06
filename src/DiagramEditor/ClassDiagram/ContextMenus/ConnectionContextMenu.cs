@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using NClass.DiagramEditor.Properties;
 using NClass.DiagramEditor.ClassDiagram.Connections;
@@ -68,7 +69,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 		{
 			if (Diagram != null)
 			{
-				foreach (Connection connection in Diagram.GetSelectedConnections())
+				foreach (var connection in Diagram.GetSelectedConnections().OfType<RoutedConnection>())
 					connection.AutoRoute();
 			}
 		}

@@ -23,7 +23,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class IncludesConnection : Diagrams.Connections.Connection
+    public class IncludesConnection : Diagrams.Connections.RoutedConnection
     {
         private IncludesRelationship includesRelationship;
         private Pen linePen = new Pen(Color.Black);

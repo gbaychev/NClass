@@ -225,7 +225,7 @@ namespace NClass.AssemblyImport
 		/// </summary>
 		private void ArrangeTypes()
 		{
-			const int Margin = Connection.Spacing * 2;
+			const int Margin = RoutedConnection.Spacing * 2;
 			const int DiagramPadding = Shape.SelectionMargin;
 
 			int shapeCount = diagram.ShapeCount;

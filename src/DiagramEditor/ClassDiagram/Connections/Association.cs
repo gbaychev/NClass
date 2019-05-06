@@ -29,7 +29,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Association : Connection
+	internal sealed class Association : RoutedConnection
 	{
 		const int DiamondWidth = 10;
 		const int DiamondHeight = 18;

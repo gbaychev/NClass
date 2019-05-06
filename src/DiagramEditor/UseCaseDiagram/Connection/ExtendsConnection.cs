@@ -21,7 +21,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class ExtendsConnection : Diagrams.Connections.Connection
+    public class ExtendsConnection : Diagrams.Connections.RoutedConnection
     {
         private ExtendsRelationship extendsRelationship;
         private Pen linePen = new Pen(Color.Black);

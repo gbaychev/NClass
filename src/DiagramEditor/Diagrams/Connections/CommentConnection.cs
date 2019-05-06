@@ -19,7 +19,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Connections
 {
-    internal sealed class CommentConnection : Connection
+    internal sealed class CommentConnection : RoutedConnection
 	{
 		CommentRelationship relationship;
 

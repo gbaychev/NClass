@@ -19,7 +19,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class UseCaseAssociationConnection : Diagrams.Connections.Connection
+    public class UseCaseAssociationConnection : Diagrams.Connections.RoutedConnection
     {
         private UseCaseAssociation association;
 
