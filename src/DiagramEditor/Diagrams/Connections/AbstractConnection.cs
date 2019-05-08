@@ -42,6 +42,8 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected const int PickTolerance = 4;
 
+        protected static readonly float[] dashPattern = new float[] { 5, 5 };
+
         protected AbstractConnection(Relationship relationship, Shape startShape, Shape endShape)
         {
             if (relationship == null)

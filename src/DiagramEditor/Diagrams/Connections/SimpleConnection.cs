@@ -14,13 +14,11 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
-using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Connections
@@ -32,47 +30,104 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         public SimpleConnection(Relationship relationship, Shape startShape, Shape endShape) 
             : base(relationship, startShape, endShape)
         {
+            CalculatePoints();
         }
 
-        public void CalculatePoints()
+        private void CalculatePoints()
         {
-            var startShapeHorizontalMiddle = (startShape.Left + startShape.Width) / 2;
-            var endShapeHorizontalMiddle = (endShape.Left + endShape.Width) / 2;
+            var startShapeHorizontalMiddle = startShape.Left + startShape.Width / 2;
+            var endShapeHorizontalMiddle = endShape.Left + endShape.Width / 2;
 
-            var startShapeVerticalMiddle = (startShape.Top + startShape.Bottom) / 2;
-            var endShapeVerticalMiddle = (endShape.Top + endShape.Bottom) / 2;
+            var startShapeVerticalMiddle = startShape.Top + startShape.Height / 2;
+            var endShapeVerticalMiddle = endShape.Top + endShape.Height / 2;
 
-
+            if (startShape.Right <= endShape.Left)
+            {
+                startPoint = new Point(startShape.Right, startShapeVerticalMiddle);
+                endPoint = new Point(endShape.Left, endShapeVerticalMiddle);
+            }
+            else if (endShape.Right <= startShape.Left)
+            {
+                startPoint = new Point(startShape.Left, startShapeVerticalMiddle);
+                endPoint = new Point(endShape.Right, endShapeVerticalMiddle);
+            }
+            else
+            {
+                if (startShape.Top < endShape.Top)
+                {
+                    startPoint = new Point(startShapeHorizontalMiddle, startShape.Bottom);
+                    endPoint = new Point(endShapeHorizontalMiddle, endShape.Top);
+                }
+                else
+                {
+                    startPoint = new Point(startShapeHorizontalMiddle, startShape.Top);
+                    endPoint = new Point(endShapeHorizontalMiddle, endShape.Bottom);
+                }
+            }
         }
 
         protected override RectangleF CalculateDrawingArea(Style style, bool printing, float zoom)
         {
-            throw new System.NotImplementedException();
+            return GetLogicalArea();
         }
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
-            throw new System.NotImplementedException();
+            using (var linePen = new Pen(style.RelationshipColor, style.RelationshipWidth))
+            {
+                if (IsSelected)
+                    linePen.DashPattern = dashPattern;
+                g.DrawLine(linePen, startPoint, endPoint);
+            }
         }
 
         protected internal override Rectangle GetLogicalArea()
         {
-            throw new System.NotImplementedException();
+            var topLeft = startPoint;
+            var bottomRight = endPoint;
+
+            if (topLeft.X > endPoint.X)
+                topLeft.X = endPoint.X;
+            if (topLeft.Y > endPoint.Y)
+                topLeft.Y = endPoint.Y;
+            if (bottomRight.X < endPoint.X)
+                bottomRight.X = endPoint.X;
+            if (bottomRight.Y < endPoint.Y)
+                bottomRight.Y = endPoint.Y;
+
+            return Rectangle.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
         }
 
         protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
         {
-            throw new System.NotImplementedException();
         }
 
         protected internal override bool TrySelect(RectangleF frame)
         {
-            throw new System.NotImplementedException();
+            this.IsSelected = Picked(frame);
+            return this.IsSelected;
         }
 
         protected internal override Size GetMaximumPositionChange(Size offset, int padding)
         {
-            throw new System.NotImplementedException();
+            if (!IsSelected && !startShape.IsSelected && !endShape.IsSelected)
+                return offset;
+
+            Point newLocation = startPoint + offset;
+
+            if (newLocation.X < padding)
+                offset.Width += (padding - newLocation.X);
+            if (newLocation.Y < padding)
+                offset.Height += (padding - newLocation.Y);
+
+            newLocation = endPoint + offset;
+
+            if (newLocation.X < padding)
+                offset.Width += (padding - newLocation.X);
+            if (newLocation.Y < padding)
+                offset.Height += (padding - newLocation.Y);
+
+            return offset;
         }
 
 
@@ -90,22 +145,33 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         internal override void MousePressed(AbsoluteMouseEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
         internal override void MouseMoved(AbsoluteMouseEventArgs e)
         {
-            throw new System.NotImplementedException();
+            base.MouseMoved(e);
+            if (e.Button == MouseButtons.Left)
+            {
+                CalculatePoints();
+            }
         }
 
         internal override void MouseUpped(AbsoluteMouseEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
         internal override void DoubleClicked(AbsoluteMouseEventArgs e)
         {
-            throw new System.NotImplementedException();
+            bool doubleClicked = Picked(e.Location, e.Zoom);
+
+            if (e.Button == MouseButtons.Left)
+                doubleClicked |= (IsSelected);
+
+            if (doubleClicked)
+            {
+                OnDoubleClick(e);
+                e.Handled = true;
+            }
         }
 
         protected override bool Picked(RectangleF rectangle)

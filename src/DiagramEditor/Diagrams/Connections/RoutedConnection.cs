@@ -33,7 +33,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         public const int Spacing = 25;
         public const int PrecisionSize = 6;
         protected static readonly Size TextMargin = new Size(5, 3);
-        static readonly float[] dashPattern = new float[] { 5, 5 };
         static Pen linePen = new Pen(Color.Black);
         static SolidBrush textBrush = new SolidBrush(Color.Black);
         static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
