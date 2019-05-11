@@ -73,10 +73,11 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
+            if (IsSelected)
+                return;
+
             using (var linePen = new Pen(style.RelationshipColor, style.RelationshipWidth))
             {
-                if (IsSelected)
-                    linePen.DashPattern = dashPattern;
                 g.DrawLine(linePen, startPoint, endPoint);
             }
         }
@@ -100,6 +101,10 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
         {
+            if (!IsSelected)
+                return;
+            
+            g.DrawLine(DiagramConstants.SelectionPen, startPoint, endPoint);
         }
 
         protected internal override bool TrySelect(RectangleF frame)
@@ -231,14 +236,49 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 var connection = (SimpleConnection)connectionList.FirstValue;
                 connection.IsSelected = true;
 
-                connection.startOrientation = this.startOrientation;
-                connection.endOrientation = this.endOrientation;
+                connection.startPoint = this.startPoint;
+                connection.endPoint = this.endPoint;
 
                 return connection;
             }
             else
             {
                 return null;
+            }
+        }
+
+        protected override void OnSerializing(SerializeEventArgs e)
+        {
+            var document = e.Node.OwnerDocument;
+
+            var startNode = document.CreateElement("StartPoint");
+            startNode.SetAttribute("x", startPoint.X.ToString());
+            startNode.SetAttribute("y", startPoint.Y.ToString());
+            e.Node.AppendChild(startNode);
+
+            var endNode = document.CreateElement("EndPoint");
+            endNode.SetAttribute("x", endPoint.X.ToString());
+            endNode.SetAttribute("y", endPoint.Y.ToString());
+            e.Node.AppendChild(endNode);
+        }
+
+        protected override void OnDeserializing(SerializeEventArgs e)
+        {
+            var startNode = e.Node["StartPoint"];
+            if (startNode != null)
+            {
+                int.TryParse(startNode.GetAttribute("x"), out var x);
+                int.TryParse(startNode.GetAttribute("y"), out var y);
+
+                startPoint = new Point(x, y);
+            }
+            var endNode = e.Node["EndPoint"];
+            if (endNode != null)
+            {
+                int.TryParse(endNode.GetAttribute("x"), out var x);
+                int.TryParse(endNode.GetAttribute("y"), out var y);
+
+                endPoint = new Point(x, y);
             }
         }
     }

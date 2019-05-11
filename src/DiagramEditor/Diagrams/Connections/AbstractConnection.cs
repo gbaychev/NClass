@@ -26,15 +26,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 {
     public abstract class AbstractConnection : DiagramElement
     { 
-        protected enum LineOrientation
-        {
-            Horizontal,
-            Vertical
-        }
-
-        protected LineOrientation startOrientation;
-        protected LineOrientation endOrientation;
-
         protected Shape startShape;
         protected Shape endShape;
 
@@ -112,42 +103,9 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             OnModified(EventArgs.Empty);
         }
 
-        protected virtual XmlDocument OnSerializing(SerializeEventArgs e)
-        {
-            XmlDocument document = e.Node.OwnerDocument;
+        protected abstract void OnSerializing(SerializeEventArgs e);
 
-            XmlElement startNode = document.CreateElement("StartOrientation");
-            startNode.InnerText = startOrientation.ToString();
-            e.Node.AppendChild(startNode);
-
-            XmlElement endNode = document.CreateElement("EndOrientation");
-            endNode.InnerText = endOrientation.ToString();
-            e.Node.AppendChild(endNode);
-
-            return document;
-        }
-
-        protected virtual (XmlNode, XmlNode) OnDeserializing(SerializeEventArgs e)
-        {
-            XmlElement startNode = e.Node["StartOrientation"];
-            if (startNode != null)
-            {
-                if (startNode.InnerText == "Horizontal")
-                    startOrientation = LineOrientation.Horizontal;
-                else
-                    startOrientation = LineOrientation.Vertical;
-            }
-            XmlElement endNode = e.Node["EndOrientation"];
-            if (endNode != null)
-            {
-                if (endNode.InnerText == "Horizontal")
-                    endOrientation = LineOrientation.Horizontal;
-                else
-                    endOrientation = LineOrientation.Vertical;
-            }
-
-            return (startNode, endNode);
-        }
+        protected abstract void OnDeserializing(SerializeEventArgs e);
 
         protected internal override void Offset(Size offset)
         {

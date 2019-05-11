@@ -30,6 +30,12 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 {
     public abstract class RoutedConnection : AbstractConnection
     {
+        protected enum LineOrientation
+        {
+            Horizontal,
+            Vertical
+        }
+
         public const int Spacing = 25;
         public const int PrecisionSize = 6;
         protected static readonly Size TextMargin = new Size(5, 3);
@@ -40,11 +46,14 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         OrderedList<BendPoint> bendPoints = new OrderedList<BendPoint>();
         BendPoint selectedBendPoint = null;
 
-        List<Point> routeCache = new List<Point>();
+        readonly List<Point> routeCache = new List<Point>();
         Point[] routeCacheArray = null;
 
         public event EventHandler RouteChanged;
         public event BendPointEventHandler BendPointMove;
+
+        protected LineOrientation startOrientation;
+        protected LineOrientation endOrientation;
 
 
         /// <exception cref="ArgumentNullException">
@@ -479,7 +488,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                         route[length - 1].X -= endOffset;
                 }
 
-                var oldSmoothingMode = g.SmoothingMode;
                 g.DrawLines(DiagramConstants.SelectionPen, route);
 
                 if (zoom > UndreadableZoom)
@@ -1509,9 +1517,17 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 BendPointMove(this, e);
         }
 
-        protected override XmlDocument OnSerializing(SerializeEventArgs e)
+        protected override void OnSerializing(SerializeEventArgs e)
         {
-            var document = base.OnSerializing(e);
+            var document = e.Node.OwnerDocument;
+
+            var startNode = document.CreateElement("StartOrientation");
+            startNode.InnerText = startOrientation.ToString();
+            e.Node.AppendChild(startNode);
+
+            var endNode = document.CreateElement("EndOrientation");
+            endNode.InnerText = endOrientation.ToString();
+            e.Node.AppendChild(endNode);
 
             foreach (BendPoint point in bendPoints)
             {
@@ -1523,11 +1539,9 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     e.Node.AppendChild(node);
                 }
             }
-
-            return document;
         }
 
-        protected override (XmlNode, XmlNode) OnDeserializing(SerializeEventArgs e)
+        protected override void OnDeserializing(SerializeEventArgs e)
         {
             // Old file format
             XmlElement oldStartNode = e.Node["StartNode"];
@@ -1556,11 +1570,25 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 FirstBendPoint.AutoPosition = false;
                 LastBendPoint.AutoPosition = false;
                 Reroute();
-                return (oldStartNode, oldEndNode);
             }
             else
             {
-                var (startNode, endNode) = base.OnDeserializing(e);
+                XmlElement startNode = e.Node["StartOrientation"];
+                if (startNode != null)
+                {
+                    if (startNode.InnerText == "Horizontal")
+                        startOrientation = LineOrientation.Horizontal;
+                    else
+                        startOrientation = LineOrientation.Vertical;
+                }
+                XmlElement endNode = e.Node["EndOrientation"];
+                if (endNode != null)
+                {
+                    if (endNode.InnerText == "Horizontal")
+                        endOrientation = LineOrientation.Horizontal;
+                    else
+                        endOrientation = LineOrientation.Vertical;
+                }
 
                 if (startNode != null && endNode != null) // To be sure it's the new file format
                 {
@@ -1582,7 +1610,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                         bendPoints.Add(new BendPoint(endShape, false));
                 }
                 Reroute();
-                return (startNode, endNode);
             }
         }
     }
