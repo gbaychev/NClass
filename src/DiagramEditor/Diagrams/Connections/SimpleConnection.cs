@@ -15,6 +15,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
@@ -73,13 +74,23 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
-            if (IsSelected)
-                return;
+            var linePoints = new[] { startPoint, endPoint};
+            DrawLine(g, onScreen, style, linePoints);
+            DrawCaps(g, onScreen, style);
+        }
 
-            using (var linePen = new Pen(style.RelationshipColor, style.RelationshipWidth))
-            {
-                g.DrawLine(linePen, startPoint, endPoint);
-            }
+        protected void DrawCaps(IGraphics g, bool onScreen, Style style)
+        {
+            Matrix transformState = g.Transform;
+            g.TranslateTransform(startPoint.X, endPoint.Y);
+            g.RotateTransform(GetAngle(startPoint, endPoint));
+            DrawStartCap(g, onScreen, style);
+            g.Transform = transformState;
+
+            g.TranslateTransform(endPoint.X, endPoint.Y);
+            g.RotateTransform(GetAngle(endPoint, startPoint));
+            DrawEndCap(g, onScreen, style);
+            g.Transform = transformState;
         }
 
         protected internal override Rectangle GetLogicalArea()
@@ -103,8 +114,11 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         {
             if (!IsSelected)
                 return;
-            
+
+            var oldSmoothingMode = g.SmoothingMode;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.DrawLine(DiagramConstants.SelectionPen, startPoint, endPoint);
+            g.SmoothingMode = oldSmoothingMode;
         }
 
         protected internal override bool TrySelect(RectangleF frame)

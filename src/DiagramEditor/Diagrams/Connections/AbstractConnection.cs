@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
@@ -28,6 +29,10 @@ namespace NClass.DiagramEditor.Diagrams.Connections
     { 
         protected Shape startShape;
         protected Shape endShape;
+
+        private static Pen linePen = new Pen(Color.Black);
+        protected static SolidBrush textBrush = new SolidBrush(Color.Black);
+        protected static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
 
         protected bool copied = false;
 
@@ -187,6 +192,27 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected virtual void DrawEndCap(IGraphics g, bool onScreen, Style style)
         {
+        }
+
+        protected void DrawLine(IGraphics g, bool onScreen, Style style, Point[] linePoints)
+        {
+            if (!IsSelected || !onScreen)
+            {
+                linePen.Width = style.RelationshipWidth;
+                linePen.Color = style.RelationshipColor;
+                if (IsDashed)
+                {
+                    dashPattern[0] = style.RelationshipDashSize;
+                    dashPattern[1] = style.RelationshipDashSize;
+                    linePen.DashPattern = dashPattern;
+                }
+                else
+                {
+                    linePen.DashStyle = DashStyle.Solid;
+                }
+
+                g.DrawLines(linePen, linePoints);
+            }
         }
     }
 }

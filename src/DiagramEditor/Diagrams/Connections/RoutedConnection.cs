@@ -39,10 +39,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         public const int Spacing = 25;
         public const int PrecisionSize = 6;
         protected static readonly Size TextMargin = new Size(5, 3);
-        static Pen linePen = new Pen(Color.Black);
-        static SolidBrush textBrush = new SolidBrush(Color.Black);
-        static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
-
+        
         OrderedList<BendPoint> bendPoints = new OrderedList<BendPoint>();
         BendPoint selectedBendPoint = null;
 
@@ -333,44 +330,15 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
-            DrawLine(g, onScreen, style);
+            DrawLine(g, onScreen, style, routeCacheArray);
             DrawCaps(g, onScreen, style);
             if (Relationship.SupportsLabel)
                 DrawLabel(g, onScreen, style);
-            using (var brush = new SolidBrush(Color.MediumPurple))
-            {
-                foreach (var bendPoint in BendPoints)
-                {
-                    var rectangle = new Rectangle(bendPoint.X, bendPoint.Y, 5, 5);
-                    g.FillRectangle(brush, rectangle);
-                }
-            }
-        }
-
-        private void DrawLine(IGraphics g, bool onScreen, Style style)
-        {
-            if (!IsSelected || !onScreen)
-            {
-                linePen.Width = style.RelationshipWidth;
-                linePen.Color = style.RelationshipColor;
-                if (IsDashed)
-                {
-                    dashPattern[0] = style.RelationshipDashSize;
-                    dashPattern[1] = style.RelationshipDashSize;
-                    linePen.DashPattern = dashPattern;
-                }
-                else
-                {
-                    linePen.DashStyle = DashStyle.Solid;
-                }
-
-                g.DrawLines(linePen, routeCacheArray);
-            }
         }
 
         private void DrawCaps(IGraphics g, bool onScreen, Style style)
         {
-            Matrix transformState = g.Transform;
+            var transformState = g.Transform;
             g.TranslateTransform(routeCache[0].X, routeCache[0].Y);
             g.RotateTransform(GetAngle(routeCache[0], routeCache[1]));
             DrawStartCap(g, onScreen, style);
@@ -403,8 +371,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     stringFormat.LineAlignment = StringAlignment.Center;
                     center.X += TextMargin.Width;
                 }
-                g.DrawString(Relationship.Label, style.RelationshipTextFont,
-                    textBrush, center, stringFormat);
+                g.DrawString(Relationship.Label, style.RelationshipTextFont, textBrush, center, stringFormat);
             }
         }
 
