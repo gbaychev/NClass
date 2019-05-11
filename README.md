@@ -1,5 +1,4 @@
-![Build Status](https://ci.appveyor.com/api/projects/status/github/gbaychev/nclass?branch=master)
-# NClass
+# NClass ![Build Status](https://ci.appveyor.com/api/projects/status/github/gbaychev/nclass?branch=master)
 
 NClass is a free tool to easily create UML class diagrams with C# and Java language support. The user interface is designed to be simple and user-friendly for easy and fast development. Initially the project was developed by the great Balasz Tihanyi on [sourceforge](http://nclass.sourceforge.net/), but the project has gone inactive due the lack of time. 
 
