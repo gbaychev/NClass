@@ -41,8 +41,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 		};
 		static Pen linePen = new Pen(Color.Black);
 		static SolidBrush lineBrush = new SolidBrush(Color.Black);
-		static SolidBrush textBrush = new SolidBrush(Color.Black);
-		static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
 
 		AssociationRelationship association;
 

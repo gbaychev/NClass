@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Connections
@@ -69,21 +70,130 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected override RectangleF CalculateDrawingArea(Style style, bool printing, float zoom)
         {
-            return GetLogicalArea();
+            var angle = GetAngle(startPoint, endPoint);
+            RectangleF area = GetLogicalArea();
+            var lineSize = (float)style.RelationshipWidth / 2;
+            area.Inflate(lineSize, lineSize);
+
+            if (Relationship.Label != null)
+               area = RectangleF.Union(area, GetLabelArea(style));
+
+            if (StartCapSize != Size.Empty)
+            {
+                var startCapArea = GetStartCapArea(angle);
+                if(startCapArea != RectangleF.Empty)
+                    area = RectangleF.Union(area, startCapArea);
+            }
+
+            if (EndCapSize != Size.Empty)
+            {
+                var endCapArea = GetEndCapArea(angle);
+                if (endCapArea != RectangleF.Empty)
+                    area = RectangleF.Union(area, endCapArea);
+            }
+
+            return area;
         }
+
+        private RectangleF GetLabelArea(Style style)
+        {
+            PointF center = GetLineCenter();
+
+            SizeF size = Graphics.MeasureString(Relationship.Label,
+                style.RelationshipTextFont, center, stringFormat);
+
+            center.X -= size.Width / 2;
+            center.Y -= size.Height + TextMargin.Height;
+
+            return new RectangleF(center.X, center.Y, size.Width, size.Height);
+        }
+
+        private RectangleF GetEndCapArea(float angle)
+        {
+            
+            if (angle == 90) // right
+            {
+                var area = new RectangleF(endPoint.X, endPoint.Y, EndCapSize.Height, EndCapSize.Width);
+                area.Y -= (float)area.Height / 2;
+                return area;
+            }
+
+            if (angle == 270) // Left
+            {
+                var area = new RectangleF(endPoint.X, endPoint.Y, EndCapSize.Height, EndCapSize.Width);
+                area.Y -= (float)area.Height / 2;
+                area.X -= (float)area.Width;
+                return area;
+            }
+
+            if (angle == 0) // down
+            {
+                var area = new RectangleF(endPoint.X, endPoint.Y, EndCapSize.Width, EndCapSize.Height);
+                area.Y -= (float)area.Height;
+                area.X -= (float)area.Width / 2;
+                return area;
+            }
+
+            if (angle == 180) // up
+            {
+                var area = new RectangleF(endPoint.X, endPoint.Y, EndCapSize.Width, EndCapSize.Height);
+                area.X -= (float)area.Width / 2;
+                return area;
+            }
+
+            return RectangleF.Empty;
+        }
+
+        private RectangleF GetStartCapArea(float angle)
+        {
+
+            if (angle == 90) // right
+            {
+                var area = new RectangleF(startPoint.X, startPoint.Y, StartCapSize.Height, StartCapSize.Width);
+                area.Y -= (float)area.Height / 2;
+                area.X -= (float)area.Width;
+                return area;
+            }
+
+            if (angle == 270) // Left
+            {
+                var area = new RectangleF(startPoint.X, startPoint.Y, StartCapSize.Height, StartCapSize.Width);
+                area.Y -= (float)area.Height / 2;
+                return area;
+            }
+
+            if (angle == 0) // down
+            {
+                var area = new RectangleF(startPoint.X, startPoint.Y, StartCapSize.Width, StartCapSize.Height);
+                area.X -= (float)area.Width / 2;
+                return area;
+            }
+
+            if (angle == 180) // up
+            {
+                var area = new RectangleF(startPoint.X, startPoint.Y, StartCapSize.Width, StartCapSize.Height);
+                area.Y -= (float)area.Height;
+                area.X -= (float)area.Width / 2;
+                return area;
+            }
+
+            return RectangleF.Empty;
+        }
+
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
             var linePoints = new[] { startPoint, endPoint};
             DrawLine(g, onScreen, style, linePoints);
             DrawCaps(g, onScreen, style);
-            DrawLabel(g, onScreen, style);
+            if(Relationship.SupportsLabel)
+                DrawLabel(g, onScreen, style);
         }
 
         protected void DrawCaps(IGraphics g, bool onScreen, Style style)
         {
             Matrix transformState = g.Transform;
-            g.TranslateTransform(startPoint.X, endPoint.Y);
+            g.TranslateTransform(startPoint.X, startPoint.Y);
             g.RotateTransform(GetAngle(startPoint, endPoint));
             DrawStartCap(g, onScreen, style);
             g.Transform = transformState;
@@ -123,10 +233,10 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 topLeft.X = endPoint.X;
             if (topLeft.Y > endPoint.Y)
                 topLeft.Y = endPoint.Y;
-            if (bottomRight.X < endPoint.X)
-                bottomRight.X = endPoint.X;
-            if (bottomRight.Y < endPoint.Y)
-                bottomRight.Y = endPoint.Y;
+            if (bottomRight.X < startPoint.X)
+                bottomRight.X = startPoint.X;
+            if (bottomRight.Y < startPoint.Y)
+                bottomRight.Y = startPoint.Y;
 
             return Rectangle.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
         }

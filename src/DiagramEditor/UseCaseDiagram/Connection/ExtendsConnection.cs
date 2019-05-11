@@ -62,6 +62,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
             g.DrawLines(linePen, Arrowhead.OpenArrowPoints);
         }
 
+        protected override Size EndCapSize => Arrowhead.OpenArrowSize;
+
         protected override bool IsDashed => true;
     }
 }
