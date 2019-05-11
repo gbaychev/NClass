@@ -38,7 +38,6 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         public const int Spacing = 25;
         public const int PrecisionSize = 6;
-        protected static readonly Size TextMargin = new Size(5, 3);
         
         OrderedList<BendPoint> bendPoints = new OrderedList<BendPoint>();
         BendPoint selectedBendPoint = null;

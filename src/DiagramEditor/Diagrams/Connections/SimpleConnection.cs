@@ -77,6 +77,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             var linePoints = new[] { startPoint, endPoint};
             DrawLine(g, onScreen, style, linePoints);
             DrawCaps(g, onScreen, style);
+            DrawLabel(g, onScreen, style);
         }
 
         protected void DrawCaps(IGraphics g, bool onScreen, Style style)
@@ -91,6 +92,26 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             g.RotateTransform(GetAngle(endPoint, startPoint));
             DrawEndCap(g, onScreen, style);
             g.Transform = transformState;
+        }
+
+        private PointF GetLineCenter()
+        {
+            return new PointF((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+        }
+
+        private void DrawLabel(IGraphics g, bool onScreen, Style style)
+        {
+            if (Relationship.Label == null) return;
+
+            PointF center = GetLineCenter();
+
+            textBrush.Color = style.RelationshipTextColor;
+                
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Far;
+            center.Y -= TextMargin.Height;
+                
+            g.DrawString(Relationship.Label, style.RelationshipTextFont, textBrush, center, stringFormat);
         }
 
         protected internal override Rectangle GetLogicalArea()

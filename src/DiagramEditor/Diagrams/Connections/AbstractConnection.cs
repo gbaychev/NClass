@@ -33,6 +33,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         private static Pen linePen = new Pen(Color.Black);
         protected static SolidBrush textBrush = new SolidBrush(Color.Black);
         protected static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
+        protected static readonly Size TextMargin = new Size(5, 3);
 
         protected bool copied = false;
 
