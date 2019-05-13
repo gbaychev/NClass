@@ -20,7 +20,6 @@ using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
-using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Connections
@@ -295,6 +294,13 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         internal override void MousePressed(AbsoluteMouseEventArgs e)
         {
+            if (e.Handled) return;
+
+            if (Picked(e.Location, e.Zoom))
+            {
+                e.Handled = true;
+                OnMouseDown(e);
+            }
         }
 
         internal override void MouseMoved(AbsoluteMouseEventArgs e)
@@ -308,6 +314,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         internal override void MouseUpped(AbsoluteMouseEventArgs e)
         {
+            base.OnMouseUp(e);
         }
 
         internal override void DoubleClicked(AbsoluteMouseEventArgs e)
