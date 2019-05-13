@@ -14,6 +14,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -83,10 +84,17 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Editors
 
         private void txtComment_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && e.Modifiers != Keys.None ||
-                e.KeyCode == Keys.Escape)
+            switch (e.KeyCode)
             {
-                shape.HideEditor();
+                case Keys.Enter:
+                    if(e.Modifiers == Keys.None)
+                        shape.HideEditor();
+                    else if (e.Modifiers == Keys.Control)
+                        this.txtUseCase.AppendText(Environment.NewLine);
+                    break;
+                case Keys.Escape:
+                    shape.HideEditor();
+                    break;
             }
         }
     }
