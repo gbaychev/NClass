@@ -15,7 +15,6 @@
 
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
@@ -24,7 +23,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class IncludesConnection : RoutedConnection
+    public class IncludesConnection : SimpleConnection
     {
         private readonly IncludesRelationship includesRelationship;
         private Pen linePen = new Pen(Color.Black);

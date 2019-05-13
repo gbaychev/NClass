@@ -17,11 +17,12 @@ using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Connection
 {
-    public class UseCaseGeneralizationConnection : Diagrams.Connections.RoutedConnection
+    public class UseCaseGeneralizationConnection : SimpleConnection
     {
         private readonly UseCaseGeneralization generalization;
         private Pen linePen = new Pen(Color.Black);
