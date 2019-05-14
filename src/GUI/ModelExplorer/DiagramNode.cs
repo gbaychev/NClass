@@ -72,11 +72,13 @@ namespace NClass.GUI.ModelExplorer
                     else if (doc.Language == JavaLanguage.Instance)
                         return "java";
                     break;
+                case DiagramType.UseCaseDiagram:
+                    return "usecase";
                 default:
-                    return string.Empty;
+                    return "diagram";
 	        }
 
-	        return string.Empty;
+	        return "diagram";
 	    }
 
 		public IDiagram Diagram

@@ -33,7 +33,7 @@ namespace NClass.DiagramEditor
 
             if (document is UseCaseDiagram.UseCaseDiagram)
             {
-                return Resources.UseCase;
+                return Resources.UseCaseDiagram;
             }
 
             return null;
