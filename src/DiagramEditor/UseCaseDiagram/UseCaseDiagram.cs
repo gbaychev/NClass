@@ -13,6 +13,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -37,6 +38,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             model.RelationRemoved += OnRelationRemoved;
             model.RelationAdded += OnRelationAdded;
             model.Deserializing += OnDeserializing;
+            model.EntityNested += OnEntityNested;
             model.Project = this.Project;
             model.Name = this.name;
 
@@ -74,6 +76,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 case EntityType.Comment:
                     shapeOutline = CommentShape.GetOutline(Style.CurrentStyle);
                     break;
+                case EntityType.SystemBoundary:
+                    shapeOutline = SystemBoundaryShape.GetOutline(Style.CurrentStyle);
+                    break;
             }
             shapeOutline.Location = where ?? new Point((int)mouseLocation.X, (int)mouseLocation.Y);
             Redraw();
@@ -95,6 +100,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                     AddUseCase();
                     break;
 
+                case EntityType.SystemBoundary:
+                    AddSystemBoundary();
+                    break;
+
                 default:
                     return null;
             }
@@ -113,6 +122,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return model.AddUseCase();
         }
 
+        private SystemBoundary AddSystemBoundary()
+        {
+            return model.AddSystemBoundary();
+        }
+
         private void AddActor(Actor actor)
         {
             AddShape(new ActorShape(actor));
@@ -121,6 +135,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         private void AddUseCase(UseCase useCase)
         {
             AddShape(new UseCaseShape(useCase));
+        }
+
+        private void AddSystemBoundary(SystemBoundary systemBoundary)
+        {
+            AddShape(new SystemBoundaryShape(systemBoundary));
         }
 
 
@@ -136,6 +155,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                     break;
                 case EntityType.Actor:
                     AddActor(e.Entity as Actor);
+                    break;
+                case EntityType.SystemBoundary:
+                    AddSystemBoundary(e.Entity as SystemBoundary);
                     break;
             }
 
@@ -180,6 +202,14 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return true;
         }
 
+        public bool InsertSystemBoundary(SystemBoundary systemBoundary)
+        {
+            if (systemBoundary == null || model.Entities.Contains(systemBoundary)) return false;
+
+            AddSystemBoundary(systemBoundary);
+            return true;
+        }
+
         public override void Deserialize(XmlElement node)
         {
             base.Deserialize(node);
@@ -192,6 +222,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                 model.RelationRemoved += OnRelationRemoved;
                 model.RelationAdded += OnRelationAdded;
                 model.Deserializing += OnDeserializing;
+                model.EntityNested += OnEntityNested;
                 model.Name = this.name;
             }
 
@@ -305,6 +336,15 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         public override string GetShortDescription()
         {
             return "Use Case Diagram";
+        }
+
+        private void OnEntityNested(object sender, EntityEventArgs e)
+        {
+            var containerEntity = (IEntity)sender;
+            var childEntity = e.Entity;
+            var containerShape = (ShapeContainer)GetShape(containerEntity);
+            var childShape = GetShape(childEntity);
+            containerShape.AttachShapes(new List<Shape> { childShape });
         }
     }
 }

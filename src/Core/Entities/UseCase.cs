@@ -18,23 +18,28 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public class UseCase : Element, IUseCaseEntity
+    public class UseCase : Element, IUseCaseEntity, INestableChild
     {
         public event SerializeEventHandler Serializing;
         public event SerializeEventHandler Deserializing;
         private string name = string.Empty;
+        private readonly NestableChildHelper nestableChildHelper = null;
 
         public UseCase ExtendedUseCase { get; set; }
         public UseCase IncludedUseCase { get; set; }
         public IUseCaseEntity SpecializedEntity { get; set; }
 
-        public UseCase()
+        public UseCase() : this(string.Empty)
         {
         }
 
-        public UseCase(string name)
+        private UseCase(string name)
         {
+            Initializing = true;
             this.Name = name;
+            nestableChildHelper = new NestableChildHelper(this);
+            nestableChildHelper.NestingParentChanged += (s, a) => Changed();
+            Initializing = false;
         }
 
         public string Name
@@ -99,6 +104,12 @@ namespace NClass.Core
         public override string ToString()
         {
             return string.IsNullOrEmpty(this.name) ? "<use case>" : this.name;
+        }
+
+        public virtual INestable NestingParent
+        {
+            get => nestableChildHelper.NestingParent;
+            set => nestableChildHelper.NestingParent = value;
         }
     }
 }

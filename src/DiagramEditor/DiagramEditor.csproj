@@ -302,6 +302,7 @@
       <DependentUpon>UseCaseEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UseCaseDiagram\Shapes\ActorShape.cs" />
+    <Compile Include="UseCaseDiagram\Shapes\SystemBoundaryShape.cs" />
     <Compile Include="UseCaseDiagram\Shapes\UseCaseShape.cs" />
     <Compile Include="UseCaseDiagram\Shapes\UseCaseShapeBase.cs" />
     <Compile Include="UseCaseDiagram\UseCaseConnectionCreator.cs" />
@@ -431,6 +432,7 @@
     <None Include="Resources\java.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\boundary.bmp" />
     <Content Include="Resources\usecase_diagram.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

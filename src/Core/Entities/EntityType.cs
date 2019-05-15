@@ -27,6 +27,7 @@ namespace NClass.Core
 		Comment,
 
         Actor,
-        UseCase
+        UseCase,
+        SystemBoundary
 	}
 }

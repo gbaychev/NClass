@@ -50,10 +50,7 @@ namespace NClass.Core
             }
         }
 
-        public EntityType EntityType
-        {
-            get { return EntityType.Actor;}
-        }
+        public EntityType EntityType => EntityType.Actor;
 
         public void Serialize(XmlElement node)
         {
@@ -69,8 +66,7 @@ namespace NClass.Core
 
         private void OnSerializing(SerializeEventArgs e)
         {
-            if (Serializing != null)
-                Serializing(this, e);
+            Serializing?.Invoke(this, e);
         }
 
         public void Deserialize(XmlElement node)
@@ -90,8 +86,7 @@ namespace NClass.Core
 
         private void OnDeserializing(SerializeEventArgs e)
         {
-            if (Deserializing != null)
-                Deserializing(this, e);
+            Deserializing?.Invoke(this, e);
         }
 
         public Actor Clone()

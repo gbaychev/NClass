@@ -250,6 +250,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New System Boundary.
+        /// </summary>
+        public static string AddNewSystemBoundary {
+            get {
+                return ResourceManager.GetString("AddNewSystemBoundary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New Use Case.
         /// </summary>
         public static string AddNewUseCase {

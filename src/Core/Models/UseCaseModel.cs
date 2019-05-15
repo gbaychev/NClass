@@ -35,6 +35,9 @@ namespace NClass.Core.Models
                 case "Comment":
                     return AddComment();
 
+                case "SystemBoundary":
+                    return AddSystemBoundary();
+
                 default:
                     throw new InvalidDataException("Invalid entity type: " + type);
             }
@@ -126,6 +129,13 @@ namespace NClass.Core.Models
             return useCase;
         }
 
+        public SystemBoundary AddSystemBoundary()
+        {
+            var systemBoundary = new SystemBoundary();
+            AddEntity(systemBoundary);
+            return systemBoundary;
+        }
+
         public ExtendsRelationship AddExtends(UseCase first, UseCase second)
         {
             var extendsRelationship = new ExtendsRelationship(first, second);
@@ -153,5 +163,7 @@ namespace NClass.Core.Models
             AddRelationship(generalization);
             return generalization;
         }
+
+        
     }
 }

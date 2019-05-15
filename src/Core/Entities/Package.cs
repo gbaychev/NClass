@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace NClass.Core
 {
-    public abstract class Package : LanguageElement, IEntity, INestable, INestableChild
+    public abstract class Package : LanguageElement, INestable, INestableChild
     {
         NestableHelper nestableHelper = null;
         NestableChildHelper nestableChildHelper = null;
@@ -47,10 +47,7 @@ namespace NClass.Core
         /// </exception>
         public virtual string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             set
             {
                 string newName = Language.GetValidName(value, true);
@@ -154,10 +151,7 @@ namespace NClass.Core
 
         #region INestable Implementation
 
-        public IEnumerable<INestableChild> NestedChilds
-        {
-            get { return nestableHelper.NestedChilds; }
-        }
+        public IEnumerable<INestableChild> NestedChilds => nestableHelper.NestedChilds;
 
         public void AddNestedChild(INestableChild type)
         {
@@ -182,8 +176,8 @@ namespace NClass.Core
 
         public virtual INestable NestingParent
         {
-            get { return nestableChildHelper.NestingParent; }
-            set { nestableChildHelper.NestingParent = value; }
+            get => nestableChildHelper.NestingParent;
+            set => nestableChildHelper.NestingParent = value;
         }
 
         #endregion

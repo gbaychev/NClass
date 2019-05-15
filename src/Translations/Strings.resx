@@ -1195,4 +1195,7 @@ Do you still want to continue?</value>
   <data name="MenuEditPackage" xml:space="preserve">
     <value>&amp;Edit package...</value>
   </data>
+  <data name="AddNewSystemBoundary" xml:space="preserve">
+    <value>Add New System Boundary</value>
+  </data>
 </root>

@@ -28,6 +28,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         #region 'New' Submenu Items
         private ToolStripMenuItem mnuNewUseCase;
         private ToolStripMenuItem mnuAddNewActor;
+        private ToolStripMenuItem mnuAddNewSystemBoundary;
         private ToolStripMenuItem mnuAddNewAssociation;
         private ToolStripMenuItem mnuAddNewExtends;
         private ToolStripMenuItem mnuAddNewIncludes;
@@ -37,6 +38,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         #region Toolstrip Items
         private ToolStripButton toolNewUseCase;
         private ToolStripButton toolNewActor;
+        private ToolStripButton toolNewSystemBoundary;
         private ToolStripButton toolNewAssociation;
         private ToolStripButton toolNewExtends;
         private ToolStripButton toolNewIncludes;
@@ -50,14 +52,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             this.menuItems = new[] { mnuDiagram, mnuFormat };
         }
 
-        public static UseCaseDiagramDynamicMenu Default
-        {
-            get
-            {
-                return _default;
-            }
-        }
-        
+        public static UseCaseDiagramDynamicMenu Default => _default;
+
         public override void SetReference(IDocument document)
         {
             if (diagram != null)
@@ -82,6 +78,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, (o,e) => diagram?.CreateShape(EntityType.UseCase));
             this.mnuAddNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, (o, e) => diagram?.CreateShape(EntityType.Actor));
+            this.mnuAddNewSystemBoundary = new ToolStripMenuItem(Strings.AddNewSystemBoundary, Resources.SystemBoundary, (o, e) => diagram?.CreateShape(EntityType.SystemBoundary));
             this.mnuAddNewAssociation = new ToolStripMenuItem(Strings.AddNewAssociation, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseAssociation));
             this.mnuAddNewExtends = new ToolStripMenuItem(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension));
             this.mnuAddNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion));
@@ -89,6 +86,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.mnuNewElement.DropDownItems.Add(this.mnuNewUseCase);
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewActor);
+            this.mnuNewElement.DropDownItems.Add(this.mnuAddNewSystemBoundary);
             this.mnuNewElement.DropDownItems.Add(mnuNewComment);
             this.mnuNewElement.DropDownItems.Add(new ToolStripSeparator());
             this.mnuNewElement.DropDownItems.Add(this.mnuAddNewAssociation);
@@ -99,6 +97,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.toolNewUseCase = new ToolStripButton(Strings.AddNewUseCase, Resources.UseCase, (o, e) => diagram?.CreateShape(EntityType.UseCase)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewActor = new ToolStripButton(Strings.AddNewActor, Resources.Actor, (o, e) => diagram?.CreateShape(EntityType.Actor)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
+            this.toolNewSystemBoundary = new ToolStripButton(Strings.AddNewSystemBoundary, Resources.SystemBoundary, (o, e) => diagram?.CreateShape(EntityType.SystemBoundary)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewAssociation = new ToolStripButton(Strings.Association, Resources.Association, (o, e) => diagram?.CreateConnection(RelationshipType.UseCaseAssociation)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewExtends = new ToolStripButton(Strings.AddNewExtends, Resources.Extends, (o, e) => diagram?.CreateConnection(RelationshipType.Extension)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewIncludes = new ToolStripButton(Strings.AddNewIncludes, Resources.Includes, (o, e) => diagram?.CreateConnection(RelationshipType.Inclusion)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
@@ -106,6 +105,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
             this.elementsToolStrip.Items.Add(this.toolNewUseCase);
             this.elementsToolStrip.Items.Add(this.toolNewActor);
+            this.elementsToolStrip.Items.Add(this.toolNewSystemBoundary);
             this.elementsToolStrip.Items.Add(this.toolNewComment);
             this.elementsToolStrip.Items.Add(new ToolStripSeparator());
             this.elementsToolStrip.Items.Add(this.toolNewAssociation);

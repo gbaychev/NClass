@@ -32,6 +32,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
         ToolStripMenuItem mnuAddNewElement;
         ToolStripMenuItem mnuNewActor;
         ToolStripMenuItem mnuNewUseCase;
+        ToolStripMenuItem mnuNewSystemBoundary;
         ToolStripMenuItem mnuNewComment;
         ToolStripMenuItem mnuNewAssociation;
         ToolStripMenuItem mnuNewExtends;
@@ -49,10 +50,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             InitMenuItems();
         }
 
-        public static UseCaseDiagramBlankContextMenu Default
-        {
-            get { return _default; }
-        }
+        public static UseCaseDiagramBlankContextMenu Default => _default;
 
         public override void ValidateMenuItems(IDiagram diagram)
         {
@@ -74,6 +72,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
 
             mnuNewActor = new ToolStripMenuItem(Strings.AddNewActor, Resources.Actor, (s, e) => Diagram?.CreateShape(EntityType.Actor));
             mnuNewUseCase = new ToolStripMenuItem(Strings.AddNewUseCase, Resources.UseCase, (s, e) => Diagram?.CreateShape(EntityType.UseCase));
+            mnuNewSystemBoundary = new ToolStripMenuItem(Strings.AddNewSystemBoundary, Resources.SystemBoundary, (o, e) => Diagram?.CreateShape(EntityType.SystemBoundary));
             mnuNewComment = new ToolStripMenuItem(Strings.MenuComment, Resources.Comment, (s, e) => Diagram?.CreateShape(EntityType.Comment));
             mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseAssociation));
             mnuNewIncludes = new ToolStripMenuItem(Strings.AddNewIncludes, Resources.Includes, (s, e) => Diagram?.CreateConnection(RelationshipType.Inclusion));
@@ -88,6 +87,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             mnuAddNewElement.DropDownItems.AddRange(new ToolStripItem[] {
                 mnuNewActor,
                 mnuNewUseCase,
+                mnuNewSystemBoundary,
                 mnuNewComment,
                 new ToolStripSeparator(),
                 mnuNewAssociation,
