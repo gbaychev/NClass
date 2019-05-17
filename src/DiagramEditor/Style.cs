@@ -177,7 +177,7 @@ namespace NClass.DiagramEditor
         Color systemBoundaryBackColor = Color.White;
         Color systemBoundaryBorderColor = Color.Black;
         Color systemBoundaryTextColor = Color.Black;
-        Font systemBoundaryFont = new Font("Tahoma", 8.25F);
+        Font systemBoundaryFont = new Font("Tahoma", 9.00F, FontStyle.Bold);
 
         #endregion
 

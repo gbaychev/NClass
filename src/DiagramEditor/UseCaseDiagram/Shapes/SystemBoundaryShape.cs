@@ -24,26 +24,62 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
     public class SystemBoundaryShape : ShapeContainer
     {
         private static readonly Size defaultSize = new Size(300, 300);
+        private const int MarginSize = 8;
+        private readonly Size marginSize = new Size(MarginSize, MarginSize);
+        private const int HeaderHeight = 45;
 
         private SystemBoundary systemBoundary;
         public SystemBoundaryShape(SystemBoundary entity) : base(entity)
         {
             this.systemBoundary = entity;
+            this.systemBoundary.Modified += delegate { UpdateMinSize(); };
         }
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
         {
-            using (var pen = new Pen(Color.Black))
+            DrawSurface(g, onScreen, style);
+            DrawText(g, style);
+        }
+
+        private void DrawSurface(IGraphics g, bool onScreen, Style style)
+        {
+            var backgroundRectangle = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
+            if ((!onScreen || !IsSelected) && !style.ShadowOffset.IsEmpty)
             {
-                g.DrawRectangle(pen, this.BorderRectangle);
+                shadowBrush.Color = style.ShadowColor;
+                g.TranslateTransform(style.ShadowOffset.Width, style.ShadowOffset.Height);
+                g.FillRectangle(shadowBrush, backgroundRectangle);
+                g.TranslateTransform(-style.ShadowOffset.Width, -style.ShadowOffset.Height);
+            }
+
+            using (var backgroundBrush = new SolidBrush(style.SystemBoundaryBackColor))
+            using (var borderPen = new Pen(style.SystemBoundaryBorderColor, style.SystemBoundaryBorderWidth))
+            {
+                g.FillRectangle(backgroundBrush, backgroundRectangle);
+                g.DrawRectangle(borderPen, backgroundRectangle);
+            }
+        }
+
+        private void DrawText(IGraphics g, Style style)
+        {
+            var name = this.systemBoundary.Name;
+            var textRegion = new RectangleF(Left + MarginSize, Top + MarginSize,
+                Width - MarginSize * 2, HeaderHeight - MarginSize * 2);
+            var stringFormat = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+                Trimming = StringTrimming.EllipsisCharacter
+            };
+
+            using (var nameBrush = new SolidBrush(style.SystemBoundaryTextColor))
+            {
+                g.DrawString(name, style.SystemBoundaryFont, nameBrush, textRegion, stringFormat);
             }
         }
 
         protected override Size DefaultSize => defaultSize;
-        public override IEntity Entity
-        {
-            get => systemBoundary;
-        }
+        public override IEntity Entity => systemBoundary;
 
         protected override int GetBorderWidth(Style style)
         {
@@ -78,6 +114,24 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                 shape.Location += new Size((int)e.Offset.Width, (int)e.Offset.Height);
             }
             HideEditor();
+        }
+
+        protected override void UpdateMinSize()
+        {
+            var defaultRectangle = new Rectangle(this.Location.X, this.Location.Y, defaultSize.Width, defaultSize.Height);
+            var minRectangle = defaultRectangle;
+            var shouldAddMargin = false;
+            foreach (var childrenShape in ChildrenShapes)
+            {
+                if (!defaultRectangle.Contains(childrenShape.BorderRectangle))
+                    shouldAddMargin = true;
+                minRectangle = Rectangle.Union(minRectangle, childrenShape.BorderRectangle);
+            }
+
+            if (shouldAddMargin)
+                MinimumSize = minRectangle.Size + marginSize;
+            else
+                MinimumSize = minRectangle.Size;
         }
     }
 }
