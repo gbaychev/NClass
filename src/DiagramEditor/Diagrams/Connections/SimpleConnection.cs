@@ -246,9 +246,12 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 return;
 
             var oldSmoothingMode = g.SmoothingMode;
+            var oldTransform = g.Transform;
+            g.Transform = new Matrix();
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.DrawLine(DiagramConstants.SelectionPen, startPoint, endPoint);
             g.SmoothingMode = oldSmoothingMode;
+            g.Transform = oldTransform;
         }
 
         protected internal override bool TrySelect(RectangleF frame)
