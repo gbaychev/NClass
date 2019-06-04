@@ -42,9 +42,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Editors
         {
             shape = (ActorShape)element;
 
-            txtUseCase.BackColor = Style.CurrentStyle.UseCaseBackColor;
-            txtUseCase.ForeColor = Style.CurrentStyle.UseCaseTextColor;
-            txtUseCase.Text = shape.Name;
+            txtUseCase.BackColor = Style.CurrentStyle.BackgroundColor;
+            txtUseCase.ForeColor = Style.CurrentStyle.ActorTextColor;
+            txtUseCase.Text = shape.Entity.Name;
 
             Font font = Style.CurrentStyle.UseCaseFont;
             txtUseCase.Font = new Font(font.FontFamily, font.SizeInPoints * shape.Diagram.Zoom, font.Style);
@@ -52,7 +52,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Editors
 
         internal override void Relocate(DiagramElement element)
         {
-            IDiagram diagram = shape.Diagram;
+            IDiagram diagram = element.Diagram;
 
             if (diagram == null) return;
 

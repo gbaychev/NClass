@@ -15,8 +15,10 @@
 
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Editors;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
@@ -29,10 +31,15 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         private const int HeaderHeight = 45;
 
         private SystemBoundary systemBoundary;
+
+        private ShapeNameEditor editor;
+        private bool editorShown = false;
+
         public SystemBoundaryShape(SystemBoundary entity) : base(entity)
         {
             this.systemBoundary = entity;
             this.systemBoundary.Modified += delegate { UpdateMinSize(); };
+            this.editor = new ShapeNameEditor();
         }
 
         public override void Draw(IGraphics g, bool onScreen, Style style)
@@ -63,8 +70,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         private void DrawText(IGraphics g, Style style)
         {
             var name = this.systemBoundary.Name;
-            var textRegion = new RectangleF(Left + MarginSize, Top + MarginSize,
-                Width - MarginSize * 2, HeaderHeight - MarginSize * 2);
+            var textRegion = GetTextRectangle();
             var stringFormat = new StringFormat
             {
                 Alignment = StringAlignment.Center,
@@ -76,6 +82,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             {
                 g.DrawString(name, style.SystemBoundaryFont, nameBrush, textRegion, stringFormat);
             }
+        }
+
+        private Rectangle GetTextRectangle()
+        {
+            return new Rectangle(Left + MarginSize, Top + MarginSize,
+                Width - MarginSize * 2, HeaderHeight - MarginSize * 2);
         }
 
         protected override Size DefaultSize => defaultSize;
@@ -132,6 +144,49 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                 MinimumSize = minRectangle.Size + marginSize;
             else
                 MinimumSize = minRectangle.Size;
+        }
+
+        protected override void OnResize(ResizeEventArgs e)
+        {
+            base.OnResize(e);
+            if (editorShown)
+            {
+                editor.Relocate(this, GetTextRectangle());
+                if (!editor.Focused)
+                    editor.Focus();
+            }
+        }
+
+        protected override void OnDoubleClick(AbsoluteMouseEventArgs e)
+        {
+            if (Contains(e.Location) && e.Button == MouseButtons.Left)
+                ShowEditor();
+        }
+
+        protected internal override void ShowEditor()
+        {
+            if (!editorShown)
+            {
+                editor.Init(this, Style.CurrentStyle.SystemBoundaryBackColor, Style.CurrentStyle.SystemBoundaryTextColor, Style.CurrentStyle.SystemBoundaryFont);
+                editor.Relocate(this, GetTextRectangle());
+                ShowWindow(editor);
+                editor.Focus();
+                editorShown = true;
+            }
+        }
+
+        protected internal override void HideEditor()
+        {
+            if (editorShown)
+            {
+                HideWindow(editor);
+                editorShown = false;
+            }
+        }
+
+        protected internal override void MoveWindow()
+        {
+            HideEditor();
         }
     }
 }

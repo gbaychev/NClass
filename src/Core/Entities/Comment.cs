@@ -43,7 +43,8 @@ namespace NClass.Core
 		public string Name
 		{
 			get { return Strings.Comment; }
-		}
+            set { }
+        }
 
 		public string Text
 		{

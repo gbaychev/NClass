@@ -113,6 +113,12 @@
     <Compile Include="Diagrams\Editors\DesignerHelperWindow.Designer.cs">
       <DependentUpon>DesignerHelperWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Diagrams\Editors\ShapeNameEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Diagrams\Editors\ShapeNameEditor.Designer.cs">
+      <DependentUpon>ShapeNameEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Diagrams\ElementContainer.cs" />
     <Compile Include="ClassDiagram\ClassDiagramDynamicMenu.cs">
     </Compile>
@@ -364,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClassDiagram\Editors\PackageEditor.resx">
       <DependentUpon>PackageEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Diagrams\Editors\ShapeNameEditor.resx">
+      <DependentUpon>ShapeNameEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
