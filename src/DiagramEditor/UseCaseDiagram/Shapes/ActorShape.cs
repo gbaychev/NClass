@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Editors;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Editors;
 
@@ -26,7 +27,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
     public class ActorShape : UseCaseShapeBase
     {
         private bool isEditorShown = false;
-        private ActorEditor editor;
+        private ShapeNameEditor editor;
         private Actor actor;
         private const int DefaultWidth = 75;
         private const int DefaultHeight = 150;
@@ -40,7 +41,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             actor = entity;
             this.MinimumSize = defaultSize;
-            editor = new ActorEditor();
+            editor = new ShapeNameEditor();
             this.stringFormat = StringFormat.GenericTypographic;
             this.stringFormat.Alignment = StringAlignment.Center;
             this.stringFormat.Trimming = StringTrimming.EllipsisWord;
@@ -61,7 +62,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                                 Entity.Name,
                                 style.StaticMemberFont,
                                 new SolidBrush(style.ActorTextColor),
-                                GetTextRectangle(graphics, style),
+                                GetTextRectangle(),
                                 this.stringFormat);
         }
 
@@ -107,24 +108,17 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             }
             if (isEditorShown)
             {
-                editor.Relocate(this);
+                editor.Relocate(this, GetTextRectangle());
                 if (!editor.Focused)
                     editor.Focus();
             }
             base.OnResize(e);
         }
+       protected override Size DefaultSize => defaultSize;
 
-       protected override Size DefaultSize
-        {
-            get { return defaultSize; }
-        }
-        public override IEntity Entity {
-            get
-            {
-                return this.actor;
-            }
-        }
-        protected override int GetBorderWidth(Style style)
+       public override IEntity Entity => this.actor;
+
+       protected override int GetBorderWidth(Style style)
         {
             //FIXME
             return style.CommentBorderWidth;
@@ -135,13 +129,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             return Width;
         }
 
-        public Rectangle GetTextRectangle(IGraphics g, Style style)
+        public Rectangle GetTextRectangle()
         {
-            SizeF textSize = g.MeasureString(this.Entity.Name, style.ActorFont);
             int left = this.Left + PaddingSize;
-            int top = (int)Math.Ceiling(this.Bottom - textSize.Height - PaddingSize);
             int width = this.Width - 2 * PaddingSize;
-            int height = (int)Math.Ceiling(textSize.Height + PaddingSize);
+            int height = this.Height / 10;
+            int top = this.Bottom - height - PaddingSize;
             return new Rectangle(left, top, width, height);
         }
 
@@ -179,8 +172,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             if (!isEditorShown)
             {
-                editor.Init(this);
-                editor.Relocate(this);
+                editor.Init(this, Style.CurrentStyle.BackgroundColor, Style.CurrentStyle.ActorTextColor, Style.CurrentStyle.ActorFont);
+                editor.Relocate(this, GetTextRectangle());
                 ShowWindow(editor);
                 editor.Focus();
                 isEditorShown = true;
@@ -201,8 +194,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             HideEditor();
             base.OnMove(e);
         }
-
-        public Actor Actor => actor;
 
         public override IUseCaseEntity UseCaseEntity => this.actor;
     }
