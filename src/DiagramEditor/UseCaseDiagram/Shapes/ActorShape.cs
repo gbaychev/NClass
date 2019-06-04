@@ -20,7 +20,6 @@ using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Editors;
 using NClass.DiagramEditor.Diagrams.Shapes;
-using NClass.DiagramEditor.UseCaseDiagram.Editors;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 {

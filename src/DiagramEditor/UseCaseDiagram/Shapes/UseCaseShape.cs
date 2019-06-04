@@ -17,8 +17,8 @@ using System;
 using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
+using NClass.DiagramEditor.Diagrams.Editors;
 using NClass.DiagramEditor.Diagrams.Shapes;
-using NClass.DiagramEditor.UseCaseDiagram.Editors;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
@@ -26,9 +26,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
     public class UseCaseShape : UseCaseShapeBase
     {
         private bool isEditorShown = false;
-        private UseCaseEditor editor;
-        private UseCase useCase;
-        const int PaddingSize = 10;
+        private ShapeNameEditor editor;
+        private readonly UseCase useCase;
         const int DefaultWidth = 160;
         const int DefaultHeight = 75;
         private readonly StringFormat stringFormat = StringFormat.GenericTypographic;
@@ -36,7 +35,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         public UseCaseShape(UseCase entity) : base(entity)
         {
             this.useCase = entity;
-            this.editor = new UseCaseEditor();
+            this.editor = new ShapeNameEditor();
             this.stringFormat.Trimming = StringTrimming.EllipsisWord;
             this.stringFormat.FormatFlags = StringFormatFlags.LineLimit;
             this.stringFormat.Alignment = StringAlignment.Center;
@@ -80,31 +79,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             }
         }
 
-        protected override Size DefaultSize
-        {
-            get { return new Size(DefaultWidth, DefaultHeight); }
-        }
-        public override IEntity Entity
-        {
-            get { return this.useCase; }
-        }
+        protected override Size DefaultSize => new Size(DefaultWidth, DefaultHeight);
 
-        public string Text
-        {
-            get { return useCase.Name; }
-            set
-            {
-                if (String.Compare(useCase.Name, value, StringComparison.Ordinal) != 0)
-                {
-                    useCase.Name = value;
-                }
-            }
-        }
+        public override IEntity Entity => this.useCase;
 
-        public UseCase UseCase
-        {
-            get { return useCase; }
-        }
+        public string Text => useCase.Name;
+        public UseCase UseCase => useCase;
 
         protected override int GetBorderWidth(Style style)
         {
@@ -156,8 +136,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             if (!isEditorShown)
             {
-                editor.Init(this);
-                editor.Relocate(this);
+                editor.Init(this, Style.CurrentStyle.UseCaseBackColor,Style.CurrentStyle.UseCaseTextColor, Style.CurrentStyle.UseCaseFont);
+                editor.Relocate(this, GetTextRectangle());
                 ShowWindow(editor);
                 editor.Focus();
                 isEditorShown = true;
@@ -184,7 +164,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             base.OnResize(e);
             if (isEditorShown)
             {
-                editor.Relocate(this);
+                editor.Relocate(this, GetTextRectangle());
                 if (!editor.Focused)
                     editor.Focus();
             }
