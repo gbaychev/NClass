@@ -87,27 +87,27 @@ namespace NClass.DiagramEditor.Diagrams
         bool loading = false;
 
         protected T model;
-	    protected string name;
+        protected string name;
 
-	    public DiagramType DiagramType { get; protected set; }
+        public DiagramType DiagramType { get; protected set; }
 
 
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor
-		protected Diagram()
-		{
-		}
+        protected Diagram()
+        {
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="name"/> cannot be empty string.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// </exception>
-		public Diagram(string name)
-		{
-		    this.name = name;
-		    this.Model.Name = name;
-		}
+        /// <exception cref="ArgumentException">
+        /// <paramref name="name"/> cannot be empty string.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public Diagram(string name)
+        {
+            this.name = name;
+            this.Model.Name = name;
+        }
 
         #region Abstract Methods and Properties
         public virtual void KeyDown(KeyEventArgs e)
@@ -181,7 +181,7 @@ namespace NClass.DiagramEditor.Diagrams
         public Model Model => this.model;
 
         public string Name
-	    {
+        {
             get
             {
                 if (name == null)
@@ -201,18 +201,18 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-	    protected Project project;
-	    public Project Project
+        protected Project project;
+        public Project Project
         {
-	        get { return project; }
-	        set
-	        {
-	            if (this.project != value)
-	            {
-	                this.model.Project = value;
-	                this.project = value;
-	            }
-	        }
+            get { return project; }
+            set
+            {
+                if (this.project != value)
+                {
+                    this.model.Project = value;
+                    this.project = value;
+                }
+            }
         }
 
         public IEnumerable<Shape> Shapes => shapes;
@@ -224,210 +224,178 @@ namespace NClass.DiagramEditor.Diagrams
         protected internal ElementList<AbstractConnection> ConnectionList => connections;
 
         public Point Offset
-		{
-			get
-			{
-				return offset;
-			}
-			set
-			{
-				if (value.X < 0) value.X = 0;
-				if (value.Y < 0) value.Y = 0;
+        {
+            get
+            {
+                return offset;
+            }
+            set
+            {
+                if (value.X < 0) value.X = 0;
+                if (value.Y < 0) value.Y = 0;
 
-				if (offset != value)
-				{
-					offset = value;
-					OnOffsetChanged(EventArgs.Empty);
-				}
-			}
-		}
+                if (offset != value)
+                {
+                    offset = value;
+                    OnOffsetChanged(EventArgs.Empty);
+                }
+            }
+        }
 
-		public Size Size
-		{
-			get
-			{
-				return size;
-			}
-			protected set
-			{
-				if (value.Width < DiagramConstants.MinSize.Width)
-					value.Width = DiagramConstants.MinSize.Width;
-				if (value.Height < DiagramConstants.MinSize.Height)
-					value.Height = DiagramConstants.MinSize.Height;
+        public Size Size
+        {
+            get
+            {
+                return size;
+            }
+            protected set
+            {
+                if (value.Width < DiagramConstants.MinSize.Width)
+                    value.Width = DiagramConstants.MinSize.Width;
+                if (value.Height < DiagramConstants.MinSize.Height)
+                    value.Height = DiagramConstants.MinSize.Height;
 
-				if (size != value)
-				{
-					size = value;
-					OnSizeChanged(EventArgs.Empty);
-				}
-			}
-		}
+                if (size != value)
+                {
+                    size = value;
+                    OnSizeChanged(EventArgs.Empty);
+                }
+            }
+        }
 
-		public float Zoom
-		{
-			get
-			{
-				return zoom;
-			}
-			set
-			{
-				if (value < Canvas.MinZoom) value = Canvas.MinZoom;
-				if (value > Canvas.MaxZoom) value = Canvas.MaxZoom;
+        public float Zoom
+        {
+            get
+            {
+                return zoom;
+            }
+            set
+            {
+                if (value < Canvas.MinZoom) value = Canvas.MinZoom;
+                if (value > Canvas.MaxZoom) value = Canvas.MaxZoom;
 
-				if (zoom != value)
-				{
-					zoom = value;
-					OnZoomChanged(EventArgs.Empty);
-				}
-			}
-		}
+                if (zoom != value)
+                {
+                    zoom = value;
+                    OnZoomChanged(EventArgs.Empty);
+                }
+            }
+        }
 
-		public Color BackColor
-		{
-			get { return Style.CurrentStyle.BackgroundColor; }
-		}
+        public Color BackColor
+        {
+            get { return Style.CurrentStyle.BackgroundColor; }
+        }
 
-		public bool RedrawSuspended
-		{
-			get
-			{
-				return redrawSuspended;
-			}
-			set
-			{
-				if (redrawSuspended != value)
-				{
-					redrawSuspended = value;
-					if (!redrawSuspended)
-					{
-						RecalculateSize();
-						RequestRedrawIfNeeded();
-					}
-				}
-			}
-		}
+        public bool RedrawSuspended
+        {
+            get
+            {
+                return redrawSuspended;
+            }
+            set
+            {
+                if (redrawSuspended != value)
+                {
+                    redrawSuspended = value;
+                    if (!redrawSuspended)
+                    {
+                        RecalculateSize();
+                        RequestRedrawIfNeeded();
+                    }
+                }
+            }
+        }
 
-		public bool CanCutToClipboard
-		{
-			get { return SelectedShapeCount > 0; }
-		}
+        public bool CanCutToClipboard => SelectedShapeCount > 0;
 
-		public bool CanCopyToClipboard
-		{
-			get { return SelectedShapeCount > 0; }
-		}
+        public bool CanCopyToClipboard => SelectedShapeCount > 0;
 
-		public bool CanPasteFromClipboard
-		{
-		    get
-		    {
-		        var container = Clipboard.Item as ElementContainer;
-		        if (container == null)
-		            return false;
+        public bool CanPasteFromClipboard
+        {
+            get
+            {
+                if (!(Clipboard.Item is ElementContainer container))
+                    return false;
 
-		        return container.SourceDiagramType == this.DiagramType;
-		    }
-		}
+                return container.SourceDiagramType == this.DiagramType;
+            }
+        }
 
-		public int ShapeCount
-		{
-			get { return shapes.Count; }
-		}
+        public int ShapeCount => shapes.Count;
 
-		public int ConnectionCount
-		{
-			get { return connections.Count; }
-		}
+        public int ConnectionCount => connections.Count;
 
-		public DiagramElement ActiveElement
-		{
-			get
-			{
-				return activeElement;
-			}
-			private set
-			{
-				if (activeElement != null)
-				{
-					activeElement.IsActive = false;
-				}
-				activeElement = value;
-			}
-		}
+        public DiagramElement ActiveElement
+        {
+            get => activeElement;
+            private set
+            {
+                if (activeElement != null)
+                {
+                    activeElement.IsActive = false;
+                }
+                activeElement = value;
+            }
+        }
 
-		public DiagramElement TopSelectedElement
-		{
-			get
-			{
-				if (SelectedConnectionCount > 0)
-					return connections.FirstValue;
-				else if (SelectedShapeCount > 0)
-					return shapes.FirstValue;
-				else
-					return null;
-			}
-		}
+        public DiagramElement TopSelectedElement
+        {
+            get
+            {
+                if (SelectedConnectionCount > 0)
+                    return connections.FirstValue;
+                else if (SelectedShapeCount > 0)
+                    return shapes.FirstValue;
+                else
+                    return null;
+            }
+        }
 
-		public bool HasSelectedElement
-		{
-			get
-			{
-				return (SelectedElementCount > 0);
-			}
-		}
+        public bool HasSelectedElement => (SelectedElementCount > 0);
 
-		public int SelectedElementCount
-		{
-			get { return selectedShapeCount + selectedConnectionCount; }
-		}
+        public int SelectedElementCount => selectedShapeCount + selectedConnectionCount;
 
-		public int SelectedShapeCount
-		{
-			get { return selectedShapeCount; }
-		}
+        public int SelectedShapeCount => selectedShapeCount;
 
-		public int SelectedConnectionCount
-		{
-			get { return selectedConnectionCount; }
-		}
+        public int SelectedConnectionCount => selectedConnectionCount;
+        public string GetSelectedElementName()
+        {
+            if (HasSelectedElement && SelectedElementCount == 1)
+            {
+                foreach (Shape shape in shapes)
+                {
+                    if (shape.IsSelected)
+                        return shape.Entity.Name;
+                }
+            }
 
-		public string GetSelectedElementName()
-		{
-			if (HasSelectedElement && SelectedElementCount == 1)
-			{
-				foreach (Shape shape in shapes)
-				{
-					if (shape.IsSelected)
-						return shape.Entity.Name;
-				}
-			}
+            return null;
+        }
 
-			return null;
-		}
+        public IEnumerable<Shape> GetSelectedShapes()
+        {
+            return shapes.GetSelectedElements();
+        }
 
-		public IEnumerable<Shape> GetSelectedShapes()
-		{
-			return shapes.GetSelectedElements();
-		}
+        public IEnumerable<AbstractConnection> GetSelectedConnections()
+        {
+            return connections.GetSelectedElements();
+        }
 
-		public IEnumerable<AbstractConnection> GetSelectedConnections()
-		{
-			return connections.GetSelectedElements();
-		}
-
-		public IEnumerable<DiagramElement> GetSelectedElements()
-		{
-			foreach (Shape shape in shapes)
-			{
-				if (shape.IsSelected)
-					yield return shape;
-			}
-			foreach (var connection in connections)
-			{
-				if (connection.IsSelected)
-					yield return connection;
-			}
-		}
+        public IEnumerable<DiagramElement> GetSelectedElements()
+        {
+            foreach (Shape shape in shapes)
+            {
+                if (shape.IsSelected)
+                    yield return shape;
+            }
+            foreach (var connection in connections)
+            {
+                if (connection.IsSelected)
+                    yield return connection;
+            }
+        }
 
         public IEnumerable<Shape> GetShapesInDisplayOrder()
         {
@@ -479,7 +447,7 @@ namespace NClass.DiagramEditor.Diagrams
         {
             var enumeratedShapes = new HashSet<Shape>();
             foreach (Shape shape in shapes.GetSelectedElements().Where(s => !(s is ShapeContainer)))
-                if(enumeratedShapes.Add(shape))
+                if (enumeratedShapes.Add(shape))
                     yield return shape;
 
             foreach (var container in shapes.Except(enumeratedShapes)
@@ -534,7 +502,7 @@ namespace NClass.DiagramEditor.Diagrams
 
             foreach (var shape in shapes.GetUnselectedElementsReversed())
             {
-                if(shape.ParentShape != null)
+                if (shape.ParentShape != null)
                     continue;
                 if (shape is ShapeContainer container)
                 {
@@ -543,7 +511,7 @@ namespace NClass.DiagramEditor.Diagrams
                     if (container.IsContainerSelected())
                         continue;
 
-                    foreach (var s in container.FlattenReverse().Where(s => ! s.IsSelected))
+                    foreach (var s in container.FlattenReverse().Where(s => !s.IsSelected))
                     {
                         if (enumeratedShapes.Add(s))
                         {
@@ -563,7 +531,7 @@ namespace NClass.DiagramEditor.Diagrams
             foreach (var connection in connections.GetUnselectedElementsReversed().Where(c =>
                 enumeratedShapes.Contains(c.StartShape) && enumeratedShapes.Contains(c.EndShape)))
             {
-                if(enumeratedConnections.Add(connection))
+                if (enumeratedConnections.Add(connection))
                     yield return connection;
             }
 
@@ -600,577 +568,576 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         public void CloseWindows()
-		{
-			if (ActiveElement != null)
-				ActiveElement.HideEditor();
-		}
+        {
+            if (ActiveElement != null)
+                ActiveElement.HideEditor();
+        }
 
-		public void Cut()
-		{
-			if (CanCutToClipboard)
-			{
-				Copy();
-				DeleteSelectedElements(false);
-			}
-		}
+        public void Cut()
+        {
+            if (CanCutToClipboard)
+            {
+                Copy();
+                DeleteSelectedElements(false);
+            }
+        }
 
-		public void Copy()
-		{
-			if (CanCopyToClipboard)
-			{
-				ElementContainer elements = new ElementContainer(this.DiagramType);
-				foreach (Shape shape in GetSelectedShapes())
-				{
-					elements.AddShape(shape);
-				}
-				foreach (var connection in GetSelectedConnections())
-				{
-					elements.AddConnection(connection);
-				}
-				Clipboard.Item = elements;
-			}
-		}
+        public void Copy()
+        {
+            if (CanCopyToClipboard)
+            {
+                ElementContainer elements = new ElementContainer(this.DiagramType);
+                foreach (Shape shape in GetSelectedShapes())
+                {
+                    elements.AddShape(shape);
+                }
+                foreach (var connection in GetSelectedConnections())
+                {
+                    elements.AddConnection(connection);
+                }
+                Clipboard.Item = elements;
+            }
+        }
 
-		public void Paste()
-		{
-			if (CanPasteFromClipboard)
-			{
-				DeselectAll();
-				RedrawSuspended = true;
-				Clipboard.Paste(this);
-				RedrawSuspended = false;
-				OnClipboardAvailabilityChanged(EventArgs.Empty);
-			}
-		}
+        public void Paste()
+        {
+            if (CanPasteFromClipboard)
+            {
+                DeselectAll();
+                RedrawSuspended = true;
+                Clipboard.Paste(this);
+                RedrawSuspended = false;
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+            }
+        }
 
-		public void Display(Graphics g)
-		{
-			RectangleF clip = g.ClipBounds;
+        public void Display(Graphics g)
+        {
+            RectangleF clip = g.ClipBounds;
 
-			// Draw diagram elements
-			IGraphics graphics = new GdiGraphics(g);
-			foreach (DiagramElement element in GetElementsInReversedDisplayOrder())
-			{
-				if (clip.IntersectsWith(element.GetVisibleArea(Zoom)))
-					element.Draw(graphics, true);
-				element.NeedsRedraw = false;
-			}
-			if (state == State.CreatingShape)
-			{
-				g.DrawRectangle(DiagramConstants.SelectionPen,
-					shapeOutline.X, shapeOutline.Y, shapeOutline.Width, shapeOutline.Height);
-			}
-			else if (state == State.CreatingConnection)
-			{
-				connectionCreator.Draw(g);
-			}
+            // Draw diagram elements
+            IGraphics graphics = new GdiGraphics(g);
+            foreach (DiagramElement element in GetElementsInReversedDisplayOrder())
+            {
+                if (clip.IntersectsWith(element.GetVisibleArea(Zoom)))
+                    element.Draw(graphics, true);
+                element.NeedsRedraw = false;
+            }
+            if (state == State.CreatingShape)
+            {
+                g.DrawRectangle(DiagramConstants.SelectionPen,
+                    shapeOutline.X, shapeOutline.Y, shapeOutline.Width, shapeOutline.Height);
+            }
+            else if (state == State.CreatingConnection)
+            {
+                connectionCreator.Draw(g);
+            }
 
-			// Draw selection lines
-			GraphicsState savedState = g.Save();
-			g.ResetTransform();
-			g.SmoothingMode = SmoothingMode.None;
-			foreach (Shape shape in shapes.GetSelectedElementsReversed())
-			{
-				if (clip.IntersectsWith(shape.GetVisibleArea(Zoom)))
-					shape.DrawSelectionLines(g, Zoom, Offset);
-			}
-			foreach (var connection in connections.GetSelectedElementsReversed())
-			{
-				if (clip.IntersectsWith(connection.GetVisibleArea(Zoom)))
-					connection.DrawSelectionLines(g, Zoom, Offset);
-			}
-			
-			if (state == State.Multiselecting)
-			{
-				RectangleF frame = RectangleF.FromLTRB(
-					Math.Min(selectionFrame.Left, selectionFrame.Right),
-					Math.Min(selectionFrame.Top, selectionFrame.Bottom),
-					Math.Max(selectionFrame.Left, selectionFrame.Right),
-					Math.Max(selectionFrame.Top, selectionFrame.Bottom));
-				g.DrawRectangle(DiagramConstants.SelectionPen,
-					frame.X * Zoom - Offset.X,
-					frame.Y * Zoom - Offset.Y,
-					frame.Width * Zoom,  
-					frame.Height * Zoom);
-			}
+            // Draw selection lines
+            GraphicsState savedState = g.Save();
+            g.ResetTransform();
+            g.SmoothingMode = SmoothingMode.None;
+            foreach (Shape shape in shapes.GetSelectedElementsReversed())
+            {
+                if (clip.IntersectsWith(shape.GetVisibleArea(Zoom)))
+                    shape.DrawSelectionLines(g, Zoom, Offset);
+            }
+            foreach (var connection in connections.GetSelectedElementsReversed())
+            {
+                if (clip.IntersectsWith(connection.GetVisibleArea(Zoom)))
+                    connection.DrawSelectionLines(g, Zoom, Offset);
+            }
 
-			// Draw diagram border
-			clip = g.ClipBounds;
-			float borderWidth = Size.Width * Zoom;
-			float borderHeight = Size.Height * Zoom;
-			if (clip.Right > borderWidth || clip.Bottom > borderHeight)
-			{
+            if (state == State.Multiselecting)
+            {
+                RectangleF frame = RectangleF.FromLTRB(
+                    Math.Min(selectionFrame.Left, selectionFrame.Right),
+                    Math.Min(selectionFrame.Top, selectionFrame.Bottom),
+                    Math.Max(selectionFrame.Left, selectionFrame.Right),
+                    Math.Max(selectionFrame.Top, selectionFrame.Bottom));
+                g.DrawRectangle(DiagramConstants.SelectionPen,
+                    frame.X * Zoom - Offset.X,
+                    frame.Y * Zoom - Offset.Y,
+                    frame.Width * Zoom,
+                    frame.Height * Zoom);
+            }
+
+            // Draw diagram border
+            clip = g.ClipBounds;
+            float borderWidth = Size.Width * Zoom;
+            float borderHeight = Size.Height * Zoom;
+            if (clip.Right > borderWidth || clip.Bottom > borderHeight)
+            {
                 DiagramConstants.SelectionPen.DashOffset = Offset.Y - Offset.X;
-				g.DrawLines(DiagramConstants.SelectionPen, new PointF[] {
-					new PointF(borderWidth, 0),
-					new PointF(borderWidth, borderHeight),
-					new PointF(0, borderHeight)
-				});
+                g.DrawLines(DiagramConstants.SelectionPen, new PointF[] {
+                    new PointF(borderWidth, 0),
+                    new PointF(borderWidth, borderHeight),
+                    new PointF(0, borderHeight)
+                });
                 DiagramConstants.SelectionPen.DashOffset = 0;
-			}
-
-			// Restore original state
-			g.Restore(savedState);
-		}
-
-		public void CopyAsImage()
-		{
-			ImageCreator.CopyAsImage(this);
-		}
-
-		public void CopyAsImage(bool selectedOnly)
-		{
-			ImageCreator.CopyAsImage(this, selectedOnly);
-		}
-
-		public void SaveAsImage()
-		{
-			ImageCreator.SaveAsImage(this);
-		}
-
-		public void SaveAsImage(bool selectedOnly)
-		{
-			ImageCreator.SaveAsImage(this, selectedOnly);
-		}
-
-		public void ShowPrintDialog()
-		{
-			DiagramPrintDialog dialog = new DiagramPrintDialog();
-			dialog.Document = this;
-			dialog.ShowDialog();
-		}
-
-		public void Print(IGraphics g)
-		{
-			Print(g, false, Style.CurrentStyle);
-		}
-
-		public void Print(IGraphics g, bool selectedOnly, Style style)
-		{
-		    var enumeratedShapes = new HashSet<Shape>();
-		    foreach (var container in shapes.GetReversedList()
-		        .Where(s => s is ShapeContainer container && (!selectedOnly || container.IsSelected))
-		        .Cast<ShapeContainer>()
-		        .OrderBy(s => s.SortOrder))
-		    {
-		        foreach (var shape in container.FlattenReverse())
-		        {
-		            enumeratedShapes.Add(shape);
-		            shape.Draw(g, false, style);
-		        }
-		    }
-
-		    foreach (Shape shape in shapes.GetReversedList().Except(enumeratedShapes))
-		        shape.Draw(g, false, style);
-            
-			foreach (var connection in connections.GetReversedList())
-			{
-				if (!selectedOnly || connection.IsSelected)
-					connection.Draw(g, false, style);
-			}
-		}
-
-		protected void RecalculateSize()
-		{
-			const int Padding = 500;
-			int rightMax = DiagramConstants.MinSize.Width, bottomMax = DiagramConstants.MinSize.Height;
-
-			foreach (Shape shape in shapes)
-			{
-				Rectangle area = shape.GetLogicalArea();
-				if (area.Right + Padding > rightMax)
-					rightMax = area.Right + Padding;
-				if (area.Bottom + Padding > bottomMax)
-					bottomMax = area.Bottom + Padding;
-			}
-			foreach (var connection in connections)
-			{
-				Rectangle area = connection.GetLogicalArea();
-				if (area.Right + Padding > rightMax)
-					rightMax = area.Right + Padding;
-				if (area.Bottom + Padding > bottomMax)
-					bottomMax = area.Bottom + Padding;
-			}
-
-			this.Size = new Size(rightMax, bottomMax);
-		}
-
-		public void AlignLeft()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int left = Size.Width;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					left = Math.Min(left, shape.Left);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Left = left;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AlignRight()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int right = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					right = Math.Max(right, shape.Right);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Right = right;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AlignTop()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int top = Size.Height;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					top = Math.Min(top, shape.Top);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Top = top;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AlignBottom()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int bottom = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					bottom = Math.Max(bottom, shape.Bottom);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Bottom = bottom;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AlignHorizontal()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int center = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					center += (shape.Top + shape.Bottom) / 2;
-				}
-				center /= SelectedShapeCount;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Top = center - shape.Height / 2;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AlignVertical()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int center = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					center += (shape.Left + shape.Right) / 2;
-				}
-				center /= SelectedShapeCount;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Left = center - shape.Width / 2;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AdjustToSameWidth()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int maxWidth = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					maxWidth = Math.Max(maxWidth, shape.Width);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Width = maxWidth;
-				}
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AdjustToSameHeight()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				int maxHeight = 0;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					maxHeight = Math.Max(maxHeight, shape.Height);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Height = maxHeight;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AdjustToSameSize()
-		{
-			if (SelectedShapeCount >= 2)
-			{
-				Size maxSize = Size.Empty;
-				RedrawSuspended = true;
-
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					maxSize.Width = Math.Max(maxSize.Width, shape.Width);
-					maxSize.Height = Math.Max(maxSize.Height, shape.Height);
-				}
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Size = maxSize;
-				}
-
-				RedrawSuspended = false;
-			}
-		}
-
-		public void AutoSizeOfSelectedShapes()
-		{
-			RedrawSuspended = true;
-			foreach (Shape shape in shapes.GetSelectedElements())
-			{
-				shape.AutoWidth();
-				shape.AutoHeight();
-			}
-			RedrawSuspended = false;
-		}
-
-		public void AutoWidthOfSelectedShapes()
-		{
-			RedrawSuspended = true;
-			foreach (Shape shape in shapes.GetSelectedElements())
-			{
-				shape.AutoWidth();
-			}
-			RedrawSuspended = false;
-		}
-
-		public void AutoHeightOfSelectedShapes()
-		{
-			RedrawSuspended = true;
-			foreach (Shape shape in shapes.GetSelectedElements())
-			{
-				shape.AutoHeight();
-			}
-			RedrawSuspended = false;
-		}
-
-		public void CollapseAll()
-		{
-			bool selectedOnly = HasSelectedElement;
-			CollapseAll(selectedOnly);
-		}
-
-		public void CollapseAll(bool selectedOnly)
-		{
-			RedrawSuspended = true;
-
-			foreach (Shape shape in shapes)
-			{
-				if (shape.IsSelected || !selectedOnly)
-					shape.Collapse();
-			}
-
-			RedrawSuspended = false;
-		}
-
-		public void ExpandAll()
-		{
-			bool selectedOnly = HasSelectedElement;
-			ExpandAll(selectedOnly);
-		}
-
-		public void ExpandAll(bool selectedOnly)
-		{
-			RedrawSuspended = true;
-
-			foreach (Shape shape in shapes)
-			{
-				if (shape.IsSelected || !selectedOnly)
-					shape.Expand();
-			}
-
-			RedrawSuspended = false;
-		}
-
-		public void SelectAll()
-		{
-			RedrawSuspended = true;
-			selectioning = true;
-
-			foreach (Shape shape in shapes)
-			{
-				shape.IsSelected = true;
-			}
-			foreach (var connection in connections)
-			{
-				connection.IsSelected = true;
-			}
-
-			selectedShapeCount = shapes.Count;
-			selectedConnectionCount = connections.Count;
-
-			OnSelectionChanged(EventArgs.Empty);
-			OnClipboardAvailabilityChanged(EventArgs.Empty);
-			OnStatusChanged(EventArgs.Empty);
-
-			selectioning = false;
-			RedrawSuspended = false;
-		}
-
-		private bool ConfirmDelete()
-		{
-			DialogResult result = MessageBox.Show(
-				Strings.DeleteElementsConfirmation, Strings.Confirmation,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-			return (result == DialogResult.Yes);
-		}
-
-		public void DeleteSelectedElements()
-		{
-			DeleteSelectedElements(true);
-		}
-
-		private void DeleteSelectedElements(bool showConfirmation)
-		{
-			if (HasSelectedElement && (!showConfirmation || ConfirmDelete()))
-			{
-				if (selectedShapeCount > 0)
-				{
-					foreach (Shape shape in shapes.GetModifiableList())
-					{
-						if (shape.IsSelected)
-							RemoveEntity(shape.Entity);
-					}
-				}
-				if (selectedConnectionCount > 0)
-				{
-					foreach (var connection in connections.GetModifiableList())
-					{
-						if (connection.IsSelected)
-							RemoveRelationship(connection.Relationship);
-					}
-				}
-				Redraw();
-			}
-		}
-
-		public void Redraw()
-		{
-			OnNeedsRedraw(EventArgs.Empty);
-		}
-
-		private void RequestRedrawIfNeeded()
-		{
-			if (loading)
-				return;
-
-			foreach (Shape shape in shapes)
-			{
-				if (shape.NeedsRedraw)
-				{
-					OnNeedsRedraw(EventArgs.Empty);
-					return;
-				}					
-			}
-			foreach (var connection in connections)
-			{
-				if (connection.NeedsRedraw)
-				{
-					OnNeedsRedraw(EventArgs.Empty);
-					return;
-				}
-			}
-		}
-        
-		public DynamicMenu GetDynamicMenu()
-		{
-			diagramDynamicMenu.SetReference(this);
-			return diagramDynamicMenu;
-		}
-		public ContextMenuStrip GetContextMenu(AbsoluteMouseEventArgs e)
-		{
-			if (HasSelectedElement)
-			{
-				Intersector<ToolStripItem> intersector = new Intersector<ToolStripItem>();
-				ContextMenu.MenuStrip.Items.Clear();
-
-			    foreach (Shape shape in GetSelectedShapes())
-			    {
-			        intersector.AddSet(shape.GetContextMenuItems(this, e.Location));
-			    }
-			    foreach (var connection in GetSelectedConnections())
-					intersector.AddSet(connection.GetContextMenuItems(this, e.Location));
-
-				foreach (ToolStripItem menuItem in intersector.GetIntersection())
-					ContextMenu.MenuStrip.Items.Add(menuItem);
-				return ContextMenu.MenuStrip;
-			}
-			else
-			{
-				ContextMenu.MenuStrip.Items.Clear();
-				foreach (ToolStripItem menuItem in diagramContextMenu.GetMenuItems(this))
-					ContextMenu.MenuStrip.Items.Add(menuItem);
-
-				return ContextMenu.MenuStrip;
-			}
-		}
+            }
+
+            // Restore original state
+            g.Restore(savedState);
+        }
+
+        public void CopyAsImage()
+        {
+            ImageCreator.CopyAsImage(this);
+        }
+
+        public void CopyAsImage(bool selectedOnly)
+        {
+            ImageCreator.CopyAsImage(this, selectedOnly);
+        }
+
+        public void SaveAsImage()
+        {
+            ImageCreator.SaveAsImage(this);
+        }
+
+        public void SaveAsImage(bool selectedOnly)
+        {
+            ImageCreator.SaveAsImage(this, selectedOnly);
+        }
+
+        public void ShowPrintDialog()
+        {
+            DiagramPrintDialog dialog = new DiagramPrintDialog {Document = this};
+            dialog.ShowDialog();
+        }
+
+        public void Print(IGraphics g)
+        {
+            Print(g, false, Style.CurrentStyle);
+        }
+
+        public void Print(IGraphics g, bool selectedOnly, Style style)
+        {
+            var enumeratedShapes = new HashSet<Shape>();
+            foreach (var container in shapes.GetReversedList()
+                .Where(s => s is ShapeContainer container && (!selectedOnly || container.IsSelected))
+                .Cast<ShapeContainer>()
+                .OrderBy(s => s.SortOrder))
+            {
+                foreach (var shape in container.FlattenReverse())
+                {
+                    enumeratedShapes.Add(shape);
+                    shape.Draw(g, false, style);
+                }
+            }
+
+            foreach (Shape shape in shapes.GetReversedList().Except(enumeratedShapes))
+                shape.Draw(g, false, style);
+
+            foreach (var connection in connections.GetReversedList())
+            {
+                if (!selectedOnly || connection.IsSelected)
+                    connection.Draw(g, false, style);
+            }
+        }
+
+        protected void RecalculateSize()
+        {
+            const int Padding = 500;
+            int rightMax = DiagramConstants.MinSize.Width, bottomMax = DiagramConstants.MinSize.Height;
+
+            foreach (Shape shape in shapes)
+            {
+                Rectangle area = shape.GetLogicalArea();
+                if (area.Right + Padding > rightMax)
+                    rightMax = area.Right + Padding;
+                if (area.Bottom + Padding > bottomMax)
+                    bottomMax = area.Bottom + Padding;
+            }
+            foreach (var connection in connections)
+            {
+                Rectangle area = connection.GetLogicalArea();
+                if (area.Right + Padding > rightMax)
+                    rightMax = area.Right + Padding;
+                if (area.Bottom + Padding > bottomMax)
+                    bottomMax = area.Bottom + Padding;
+            }
+
+            this.Size = new Size(rightMax, bottomMax);
+        }
+
+        public void AlignLeft()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int left = Size.Width;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    left = Math.Min(left, shape.Left);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Left = left;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AlignRight()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int right = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    right = Math.Max(right, shape.Right);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Right = right;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AlignTop()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int top = Size.Height;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    top = Math.Min(top, shape.Top);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Top = top;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AlignBottom()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int bottom = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    bottom = Math.Max(bottom, shape.Bottom);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Bottom = bottom;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AlignHorizontal()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int center = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    center += (shape.Top + shape.Bottom) / 2;
+                }
+                center /= SelectedShapeCount;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Top = center - shape.Height / 2;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AlignVertical()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int center = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    center += (shape.Left + shape.Right) / 2;
+                }
+                center /= SelectedShapeCount;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Left = center - shape.Width / 2;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AdjustToSameWidth()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int maxWidth = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    maxWidth = Math.Max(maxWidth, shape.Width);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Width = maxWidth;
+                }
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AdjustToSameHeight()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                int maxHeight = 0;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    maxHeight = Math.Max(maxHeight, shape.Height);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Height = maxHeight;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AdjustToSameSize()
+        {
+            if (SelectedShapeCount >= 2)
+            {
+                Size maxSize = Size.Empty;
+                RedrawSuspended = true;
+
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    maxSize.Width = Math.Max(maxSize.Width, shape.Width);
+                    maxSize.Height = Math.Max(maxSize.Height, shape.Height);
+                }
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Size = maxSize;
+                }
+
+                RedrawSuspended = false;
+            }
+        }
+
+        public void AutoSizeOfSelectedShapes()
+        {
+            RedrawSuspended = true;
+            foreach (Shape shape in shapes.GetSelectedElements())
+            {
+                shape.AutoWidth();
+                shape.AutoHeight();
+            }
+            RedrawSuspended = false;
+        }
+
+        public void AutoWidthOfSelectedShapes()
+        {
+            RedrawSuspended = true;
+            foreach (Shape shape in shapes.GetSelectedElements())
+            {
+                shape.AutoWidth();
+            }
+            RedrawSuspended = false;
+        }
+
+        public void AutoHeightOfSelectedShapes()
+        {
+            RedrawSuspended = true;
+            foreach (Shape shape in shapes.GetSelectedElements())
+            {
+                shape.AutoHeight();
+            }
+            RedrawSuspended = false;
+        }
+
+        public void CollapseAll()
+        {
+            bool selectedOnly = HasSelectedElement;
+            CollapseAll(selectedOnly);
+        }
+
+        public void CollapseAll(bool selectedOnly)
+        {
+            RedrawSuspended = true;
+
+            foreach (Shape shape in shapes)
+            {
+                if (shape.IsSelected || !selectedOnly)
+                    shape.Collapse();
+            }
+
+            RedrawSuspended = false;
+        }
+
+        public void ExpandAll()
+        {
+            bool selectedOnly = HasSelectedElement;
+            ExpandAll(selectedOnly);
+        }
+
+        public void ExpandAll(bool selectedOnly)
+        {
+            RedrawSuspended = true;
+
+            foreach (Shape shape in shapes)
+            {
+                if (shape.IsSelected || !selectedOnly)
+                    shape.Expand();
+            }
+
+            RedrawSuspended = false;
+        }
+
+        public void SelectAll()
+        {
+            RedrawSuspended = true;
+            selectioning = true;
+
+            foreach (Shape shape in shapes)
+            {
+                shape.IsSelected = true;
+            }
+            foreach (var connection in connections)
+            {
+                connection.IsSelected = true;
+            }
+
+            selectedShapeCount = shapes.Count;
+            selectedConnectionCount = connections.Count;
+
+            OnSelectionChanged(EventArgs.Empty);
+            OnClipboardAvailabilityChanged(EventArgs.Empty);
+            OnStatusChanged(EventArgs.Empty);
+
+            selectioning = false;
+            RedrawSuspended = false;
+        }
+
+        private bool ConfirmDelete()
+        {
+            DialogResult result = MessageBox.Show(
+                Strings.DeleteElementsConfirmation, Strings.Confirmation,
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            return (result == DialogResult.Yes);
+        }
+
+        public void DeleteSelectedElements()
+        {
+            DeleteSelectedElements(true);
+        }
+
+        private void DeleteSelectedElements(bool showConfirmation)
+        {
+            if (HasSelectedElement && (!showConfirmation || ConfirmDelete()))
+            {
+                if (selectedShapeCount > 0)
+                {
+                    foreach (Shape shape in shapes.GetModifiableList())
+                    {
+                        if (shape.IsSelected)
+                            RemoveEntity(shape.Entity);
+                    }
+                }
+                if (selectedConnectionCount > 0)
+                {
+                    foreach (var connection in connections.GetModifiableList())
+                    {
+                        if (connection.IsSelected)
+                            RemoveRelationship(connection.Relationship);
+                    }
+                }
+                Redraw();
+            }
+        }
+
+        public void Redraw()
+        {
+            OnNeedsRedraw(EventArgs.Empty);
+        }
+
+        private void RequestRedrawIfNeeded()
+        {
+            if (loading)
+                return;
+
+            foreach (Shape shape in shapes)
+            {
+                if (shape.NeedsRedraw)
+                {
+                    OnNeedsRedraw(EventArgs.Empty);
+                    return;
+                }
+            }
+            foreach (var connection in connections)
+            {
+                if (connection.NeedsRedraw)
+                {
+                    OnNeedsRedraw(EventArgs.Empty);
+                    return;
+                }
+            }
+        }
+
+        public DynamicMenu GetDynamicMenu()
+        {
+            diagramDynamicMenu.SetReference(this);
+            return diagramDynamicMenu;
+        }
+        public ContextMenuStrip GetContextMenu(AbsoluteMouseEventArgs e)
+        {
+            if (HasSelectedElement)
+            {
+                Intersector<ToolStripItem> intersector = new Intersector<ToolStripItem>();
+                ContextMenu.MenuStrip.Items.Clear();
+
+                foreach (Shape shape in GetSelectedShapes())
+                {
+                    intersector.AddSet(shape.GetContextMenuItems(this, e.Location));
+                }
+                foreach (var connection in GetSelectedConnections())
+                    intersector.AddSet(connection.GetContextMenuItems(this, e.Location));
+
+                foreach (ToolStripItem menuItem in intersector.GetIntersection())
+                    ContextMenu.MenuStrip.Items.Add(menuItem);
+                return ContextMenu.MenuStrip;
+            }
+            else
+            {
+                ContextMenu.MenuStrip.Items.Clear();
+                foreach (ToolStripItem menuItem in diagramContextMenu.GetMenuItems(this))
+                    ContextMenu.MenuStrip.Items.Add(menuItem);
+
+                return ContextMenu.MenuStrip;
+            }
+        }
 
         public ContextMenu GetContextMenu()
         {
@@ -1178,62 +1145,62 @@ namespace NClass.DiagramEditor.Diagrams
             return diagramContextMenu;
         }
 
-		public string GetStatus()
-		{
-			if (SelectedElementCount == 1)
-			{
-				return TopSelectedElement.ToString();
-			}
-			else if (SelectedElementCount > 1)
-			{
-				return string.Format(Strings.ItemsSelected, SelectedElementCount);
-			}
-			else
-			{
-				return Strings.Ready;
-			}
-		}
+        public string GetStatus()
+        {
+            if (SelectedElementCount == 1)
+            {
+                return TopSelectedElement.ToString();
+            }
+            else if (SelectedElementCount > 1)
+            {
+                return string.Format(Strings.ItemsSelected, SelectedElementCount);
+            }
+            else
+            {
+                return Strings.Ready;
+            }
+        }
 
-		public virtual string GetShortDescription()
-		{
-		    return string.Empty;
-		}
+        public virtual string GetShortDescription()
+        {
+            return string.Empty;
+        }
 
-		public void DeselectAll()
-		{
-			foreach (Shape shape in shapes.ToList())
-			{
-				shape.IsSelected = false;
-				shape.IsActive = false;
-			}
-			foreach (var connection in connections)
-			{
-				connection.IsSelected = false;
-				connection.IsActive = false;
-			}
-			ActiveElement = null;
-		}
+        public void DeselectAll()
+        {
+            foreach (Shape shape in shapes.ToList())
+            {
+                shape.IsSelected = false;
+                shape.IsActive = false;
+            }
+            foreach (var connection in connections)
+            {
+                connection.IsSelected = false;
+                connection.IsActive = false;
+            }
+            ActiveElement = null;
+        }
 
-		private void DeselectAllOthers(DiagramElement onlySelected)
-		{
-			foreach (Shape shape in shapes.ToList())
-			{
-				if (shape != onlySelected)
-				{
-					shape.IsSelected = false;
-					shape.IsActive = false;
+        private void DeselectAllOthers(DiagramElement onlySelected)
+        {
+            foreach (Shape shape in shapes.ToList())
+            {
+                if (shape != onlySelected)
+                {
+                    shape.IsSelected = false;
+                    shape.IsActive = false;
                 }
-			}
-		    
-			foreach (var connection in connections)
-			{
-				if (connection != onlySelected)
-				{
-					connection.IsSelected = false;
-					connection.IsActive = false;
-				}
-			}
-		}
+            }
+
+            foreach (var connection in connections)
+            {
+                if (connection != onlySelected)
+                {
+                    connection.IsSelected = false;
+                    connection.IsActive = false;
+                }
+            }
+        }
 
         private void DebugDrawOrder()
         {
@@ -1275,313 +1242,312 @@ namespace NClass.DiagramEditor.Diagrams
             AddCreatedShape();
         }
 
-		public void MouseDown(AbsoluteMouseEventArgs e)
-		{
+        public void MouseDown(AbsoluteMouseEventArgs e)
+        {
             RedrawSuspended = true;
-			if (state == State.CreatingShape)
-			{
-				AddCreatedShape();
-			}
-			else if (state == State.CreatingConnection)
-			{
-				connectionCreator.MouseDown(e);
-				if (connectionCreator.Created)
-					state = State.Normal;
-			}
-			else
-			{
-				SelectElements(e);
-			}
+            if (state == State.CreatingShape)
+            {
+                AddCreatedShape();
+            }
+            else if (state == State.CreatingConnection)
+            {
+                connectionCreator.MouseDown(e);
+                if (connectionCreator.Created)
+                    state = State.Normal;
+            }
+            else
+            {
+                SelectElements(e);
+            }
 
-			if (e.Button == MouseButtons.Right)
-			{
-				ActiveElement = null;
-			}
+            if (e.Button == MouseButtons.Right)
+            {
+                ActiveElement = null;
+            }
 
-			RedrawSuspended = false;
-		}
+            RedrawSuspended = false;
+        }
 
-		private void AddCreatedShape()
-		{
-			DeselectAll();
-			Shape shape = AddShape(shapeType);
-			shape.Location = shapeOutline.Location;
-			RecalculateSize();
-			state = State.Normal;
+        private void AddCreatedShape()
+        {
+            DeselectAll();
+            Shape shape = AddShape(shapeType);
+            shape.Location = shapeOutline.Location;
+            RecalculateSize();
+            state = State.Normal;
 
-			shape.IsSelected = true;
-			shape.IsActive = true;
-		    if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
+            shape.IsSelected = true;
+            shape.IsActive = true;
+            if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
                 container.AttachShapes(new List<Shape> { shape });
-			if (shape is TypeShape) //TODO: nem szép
-				shape.ShowEditor();
-		}
+            if (shape is TypeShape) //TODO: nem szép
+                shape.ShowEditor();
+        }
 
-		private void SelectElements(AbsoluteMouseEventArgs e)
-		{
-			DiagramElement firstElement = null;
-			bool multiSelection = (Control.ModifierKeys == Keys.Control);
-			
-			foreach (DiagramElement element in GetElementsInDisplayOrder())
-			{
-				bool isSelected = element.IsSelected;
-				element.MousePressed(e);
-				if (e.Handled && firstElement == null)
-				{
-					firstElement = element;
-					if (isSelected)
-						multiSelection = true;
-				}
-			}
+        private void SelectElements(AbsoluteMouseEventArgs e)
+        {
+            DiagramElement firstElement = null;
+            bool multiSelection = (Control.ModifierKeys == Keys.Control);
 
-			if (firstElement != null && !multiSelection)
-			{
-				DeselectAllOthers(firstElement);
-			}
+            foreach (DiagramElement element in GetElementsInDisplayOrder())
+            {
+                bool isSelected = element.IsSelected;
+                element.MousePressed(e);
+                if (e.Handled && firstElement == null)
+                {
+                    firstElement = element;
+                    if (isSelected)
+                        multiSelection = true;
+                }
+            }
 
-			if (!e.Handled)
-			{
-				if (!multiSelection)
-					DeselectAll();
+            if (firstElement != null && !multiSelection)
+            {
+                DeselectAllOthers(firstElement);
+            }
 
-				if (e.Button == MouseButtons.Left)
-				{
-					state = State.Multiselecting;
-					selectionFrame.Location = e.Location;
-					selectionFrame.Size = Size.Empty;
-				}
-			}
-		}
+            if (!e.Handled)
+            {
+                if (!multiSelection)
+                    DeselectAll();
 
-		public void MouseMove(AbsoluteMouseEventArgs e)
-		{
-			RedrawSuspended = true;
+                if (e.Button == MouseButtons.Left)
+                {
+                    state = State.Multiselecting;
+                    selectionFrame.Location = e.Location;
+                    selectionFrame.Size = Size.Empty;
+                }
+            }
+        }
+
+        public void MouseMove(AbsoluteMouseEventArgs e)
+        {
+            RedrawSuspended = true;
             mousePreviousLocation = mouseLocation;
             mouseLocation = e.Location;
-			if (state == State.Multiselecting)
-			{
-				selectionFrame = RectangleF.FromLTRB(
-					selectionFrame.Left, selectionFrame.Top, e.X, e.Y);
-				Redraw();
-			}
-			else if (state == State.CreatingShape)
-			{
-				shapeOutline.Location = new Point((int) e.X, (int) e.Y);
-				Redraw();
-			}
-			else if (state == State.CreatingConnection)
-			{
-				connectionCreator.MouseMove(e);
-			}
-			else
-			{
-				foreach (DiagramElement element in GetElementsInDisplayOrder())
-				{
-					element.MouseMoved(e);
-				}
-			}
+            if (state == State.Multiselecting)
+            {
+                selectionFrame = RectangleF.FromLTRB(
+                    selectionFrame.Left, selectionFrame.Top, e.X, e.Y);
+                Redraw();
+            }
+            else if (state == State.CreatingShape)
+            {
+                shapeOutline.Location = new Point((int)e.X, (int)e.Y);
+                Redraw();
+            }
+            else if (state == State.CreatingConnection)
+            {
+                connectionCreator.MouseMove(e);
+            }
+            else
+            {
+                foreach (DiagramElement element in GetElementsInDisplayOrder())
+                {
+                    element.MouseMoved(e);
+                }
+            }
 
-			RedrawSuspended = false;
-		}
+            RedrawSuspended = false;
+        }
 
         public void MouseUp(AbsoluteMouseEventArgs e)
-		{
+        {
             positionChangeCumulation = Size.Empty;
             sizeChangeCumulation = Size.Empty;
 
             RedrawSuspended = true;
 
-			if (state == State.Multiselecting)
-			{
-				TrySelectElements();
-				state = State.Normal;
-			}
-            else if(state == State.Dragging)
-		    {
-		        var dropTarget = shapes.GetUnselectedElements()
-		                               .Where(s => s is ShapeContainer)
-		                               .Cast<ShapeContainer>()
-		                               .OrderByDescending(s => s.SortOrder)
-		                               .FirstOrDefault(s => s.Contains(GetSelectedShapes().First().Location));
+            if (state == State.Multiselecting)
+            {
+                TrySelectElements();
+                state = State.Normal;
+            }
+            else if (state == State.Dragging)
+            {
+                var dropTarget = shapes.GetUnselectedElements()
+                                       .Where(s => s is ShapeContainer)
+                                       .Cast<ShapeContainer>()
+                                       .OrderByDescending(s => s.SortOrder)
+                                       .FirstOrDefault(s => s.Contains(GetSelectedShapes().First().Location));
 
-		        if (dropTarget == null)
-		        {
-		            foreach (var selectedShape in GetSelectedShapes())
-		            {
-		                var parentShape = selectedShape.ParentShape as ShapeContainer;
-		                if (parentShape != null && !parentShape.IsSelected)
-		                {
-		                    parentShape?.DetachShapes(new List<Shape> {selectedShape});
-		                }
-		            }
-		        }
-		        else
-		        {
-		            foreach (var selectedShape in GetSelectedShapes())
-		            {
-		                var oldParent = selectedShape.ParentShape as ShapeContainer;
-		                if (oldParent != dropTarget)
-		                {
-		                    oldParent?.DetachShapes(new List<Shape> {selectedShape});
-                            dropTarget.AttachShapes(new List<Shape> {selectedShape});
-		                }
-		            }
+                if (dropTarget == null)
+                {
+                    foreach (var selectedShape in GetSelectedShapes())
+                    {
+                        if (selectedShape.ParentShape is ShapeContainer parentShape && !parentShape.IsSelected)
+                        {
+                            parentShape?.DetachShapes(new List<Shape> { selectedShape });
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var selectedShape in GetSelectedShapes())
+                    {
+                        var oldParent = selectedShape.ParentShape as ShapeContainer;
+                        if (oldParent != dropTarget)
+                        {
+                            oldParent?.DetachShapes(new List<Shape> { selectedShape });
+                            dropTarget.AttachShapes(new List<Shape> { selectedShape });
+                        }
+                    }
                 }
 
-		        foreach (var diagramElement in GetElementsInDisplayOrder())
-		        {
-		            if (diagramElement is ShapeContainer container)
-		            {
+                foreach (var diagramElement in GetElementsInDisplayOrder())
+                {
+                    if (diagramElement is ShapeContainer container)
+                    {
                         container.ExitHover();
-		                diagramElement.NeedsRedraw = true;
-		            }
-		            diagramElement.MouseUpped(e);
-		        }
+                        diagramElement.NeedsRedraw = true;
+                    }
+                    diagramElement.MouseUpped(e);
+                }
 
                 state = State.Normal;
-		    }
-		    else
-		    {
-		        foreach (var diagramElement in GetElementsInDisplayOrder())
-		        {
-		            diagramElement.MouseUpped(e);
-		        }
-		    }
+            }
+            else
+            {
+                foreach (var diagramElement in GetElementsInDisplayOrder())
+                {
+                    diagramElement.MouseUpped(e);
+                }
+            }
 
-		    RedrawSuspended = false;
-		}
+            RedrawSuspended = false;
+        }
 
-		private void TrySelectElements()
-		{
-			selectionFrame = RectangleF.FromLTRB(
-				Math.Min(selectionFrame.Left, selectionFrame.Right),
-				Math.Min(selectionFrame.Top, selectionFrame.Bottom),
-				Math.Max(selectionFrame.Left, selectionFrame.Right),
-				Math.Max(selectionFrame.Top, selectionFrame.Bottom));
-			selectioning = true;
+        private void TrySelectElements()
+        {
+            selectionFrame = RectangleF.FromLTRB(
+                Math.Min(selectionFrame.Left, selectionFrame.Right),
+                Math.Min(selectionFrame.Top, selectionFrame.Bottom),
+                Math.Max(selectionFrame.Left, selectionFrame.Right),
+                Math.Max(selectionFrame.Top, selectionFrame.Bottom));
+            selectioning = true;
 
-			foreach (Shape shape in shapes)
-			{
-				if (shape.TrySelect(selectionFrame))
-					selectedShapeCount++;
-			}
-			foreach (var connection in connections)
-			{
-				if (connection.TrySelect(selectionFrame))
-					selectedConnectionCount++;
-			}
+            foreach (Shape shape in shapes)
+            {
+                if (shape.TrySelect(selectionFrame))
+                    selectedShapeCount++;
+            }
+            foreach (var connection in connections)
+            {
+                if (connection.TrySelect(selectionFrame))
+                    selectedConnectionCount++;
+            }
 
-			OnSelectionChanged(EventArgs.Empty);
-			OnClipboardAvailabilityChanged(EventArgs.Empty);
-			OnStatusChanged(EventArgs.Empty);
-			Redraw();
+            OnSelectionChanged(EventArgs.Empty);
+            OnClipboardAvailabilityChanged(EventArgs.Empty);
+            OnStatusChanged(EventArgs.Empty);
+            Redraw();
 
-			selectioning = false;
-		}
+            selectioning = false;
+        }
 
-		public void DoubleClick(AbsoluteMouseEventArgs e)
-		{
-			foreach (DiagramElement element in GetElementsInDisplayOrder())
-			{
-				element.DoubleClicked(e);
-			}
-		}
-        
-		public RectangleF GetPrintingArea(bool selectedOnly)
-		{
-			RectangleF area = Rectangle.Empty;
-			bool first = true;
+        public void DoubleClick(AbsoluteMouseEventArgs e)
+        {
+            foreach (DiagramElement element in GetElementsInDisplayOrder())
+            {
+                element.DoubleClicked(e);
+            }
+        }
 
-			foreach (Shape shape in shapes)
-			{
-				if (!selectedOnly || shape.IsSelected)
-				{
-					if (first)
-					{
-						area = shape.GetPrintingClip(Zoom);
-						first = false;
-					}
-					else
-					{
-						area = RectangleF.Union(area, shape.GetPrintingClip(Zoom));
-					}
-				}
-			}
-			foreach (var connection in connections)
-			{
-				if (!selectedOnly || connection.IsSelected)
-				{
-					if (first)
-					{
-						area = connection.GetPrintingClip(Zoom);
-						first = false;
-					}
-					else
-					{
-						area = RectangleF.Union(area, connection.GetPrintingClip(Zoom));
-					}
-				}
-			}
+        public RectangleF GetPrintingArea(bool selectedOnly)
+        {
+            RectangleF area = Rectangle.Empty;
+            bool first = true;
 
-			return area;
-		}
+            foreach (Shape shape in shapes)
+            {
+                if (!selectedOnly || shape.IsSelected)
+                {
+                    if (first)
+                    {
+                        area = shape.GetPrintingClip(Zoom);
+                        first = false;
+                    }
+                    else
+                    {
+                        area = RectangleF.Union(area, shape.GetPrintingClip(Zoom));
+                    }
+                }
+            }
+            foreach (var connection in connections)
+            {
+                if (!selectedOnly || connection.IsSelected)
+                {
+                    if (first)
+                    {
+                        area = connection.GetPrintingClip(Zoom);
+                        first = false;
+                    }
+                    else
+                    {
+                        area = RectangleF.Union(area, connection.GetPrintingClip(Zoom));
+                    }
+                }
+            }
 
-		private void UpdateWindowPosition()
-		{
-			if (ActiveElement != null)
-				ActiveElement.MoveWindow();
-		}
+            return area;
+        }
 
-		public void ShowWindow(PopupWindow window)
-		{
-			Redraw();
-			OnShowingWindow(new PopupWindowEventArgs(window));
-		}
+        private void UpdateWindowPosition()
+        {
+            if (ActiveElement != null)
+                ActiveElement.MoveWindow();
+        }
 
-		public void HideWindow(PopupWindow window)
-		{
-			window.Closing();
-			OnHidingWindow(new PopupWindowEventArgs(window));
-		}
+        public void ShowWindow(PopupWindow window)
+        {
+            Redraw();
+            OnShowingWindow(new PopupWindowEventArgs(window));
+        }
 
-		protected void AddShape(Shape shape)
-		{
-			shape.Diagram = this;
-			shape.Modified += element_Modified;
-			shape.Activating += element_Activating;
-			shape.Dragging += shape_Dragging;
-			shape.Resizing += shape_Resizing;
-			shape.SelectionChanged += shape_SelectionChanged;
-		    shape.Renamed += shape_Renamed;
-		    if (shape is ShapeContainer container)
-		    {
-		        container.OnEnterHover += container_OnHover;
-		    }
-			shapes.AddFirst(shape);
-			RecalculateSize();
-		}
+        public void HideWindow(PopupWindow window)
+        {
+            window.Closing();
+            OnHidingWindow(new PopupWindowEventArgs(window));
+        }
 
-		protected void element_Modified(object sender, EventArgs e)
-		{
-			if (!RedrawSuspended)
-				RequestRedrawIfNeeded();
-			OnModified(EventArgs.Empty);
-		}
+        protected void AddShape(Shape shape)
+        {
+            shape.Diagram = this;
+            shape.Modified += element_Modified;
+            shape.Activating += element_Activating;
+            shape.Dragging += shape_Dragging;
+            shape.Resizing += shape_Resizing;
+            shape.SelectionChanged += shape_SelectionChanged;
+            shape.Renamed += shape_Renamed;
+            if (shape is ShapeContainer container)
+            {
+                container.OnEnterHover += container_OnHover;
+            }
+            shapes.AddFirst(shape);
+            RecalculateSize();
+        }
 
-		private void element_Activating(object sender, EventArgs e)
-		{
-			foreach (Shape shape in shapes)
-			{
-				if (shape != sender)
-					shape.IsActive = false;
-			}
-			foreach (var connection in connections)
-			{
-				if (connection != sender)
-					connection.IsActive = false;
-			}
-			ActiveElement = (DiagramElement) sender;
-		}
+        protected void element_Modified(object sender, EventArgs e)
+        {
+            if (!RedrawSuspended)
+                RequestRedrawIfNeeded();
+            OnModified(EventArgs.Empty);
+        }
+
+        private void element_Activating(object sender, EventArgs e)
+        {
+            foreach (Shape shape in shapes)
+            {
+                if (shape != sender)
+                    shape.IsActive = false;
+            }
+            foreach (var connection in connections)
+            {
+                if (connection != sender)
+                    connection.IsActive = false;
+            }
+            ActiveElement = (DiagramElement)sender;
+        }
 
         private bool CorrectChangeToSnapLeft(Shape shape, Shape otherShape, ref Size positionChange, ref Size sizeChange)
         {
@@ -1672,20 +1638,20 @@ namespace NClass.DiagramEditor.Diagrams
 
             // Align to other shapes, but if the user is dragging a shape, containg nested shapes, do not snap
             if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
-			{
-			    //Snap horizontally
+            {
+                //Snap horizontally
                 foreach (Shape otherShape in shapes.GetUnselectedElements())
-				{
+                {
                     // do not snap container and children when dragging
-                    if((senderShape is ShapeContainer parentShape && parentShape.ChildrenShapes.Contains(otherShape) ||
+                    if ((senderShape is ShapeContainer parentShape && parentShape.ChildrenShapes.Contains(otherShape) ||
                         senderShape.ParentShape == otherShape))
-				    {
+                    {
                         continue;
-				    }
+                    }
 
                     bool snappedX = CorrectChangeToSnapLeft(senderShape, otherShape, ref positionChange, ref sizeChange);
 
-                    if(!snappedX)
+                    if (!snappedX)
                         CorrectChangeToSnapRight(senderShape, otherShape, ref positionChange);
 
                     if (snappedX)
@@ -1728,23 +1694,23 @@ namespace NClass.DiagramEditor.Diagrams
 
             // Get adjust position change for the selected elements with respect to diagram edges padding
             foreach (Shape shape in shapes)
-				shape.AdjustPositionChange(ref positionChange, ref sizeChange, DiagramConstants.DiagramPadding);
+                shape.AdjustPositionChange(ref positionChange, ref sizeChange, DiagramConstants.DiagramPadding);
 
-			foreach (var connection in connections)
-			{
-				positionChange = connection.GetMaximumPositionChange(positionChange, DiagramConstants.DiagramPadding);
-			}
+            foreach (var connection in connections)
+            {
+                positionChange = connection.GetMaximumPositionChange(positionChange, DiagramConstants.DiagramPadding);
+            }
 
-			if (!positionChange.IsEmpty)
-			{
-				foreach (Shape shape in shapes.GetSelectedElements())
-				{
-					shape.Offset(positionChange);
-				}
-				foreach (var connection in connections.GetSelectedElements())
-				{
-					connection.Offset(positionChange);
-				}
+            if (!positionChange.IsEmpty)
+            {
+                foreach (Shape shape in shapes.GetSelectedElements())
+                {
+                    shape.Offset(positionChange);
+                }
+                foreach (var connection in connections.GetSelectedElements())
+                {
+                    connection.Offset(positionChange);
+                }
             }
 
             //Reset position change cumulation if shape resize will proceed
@@ -1755,23 +1721,23 @@ namespace NClass.DiagramEditor.Diagrams
                 positionChangeCumulation.Height -= positionChange.Height;
 
             RecalculateSize();
-		}
+        }
 
         private void shape_Resizing(object sender, ResizeEventArgs e)
-		{
+        {
             positionChangeCumulation += e.PositionChange;
             sizeChangeCumulation += e.SizeChange;
             Size positionChange = positionChangeCumulation.ToSize();
             Size sizeChange = sizeChangeCumulation.ToSize();
 
-			Shape shape = (Shape)sender;
+            Shape shape = (Shape)sender;
 
-			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
-			{
-				foreach (Shape otherShape in shapes.GetUnselectedElements())
-				{
-					if (otherShape != shape)
-					{
+            if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
+            {
+                foreach (Shape otherShape in shapes.GetUnselectedElements())
+                {
+                    if (otherShape != shape)
+                    {
                         if (positionChange.Width == 0)
                             CorrectChangeToSnapRight(shape, otherShape, ref sizeChange);
                         else
@@ -1782,7 +1748,7 @@ namespace NClass.DiagramEditor.Diagrams
                         else
                             CorrectChangeToSnapTop(shape, otherShape, ref positionChange, ref sizeChange);
                     }
-				}
+                }
 
             }
 
@@ -1808,33 +1774,33 @@ namespace NClass.DiagramEditor.Diagrams
             e.SizeChange = sizeChange;
         }
 
-		private void RemoveShape(Shape shape)
-		{
-			if (shape.IsActive)
-			{
-				ActiveElement = null;
-			}
-			if (shape.IsSelected)
-			{
-				selectedShapeCount--;
-				OnSelectionChanged(EventArgs.Empty);
-				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnStatusChanged(EventArgs.Empty);
-			}
-			shape.Diagram = null;
-			shape.Modified -= element_Modified;
-			shape.Activating -= element_Activating;
-			shape.Dragging -= shape_Dragging;
-			shape.Resizing -= shape_Resizing;
-			shape.SelectionChanged -= shape_SelectionChanged;
-		    shape.Renamed -= shape_Renamed;
-		    if (shape is ShapeContainer container)
-		    {
-		        container.OnEnterHover -= container_OnHover;
-		    }
-			shapes.Remove(shape);
-			RecalculateSize();
-		}
+        private void RemoveShape(Shape shape)
+        {
+            if (shape.IsActive)
+            {
+                ActiveElement = null;
+            }
+            if (shape.IsSelected)
+            {
+                selectedShapeCount--;
+                OnSelectionChanged(EventArgs.Empty);
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+                OnStatusChanged(EventArgs.Empty);
+            }
+            shape.Diagram = null;
+            shape.Modified -= element_Modified;
+            shape.Activating -= element_Activating;
+            shape.Dragging -= shape_Dragging;
+            shape.Resizing -= shape_Resizing;
+            shape.SelectionChanged -= shape_SelectionChanged;
+            shape.Renamed -= shape_Renamed;
+            if (shape is ShapeContainer container)
+            {
+                container.OnEnterHover -= container_OnHover;
+            }
+            shapes.Remove(shape);
+            RecalculateSize();
+        }
 
         private void container_OnHover(object sender, EventArgs e)
         {
@@ -1845,25 +1811,25 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         //TODO: legyenek inkább hivatkozások a shape-ekhez
-		protected Shape GetShape(IEntity entity)
-		{
-			foreach (Shape shape in shapes)
-			{
-				if (shape.Entity == entity)
-					return shape;
-			}
-			return null;
-		}
+        protected Shape GetShape(IEntity entity)
+        {
+            foreach (Shape shape in shapes)
+            {
+                if (shape.Entity == entity)
+                    return shape;
+            }
+            return null;
+        }
 
-		private AbstractConnection GetConnection(Relationship relationship)
-		{
-			foreach (var connection in connections)
-			{
-				if (connection.Relationship == relationship)
-					return connection;
-			}
-			return null;
-		}
+        private AbstractConnection GetConnection(Relationship relationship)
+        {
+            foreach (var connection in connections)
+            {
+                if (connection.Relationship == relationship)
+                    return connection;
+            }
+            return null;
+        }
 
         protected void AddConnection(AbstractConnection connection)
         {
@@ -1924,26 +1890,26 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         private void shape_SelectionChanged(object sender, EventArgs e)
-		{
-			if (!selectioning)
-			{
-				Shape shape = (Shape) sender;
+        {
+            if (!selectioning)
+            {
+                Shape shape = (Shape)sender;
 
-				if (shape.IsSelected)
+                if (shape.IsSelected)
                 {
                     selectedShapeCount++;
                     shapes.ShiftToFirstPlace(shape);
                 }
                 else
-				{
-					selectedShapeCount--;
-				}
+                {
+                    selectedShapeCount--;
+                }
 
-				OnSelectionChanged(EventArgs.Empty);
-				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnStatusChanged(EventArgs.Empty);
-			}
-		}
+                OnSelectionChanged(EventArgs.Empty);
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+                OnStatusChanged(EventArgs.Empty);
+            }
+        }
 
         private void shape_Renamed(object sender, EventArgs e)
         {
@@ -1951,67 +1917,67 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         private void connection_SelectionChanged(object sender, EventArgs e)
-		{
-			if (!selectioning)
-			{
-				var connection = (AbstractConnection) sender;
+        {
+            if (!selectioning)
+            {
+                var connection = (AbstractConnection)sender;
 
-				if (connection.IsSelected)
-				{
-					selectedConnectionCount++;
-					connections.ShiftToFirstPlace(connection);
-				}
-				else
-				{
-					selectedConnectionCount--;
-				}
+                if (connection.IsSelected)
+                {
+                    selectedConnectionCount++;
+                    connections.ShiftToFirstPlace(connection);
+                }
+                else
+                {
+                    selectedConnectionCount--;
+                }
 
-				OnSelectionChanged(EventArgs.Empty);
-				OnClipboardAvailabilityChanged(EventArgs.Empty);
-				OnStatusChanged(EventArgs.Empty);
-			}
-		}
+                OnSelectionChanged(EventArgs.Empty);
+                OnClipboardAvailabilityChanged(EventArgs.Empty);
+                OnStatusChanged(EventArgs.Empty);
+            }
+        }
 
-		private void connection_RouteChanged(object sender, EventArgs e)
-		{
-			var connection = (RoutedConnection) sender;
-			connection.ValidatePosition(DiagramConstants.DiagramPadding);
+        private void connection_RouteChanged(object sender, EventArgs e)
+        {
+            var connection = (RoutedConnection)sender;
+            connection.ValidatePosition(DiagramConstants.DiagramPadding);
 
-			RecalculateSize();
-		}
+            RecalculateSize();
+        }
 
-		private void connection_BendPointMove(object sender, BendPointEventArgs e)
-		{
-			if (e.BendPoint.X < DiagramConstants.DiagramPadding)
-				e.BendPoint.X = DiagramConstants.DiagramPadding;
-			if (e.BendPoint.Y < DiagramConstants.DiagramPadding)
-				e.BendPoint.Y = DiagramConstants.DiagramPadding;
+        private void connection_BendPointMove(object sender, BendPointEventArgs e)
+        {
+            if (e.BendPoint.X < DiagramConstants.DiagramPadding)
+                e.BendPoint.X = DiagramConstants.DiagramPadding;
+            if (e.BendPoint.Y < DiagramConstants.DiagramPadding)
+                e.BendPoint.Y = DiagramConstants.DiagramPadding;
 
-			// Snap bend points to others if possible
-			if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
-			{
-				foreach (var connection in connections.GetSelectedElements().OfType<RoutedConnection>())
-				{
-					foreach (BendPoint point in connection.BendPoints)
-					{
-						if (point != e.BendPoint && !point.AutoPosition)
-						{
-							int xDist = Math.Abs(e.BendPoint.X - point.X);
-							int yDist = Math.Abs(e.BendPoint.Y - point.Y);
+            // Snap bend points to others if possible
+            if (Settings.Default.UsePrecisionSnapping && Control.ModifierKeys != Keys.Shift)
+            {
+                foreach (var connection in connections.GetSelectedElements().OfType<RoutedConnection>())
+                {
+                    foreach (BendPoint point in connection.BendPoints)
+                    {
+                        if (point != e.BendPoint && !point.AutoPosition)
+                        {
+                            int xDist = Math.Abs(e.BendPoint.X - point.X);
+                            int yDist = Math.Abs(e.BendPoint.Y - point.Y);
 
-							if (xDist <= RoutedConnection.PrecisionSize)
-							{
-								e.BendPoint.X = point.X;
-							}
-							if (yDist <= RoutedConnection.PrecisionSize)
-							{
-								e.BendPoint.Y = point.Y;
-							}
-						}
-					}
-				}
-			}
-		}
+                            if (xDist <= RoutedConnection.PrecisionSize)
+                            {
+                                e.BendPoint.X = point.X;
+                            }
+                            if (yDist <= RoutedConnection.PrecisionSize)
+                            {
+                                e.BendPoint.Y = point.Y;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         public void CreateShape()
         {
@@ -2019,15 +1985,15 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         public virtual void CreateConnection(RelationshipType type)
-		{
-			state = State.CreatingConnection;
-		}
-        
-		protected virtual void OnEntityRemoved(object sender, EntityEventArgs e)
-		{
-			Shape shape = GetShape(e.Entity);
-			RemoveShape(shape);
-		}
+        {
+            state = State.CreatingConnection;
+        }
+
+        protected virtual void OnEntityRemoved(object sender, EntityEventArgs e)
+        {
+            Shape shape = GetShape(e.Entity);
+            RemoveShape(shape);
+        }
 
         protected void OnRelationRemoved(object sender, RelationshipEventArgs e)
         {
@@ -2036,88 +2002,79 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         protected void OnDeserializing(object sender, SerializeEventArgs e)
-		{
+        {
             // Old file format
-			{
-				XmlElement positionsNode = e.Node["Positions"];
-				if (positionsNode != null)
-				{
-					LinkedListNode<Shape> currentShapeNode = shapes.Last;
-					foreach (XmlElement shapeNode in positionsNode.SelectNodes("Shape"))
-					{
-						if (currentShapeNode == null)
-							break;
-						currentShapeNode.Value.Deserialize(shapeNode);
-						currentShapeNode = currentShapeNode.Previous;
-					}
+            {
+                XmlElement positionsNode = e.Node["Positions"];
+                if (positionsNode != null)
+                {
+                    LinkedListNode<Shape> currentShapeNode = shapes.Last;
+                    foreach (XmlElement shapeNode in positionsNode.SelectNodes("Shape"))
+                    {
+                        if (currentShapeNode == null)
+                            break;
+                        currentShapeNode.Value.Deserialize(shapeNode);
+                        currentShapeNode = currentShapeNode.Previous;
+                    }
 
-					LinkedListNode<AbstractConnection> currentConnecitonNode = connections.Last;
-					foreach (XmlElement connectionNode in positionsNode.SelectNodes("Connection"))
-					{
-						if (currentConnecitonNode == null)
-							break;
-						currentConnecitonNode.Value.Deserialize(connectionNode);
-						currentConnecitonNode = currentConnecitonNode.Previous;
-					}
-				}
-			}
-		}
+                    LinkedListNode<AbstractConnection> currentConnecitonNode = connections.Last;
+                    foreach (XmlElement connectionNode in positionsNode.SelectNodes("Connection"))
+                    {
+                        if (currentConnecitonNode == null)
+                            break;
+                        currentConnecitonNode.Value.Deserialize(connectionNode);
+                        currentConnecitonNode = currentConnecitonNode.Previous;
+                    }
+                }
+            }
+        }
 
-		protected virtual void OnOffsetChanged(EventArgs e)
-		{
-			if (OffsetChanged != null)
-				OffsetChanged(this, e);
-			UpdateWindowPosition();
-		}
+        protected virtual void OnOffsetChanged(EventArgs e)
+        {
+            OffsetChanged?.Invoke(this, e);
+            UpdateWindowPosition();
+        }
 
-		protected virtual void OnSizeChanged(EventArgs e)
-		{
-			if (SizeChanged != null)
-				SizeChanged(this, e);
-		}
+        protected virtual void OnSizeChanged(EventArgs e)
+        {
+            SizeChanged?.Invoke(this, e);
+        }
 
-		protected virtual void OnZoomChanged(EventArgs e)
-		{
-			if (ZoomChanged != null)
-				ZoomChanged(this, e);
-			CloseWindows();
-		}
+        protected virtual void OnZoomChanged(EventArgs e)
+        {
+            ZoomChanged?.Invoke(this, e);
+            CloseWindows();
+        }
 
-		protected virtual void OnStatusChanged(EventArgs e)
-		{
-			if (StatusChanged != null)
-				StatusChanged(this, e);
-		}
+        protected virtual void OnStatusChanged(EventArgs e)
+        {
+            StatusChanged?.Invoke(this, e);
+        }
 
-		protected virtual void OnSelectionChanged(EventArgs e)
-		{
-			if (SelectionChanged != null)
-				SelectionChanged(this, e);
-		}
+        protected virtual void OnSelectionChanged(EventArgs e)
+        {
+            SelectionChanged?.Invoke(this, e);
+        }
 
-		protected virtual void OnNeedsRedraw(EventArgs e)
-		{
-			if (NeedsRedraw != null)
-				NeedsRedraw(this, e);
-		}
+        protected virtual void OnNeedsRedraw(EventArgs e)
+        {
+            NeedsRedraw?.Invoke(this, e);
+        }
 
-		protected virtual void OnClipboardAvailabilityChanged(EventArgs e)
-		{
-			if (ClipboardAvailabilityChanged != null)
-				ClipboardAvailabilityChanged(this, e);
-		}
+        protected virtual void OnClipboardAvailabilityChanged(EventArgs e)
+        {
+            ClipboardAvailabilityChanged?.Invoke(this, e);
+        }
 
-		protected virtual void OnShowingWindow(PopupWindowEventArgs e)
-		{
-			if (ShowingWindow != null)
-				ShowingWindow(this, e);
-		}
+        protected virtual void OnShowingWindow(PopupWindowEventArgs e)
+        {
+            ShowingWindow?.Invoke(this, e);
+        }
 
-		protected virtual void OnHidingWindow(PopupWindowEventArgs e)
-		{
-			if (HidingWindow != null)
-				HidingWindow(this, e);
-		}
+        protected virtual void OnHidingWindow(PopupWindowEventArgs e)
+        {
+            HidingWindow?.Invoke(this, e);
+        }
 
         public void RemoveEntity(IEntity entity)
         {
@@ -2132,41 +2089,29 @@ namespace NClass.DiagramEditor.Diagrams
         protected virtual void OnModified(EventArgs e)
         {
             isDirty = true;
-            if (Modified != null)
-                Modified(this, e);
+            Modified?.Invoke(this, e);
         }
 
-	    public bool IsEmpty { get { return model.IsEmpty; } }
+        public bool IsEmpty => model.IsEmpty;
 
-	    public bool IsDirty
+        public bool IsDirty => isDirty;
+
+        // review the consistency of the model (e.g. Model.IsDirty, etc.).
+        public void Clean()
         {
-	        get { return isDirty; }
-	    }
-
-        // review the conistency of the model (e.g. Model.IsDirty, etc.).
-	    public void Clean()
-	    {
             isDirty = false;
-	    }
-
-        public bool IsUntitled
-        {
-            get
-            {
-                return (name == null);
-            }
         }
+        public bool IsUntitled => (name == null);
 
         public event EventHandler Closing;
-        
+
         public void Close()
-	    {
-            if (Closing != null)
-                Closing(this, EventArgs.Empty);
+        {
+            Closing?.Invoke(this, EventArgs.Empty);
         }
 
-	    public void Serialize(XmlElement node)
-	    {
+        public void Serialize(XmlElement node)
+        {
             if (node == null)
                 throw new ArgumentNullException("root");
 
@@ -2175,21 +2120,20 @@ namespace NClass.DiagramEditor.Diagrams
             node.AppendChild(nameElement);
 
             model.Serialize(node);
-	    }
+        }
 
-	    public virtual void Deserialize(XmlElement node)
-	    {
+        public virtual void Deserialize(XmlElement node)
+        {
             XmlElement nameElement = node["Name"];
             if (nameElement == null || nameElement.InnerText == "")
                 this.name = null;
             else
                 this.name = nameElement.InnerText;
-	    }
-        
-	    protected virtual void OnRenamed(EventArgs e)
+        }
+
+        protected virtual void OnRenamed(EventArgs e)
         {
-            if (Renamed != null)
-                Renamed(this, e);
+            Renamed?.Invoke(this, e);
         }
 
         public void AddComment()

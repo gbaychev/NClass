@@ -147,8 +147,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         protected override bool CloneEntity(IDiagram diagram)
         {
-            var useCaseDiagram = diagram as UseCaseDiagram;
-            if (useCaseDiagram == null)
+            if (!(diagram is UseCaseDiagram useCaseDiagram))
                 return false;
 
             return useCaseDiagram.InsertActor(actor.Clone());

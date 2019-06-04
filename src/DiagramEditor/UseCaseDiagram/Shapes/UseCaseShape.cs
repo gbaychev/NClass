@@ -31,7 +31,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         const int PaddingSize = 10;
         const int DefaultWidth = 160;
         const int DefaultHeight = 75;
-        private StringFormat stringFormat = StringFormat.GenericTypographic;
+        private readonly StringFormat stringFormat = StringFormat.GenericTypographic;
 
         public UseCaseShape(UseCase entity) : base(entity)
         {
@@ -118,8 +118,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         protected override bool CloneEntity(IDiagram diagram)
         {
-            var useCaseDiagram = diagram as UseCaseDiagram;
-            if (useCaseDiagram == null)
+            if (!(diagram is UseCaseDiagram useCaseDiagram))
                 return false;
 
             return useCaseDiagram.InsertUseCase(useCase.Clone());

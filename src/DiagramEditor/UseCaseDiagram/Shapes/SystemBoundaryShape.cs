@@ -30,7 +30,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         private readonly Size marginSize = new Size(MarginSize, MarginSize);
         private const int HeaderHeight = 45;
 
-        private SystemBoundary systemBoundary;
+        private readonly SystemBoundary systemBoundary;
 
         private ShapeNameEditor editor;
         private bool editorShown = false;
