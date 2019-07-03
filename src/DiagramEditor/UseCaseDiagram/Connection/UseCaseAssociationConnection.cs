@@ -34,16 +34,14 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
         
         protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
         {
-            if (diagram.DiagramType != DiagramType.ClassDiagram)
+            if (diagram.DiagramType != DiagramType.UseCaseDiagram)
                 return false;
 
-            UseCase firstType = first.Entity as UseCase;
-            UseCase secondType = second.Entity as UseCase;
-
-            if (firstType != null && secondType != null)
+            if (first.Entity is IUseCaseEntity firstType && 
+                second.Entity is IUseCaseEntity secondType)
             {
                 var clone = association.Clone(firstType, secondType);
-                return ((UseCaseDiagram)diagram).InsertAssociation(association);
+                return ((UseCaseDiagram)diagram).InsertAssociation(clone);
             }
             else
             {

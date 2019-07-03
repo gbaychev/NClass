@@ -129,18 +129,6 @@ namespace NClass.Core.Models
             return false;
         }
 
-        public bool InsertRelationship(Relationship relationship)
-        {
-            if (relationship != null && !Relationships.Contains(relationship) &&
-                Entities.Contains(relationship.First) && Entities.Contains(relationship.Second))
-            {
-                AddRelationship(relationship);
-                return true;
-            }
-
-            return false;
-        }
-
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>

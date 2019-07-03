@@ -3,30 +3,50 @@ using System.Linq;
 using System.Threading;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
+ using NClass.DiagramEditor.UseCaseDiagram;
 using NUnit.Framework;
-using Shouldly;
+ using Shouldly;
 
-namespace Tests
+ namespace Tests
 {
-    [TestFixture]
+    [TestFixture, RequiresThread(ApartmentState.STA)]
     public class CopyPasteTests
     {
         [Test]
-        [Apartment(ApartmentState.STA)]
-        public void CopyPastePackageWorks()
+        public void ClassDiagramCanCopyPaste()
         {
-            var diagram = new ClassDiagram(Language.GetLanguage("csharp"));
-            var other = new ClassDiagram(Language.GetLanguage("csharp"));
+            var language = Language.GetLanguage("csharp");
+            var diagramFrom = new ClassDiagram(language);
+            var diagramTo = new ClassDiagram(language);
 
-            diagram.CreateShapeAt(EntityType.Package, new Point(0, 0));
-            diagram.CreateShapeAt(EntityType.Class, new Point(1, 1));
+            diagramFrom.CreateShapeAt(EntityType.Class, new Point(0, 0));
+            diagramFrom.CreateShapeAt(EntityType.Structure, new Point(0, 0));
+            diagramFrom.AddAssociation((TypeBase)diagramFrom.Model.Entities.First(), (TypeBase)diagramFrom.Model.Entities.Last());
+            diagramFrom.SelectAll();
+            diagramFrom.Copy();
+            diagramTo.Paste();
 
-            diagram.SelectAll();
-            diagram.Copy();
-            other.Paste();
+            diagramTo.Shapes.Count().ShouldBe(2);
+            diagramTo.Model.Entities.Count().ShouldBe(2);
+            diagramTo.Connections.Count().ShouldBe(1);
+        }
 
-            other.Model.Entities.Count().ShouldBe(2);
-            other.ShapeCount.ShouldBe(2);
+        [Test]
+        public void UseCaseDiagramCanCopyPaste()
+        {
+            var diagramFrom = new UseCaseDiagram();
+            var diagramTo = new UseCaseDiagram();
+
+            diagramFrom.CreateShapeAt(EntityType.Actor, new Point(0, 0));
+            diagramFrom.CreateShapeAt(EntityType.UseCase, new Point(0, 0));
+            diagramFrom.AddAssociation((IUseCaseEntity)diagramFrom.Model.Entities.First(), (IUseCaseEntity)diagramFrom.Model.Entities.Last());
+            diagramFrom.SelectAll();
+            diagramFrom.Copy();
+            diagramTo.Paste();
+
+            diagramTo.Shapes.Count().ShouldBe(2);
+            diagramTo.Model.Entities.Count().ShouldBe(2);
+            diagramTo.Connections.Count().ShouldBe(1);
         }
     }
 }

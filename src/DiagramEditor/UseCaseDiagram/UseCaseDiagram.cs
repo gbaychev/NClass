@@ -175,7 +175,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
                     AddIncludes(e.Relationship as IncludesRelationship);
                     break;
                 case RelationshipType.UseCaseAssociation:
-                    AddAssocation(e.Relationship as UseCaseAssociation);
+                    AddAssociation(e.Relationship as UseCaseAssociation);
                     break;
                 case RelationshipType.UseCaseGeneralization:
                     AddGeneralization(e.Relationship as UseCaseGeneralization);
@@ -188,26 +188,17 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public bool InsertActor(Actor actor)
         {
-            if (actor == null || model.Entities.Contains(actor)) return false;
-
-            AddActor(actor);
-            return true;
+            return model.InsertActor(actor);
         }
 
         public bool InsertUseCase(UseCase useCase)
         {
-            if (useCase == null || model.Entities.Contains(useCase)) return false;
-
-            AddUseCase(useCase);
-            return true;
+            return model.InsertUseCase(useCase);
         }
 
         public bool InsertSystemBoundary(SystemBoundary systemBoundary)
         {
-            if (systemBoundary == null || model.Entities.Contains(systemBoundary)) return false;
-
-            AddSystemBoundary(systemBoundary);
-            return true;
+            return model.InsertSystemBoundary(systemBoundary);
         }
 
         public override void Deserialize(XmlElement node)
@@ -231,44 +222,22 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public bool InsertIncludes(IncludesRelationship includesRelationship)
         {
-            if (includesRelationship != null &&
-                !model.Relationships.Contains(includesRelationship) &&
-                model.Entities.Contains(includesRelationship.First) &&
-                model.Entities.Contains(includesRelationship.Second))
-            {
-                AddIncludes(includesRelationship);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(includesRelationship);
         }
 
         public bool InsertExtends(ExtendsRelationship extendsRelationship)
         {
-            if (extendsRelationship != null &&
-                !model.Relationships.Contains(extendsRelationship) &&
-                model.Entities.Contains(extendsRelationship.First) &&
-                model.Entities.Contains(extendsRelationship.Second))
-            {
-                AddExtends(extendsRelationship);
-                return true;
-            }
-
-            return false;
+            return model.InsertRelationship(extendsRelationship);
         }
 
         public bool InsertAssociation(UseCaseAssociation association)
         {
-            if (association != null &&
-                !model.Relationships.Contains(association) &&
-                model.Entities.Contains(association.First) &&
-                model.Entities.Contains(association.Second))
-            {
-                AddAssocation(association);
-                return true;
-            }
+            return model.InsertRelationship(association);
+        }
 
-            return false;
+        public bool InsertGeneralization(UseCaseGeneralization generalization)
+        {
+            return model.InsertRelationship(generalization);
         }
 
         public void AddIncludes(UseCase first, UseCase second)
@@ -297,10 +266,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
 
         public void AddAssociation(IUseCaseEntity first, IUseCaseEntity second)
         {
-            model.AddAssocation(first, second);
+            model.AddAssociation(first, second);
         }
 
-        private void AddAssocation(UseCaseAssociation association)
+        private void AddAssociation(UseCaseAssociation association)
         {
             var startShape = GetShape(association.First);
             var endShape = GetShape(association.Second);
@@ -317,20 +286,6 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             var startShape = GetShape(generalization.First);
             var endShape = GetShape(generalization.Second);
             AddConnection(new UseCaseGeneralizationConnection(generalization, startShape, endShape));
-        }
-
-        public bool InsertGeneralization(UseCaseGeneralization generalization)
-        {
-            if (generalization != null &&
-                !model.Relationships.Contains(generalization) &&
-                model.Entities.Contains(generalization.First) &&
-                model.Entities.Contains(generalization.Second))
-            {
-                AddGeneralization(generalization);
-                return true;
-            }
-
-            return false;
         }
 
         public override string GetShortDescription()

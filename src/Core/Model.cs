@@ -333,5 +333,17 @@ namespace NClass.Core
             isDirty = true;
             Modified?.Invoke(this, e);
         }
+
+        public bool InsertRelationship(Relationship relationship)
+        {
+            if (relationship != null && !Relationships.Contains(relationship) &&
+                Entities.Contains(relationship.First) && Entities.Contains(relationship.Second))
+            {
+                AddRelationship(relationship);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

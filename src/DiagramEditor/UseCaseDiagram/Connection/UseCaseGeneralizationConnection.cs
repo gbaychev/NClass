@@ -43,7 +43,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Connection
             if (first.Entity is IUseCaseEntity firstType && second.Entity is IUseCaseEntity secondType)
             {
                 var clone = generalization.Clone(firstType, secondType);
-                return ((UseCaseDiagram)diagram).InsertGeneralization(generalization);
+                return ((UseCaseDiagram)diagram).InsertGeneralization(clone);
             }
             else
             {

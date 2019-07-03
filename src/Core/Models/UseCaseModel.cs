@@ -15,6 +15,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using NClass.Translations;
 
@@ -76,7 +77,7 @@ namespace NClass.Core.Models
                     switch (type)
                     {
                         case "UseCaseAssociation":
-                            relationship = AddAssocation(first as IUseCaseEntity, second as IUseCaseEntity);
+                            relationship = AddAssociation(first as IUseCaseEntity, second as IUseCaseEntity);
                             break;
 
                         case "UseCaseGeneralization":
@@ -136,6 +137,27 @@ namespace NClass.Core.Models
             return systemBoundary;
         }
 
+        public bool InsertActor(Actor actor)
+        {
+            if (actor == null || Entities.Contains(actor)) return false;
+            AddEntity(actor);
+            return true;
+        }
+
+        public bool InsertUseCase(UseCase useCase)
+        {
+            if (useCase == null || Entities.Contains(useCase)) return false;
+            AddEntity(useCase);
+            return true;
+        }
+
+        public bool InsertSystemBoundary(SystemBoundary systemBoundary)
+        {
+            if (systemBoundary == null || Entities.Contains(systemBoundary)) return false;
+            AddEntity(systemBoundary);
+            return true;
+        }
+
         public ExtendsRelationship AddExtends(UseCase first, UseCase second)
         {
             var extendsRelationship = new ExtendsRelationship(first, second);
@@ -150,7 +172,7 @@ namespace NClass.Core.Models
             return includesRelationship;
         }
 
-        public UseCaseAssociation AddAssocation(IUseCaseEntity first, IUseCaseEntity second)
+        public UseCaseAssociation AddAssociation(IUseCaseEntity first, IUseCaseEntity second)
         {
             var assocationRelationship = new UseCaseAssociation(first, second);
             AddRelationship(assocationRelationship);
@@ -163,7 +185,5 @@ namespace NClass.Core.Models
             AddRelationship(generalization);
             return generalization;
         }
-
-        
     }
 }

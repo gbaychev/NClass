@@ -101,7 +101,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             if (!(diagram is UseCaseDiagram useCaseDiagram))
                 return false;
 
-            return useCaseDiagram.InsertUseCase(useCase.Clone());
+            return ((UseCaseDiagram)diagram).InsertUseCase(useCase.Clone());
         }
 
 

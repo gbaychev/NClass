@@ -142,7 +142,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             if (!(diagram is UseCaseDiagram useCaseDiagram))
                 return false;
 
-            return useCaseDiagram.InsertActor(actor.Clone());
+            return ((UseCaseDiagram)diagram).InsertActor(actor.Clone());
         }
 
         public string Name
