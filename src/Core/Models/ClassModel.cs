@@ -117,18 +117,6 @@ namespace NClass.Core.Models
             return newDelegate;
         }
 
-
-        public bool InsertComment(Comment comment)
-        {
-            if (comment != null && !Entities.Contains(comment))
-            {
-                AddEntity(comment);
-                return true;
-            }
-
-            return false;
-        }
-
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>

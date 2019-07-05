@@ -55,7 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CopyPasteTests.cs" />
+    <Compile Include="ClassDiagramCopyPasteTests.cs" />
+    <Compile Include="UseCaseDiagramCopyPasteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCaseDiagramTests.cs" />
   </ItemGroup>

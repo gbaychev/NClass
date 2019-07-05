@@ -20,50 +20,37 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 namespace NClass.DiagramEditor.Diagrams.Connections
 {
     internal sealed class CommentConnection : RoutedConnection
-	{
-		CommentRelationship relationship;
+    {
+        CommentRelationship relationship;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="relationship"/> is null.-or-
-		/// <paramref name="startShape"/> is null.-or-
-		/// <paramref name="endShape"/> is null.
-		/// </exception>
-		public CommentConnection(CommentRelationship relationship, Shape startShape, Shape endShape)
-			: base(relationship, startShape, endShape)
-		{
-			this.relationship = relationship;
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="relationship"/> is null.-or-
+        /// <paramref name="startShape"/> is null.-or-
+        /// <paramref name="endShape"/> is null.
+        /// </exception>
+        public CommentConnection(CommentRelationship relationship, Shape startShape, Shape endShape)
+            : base(relationship, startShape, endShape)
+        {
+            this.relationship = relationship;
+        }
 
-		internal CommentRelationship CommentRelationship
-		{
-			get { return relationship; }
-		}
+        internal CommentRelationship CommentRelationship => relationship;
 
-		protected internal override Relationship Relationship
-		{
-			get { return relationship; }
-		}
+        protected internal override Relationship Relationship => relationship;
 
-		protected override bool IsDashed
-		{
-			get { return true; }
-		}
+        protected override bool IsDashed => true;
 
-		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
-		{
-            if(diagram.DiagramType != DiagramType.ClassDiagram)
+        protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
+        {
+            if (first.Entity is Comment comment)
+            {
+                CommentRelationship clone = relationship.Clone(comment, second.Entity);
+                return diagram.InsertCommentRelationship(clone);
+            }
+            else
+            {
                 return false;
-
-            Comment comment = first.Entity as Comment;
-			if (comment != null)
-			{
-				CommentRelationship clone = relationship.Clone(comment, second.Entity);
-				return ((ClassDiagram.ClassDiagram)diagram).InsertCommentRelationship(clone);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            }
+        }
+    }
 }

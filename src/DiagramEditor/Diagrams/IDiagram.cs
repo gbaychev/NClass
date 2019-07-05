@@ -59,7 +59,10 @@ namespace NClass.DiagramEditor.Diagrams
         void AutoHeightOfSelectedShapes();
         int SelectedShapeCount { get; }
         event EventHandler SelectionChanged;
-        CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
         IEnumerable<Shape> GetShapesInDisplayOrder();
+        void AddComment();
+        bool InsertComment(Comment comment);
+        bool InsertCommentRelationship(CommentRelationship commentRelationship);
+        CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
     }
 }

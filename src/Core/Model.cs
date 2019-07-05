@@ -345,5 +345,16 @@ namespace NClass.Core
 
             return false;
         }
+
+        public bool InsertComment(Comment comment)
+        {
+            if (comment != null && !Entities.Contains(comment))
+            {
+                AddEntity(comment);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

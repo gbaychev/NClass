@@ -2148,10 +2148,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         public bool InsertComment(Comment comment)
         {
-            if (comment == null || model.Entities.Contains(comment)) return false;
-
-            AddComment(comment);
-            return true;
+            return model.InsertComment(comment);
         }
 
         public bool InsertCommentRelationship(CommentRelationship commentRelationship)
