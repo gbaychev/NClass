@@ -19,6 +19,8 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using NClass.Core;
+using NClass.CSharp;
+using NClass.Java;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.UseCaseDiagram;
 using NUnit.Framework;
@@ -77,6 +79,73 @@ namespace Tests
             diagramTo.Shapes.Count().ShouldBe(2);
             diagramTo.Model.Entities.Count().ShouldBe(2);
             diagramTo.Connections.Count().ShouldBe(1);
+        }
+
+        [Test]
+        public void ClassDiagramCanCopyPastePackage()
+        {
+            diagramFrom.CreateShapeAt(EntityType.Package, new Point(0, 0));
+            diagramFrom.CreateShapeAt(EntityType.Class, new Point(1, 1));
+            diagramFrom.SelectAll();
+            diagramFrom.Copy();
+            diagramTo.Paste();
+            var package = (Package) diagramFrom.Model.Entities.First();
+            var classType = (ClassType) diagramFrom.Model.Entities.Last();
+            var copiedPackage = (Package) diagramTo.Model.Entities.Last();
+            var copiedClassType = (ClassType) diagramTo.Model.Entities.First();
+
+            package.NestedChilds.Count().ShouldBe(1);
+            package.NestedChilds.ShouldContain(classType);
+            copiedPackage.NestedChilds.Count().ShouldBe(1);
+            copiedPackage.NestedChilds.ShouldContain(copiedClassType);
+            diagramTo.Shapes.Count().ShouldBe(2);
+            diagramTo.Model.Entities.Count().ShouldBe(2);
+        }
+
+        [Test]
+        public void CSharpNamespaceCloneTest()
+        {
+            var parentPackage = new CSharpNamespace("parent");
+            var childPackage = new CSharpNamespace("child");
+            var classType1 = new CSharpClass("class1");
+            var classType2 = new CSharpClass("class2");
+
+            childPackage.AddNestedChild(classType1);
+            childPackage.AddNestedChild(classType2);
+            parentPackage.AddNestedChild(childPackage);
+
+            var otherParent = parentPackage.Clone();
+            var otherChild = (CSharpNamespace)parentPackage.NestedChilds.First();
+
+            otherParent.NestedChilds.Count().ShouldBe(1);
+            otherParent.Name.ShouldBe(parentPackage.Name);
+            otherChild.NestedChilds.Count().ShouldBe(2);
+            otherChild.Name.ShouldBe(childPackage.Name);
+            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
+            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
+        }
+
+        [Test]
+        public void JavaCloneTest()
+        {
+            var parentPackage = new JavaPackage("parent");
+            var childPackage = new JavaPackage("child");
+            var classType1 = new JavaClass("class1");
+            var classType2 = new JavaClass("class2");
+
+            childPackage.AddNestedChild(classType1);
+            childPackage.AddNestedChild(classType2);
+            parentPackage.AddNestedChild(childPackage);
+
+            var otherParent = parentPackage.Clone();
+            var otherChild = (JavaPackage)parentPackage.NestedChilds.First();
+
+            otherParent.NestedChilds.Count().ShouldBe(1);
+            otherParent.Name.ShouldBe(parentPackage.Name);
+            otherChild.NestedChilds.Count().ShouldBe(2);
+            otherChild.Name.ShouldBe(childPackage.Name);
+            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
+            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
         }
     }
 }

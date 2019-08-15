@@ -130,6 +130,11 @@ namespace NClass.Core
             set => nestableChildHelper.NestingParent = value;
         }
 
+        public INestableChild CloneChild()
+        {
+            return Clone();
+        }
+
         public SystemBoundary Clone()
         {
             return new SystemBoundary(this.name);

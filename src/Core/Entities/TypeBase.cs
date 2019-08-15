@@ -258,6 +258,8 @@ namespace NClass.Core
             return Name + ": " + Signature;
         }
 
+        public abstract INestableChild CloneChild();
+
         #region INestableChild Implementation
 
         public virtual INestable NestingParent

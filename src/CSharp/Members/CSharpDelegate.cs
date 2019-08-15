@@ -94,5 +94,10 @@ namespace NClass.CSharp
 			newDelegate.CopyFrom(this);
 			return newDelegate;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

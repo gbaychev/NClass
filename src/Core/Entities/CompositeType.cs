@@ -31,7 +31,7 @@ namespace NClass.Core
         /// <exception cref="BadSyntaxException">
         /// The <paramref name="name"/> does not fit to the syntax.
         /// </exception>
-        protected CompositeType(string name)
+        internal CompositeType(string name)
             : base(name)
         {
         }

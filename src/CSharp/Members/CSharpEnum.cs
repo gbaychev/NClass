@@ -134,5 +134,10 @@ namespace NClass.CSharp
 			newEnum.CopyFrom(this);
 			return newEnum;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

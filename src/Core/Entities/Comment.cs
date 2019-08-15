@@ -65,6 +65,11 @@ namespace NClass.Core
             }
         }
 
+        public INestableChild CloneChild()
+        {
+            return Clone();
+        }
+
         public Comment Clone()
         {
             return new Comment(this.text);

@@ -251,5 +251,10 @@ namespace NClass.Java
 			newClass.CopyFrom(this);
 			return newClass;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

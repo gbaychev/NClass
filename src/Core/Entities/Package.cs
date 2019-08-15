@@ -132,6 +132,17 @@ namespace NClass.Core
         protected virtual void CopyFrom(Package package)
         {
             name = package.name;
+
+            foreach (var nestableChild in package.NestedChilds)
+            {
+                var clone = nestableChild.CloneChild();
+                AddNestedChild(clone);
+            }
+        }
+
+        public INestableChild CloneChild()
+        {
+            return Clone();
         }
 
         public abstract string FullName

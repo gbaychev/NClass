@@ -216,5 +216,10 @@ namespace NClass.CSharp
 			structure.CopyFrom(this);
 			return structure;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

@@ -59,6 +59,11 @@ namespace NClass.Core
         }
         public EntityType EntityType => EntityType.UseCase;
 
+        public INestableChild CloneChild()
+        {
+            return Clone();
+        }
+
         public UseCase Clone()
         {
             return new UseCase(this.Name);

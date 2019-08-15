@@ -30,13 +30,6 @@ namespace NClass.Java
             }
         }
 
-        protected override void CopyFrom(Package type)
-        {
-            base.CopyFrom(type);
-
-            //TODO
-        }
-
         public override Package Clone()
         {
             JavaPackage newPackage = new JavaPackage();

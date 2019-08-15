@@ -170,5 +170,10 @@ namespace NClass.Java
 			newInterface.CopyFrom(this);
 			return newInterface;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

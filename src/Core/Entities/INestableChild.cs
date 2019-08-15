@@ -11,5 +11,6 @@ namespace NClass.Core
     public interface INestableChild : IEntity
     {
         INestable NestingParent { get; set; }
+        INestableChild CloneChild();
     }
 }

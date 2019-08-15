@@ -25,102 +25,100 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	internal class ElementContainer : IClipboardItem
-	{
-		const int BaseOffset = 20;
+    internal class ElementContainer : IClipboardItem
+    {
+        const int BaseOffset = 20;
 
-		List<Shape> shapes = new List<Shape>();
-		List<AbstractConnection> connections = new List<AbstractConnection>();
-		Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
-		int currentOffset = 0;
-	    private DiagramType sourceDiagramType;
+        List<Shape> shapes = new List<Shape>();
+        List<AbstractConnection> connections = new List<AbstractConnection>();
+        Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
+        int currentOffset = 0;
+        private DiagramType sourceDiagramType;
 
-	    public ElementContainer(DiagramType sourceDiagramType)
-	    {
-	        this.sourceDiagramType = sourceDiagramType;
-	    }
+        public ElementContainer(DiagramType sourceDiagramType)
+        {
+            this.sourceDiagramType = sourceDiagramType;
+        }
 
-		public void AddShape(Shape shape)
-		{
-			shapes.Add(shape);
-			pastedShapes.Add(shape, null);
-		}
+        public void AddShape(Shape shape)
+        {
+            shapes.Add(shape);
+            pastedShapes.Add(shape, null);
+        }
 
-		public void AddConnection(AbstractConnection connection)
-		{
-			connections.Add(connection);
-		}
+        public void AddConnection(AbstractConnection connection)
+        {
+            connections.Add(connection);
+        }
 
-		void IClipboardItem.Paste(IDocument document)
-		{
-			IDiagram diagram = (IDiagram) document;
-			if (diagram != null)
-			{
-				bool success = false;
+        void IClipboardItem.Paste(IDocument document)
+        {
+            IDiagram diagram = (IDiagram)document;
+            if (diagram == null) return;
+            bool success = false;
 
-				currentOffset += BaseOffset;
-				Size offset = new Size(
-					(int) ((diagram.Offset.X + currentOffset) / diagram.Zoom),
-					(int) ((diagram.Offset.Y + currentOffset) / diagram.Zoom));
+            currentOffset += BaseOffset;
+            Size offset = new Size(
+                (int)((diagram.Offset.X + currentOffset) / diagram.Zoom),
+                (int)((diagram.Offset.Y + currentOffset) / diagram.Zoom));
 
-				foreach (Shape shape in shapes)
-				{
-					Shape pasted = shape.Paste(diagram, offset);
-					pastedShapes[shape] = pasted;
-					success |= (pasted != null);
-				}
-                foreach (var shape in shapes)
+            foreach (Shape shape in shapes)
+            {
+                Shape pasted = shape.Paste(diagram, offset);
+                pastedShapes[shape] = pasted;
+                success |= (pasted != null);
+            }
+            foreach (var shape in shapes)
+            {
+                if (shape.ParentShape == null)
                 {
-                    if (shape.ParentShape == null)
-                    {
-                        continue;
-                    }
-
-                    if (!pastedShapes.ContainsKey(shape.ParentShape) ||
-                        !pastedShapes.ContainsKey(shape))
-                    {
-                        continue;
-                    }
-
-                    var parentShape = (ShapeContainer)pastedShapes[shape.ParentShape];
-                    var childShape = pastedShapes[shape];
-                    parentShape.AttachShapes(new List<Shape> { childShape });
+                    continue;
                 }
-                foreach (var connection in connections)
-				{
-					Shape first = GetShape(connection.Relationship.First);
-					Shape second = GetShape(connection.Relationship.Second);
 
-					if (first != null && pastedShapes[first] != null &&
-						second != null && pastedShapes[second] != null)
-					{
-						var pasted = connection.Paste(
-							diagram, offset, pastedShapes[first], pastedShapes[second]);
-						success |= (pasted != null);
-					}
-				}
+                if (!pastedShapes.ContainsKey(shape.ParentShape) ||
+                    !pastedShapes.ContainsKey(shape))
+                {
+                    continue;
+                }
 
-				if (success)
-				{
-					Clipboard.Clear();
-				}
-			}
-		}
+                var parentShape = (ShapeContainer)pastedShapes[shape.ParentShape];
+                var childShape = pastedShapes[shape];
+                parentShape.AttachShapes(new List<Shape> { childShape });
+            }
+            foreach (var connection in connections)
+            {
+                Shape first = GetShape(connection.Relationship.First);
+                Shape second = GetShape(connection.Relationship.Second);
 
-	    public DiagramType SourceDiagramType
-	    {
-	        get { return sourceDiagramType; }
-	    }
+                if (first != null && pastedShapes[first] != null &&
+                    second != null && pastedShapes[second] != null)
+                {
+                    var pasted = connection.Paste(
+                        diagram, offset, pastedShapes[first], pastedShapes[second]);
+                    success |= (pasted != null);
+                }
+            }
 
-	    //TODO: legyenek inkább hivatkozások a shape-ekhez
-		public Shape GetShape(IEntity entity)
-		{
-			foreach (Shape shape in shapes)
-			{
-				if (shape.Entity == entity)
-					return shape;
-			}
-			return null;
-		}
-	}
+            if (success)
+            {
+                Clipboard.Clear();
+            }
+        }
+
+        public DiagramType SourceDiagramType
+        {
+            get { return sourceDiagramType; }
+        }
+
+        //TODO: legyenek inkább hivatkozások a shape-ekhez
+        public Shape GetShape(IEntity entity)
+        {
+            foreach (Shape shape in shapes)
+            {
+                if (shape.Entity == entity)
+                    return shape;
+            }
+            return null;
+        }
+    }
 }

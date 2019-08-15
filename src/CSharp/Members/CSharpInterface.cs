@@ -162,5 +162,10 @@ namespace NClass.CSharp
 			newInterface.CopyFrom(this);
 			return newInterface;
 		}
-	}
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }
