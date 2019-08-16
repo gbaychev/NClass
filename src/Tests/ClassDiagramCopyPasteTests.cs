@@ -101,51 +101,5 @@ namespace Tests
             diagramTo.Shapes.Count().ShouldBe(2);
             diagramTo.Model.Entities.Count().ShouldBe(2);
         }
-
-        [Test]
-        public void CSharpNamespaceCloneTest()
-        {
-            var parentPackage = new CSharpNamespace("parent");
-            var childPackage = new CSharpNamespace("child");
-            var classType1 = new CSharpClass("class1");
-            var classType2 = new CSharpClass("class2");
-
-            childPackage.AddNestedChild(classType1);
-            childPackage.AddNestedChild(classType2);
-            parentPackage.AddNestedChild(childPackage);
-
-            var otherParent = parentPackage.Clone();
-            var otherChild = (CSharpNamespace)parentPackage.NestedChilds.First();
-
-            otherParent.NestedChilds.Count().ShouldBe(1);
-            otherParent.Name.ShouldBe(parentPackage.Name);
-            otherChild.NestedChilds.Count().ShouldBe(2);
-            otherChild.Name.ShouldBe(childPackage.Name);
-            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
-            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
-        }
-
-        [Test]
-        public void JavaCloneTest()
-        {
-            var parentPackage = new JavaPackage("parent");
-            var childPackage = new JavaPackage("child");
-            var classType1 = new JavaClass("class1");
-            var classType2 = new JavaClass("class2");
-
-            childPackage.AddNestedChild(classType1);
-            childPackage.AddNestedChild(classType2);
-            parentPackage.AddNestedChild(childPackage);
-
-            var otherParent = parentPackage.Clone();
-            var otherChild = (JavaPackage)parentPackage.NestedChilds.First();
-
-            otherParent.NestedChilds.Count().ShouldBe(1);
-            otherParent.Name.ShouldBe(parentPackage.Name);
-            otherChild.NestedChilds.Count().ShouldBe(2);
-            otherChild.Name.ShouldBe(childPackage.Name);
-            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
-            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
-        }
     }
 }

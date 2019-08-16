@@ -75,7 +75,7 @@ namespace NClass.Core
             Deserialize(node);
         }
 
-        public abstract Package Clone();
+        public abstract Package Clone(bool cloneChildren);
 
         /// <exception cref="ArgumentNullException">
         /// <paramref name="node"/> is null.
@@ -129,9 +129,12 @@ namespace NClass.Core
                 Deserializing(this, e);
         }
 
-        protected virtual void CopyFrom(Package package)
+        protected virtual void CopyFrom(Package package, bool copyChildren)
         {
             name = package.name;
+
+            if(!copyChildren)
+                return;
 
             foreach (var nestableChild in package.NestedChilds)
             {
@@ -142,7 +145,7 @@ namespace NClass.Core
 
         public INestableChild CloneChild()
         {
-            return Clone();
+            return Clone(false);
         }
 
         public abstract string FullName

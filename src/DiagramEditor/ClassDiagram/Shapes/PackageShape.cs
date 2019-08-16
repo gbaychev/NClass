@@ -104,7 +104,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
-            return ((ClassDiagram)diagram).InsertPackage(Package.Clone());
+            return ((ClassDiagram)diagram).InsertPackage(Package.Clone(false));
         }
 
         public static Rectangle GetOutline(Style style)

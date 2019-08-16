@@ -16,6 +16,7 @@
 using System.Linq;
 using System.Threading;
 using NClass.CSharp;
+using NClass.Java;
 using NUnit.Framework;
 using Shouldly;
 
@@ -25,17 +26,49 @@ namespace Tests
     public class NestableEntityTests
     {
         [Test]
-        public void NestableEntityCloneWorks()
+        public void CSharpNamespaceCloneTest()
         {
-            var package = new CSharpNamespace("test");
-            var classType = new CSharpClass("class1");
-            var interfaceType = new CSharpClass("interface1");
-            package.AddNestedChild(classType);
-            package.AddNestedChild(interfaceType);
+            var parentPackage = new CSharpNamespace("parent");
+            var childPackage = new CSharpNamespace("child");
+            var classType1 = new CSharpClass("class1");
+            var classType2 = new CSharpClass("class2");
 
-            var otherPackage = package.Clone();
-            otherPackage.Name.ShouldBe(package.Name);
-            otherPackage.NestedChilds.Count().ShouldBe(package.NestedChilds.Count());
+            childPackage.AddNestedChild(classType1);
+            childPackage.AddNestedChild(classType2);
+            parentPackage.AddNestedChild(childPackage);
+
+            var otherParent = parentPackage.Clone(true);
+            var otherChild = (CSharpNamespace)parentPackage.NestedChilds.First();
+
+            otherParent.NestedChilds.Count().ShouldBe(1);
+            otherParent.Name.ShouldBe(parentPackage.Name);
+            otherChild.NestedChilds.Count().ShouldBe(2);
+            otherChild.Name.ShouldBe(childPackage.Name);
+            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
+            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
+        }
+
+        [Test]
+        public void JavaCloneTest()
+        {
+            var parentPackage = new JavaPackage("parent");
+            var childPackage = new JavaPackage("child");
+            var classType1 = new JavaClass("class1");
+            var classType2 = new JavaClass("class2");
+
+            childPackage.AddNestedChild(classType1);
+            childPackage.AddNestedChild(classType2);
+            parentPackage.AddNestedChild(childPackage);
+
+            var otherParent = parentPackage.Clone(true);
+            var otherChild = (JavaPackage)parentPackage.NestedChilds.First();
+
+            otherParent.NestedChilds.Count().ShouldBe(1);
+            otherParent.Name.ShouldBe(parentPackage.Name);
+            otherChild.NestedChilds.Count().ShouldBe(2);
+            otherChild.Name.ShouldBe(childPackage.Name);
+            otherChild.NestedChilds.First().Name.ShouldBe(classType1.Name);
+            otherChild.NestedChilds.Last().Name.ShouldBe(classType2.Name);
         }
     }
 }

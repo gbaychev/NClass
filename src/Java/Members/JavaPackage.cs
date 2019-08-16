@@ -30,10 +30,10 @@ namespace NClass.Java
             }
         }
 
-        public override Package Clone()
+        public override Package Clone(bool cloneChildren)
         {
             JavaPackage newPackage = new JavaPackage();
-            newPackage.CopyFrom(this);
+            newPackage.CopyFrom(this, cloneChildren);
             return newPackage;
         }
     }
