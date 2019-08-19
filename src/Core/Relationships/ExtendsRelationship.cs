@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Translations;
 
 namespace NClass.Core
 {
@@ -52,14 +53,13 @@ namespace NClass.Core
             return extendsRelationship;
         }
 
-        //TODO: localize this method
         protected override void OnAttaching(EventArgs e)
         {
             base.OnAttaching(e);
             if (first.ExtendedUseCase == second ||
                 second.ExtendedUseCase == first)
             {
-                throw new RelationshipException("An extend relationship already exists between those two entities");
+                throw new RelationshipException(Strings.ErrorUseCaseExtendAlreadyExists);
             }
 
             first.ExtendedUseCase = second;

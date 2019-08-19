@@ -1198,4 +1198,22 @@ Do you still want to continue?</value>
   <data name="AddNewSystemBoundary" xml:space="preserve">
     <value>Add New System Boundary</value>
   </data>
+  <data name="ErrorUseCaseExtendAlreadyExists" xml:space="preserve">
+    <value>An &lt;extends&gt; relationship already exists between those two entities</value>
+  </data>
+  <data name="ErrorUseCaseGeneralizationAlreadyExists" xml:space="preserve">
+    <value>Generalization already exists between the two entities</value>
+  </data>
+  <data name="ErrorUseCaseIncludeAlreadyExists" xml:space="preserve">
+    <value>An &lt;includes&gt; relationship already exists between those two entities</value>
+  </data>
+  <data name="ErrorUseCaseActorCannotInheritUseCase" xml:space="preserve">
+    <value>Actor cannot inherit from use case</value>
+  </data>
+  <data name="ErrorUseCaseCannotInherit" xml:space="preserve">
+    <value>{0} cannot inherit from {1}</value>
+  </data>
+  <data name="ErrorUseCaseCannotInheritActor" xml:space="preserve">
+    <value>Use case cannot inherit from actor</value>
+  </data>
 </root>

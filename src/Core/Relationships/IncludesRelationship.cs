@@ -15,6 +15,7 @@
 
 
 using System;
+using NClass.Translations;
 
 namespace NClass.Core
 {
@@ -51,14 +52,13 @@ namespace NClass.Core
             return includesRelationship;
         }
 
-        //TODO: localize this method
         protected override void OnAttaching(EventArgs e)
         {
             base.OnAttaching(e);
             if (first.IncludedUseCase == second ||
                 second.IncludedUseCase == first)
             {
-                throw new RelationshipException("An include relationship already exists between those two entities");
+                throw new RelationshipException(Strings.ErrorUseCaseIncludeAlreadyExists);
             }
 
             first.IncludedUseCase = second;

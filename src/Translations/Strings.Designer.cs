@@ -1378,6 +1378,60 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actor cannot inherit from use case.
+        /// </summary>
+        public static string ErrorUseCaseActorCannotInheritUseCase {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseActorCannotInheritUseCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot inherit from {1}.
+        /// </summary>
+        public static string ErrorUseCaseCannotInherit {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseCannotInherit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use case cannot inherit from actor.
+        /// </summary>
+        public static string ErrorUseCaseCannotInheritActor {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseCannotInheritActor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An &lt;extends&gt; relationship already exists between those two entities.
+        /// </summary>
+        public static string ErrorUseCaseExtendAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseExtendAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generalization already exists between the two entities.
+        /// </summary>
+        public static string ErrorUseCaseGeneralizationAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseGeneralizationAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An &lt;includes&gt; relationship already exists between those two entities.
+        /// </summary>
+        public static string ErrorUseCaseIncludeAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseIncludeAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string General {

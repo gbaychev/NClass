@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Translations;
 
 namespace NClass.Core
 {
@@ -79,22 +80,23 @@ namespace NClass.Core
             if (!(first is Actor || first is UseCase) &&
                 !(second is Actor || second is UseCase))
             {
-                throw new RelationshipException($"{first.EntityType.ToString()} cannot inherit from ${second.EntityType.ToString()}");
+                throw new RelationshipException(string.Format(Strings.ErrorUseCaseCannotInherit,
+                    first.EntityType.ToString(), second.EntityType.ToString()));
             }
 
             if (first is Actor && second is UseCase)
             {
-                throw new RelationshipException("Actor cannot inherit from use case");
+                throw new RelationshipException(Strings.ErrorUseCaseActorCannotInheritUseCase);
             }
             if (first is UseCase && second is Actor)
             {
-                throw new RelationshipException("Use case cannot inherit from actor");
+                throw new RelationshipException(Strings.ErrorUseCaseCannotInheritActor);
             }
 
             if (first.SpecializedEntity == second ||
                 second.SpecializedEntity == first)
             {
-                throw new RelationshipException("Generalization already exists between the two entities");
+                throw new RelationshipException(Strings.ErrorUseCaseGeneralizationAlreadyExists);
             }
 
             first.SpecializedEntity = second;
