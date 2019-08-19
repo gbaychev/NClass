@@ -72,7 +72,6 @@ namespace NClass.Core
             return generalization;
         }
 
-        //TODO: localize this method
         protected override void OnAttaching(EventArgs e)
         {
             base.OnAttaching(e);
