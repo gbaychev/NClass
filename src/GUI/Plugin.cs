@@ -1,5 +1,6 @@
 // NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 2019 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -16,47 +17,36 @@
 using System;
 using System.Windows.Forms;
 using NClass.DiagramEditor;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI
 {
-	public abstract class Plugin
-	{
-		NClassEnvironment environment;
+    public abstract class Plugin
+    {
+        NClassEnvironment environment;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="environment"/> is null.
-		/// </exception>
-		protected Plugin(NClassEnvironment environment)
-		{
-			if (environment == null)
-				throw new ArgumentNullException("environment");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="environment"/> is null.
+        /// </exception>
+        protected Plugin(NClassEnvironment environment)
+        {
+            this.environment = environment ?? throw new ArgumentNullException("environment");
+        }
 
-			this.environment = environment;
-		}
+        protected NClassEnvironment NClassEnvironment => environment;
 
-		protected NClassEnvironment NClassEnvironment
-		{
-			get { return environment; }
-		}
+        protected Workspace Workspace => environment.Workspace;
 
-		protected Workspace Workspace
-		{
-			get { return environment.Workspace; }
-		}
+        protected DocumentManager DocumentManager => environment.DocumentManager;
 
-		protected DocumentManager DocumentManager
-		{
-			get { return environment.DocumentManager; }
-		}
+        public abstract bool IsAvailable
+        {
+            get;
+        }
 
-		public abstract bool IsAvailable
-		{
-			get;
-		}
-
-		public abstract ToolStripItem MenuItem
-		{
-			get;
-		}
-	}
+        public abstract ToolStripItem MenuItem
+        {
+            get;
+        }
+    }
 }
