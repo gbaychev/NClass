@@ -23,13 +23,13 @@ using NClass.DiagramEditor.Properties;
 
 namespace NClass.DiagramEditor.ClassDiagram
 {
-	public sealed class ClassDiagramDynamicMenu : DiagramDynamicMenu
-	{
-		static ClassDiagramDynamicMenu _default = new ClassDiagramDynamicMenu();
+    public sealed class ClassDiagramDynamicMenu : DiagramDynamicMenu
+    {
+        static ClassDiagramDynamicMenu _default = new ClassDiagramDynamicMenu();
 
         #region 'New' Submenu Items
         private ToolStripMenuItem mnuNewClass;
-	    private ToolStripMenuItem mnuNewPackage;
+        private ToolStripMenuItem mnuNewPackage;
         private ToolStripMenuItem mnuNewStructure;
         private ToolStripMenuItem mnuNewInterface;
         private ToolStripMenuItem mnuNewEnum;
@@ -49,12 +49,12 @@ namespace NClass.DiagramEditor.ClassDiagram
         private ToolStripMenuItem mnuShowInitialValue;
 
         private ToolStripMenuItem mnuGenerateCode;
-        
+
         private ToolStripMenuItem mnuCollapseAll;
         private ToolStripMenuItem mnuExpandAll;
 
         private ToolStripButton toolNewClass;
-	    private ToolStripButton toolNewPackage;
+        private ToolStripButton toolNewPackage;
         private ToolStripButton toolNewStructure;
         private ToolStripButton toolNewInterface;
         private ToolStripButton toolNewEnum;
@@ -72,58 +72,53 @@ namespace NClass.DiagramEditor.ClassDiagram
         #endregion
 
         private ClassDiagramDynamicMenu()
-		{
-			this.InitComponents();
+        {
+            this.InitComponents();
 
             this.menuItems = new[] { mnuDiagram, mnuFormat };
         }
 
-		public static ClassDiagramDynamicMenu Default
-		{
-			get { return _default; }
-		}
+        public static ClassDiagramDynamicMenu Default
+        {
+            get { return _default; }
+        }
 
-		public override IEnumerable<ToolStripMenuItem> GetMenuItems()
-		{
-			return menuItems;
-		}
+        public override IEnumerable<ToolStripMenuItem> GetMenuItems()
+        {
+            return menuItems;
+        }
 
-		public override ToolStrip GetToolStrip()
-		{
-			return elementsToolStrip;
-		}
+        public override ToolStrip GetToolStrip()
+        {
+            return elementsToolStrip;
+        }
 
-		public override void SetReference(IDocument document)
-		{
-			if (diagram != null)
-			{
-				diagram.SelectionChanged -= new EventHandler(diagram_SelectionChanged);
-			}
+        public override void SetReference(IDocument document)
+        {
+            if (diagram != null)
+            {
+                diagram.SelectionChanged -= new EventHandler(diagram_SelectionChanged);
+            }
 
-			if (document == null)
-			{
-				diagram = null;
-			}
-			else
-			{
-                // TODO do this in a sane way
-                diagram = document as ClassDiagram;
-			    if (diagram == null)
-			    {
-			        throw new Exception("This is not a class diagram");
-			    }
-				diagram.SelectionChanged += new EventHandler(diagram_SelectionChanged);
+            if (document == null)
+            {
+                diagram = null;
+            }
+            else
+            {
+                diagram = (ClassDiagram)document;
+                diagram.SelectionChanged += new EventHandler(diagram_SelectionChanged);
 
-				mnuNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
-				mnuNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
-				toolNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
-				toolNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
-				toolDelete.Enabled = diagram.HasSelectedElement;
-			}
-		}
+                mnuNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
+                mnuNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
+                toolNewStructure.Visible = ((ClassDiagram)diagram).Language.SupportsStructures;
+                toolNewDelegate.Visible = ((ClassDiagram)diagram).Language.SupportsDelegates;
+                toolDelete.Enabled = diagram.HasSelectedElement;
+            }
+        }
 
-	    protected override void InitComponents()
-	    {
+        protected override void InitComponents()
+        {
             base.InitComponents();
 
             this.mnuNewClass = new ToolStripMenuItem(Strings.AddNewClass, Resources.Class, (o, e) => diagram?.CreateShape(EntityType.Class));
@@ -140,17 +135,17 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuNewDependency = new ToolStripMenuItem(Strings.AddNewDependency, Resources.Dependency, (o, e) => diagram?.CreateConnection(RelationshipType.Dependency));
             this.mnuNewNesting = new ToolStripMenuItem(Strings.AddNewNesting, Resources.Nesting, (o, e) => diagram?.CreateConnection(RelationshipType.Nesting));
 
-            
-			this.mnuShowType = new ToolStripMenuItem(Strings.MenuType, null, mnuShowType_Click);
-			this.mnuShowParameters = new ToolStripMenuItem(Strings.MenuParameters, null, mnuShowParameters_Click);
-			this.mnuShowParameterNames = new ToolStripMenuItem(Strings.MenuParameterNames, null, mnuShowParameterNames_Click);
-			this.mnuShowInitialValue = new ToolStripMenuItem(Strings.InitialValue, null, mnuShowInitialValue_Click);
+
+            this.mnuShowType = new ToolStripMenuItem(Strings.MenuType, null, mnuShowType_Click);
+            this.mnuShowParameters = new ToolStripMenuItem(Strings.MenuParameters, null, mnuShowParameters_Click);
+            this.mnuShowParameterNames = new ToolStripMenuItem(Strings.MenuParameterNames, null, mnuShowParameterNames_Click);
+            this.mnuShowInitialValue = new ToolStripMenuItem(Strings.InitialValue, null, mnuShowInitialValue_Click);
             this.mnuMembersFormat = new ToolStripMenuItem(Strings.MenuMembersFormat, Resources.Format,
                                                                                      this.mnuShowType,
                                                                                      this.mnuShowParameters,
                                                                                      this.mnuShowParameterNames,
                                                                                      this.mnuShowInitialValue);
-	        this.mnuMembersFormat.DropDownOpening += mnuMembersFormat_DropDownOpening;
+            this.mnuMembersFormat.DropDownOpening += mnuMembersFormat_DropDownOpening;
 
             this.mnuGenerateCode = new ToolStripMenuItem(Strings.MenuGenerateCode, Resources.CodeGenerator, mnuGenerateCode_Click);
 
@@ -158,13 +153,13 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuExpandAll = new ToolStripMenuItem(Strings.MenuExpandAll, Resources.ExpandAll, (o, e) => diagram?.ExpandAll());
 
             this.mnuNewElement.DropDownItems.Add(mnuNewClass);
-	        this.mnuNewElement.DropDownItems.Add(mnuNewPackage);
+            this.mnuNewElement.DropDownItems.Add(mnuNewPackage);
             this.mnuNewElement.DropDownItems.Add(mnuNewStructure);
             this.mnuNewElement.DropDownItems.Add(mnuNewInterface);
             this.mnuNewElement.DropDownItems.Add(mnuNewEnum);
             this.mnuNewElement.DropDownItems.Add(mnuNewDelegate);
             this.mnuNewElement.DropDownItems.Add(mnuNewComment);
-	        this.mnuNewElement.DropDownItems.Add(new ToolStripSeparator());
+            this.mnuNewElement.DropDownItems.Add(new ToolStripSeparator());
             this.mnuNewElement.DropDownItems.Add(mnuNewAssociation);
             this.mnuNewElement.DropDownItems.Add(mnuNewComposition);
             this.mnuNewElement.DropDownItems.Add(mnuNewAggregation);
@@ -173,15 +168,15 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.mnuNewElement.DropDownItems.Add(mnuNewDependency);
             this.mnuNewElement.DropDownItems.Add(mnuNewNesting);
             this.mnuNewElement.DropDownItems.Add(mnuNewCommentRelationship);
-            
-            
+
+
             this.mnuDiagram.DropDownItems.Insert(1, mnuMembersFormat);
             this.mnuDiagram.DropDownItems.Insert(2, new ToolStripSeparator());
             this.mnuDiagram.DropDownItems.Insert(3, mnuGenerateCode);
-	        this.mnuDiagram.DropDownOpening += mnuDiagram_DropDownOpening;
+            this.mnuDiagram.DropDownOpening += mnuDiagram_DropDownOpening;
 
             this.mnuFormat.DropDownItems.Add(new ToolStripSeparator());
-	        this.mnuFormat.DropDownItems.Add(mnuCollapseAll);
+            this.mnuFormat.DropDownItems.Add(mnuCollapseAll);
             this.mnuFormat.DropDownItems.Add(mnuExpandAll);
             this.mnuFormat.DropDownOpening += mnuFormat_DropDownOpening;
 
@@ -198,94 +193,94 @@ namespace NClass.DiagramEditor.ClassDiagram
             this.toolNewRealization = new ToolStripButton(Strings.AddNewRealization, Resources.Realization, (o, e) => diagram?.CreateConnection(RelationshipType.Realization)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewDependency = new ToolStripButton(Strings.AddNewDependency, Resources.Dependency, (o, e) => diagram?.CreateConnection(RelationshipType.Dependency)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
             this.toolNewNesting = new ToolStripButton(Strings.AddNewNesting, Resources.Nesting, (o, e) => diagram?.CreateConnection(RelationshipType.Nesting)) { DisplayStyle = ToolStripItemDisplayStyle.Image };
-            
-	        this.elementsToolStrip.Items.Add(this.toolNewClass);
-	        this.elementsToolStrip.Items.Add(this.toolNewPackage);
-	        this.elementsToolStrip.Items.Add(this.toolNewStructure);
-	        this.elementsToolStrip.Items.Add(this.toolNewInterface);
-	        this.elementsToolStrip.Items.Add(this.toolNewEnum);
-	        this.elementsToolStrip.Items.Add(this.toolNewDelegate);
-	        this.elementsToolStrip.Items.Add(this.toolNewComment);
-	        this.elementsToolStrip.Items.Add(this.toolNewAssociation);
-	        this.elementsToolStrip.Items.Add(this.toolNewComposition);
-	        this.elementsToolStrip.Items.Add(this.toolNewAggregation);
-	        this.elementsToolStrip.Items.Add(this.toolNewGeneralization);
+
+            this.elementsToolStrip.Items.Add(this.toolNewClass);
+            this.elementsToolStrip.Items.Add(this.toolNewPackage);
+            this.elementsToolStrip.Items.Add(this.toolNewStructure);
+            this.elementsToolStrip.Items.Add(this.toolNewInterface);
+            this.elementsToolStrip.Items.Add(this.toolNewEnum);
+            this.elementsToolStrip.Items.Add(this.toolNewDelegate);
+            this.elementsToolStrip.Items.Add(this.toolNewComment);
+            this.elementsToolStrip.Items.Add(this.toolNewAssociation);
+            this.elementsToolStrip.Items.Add(this.toolNewComposition);
+            this.elementsToolStrip.Items.Add(this.toolNewAggregation);
+            this.elementsToolStrip.Items.Add(this.toolNewGeneralization);
             this.elementsToolStrip.Items.Add(this.toolNewRealization);
             this.elementsToolStrip.Items.Add(this.toolNewDependency);
             this.elementsToolStrip.Items.Add(this.toolNewNesting);
             this.elementsToolStrip.Items.Add(this.toolNewCommentRelationship);
         }
 
-	    #region Event handlers
+        #region Event handlers
 
         private void mnuDiagram_DropDownOpening(object sender, EventArgs e)
-		{
-			bool hasContent = (diagram != null && !diagram.IsEmpty);
-			mnuGenerateCode.Enabled = hasContent;
-			mnuSaveAsImage.Enabled = hasContent;
-		}
-        
-		private void mnuMembersFormat_DropDownOpening(object sender, EventArgs e)
-		{
-			mnuShowType.Checked = DiagramEditor.Settings.Default.ShowType;
-			mnuShowParameters.Checked = DiagramEditor.Settings.Default.ShowParameters;
-			mnuShowParameterNames.Checked = DiagramEditor.Settings.Default.ShowParameterNames;
-			mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
-		}
+        {
+            bool hasContent = (diagram != null && !diagram.IsEmpty && diagram is ClassDiagram);
+            mnuGenerateCode.Enabled = hasContent;
+            mnuSaveAsImage.Enabled = hasContent;
+        }
 
-		private void mnuShowType_Click(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowType = ((ToolStripMenuItem) sender).Checked;
-		    diagram?.Redraw();
-		}
+        private void mnuMembersFormat_DropDownOpening(object sender, EventArgs e)
+        {
+            mnuShowType.Checked = DiagramEditor.Settings.Default.ShowType;
+            mnuShowParameters.Checked = DiagramEditor.Settings.Default.ShowParameters;
+            mnuShowParameterNames.Checked = DiagramEditor.Settings.Default.ShowParameterNames;
+            mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
+        }
 
-		private void mnuShowParameters_Click(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowParameters = ((ToolStripMenuItem) sender).Checked;
-		    diagram?.Redraw();
-		}
+        private void mnuShowType_Click(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowType = ((ToolStripMenuItem)sender).Checked;
+            diagram?.Redraw();
+        }
 
-		private void mnuShowParameterNames_Click(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowParameterNames = ((ToolStripMenuItem) sender).Checked;
-		    diagram?.Redraw();
-		}
+        private void mnuShowParameters_Click(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowParameters = ((ToolStripMenuItem)sender).Checked;
+            diagram?.Redraw();
+        }
 
-		private void mnuShowInitialValue_Click(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowInitialValue = ((ToolStripMenuItem) sender).Checked;
-		    diagram?.Redraw();
-		}
+        private void mnuShowParameterNames_Click(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowParameterNames = ((ToolStripMenuItem)sender).Checked;
+            diagram?.Redraw();
+        }
 
-		private void mnuGenerateCode_Click(object sender, EventArgs e)
-		{
-			if (diagram != null && diagram.Project != null)
-			{
-				using (CodeGenerator.Dialog dialog = new CodeGenerator.Dialog())
-				{
-					try
-					{
-						dialog.ShowDialog(diagram.Project);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message, Strings.UnknownError,
-							MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
-				}
-			}
-		}
+        private void mnuShowInitialValue_Click(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowInitialValue = ((ToolStripMenuItem)sender).Checked;
+            diagram?.Redraw();
+        }
 
-		private void mnuFormat_DropDownOpening(object sender, EventArgs e)		
-		{
-			bool shapeSelected = (diagram != null && diagram.SelectedShapeCount >= 1);
-			bool multiselection = (diagram != null && diagram.SelectedShapeCount >= 2);
+        private void mnuGenerateCode_Click(object sender, EventArgs e)
+        {
+            if (diagram != null && diagram.Project != null)
+            {
+                using (CodeGenerator.Dialog dialog = new CodeGenerator.Dialog())
+                {
+                    try
+                    {
+                        dialog.ShowDialog(diagram.Project);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, Strings.UnknownError,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
 
-			mnuAutoWidth.Enabled = shapeSelected;
-			mnuAutoHeight.Enabled = shapeSelected;
-			mnuAlign.Enabled = multiselection;
-			mnuMakeSameSize.Enabled = multiselection;
-		}
+        private void mnuFormat_DropDownOpening(object sender, EventArgs e)
+        {
+            bool shapeSelected = (diagram != null && diagram.SelectedShapeCount >= 1);
+            bool multiselection = (diagram != null && diagram.SelectedShapeCount >= 2);
+
+            mnuAutoWidth.Enabled = shapeSelected;
+            mnuAutoHeight.Enabled = shapeSelected;
+            mnuAlign.Enabled = multiselection;
+            mnuMakeSameSize.Enabled = multiselection;
+        }
         #endregion
-	}
+    }
 }
