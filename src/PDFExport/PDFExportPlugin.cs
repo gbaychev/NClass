@@ -104,11 +104,6 @@ namespace PDFExport
       get { return menuItem; }
     }
 
-    public override bool IsDiagramSupported(DiagramType diagramType)
-    {
-        throw new NotImplementedException();
-    }
-
     #endregion
 
     // ========================================================================
