@@ -219,4 +219,4 @@ FakesAssemblies/
 _Pvt_Extensions
 src/Installer/files/*
 src/GUI/styles
-src/AssemblyImport/lib
+src/AssemblyImport/libs
