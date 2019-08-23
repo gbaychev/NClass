@@ -43,7 +43,7 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.3.1.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="NReflect">
-      <HintPath>..\AssemblyImport\libs\NReflect.dll</HintPath>
+      <HintPath>..\AssemblyImport\libs\NReflect\NReflect\bin\$(Configuration)\NReflect.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
