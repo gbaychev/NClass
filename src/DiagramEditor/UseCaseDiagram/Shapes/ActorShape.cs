@@ -14,7 +14,6 @@
 // // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
@@ -113,14 +112,13 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             }
             base.OnResize(e);
         }
-       protected override Size DefaultSize => defaultSize;
+        protected override Size DefaultSize => defaultSize;
 
-       public override IEntity Entity => this.actor;
+        public override IEntity Entity => this.actor;
 
-       protected override int GetBorderWidth(Style style)
+        protected override int GetBorderWidth(Style style)
         {
-            //FIXME
-            return style.CommentBorderWidth;
+            return style.ActorBorderWidth;
         }
 
         protected override float GetRequiredWidth(Graphics g, Style style)

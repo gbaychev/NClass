@@ -171,6 +171,7 @@ namespace NClass.DiagramEditor
         Font actorFont = new Font("Tahoma", 8.25F);
         Color actorColor = Color.Black;
         Color actorTextColor = Color.Black;
+        int actorBorderWidth = 1;
 
         // System boundary
         int systemBoundaryBorderWidth = 1;
@@ -237,6 +238,7 @@ namespace NClass.DiagramEditor
             actorFont = new Font("Tahoma", 8.25F);
             actorColor = Color.Black;
             actorTextColor = Color.Black;
+            actorBorderWidth = 1;
         }
 
         private void SetUseCaseDefaults()
@@ -1689,6 +1691,14 @@ namespace NClass.DiagramEditor
         {
             get { return actorTextColor; }
             set { actorTextColor = value; }
+        }
+
+        [DisplayName("Border Width"), Category("Actor")]
+        [Description("The border width of an actor.")]
+        public int ActorBorderWidth
+        {
+            get => actorBorderWidth;
+            set => actorBorderWidth = value;
         }
         #endregion
 
