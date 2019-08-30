@@ -1,0 +1,176 @@
+<Project>
+  <Name>Shapes</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Shapes</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Shape</Name>
+        <Access>Public</Access>
+        <Location left="175" top="20" />
+        <Size width="185" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Color color</Member>
+        <Member type="Field">PointF location</Member>
+        <Member type="Property">public Color Color { get; set; }</Member>
+        <Member type="Property">public PointF Location { get; set; }</Member>
+        <Member type="Constructor">protected Shape()</Member>
+        <Member type="Method">public abstract void Draw(Graphics g)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Circle</Name>
+        <Access>Public</Access>
+        <Location left="311" top="549" />
+        <Size width="169" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float radius</Member>
+        <Member type="Property">public float Radius { get; set; }</Member>
+        <Member type="Constructor">public Circle(float radius)</Member>
+        <Member type="Method">public override void Draw(Graphics g)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Square</Name>
+        <Access>Public</Access>
+        <Location left="940" top="403" />
+        <Size width="169" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float size</Member>
+        <Member type="Property">public float Size { get; set; }</Member>
+        <Member type="Constructor">public Square(float size)</Member>
+        <Member type="Method">public override void Draw(Graphics g)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDrawable</Name>
+        <Access>Public</Access>
+        <Location left="1181" top="168" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void Draw(Graphics g)</Member>
+      </Entity>
+      <Entity type="Package">
+        <Name>square</Name>
+        <Location left="844" top="77" />
+        <Size width="567" height="651" />
+      </Entity>
+      <Entity type="Package">
+        <Name>circle</Name>
+        <Location left="254" top="453" />
+        <Size width="320" height="350" />
+      </Entity>
+    </Entities>
+    <Containers>
+      <Container entityIndex="4">
+        <ChildEntity>3</ChildEntity>
+        <ChildEntity>2</ChildEntity>
+      </Container>
+      <Container entityIndex="5">
+        <ChildEntity>1</ChildEntity>
+      </Container>
+    </Containers>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="0" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.UseCaseDiagram.UseCaseDiagram" assembly="NClass.DiagramEditor, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Use Case</Name>
+    <Entities>
+      <Entity type="Actor">
+        <Name>Actor</Name>
+        <Location left="239" top="213" />
+        <Size width="75" height="150" />
+      </Entity>
+      <Entity type="UseCase">
+        <Name>Creates diagrams</Name>
+        <Location left="773" top="275" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="UseCase">
+        <Name>Creates use case diagrams</Name>
+        <Location left="773" top="500" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="UseCase">
+        <Name>use case1</Name>
+        <Location left="773" top="97" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="UseCase">
+        <Name>use case 2</Name>
+        <Location left="1185" top="90" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>
+        </Text>
+        <Location left="314" top="50" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Actor">
+        <Name>SubActor</Name>
+        <Location left="239" top="474" />
+        <Size width="75" height="150" />
+      </Entity>
+      <Entity type="SystemBoundary">
+        <Name>System Boundary</Name>
+        <Location left="1104" top="44" />
+        <Size width="300" height="571" />
+      </Entity>
+    </Entities>
+    <Containers>
+      <Container entityIndex="7">
+        <ChildEntity>4</ChildEntity>
+      </Container>
+    </Containers>
+    <Relationships>
+      <Relationship type="UseCaseAssociation" first="0" second="1">
+        <StartPoint x="314" y="288" />
+        <EndPoint x="773" y="312" />
+      </Relationship>
+      <Relationship type="Inclusion" first="1" second="2">
+        <Label>&lt;includes&gt;</Label>
+        <StartPoint x="853" y="350" />
+        <EndPoint x="853" y="500" />
+      </Relationship>
+      <Relationship type="Extension" first="3" second="4">
+        <Label>&lt;extends&gt;</Label>
+        <StartPoint x="933" y="134" />
+        <EndPoint x="1185" y="127" />
+      </Relationship>
+      <Relationship type="Inclusion" first="1" second="3">
+        <Label>&lt;includes&gt;</Label>
+        <StartPoint x="853" y="275" />
+        <EndPoint x="853" y="172" />
+      </Relationship>
+      <Relationship type="UseCaseAssociation" first="0" second="3">
+        <StartPoint x="314" y="288" />
+        <EndPoint x="773" y="134" />
+      </Relationship>
+      <Relationship type="UseCaseAssociation" first="0" second="2">
+        <StartPoint x="314" y="288" />
+        <EndPoint x="773" y="537" />
+      </Relationship>
+      <Relationship type="Comment" first="5" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="UseCaseGeneralization" first="6" second="0">
+        <StartPoint x="276" y="474" />
+        <EndPoint x="276" y="363" />
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
