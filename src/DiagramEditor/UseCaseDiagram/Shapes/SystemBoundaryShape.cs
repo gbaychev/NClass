@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using NClass.Core;
@@ -51,19 +52,39 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         private void DrawSurface(IGraphics g, bool onScreen, Style style)
         {
             var backgroundRectangle = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
+            var backGroundPath = RoundedRectangle.Create(backgroundRectangle, 5);
             if ((!onScreen || !IsSelected) && !style.ShadowOffset.IsEmpty)
             {
                 shadowBrush.Color = style.ShadowColor;
                 g.TranslateTransform(style.ShadowOffset.Width, style.ShadowOffset.Height);
-                g.FillRectangle(shadowBrush, backgroundRectangle);
+                g.FillPath(shadowBrush, backGroundPath);
                 g.TranslateTransform(-style.ShadowOffset.Width, -style.ShadowOffset.Height);
             }
 
-            using (var backgroundBrush = new SolidBrush(style.SystemBoundaryBackColor))
+            Brush backgroundBrush;
+
+            switch (style.SystemBoundaryGradientStyle)
+            {
+                case GradientStyle.Vertical:
+                    backgroundBrush = new LinearGradientBrush(backgroundRectangle, style.SystemBoundaryGradientColor, style.SystemBoundaryBackColor, LinearGradientMode.Vertical);
+                    break;
+                case GradientStyle.Diagonal:
+                    backgroundBrush = new LinearGradientBrush(backgroundRectangle, style.SystemBoundaryGradientColor, style.SystemBoundaryBackColor, LinearGradientMode.BackwardDiagonal);
+                    break;
+                case GradientStyle.Horizontal:
+                    backgroundBrush = new LinearGradientBrush(backgroundRectangle, style.SystemBoundaryGradientColor, style.SystemBoundaryBackColor, LinearGradientMode.Horizontal);
+                    break;
+                default:
+                    backgroundBrush = new SolidBrush(style.SystemBoundaryBackColor);
+                    break;
+            }
+
+            using (backGroundPath)
+            using (backgroundBrush)
             using (var borderPen = new Pen(style.SystemBoundaryBorderColor, style.SystemBoundaryBorderWidth))
             {
-                g.FillRectangle(backgroundBrush, backgroundRectangle);
-                g.DrawRectangle(borderPen, backgroundRectangle);
+                g.FillPath(backgroundBrush, backGroundPath);
+                g.DrawPath(borderPen, backGroundPath);
             }
         }
 

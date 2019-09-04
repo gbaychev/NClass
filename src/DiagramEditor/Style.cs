@@ -183,6 +183,8 @@ namespace NClass.DiagramEditor
         Color systemBoundaryBackColor = Color.White;
         Color systemBoundaryBorderColor = Color.Black;
         Color systemBoundaryTextColor = Color.Black;
+        Color systemBoundaryGradientColor = Color.White;
+        GradientStyle systemBoundaryGradientStyle = GradientStyle.None;
         Font systemBoundaryFont = new Font("Tahoma", 9.00F, FontStyle.Bold);
 
         #endregion
@@ -270,6 +272,8 @@ namespace NClass.DiagramEditor
             systemBoundaryBackColor = Color.White;
             systemBoundaryBorderColor = Color.Black;
             systemBoundaryTextColor = Color.Black;
+            systemBoundaryGradientColor = Color.White;
+            systemBoundaryGradientStyle = GradientStyle.None;
             systemBoundaryFont = new Font("Tahoma", 8.25F);
         }
 
@@ -1805,6 +1809,23 @@ namespace NClass.DiagramEditor
             set => systemBoundaryTextColor = value;
         }
 
+        [DisplayName("Gradient Color"), Category("System Boundary")]
+        [Description("The gradient color for the system boundary.")]
+        [DefaultValue(typeof(Color), "Black")]
+        public Color SystemBoundaryGradientColor
+        {
+            get => systemBoundaryGradientColor;
+            set => systemBoundaryGradientColor = value;
+        }
+
+        [DisplayName("Gradient Style"), Category("System Boundary")]
+        [Description("The gradient style for the system boundary.")]
+        [DefaultValue(typeof(Color), "None")]
+        public GradientStyle SystemBoundaryGradientStyle
+        {
+            get => systemBoundaryGradientStyle;
+            set => systemBoundaryGradientStyle = value;
+        }
 
         #endregion
 
