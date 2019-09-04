@@ -15,6 +15,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Editors;
@@ -57,25 +58,57 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
                 g.TranslateTransform(-style.ShadowOffset.Width, -style.ShadowOffset.Height);
             }
             
-            g.DrawEllipse(new Pen(style.UseCaseBorderColor, style.UseCaseBorderWidth), Location.X, Location.Y, Size.Width, Size.Height);
-            g.FillEllipse(new SolidBrush(style.UseCaseBackColor), Location.X, Location.Y, Width, Height);
+            if(style.UseCaseGradientStyle == GradientStyle.None)
+            {
+                using (var pen = new Pen(style.UseCaseBorderColor, style.UseCaseBorderWidth))
+                using (var brush = new SolidBrush(style.UseCaseBackColor))
+                {
+                    g.FillEllipse(brush, Location.X, Location.Y, Width, Height);
+                    g.DrawEllipse(pen, Location.X, Location.Y, Size.Width, Size.Height);
+                }
+            }
+            else
+            {
+                LinearGradientMode gradientMode;
+                switch (style.UseCaseGradientStyle)
+                {
+                    case GradientStyle.Vertical:
+                        gradientMode = LinearGradientMode.Vertical;
+                        break;
+                    case GradientStyle.Diagonal:
+                        gradientMode = LinearGradientMode.ForwardDiagonal;
+                        break;
+                    case GradientStyle.Horizontal:
+                    default:
+                        gradientMode = LinearGradientMode.Horizontal; break;
+                }
+
+                var surface = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
+                using (var surfaceBrush = new LinearGradientBrush(surface,style.UseCaseGradientColor, style.UseCaseBackColor, gradientMode))
+                using (var borderPen = new Pen(style.UseCaseBorderColor, style.UseCaseBorderWidth))
+                {
+                    g.FillEllipse(surfaceBrush, surface);
+                    g.DrawEllipse(borderPen, Location.X, Location.Y, Size.Width, Size.Height);
+                }
+            }
         }
 
         private void DrawText(IGraphics g, bool onScreen, Style style)
         {
             var textBounds = GetTextRectangle();
-            var textBrush = new SolidBrush(Color.FromArgb(128, style.UseCaseTextColor));
-
-            if (string.IsNullOrEmpty(Text) && onScreen)
+            using (var textBrush = new SolidBrush(Color.FromArgb(128, style.UseCaseTextColor)))
             {
-                textBrush.Color = Color.FromArgb(128, style.CommentTextColor);
-                g.DrawString(Strings.DoubleClickToEdit, 
-                             style.CommentFont, textBrush, textBounds, stringFormat);
-            }
-            else
-            {
-                textBrush.Color = style.CommentTextColor;
-                g.DrawString(Text, style.CommentFont, textBrush, textBounds, stringFormat);
+                if (string.IsNullOrEmpty(Text) && onScreen)
+                {
+                    textBrush.Color = Color.FromArgb(128, style.CommentTextColor);
+                    g.DrawString(Strings.DoubleClickToEdit,
+                        style.CommentFont, textBrush, textBounds, stringFormat);
+                }
+                else
+                {
+                    textBrush.Color = style.CommentTextColor;
+                    g.DrawString(Text, style.CommentFont, textBrush, textBounds, stringFormat);
+                }
             }
         }
 

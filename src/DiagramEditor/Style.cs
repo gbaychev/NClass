@@ -164,8 +164,10 @@ namespace NClass.DiagramEditor
         int useCaseBorderWidth = 1;
         Color useCaseBackColor = Color.White;
         Color useCaseBorderColor = Color.Black;
+        Color useCaseGradientColor = Color.White;
         Color useCaseTextColor = Color.Black;
         Font useCaseFont = new Font("Tahoma", 8.25F);
+        GradientStyle useCaseGradientStyle = GradientStyle.None;
 
         // Actor fileds
         Font actorFont = new Font("Tahoma", 8.25F);
@@ -250,6 +252,8 @@ namespace NClass.DiagramEditor
             useCaseBackColor = Color.White;
             useCaseBorderColor = Color.Black;
             useCaseTextColor = Color.Black;
+            useCaseGradientColor = Color.White;
+            useCaseGradientStyle = GradientStyle.None;
         }
 
         private void SetSystemBoudaryDefaults()
@@ -1655,8 +1659,26 @@ namespace NClass.DiagramEditor
         [DefaultValue(typeof(Color), "Black")]
         public Color UseCaseTextColor
         {
-            get { return useCaseTextColor; }
-            set { useCaseTextColor = value; }
+            get => useCaseTextColor;
+            set => useCaseTextColor = value;
+        }
+
+        [DisplayName("Gradient Style"), Category("Use Case")]
+        [Description("The gradient style of the use case.")]
+        [DefaultValue(typeof(GradientStyle), "GradientStyle.None")]
+        public GradientStyle UseCaseGradientStyle
+        {
+            get => useCaseGradientStyle;
+            set => useCaseGradientStyle = value; 
+        }
+
+        [DisplayName("Gradient Color"), Category("Use Case")]
+        [Description("The gradient color of the use case.")]
+        [DefaultValue(typeof(Color), "White")]
+        public Color UseCaseGradientColor
+        {
+            get => useCaseGradientColor;
+            set => useCaseGradientColor = value;
         }
         #endregion
 
@@ -1774,7 +1796,7 @@ namespace NClass.DiagramEditor
             newStyle.relationshipTextFont = (Font)RelationshipTextFont.Clone();
             newStyle.useCaseFont = UseCaseFont == null ? useCaseFont : (Font)UseCaseFont.Clone();
             newStyle.actorFont = ActorFont == null ? actorFont : (Font)ActorFont.Clone();
-            newStyle.SystemBoundaryFont = SystemBoundaryFont == null ? systemBoundaryFont : (Font)SystemBoundaryFont.Clone();
+            newStyle.systemBoundaryFont = SystemBoundaryFont == null ? systemBoundaryFont : (Font)SystemBoundaryFont.Clone();
             return newStyle;
         }
 
