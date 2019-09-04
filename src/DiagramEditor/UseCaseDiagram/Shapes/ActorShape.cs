@@ -15,6 +15,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using NClass.Core;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Editors;
@@ -79,12 +80,33 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             var handsStart = new Point(headRectangle.X - headRectangle.Width / 6, headRectangle.Bottom + ((bodyEnd.Y - bodyStart.Y) / 10));
             var handsEnd = new Point(headRectangle.X + headRectangle.Width + headRectangle.Width / 6, headRectangle.Bottom + ((bodyEnd.Y - bodyStart.Y) / 10));
 
+            Brush headBrush;
+
+            switch (style.ActorGradientStyle)
+            {
+                case GradientStyle.Vertical:
+                    headBrush = new LinearGradientBrush(headRectangle, style.ActorBackColor, style.ActorGradientColor, LinearGradientMode.Vertical);
+                    break;
+                case GradientStyle.Diagonal:
+                    headBrush = new LinearGradientBrush(headRectangle, style.ActorBackColor, style.ActorGradientColor, LinearGradientMode.BackwardDiagonal);
+                    break;
+                case GradientStyle.Horizontal:
+                    headBrush = new LinearGradientBrush(headRectangle, style.ActorBackColor, style.ActorGradientColor, LinearGradientMode.Horizontal);
+                    break;
+                default:
+                    headBrush = new SolidBrush(style.ActorBackColor);
+                    break;
+            }
+
             // head
+            graphics.FillEllipse(headBrush, headRectangle);
             graphics.DrawEllipse(actorPen,
                                  headRectangle.X,
                                  headRectangle.Y,
                                  headRectangle.Width,
                                  headRectangle.Height);
+            headBrush.Dispose();
+
             // body
             graphics.DrawLine(actorPen, bodyStart, bodyEnd);
             // legs
@@ -92,6 +114,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             graphics.DrawLine(actorPen, bodyEnd, rightLeg);
             // hands
             graphics.DrawLine(actorPen, handsStart, handsEnd);
+            actorPen.Dispose();
         }
 
         protected override void OnResize(ResizeEventArgs e)
@@ -118,7 +141,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
 
         protected override int GetBorderWidth(Style style)
         {
-            return style.ActorBorderWidth;
+            return 0;
         }
 
         protected override float GetRequiredWidth(Graphics g, Style style)

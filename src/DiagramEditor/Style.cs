@@ -169,11 +169,14 @@ namespace NClass.DiagramEditor
         Font useCaseFont = new Font("Tahoma", 8.25F);
         GradientStyle useCaseGradientStyle = GradientStyle.None;
 
-        // Actor fileds
+        // Actor fields
         Font actorFont = new Font("Tahoma", 8.25F);
         Color actorColor = Color.Black;
+        Color actorBorderColor = Color.Black;
         Color actorTextColor = Color.Black;
-        int actorBorderWidth = 1;
+        Color actorBackColor = Color.White;
+        Color actorGradientColor = Color.White;
+        GradientStyle actorGradientStyle = GradientStyle.None;
 
         // System boundary
         int systemBoundaryBorderWidth = 1;
@@ -239,8 +242,11 @@ namespace NClass.DiagramEditor
 
             actorFont = new Font("Tahoma", 8.25F);
             actorColor = Color.Black;
+            actorBorderColor = Color.Black;
             actorTextColor = Color.Black;
-            actorBorderWidth = 1;
+            actorBackColor = Color.White;
+            actorGradientColor = Color.White;
+            actorGradientStyle = GradientStyle.None;
         }
 
         private void SetUseCaseDefaults()
@@ -1687,40 +1693,63 @@ namespace NClass.DiagramEditor
         [Description("The font of the displayed text for an actor.")]
         public Font ActorFont
         {
-            get { return actorFont; }
+            get => actorFont;
             set
             {
-                if (value != actorFont && value != null)
+                if (!Equals(value, actorFont) && value != null)
                 {
-                    if (actorFont != null)
-                        actorFont.Dispose();
+                    actorFont?.Dispose();
                     actorFont = value;
                 }
             }
+        }
+
+        [DisplayName("Border Color"), Category("Actor")]
+        [Description("The border color of an actor figure.")]
+        public Color ActorBorderColor
+        {
+            get => actorBorderColor;
+            set => actorBorderColor = value;
         }
 
         [DisplayName("Color"), Category("Actor")]
         [Description("The color of an actor figure.")]
         public Color ActorColor
         {
-            get { return actorColor; }
-            set { actorColor = value; }
+            get => actorColor;
+            set => actorColor = value;
         }
 
         [DisplayName("Text Color"), Category("Actor")]
         [Description("The text color of an actor.")]
         public Color ActorTextColor
         {
-            get { return actorTextColor; }
-            set { actorTextColor = value; }
+            get => actorTextColor;
+            set => actorTextColor = value;
         }
 
-        [DisplayName("Border Width"), Category("Actor")]
-        [Description("The border width of an actor.")]
-        public int ActorBorderWidth
+        [DisplayName("Background Color"), Category("Actor")]
+        [Description("The background color of an actor.")]
+        public Color ActorBackColor
         {
-            get => actorBorderWidth;
-            set => actorBorderWidth = value;
+            get => actorBackColor;
+            set => actorBackColor = value;
+        }
+
+        [DisplayName("Gradient color"), Category("Actor")]
+        [Description("The gradient color of an actor.")]
+        public Color ActorGradientColor
+        {
+            get => actorGradientColor;
+            set => actorGradientColor = value;
+        }
+
+        [DisplayName("Gradient style"), Category("Actor")]
+        [Description("The gradient style of an actor.")]
+        public GradientStyle ActorGradientStyle
+        {
+            get => actorGradientStyle;
+            set => actorGradientStyle = value;
         }
         #endregion
 
