@@ -79,6 +79,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New Actor.
+        /// </summary>
+        public static string AddNewActor {
+            get {
+                return ResourceManager.GetString("AddNewActor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New Aggregation.
         /// </summary>
         public static string AddNewAggregation {
@@ -160,11 +169,29 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New &apos;extends&apos;.
+        /// </summary>
+        public static string AddNewExtends {
+            get {
+                return ResourceManager.GetString("AddNewExtends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New Generalization.
         /// </summary>
         public static string AddNewGeneralization {
             get {
                 return ResourceManager.GetString("AddNewGeneralization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New &apos;includes&apos;.
+        /// </summary>
+        public static string AddNewIncludes {
+            get {
+                return ResourceManager.GetString("AddNewIncludes", resourceCulture);
             }
         }
         
@@ -219,6 +246,24 @@ namespace NClass.Translations {
         public static string AddNewStructure {
             get {
                 return ResourceManager.GetString("AddNewStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New System Boundary.
+        /// </summary>
+        public static string AddNewSystemBoundary {
+            get {
+                return ResourceManager.GetString("AddNewSystemBoundary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New Use Case.
+        /// </summary>
+        public static string AddNewUseCase {
+            get {
+                return ResourceManager.GetString("AddNewUseCase", resourceCulture);
             }
         }
         
@@ -1333,6 +1378,60 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actor cannot inherit from use case.
+        /// </summary>
+        public static string ErrorUseCaseActorCannotInheritUseCase {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseActorCannotInheritUseCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot inherit from {1}.
+        /// </summary>
+        public static string ErrorUseCaseCannotInherit {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseCannotInherit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use case cannot inherit from actor.
+        /// </summary>
+        public static string ErrorUseCaseCannotInheritActor {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseCannotInheritActor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An &lt;extends&gt; relationship already exists between those two entities.
+        /// </summary>
+        public static string ErrorUseCaseExtendAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseExtendAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generalization already exists between the two entities.
+        /// </summary>
+        public static string ErrorUseCaseGeneralizationAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseGeneralizationAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An &lt;includes&gt; relationship already exists between those two entities.
+        /// </summary>
+        public static string ErrorUseCaseIncludeAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorUseCaseIncludeAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string General {
@@ -2364,6 +2463,15 @@ namespace NClass.Translations {
         public static string MenuUnidirectional {
             get {
                 return ResourceManager.GetString("MenuUnidirectional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Case Diagram.
+        /// </summary>
+        public static string MenuUseCaseDiagram {
+            get {
+                return ResourceManager.GetString("MenuUseCaseDiagram", resourceCulture);
             }
         }
         

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using NClass.DiagramEditor.Diagrams;
 using NClass.GUI;
 using PDFExport.Properties;
 using PdfSharp.Drawing;

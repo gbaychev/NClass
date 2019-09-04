@@ -21,78 +21,85 @@ using NClass.Core;
 
 namespace NClass.CSharp
 {
-	internal sealed class CSharpDelegate : DelegateType
-	{
-		internal CSharpDelegate() : this("NewDelegate")
-		{
-		}
+    internal sealed class CSharpDelegate : DelegateType
+    {
+        internal CSharpDelegate() : this("NewDelegate")
+        {
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		internal CSharpDelegate(string name) : base(name)
-		{
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        internal CSharpDelegate(string name) : base(name)
+        {
+        }
 
-		public override AccessModifier AccessModifier
-		{
-			get
-			{
-				return base.AccessModifier;
-			}
-			set
-			{
-				if (IsTypeNested ||
-					value == AccessModifier.Default ||
-					value == AccessModifier.Internal ||
-					value == AccessModifier.Public)
-				{
-					base.AccessModifier = value;
-				}
-			}
-		}
+        public override AccessModifier AccessModifier
+        {
+            get
+            {
+                return base.AccessModifier;
+            }
+            set
+            {
+                if (IsTypeNested ||
+                    value == AccessModifier.Default ||
+                    value == AccessModifier.Internal ||
+                    value == AccessModifier.Public)
+                {
+                    base.AccessModifier = value;
+                }
+            }
+        }
 
-		public override AccessModifier DefaultAccess
-		{
-			get { return AccessModifier.Internal; }
-		}
+        public override AccessModifier DefaultAccess
+        {
+            get { return AccessModifier.Internal; }
+        }
 
-		protected override string DefaultReturnType
-		{
-			get { return "void"; }
-		}
+        protected override string DefaultReturnType
+        {
+            get { return "void"; }
+        }
 
-		public override Language Language
-		{
-			get { return CSharpLanguage.Instance; }
-		}
+        public override Language Language
+        {
+            get { return CSharpLanguage.Instance; }
+        }
 
-		public override string GetDeclaration()
-		{
-			StringBuilder builder = new StringBuilder();
+        public override string GetDeclaration()
+        {
+            StringBuilder builder = new StringBuilder();
 
-			if (AccessModifier != AccessModifier.Default) {
-				builder.Append(Language.GetAccessString(AccessModifier, true));
-				builder.Append(" ");
-			}
-			builder.AppendFormat("delegate {0} {1}(", ReturnType, Name);
+            if (AccessModifier != AccessModifier.Default)
+            {
+                builder.Append(Language.GetAccessString(AccessModifier, true));
+                builder.Append(" ");
+            }
+            builder.AppendFormat("delegate {0} {1}(", ReturnType, Name);
 
-			int parameterIndex = 0;
-			foreach (Parameter parameter in Arguments) {
-				builder.Append(parameter.ToString());
-				if (parameterIndex++ < ArgumentCount - 1)
-					builder.Append(", ");
-			}
-			builder.Append(");");
+            int parameterIndex = 0;
+            foreach (Parameter parameter in Arguments)
+            {
+                builder.Append(parameter.ToString());
+                if (parameterIndex++ < ArgumentCount - 1)
+                    builder.Append(", ");
+            }
+            builder.Append(");");
 
-			return builder.ToString();
-		}
+            return builder.ToString();
+        }
 
-		public override DelegateType Clone()
-		{
-			CSharpDelegate newDelegate = new CSharpDelegate();
-			newDelegate.CopyFrom(this);
-			return newDelegate;
-		}
-	}
+        public override DelegateType Clone()
+        {
+            CSharpDelegate newDelegate = new CSharpDelegate();
+            newDelegate.CopyFrom(this);
+            return newDelegate;
+        }
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

@@ -26,7 +26,7 @@ namespace NClass.Core
 		/// <exception cref="BadSyntaxException">
 		/// The <paramref name="name"/> does not fit to the syntax.
 		/// </exception>
-		protected SingleInharitanceType(string name) : base(name)
+		internal SingleInharitanceType(string name) : base(name)
 		{
 		}
 

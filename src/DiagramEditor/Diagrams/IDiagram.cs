@@ -27,13 +27,13 @@ namespace NClass.DiagramEditor.Diagrams
     public interface IDiagram : IDocument
     {
         IEnumerable<Shape> Shapes { get; }
-        IEnumerable<Connection> Connections { get; }
+        IEnumerable<AbstractConnection> Connections { get; }
         DiagramType DiagramType { get; }
         int SelectedElementCount { get; }
         DiagramElement TopSelectedElement { get; }
         void ShowWindow(PopupWindow window);
         void HideWindow(PopupWindow window);
-        IEnumerable<Connection> GetSelectedConnections();
+        IEnumerable<AbstractConnection> GetSelectedConnections();
         void CreateShape(EntityType type, Point? where = null);
         void CreateShapeAt(EntityType type, Point where);
         void CreateConnection(RelationshipType type);
@@ -59,5 +59,10 @@ namespace NClass.DiagramEditor.Diagrams
         void AutoHeightOfSelectedShapes();
         int SelectedShapeCount { get; }
         event EventHandler SelectionChanged;
+        IEnumerable<Shape> GetShapesInDisplayOrder();
+        void AddComment();
+        bool InsertComment(Comment comment);
+        bool InsertCommentRelationship(CommentRelationship commentRelationship);
+        CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
     }
 }

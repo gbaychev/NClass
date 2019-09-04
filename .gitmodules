@@ -1,0 +1,3 @@
+[submodule "NReflect"]
+	path = src/AssemblyImport/libs/NReflect
+	url = https://github.com/gbaychev/NReflect.git

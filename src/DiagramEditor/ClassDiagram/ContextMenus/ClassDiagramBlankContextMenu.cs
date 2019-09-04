@@ -1,6 +1,6 @@
 // NClass - Free class diagram editor
 // Copyright (C) 2006-2007 Balazs Tihanyi
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2016 - 2018 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -24,260 +24,255 @@ using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 {
-	public sealed class ClassDiagramBlankContextMenu : DiagramContextMenu
-	{
-		static ClassDiagramBlankContextMenu _default = new ClassDiagramBlankContextMenu();
+    public sealed class ClassDiagramBlankContextMenu : DiagramContextMenu
+    {
+        static ClassDiagramBlankContextMenu _default = new ClassDiagramBlankContextMenu();
 
         #region MenuItem fields
 
-	    ToolStripMenuItem mnuEntities;
+        ToolStripMenuItem mnuEntities;
         ToolStripMenuItem mnuAddNewElement;
         ToolStripMenuItem mnuNewPackage;
-		ToolStripMenuItem mnuNewClass;
-		ToolStripMenuItem mnuNewStructure;
-		ToolStripMenuItem mnuNewInterface;
-		ToolStripMenuItem mnuNewEnum;
-		ToolStripMenuItem mnuNewDelegate;
-		ToolStripMenuItem mnuNewComment;
-		ToolStripMenuItem mnuNewAssociation;
-		ToolStripMenuItem mnuNewComposition;
-		ToolStripMenuItem mnuNewAggregation;
-		ToolStripMenuItem mnuNewGeneralization;
-		ToolStripMenuItem mnuNewRealization;
-		ToolStripMenuItem mnuNewDependency;
-		ToolStripMenuItem mnuNewNesting;
-		ToolStripMenuItem mnuNewCommentRelationship;
+        ToolStripMenuItem mnuNewClass;
+        ToolStripMenuItem mnuNewStructure;
+        ToolStripMenuItem mnuNewInterface;
+        ToolStripMenuItem mnuNewEnum;
+        ToolStripMenuItem mnuNewDelegate;
+        ToolStripMenuItem mnuNewComment;
+        ToolStripMenuItem mnuNewAssociation;
+        ToolStripMenuItem mnuNewComposition;
+        ToolStripMenuItem mnuNewAggregation;
+        ToolStripMenuItem mnuNewGeneralization;
+        ToolStripMenuItem mnuNewRealization;
+        ToolStripMenuItem mnuNewDependency;
+        ToolStripMenuItem mnuNewNesting;
+        ToolStripMenuItem mnuNewCommentRelationship;
 
-		ToolStripMenuItem mnuMembersFormat;
-		ToolStripMenuItem mnuShowType;
-		ToolStripMenuItem mnuShowParameters;
-		ToolStripMenuItem mnuShowParameterNames;
-		ToolStripMenuItem mnuShowInitialValue;
+        ToolStripMenuItem mnuMembersFormat;
+        ToolStripMenuItem mnuShowType;
+        ToolStripMenuItem mnuShowParameters;
+        ToolStripMenuItem mnuShowParameterNames;
+        ToolStripMenuItem mnuShowInitialValue;
 
-		ToolStripMenuItem mnuPaste;
-		ToolStripMenuItem mnuSaveAsImage;
-		ToolStripMenuItem mnuSelectAll;
+        ToolStripMenuItem mnuPaste;
+        ToolStripMenuItem mnuSaveAsImage;
+        ToolStripMenuItem mnuSelectAll;
 
-		#endregion
+        #endregion
 
-		private ClassDiagramBlankContextMenu()
-		{
-			InitMenuItems();
-		}
-
-		public static ClassDiagramBlankContextMenu Default
-		{
-			get { return _default; }
-		}
-
-		public override void ValidateMenuItems(IDiagram diagram)
-		{
-		    if (diagram.DiagramType != DiagramType.ClassDiagram)
-		    {
-                // TODO do this in a sane way
-		        throw new Exception("This is not a class diagram");
-		    }
-		    var classDiagram = (ClassDiagram) diagram;
-			base.ValidateMenuItems(diagram);
-			mnuPaste.Enabled = diagram.CanPasteFromClipboard;
-
-			mnuNewStructure.Visible = classDiagram.Language.SupportsStructures;
-			mnuNewDelegate.Visible = classDiagram.Language.SupportsDelegates;
-
-			mnuShowType.Checked = DiagramEditor.Settings.Default.ShowType;
-			mnuShowParameters.Checked = DiagramEditor.Settings.Default.ShowParameters;
-			mnuShowParameterNames.Checked = DiagramEditor.Settings.Default.ShowParameterNames;
-			mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
-
-			mnuSaveAsImage.Enabled = !diagram.IsEmpty;
-		}
-
-		private void InitMenuItems()
-		{
-			mnuAddNewElement = new ToolStripMenuItem(Strings.MenuNew, Resources.NewEntity);
-		    mnuEntities = new ToolStripMenuItem(Strings.MenuNew, Resources.NewEntity);
-            mnuNewPackage = new ToolStripMenuItem(Strings.MenuPackage, Resources.Package, mnuNewPackage_Click);
-			mnuNewClass = new ToolStripMenuItem(Strings.MenuClass, Resources.Class, mnuNewClass_Click);
-			mnuNewStructure = new ToolStripMenuItem(Strings.MenuStruct, Resources.Structure, mnuNewStructure_Click);
-			mnuNewInterface = new ToolStripMenuItem(Strings.MenuInterface, Resources.Interface32, mnuNewInterface_Click);
-			mnuNewEnum = new ToolStripMenuItem(Strings.MenuEnum, Resources.Enum, mnuNewEnum_Click);
-			mnuNewDelegate = new ToolStripMenuItem(Strings.MenuDelegate, Resources.Delegate, mnuNewDelegate_Click);
-			mnuNewComment = new ToolStripMenuItem(Strings.MenuComment, Resources.Comment, mnuNewComment_Click);
-			mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, mnuNewAssociation_Click);
-			mnuNewComposition = new ToolStripMenuItem(Strings.MenuComposition, Resources.Composition, mnuNewComposition_Click);
-			mnuNewAggregation = new ToolStripMenuItem(Strings.MenuAggregation, Resources.Aggregation, mnuNewAggregation_Click);
-			mnuNewGeneralization = new ToolStripMenuItem(Strings.MenuGeneralization, Resources.Generalization, mnuNewGeneralization_Click);
-			mnuNewRealization = new ToolStripMenuItem(Strings.MenuRealization, Resources.Realization, mnuNewRealization_Click);
-			mnuNewDependency = new ToolStripMenuItem(Strings.MenuDependency, Resources.Dependency, mnuNewDependency_Click);
-			mnuNewNesting = new ToolStripMenuItem(Strings.MenuNesting, Resources.Nesting, mnuNewNesting_Click);
-			mnuNewCommentRelationship = new ToolStripMenuItem(Strings.MenuCommentRelationship, Resources.CommentRel, mnuNewCommentRelationship_Click);
-
-			mnuMembersFormat = new ToolStripMenuItem(Strings.MenuMembersFormat, null);
-			mnuShowType = new ToolStripMenuItem(Strings.MenuType, null);
-			mnuShowType.CheckedChanged += mnuShowType_CheckedChanged;
-			mnuShowType.CheckOnClick = true;
-			mnuShowParameters = new ToolStripMenuItem(Strings.MenuParameters, null);
-			mnuShowParameters.CheckedChanged += mnuShowParameters_CheckedChanged;
-			mnuShowParameters.CheckOnClick = true;
-			mnuShowParameterNames = new ToolStripMenuItem(Strings.MenuParameterNames, null);
-			mnuShowParameterNames.CheckedChanged += mnuShowParameterNames_CheckedChanged;
-			mnuShowParameterNames.CheckOnClick = true;
-			mnuShowInitialValue = new ToolStripMenuItem(Strings.MenuInitialValue, null);
-			mnuShowInitialValue.CheckedChanged += mnuShowInitialValue_CheckedChanged;
-			mnuShowInitialValue.CheckOnClick = true;
-
-			mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, mnuPaste_Click);
-			mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, mnuSaveAsImage_Click);
-			mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, mnuSelectAll_Click);
-
-			mnuAddNewElement.DropDownItems.AddRange(new ToolStripItem[] {
-                mnuNewPackage,
-				mnuNewClass,
-				mnuNewStructure,
-				mnuNewInterface,
-				mnuNewEnum,
-				mnuNewDelegate,
-				mnuNewComment,
-				new ToolStripSeparator(),
-				mnuNewAssociation,
-				mnuNewComposition,
-				mnuNewAggregation,
-				mnuNewGeneralization,
-				mnuNewRealization,
-				mnuNewDependency,
-				mnuNewNesting,
-				mnuNewCommentRelationship
-			});
-			mnuMembersFormat.DropDownItems.AddRange(new ToolStripItem[] {
-				mnuShowType,
-				mnuShowParameters,
-				mnuShowParameterNames,
-				mnuShowInitialValue
-			});
-			MenuList.AddRange(new ToolStripItem[] {
-				mnuAddNewElement,
-				mnuMembersFormat,
-				new ToolStripSeparator(),
-				mnuPaste,
-				mnuSaveAsImage,
-				mnuSelectAll
-			});
+        private ClassDiagramBlankContextMenu()
+        {
+            InitMenuItems();
         }
 
-	    private void mnuNewPackage_Click(object sender, EventArgs e)
-	    {
-	        Diagram?.CreateShape(EntityType.Package);
-	    }
+        public static ClassDiagramBlankContextMenu Default
+        {
+            get { return _default; }
+        }
 
-		private void mnuNewClass_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Class);
-		}
+        public override void ValidateMenuItems(IDiagram diagram)
+        {
+            var classDiagram = (ClassDiagram)diagram;
+            base.ValidateMenuItems(diagram);
+            mnuPaste.Enabled = diagram.CanPasteFromClipboard;
 
-		private void mnuNewStructure_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Structure);
-		}
+            mnuNewStructure.Visible = classDiagram.Language.SupportsStructures;
+            mnuNewDelegate.Visible = classDiagram.Language.SupportsDelegates;
 
-		private void mnuNewInterface_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Interface);
-		}
+            mnuShowType.Checked = DiagramEditor.Settings.Default.ShowType;
+            mnuShowParameters.Checked = DiagramEditor.Settings.Default.ShowParameters;
+            mnuShowParameterNames.Checked = DiagramEditor.Settings.Default.ShowParameterNames;
+            mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
 
-		private void mnuNewEnum_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Enum);
-		}
+            mnuSaveAsImage.Enabled = !diagram.IsEmpty;
+        }
 
-		private void mnuNewDelegate_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Delegate);
-		}
+        private void InitMenuItems()
+        {
+            mnuAddNewElement = new ToolStripMenuItem(Strings.MenuNew, Resources.NewElement);
+            mnuEntities = new ToolStripMenuItem(Strings.MenuNew, Resources.NewElement);
+            mnuNewPackage = new ToolStripMenuItem(Strings.MenuPackage, Resources.Package, mnuNewPackage_Click);
+            mnuNewClass = new ToolStripMenuItem(Strings.MenuClass, Resources.Class, mnuNewClass_Click);
+            mnuNewStructure = new ToolStripMenuItem(Strings.MenuStruct, Resources.Structure, mnuNewStructure_Click);
+            mnuNewInterface = new ToolStripMenuItem(Strings.MenuInterface, Resources.Interface32, mnuNewInterface_Click);
+            mnuNewEnum = new ToolStripMenuItem(Strings.MenuEnum, Resources.Enum, mnuNewEnum_Click);
+            mnuNewDelegate = new ToolStripMenuItem(Strings.MenuDelegate, Resources.Delegate, mnuNewDelegate_Click);
+            mnuNewComment = new ToolStripMenuItem(Strings.MenuComment, Resources.Comment, mnuNewComment_Click);
+            mnuNewAssociation = new ToolStripMenuItem(Strings.MenuAssociation, Resources.Association, mnuNewAssociation_Click);
+            mnuNewComposition = new ToolStripMenuItem(Strings.MenuComposition, Resources.Composition, mnuNewComposition_Click);
+            mnuNewAggregation = new ToolStripMenuItem(Strings.MenuAggregation, Resources.Aggregation, mnuNewAggregation_Click);
+            mnuNewGeneralization = new ToolStripMenuItem(Strings.MenuGeneralization, Resources.Generalization, mnuNewGeneralization_Click);
+            mnuNewRealization = new ToolStripMenuItem(Strings.MenuRealization, Resources.Realization, mnuNewRealization_Click);
+            mnuNewDependency = new ToolStripMenuItem(Strings.MenuDependency, Resources.Dependency, mnuNewDependency_Click);
+            mnuNewNesting = new ToolStripMenuItem(Strings.MenuNesting, Resources.Nesting, mnuNewNesting_Click);
+            mnuNewCommentRelationship = new ToolStripMenuItem(Strings.MenuCommentRelationship, Resources.CommentRel, mnuNewCommentRelationship_Click);
 
-		private void mnuNewComment_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateShape(EntityType.Comment);
-		}
+            mnuMembersFormat = new ToolStripMenuItem(Strings.MenuMembersFormat, null);
+            mnuShowType = new ToolStripMenuItem(Strings.MenuType, null);
+            mnuShowType.CheckedChanged += mnuShowType_CheckedChanged;
+            mnuShowType.CheckOnClick = true;
+            mnuShowParameters = new ToolStripMenuItem(Strings.MenuParameters, null);
+            mnuShowParameters.CheckedChanged += mnuShowParameters_CheckedChanged;
+            mnuShowParameters.CheckOnClick = true;
+            mnuShowParameterNames = new ToolStripMenuItem(Strings.MenuParameterNames, null);
+            mnuShowParameterNames.CheckedChanged += mnuShowParameterNames_CheckedChanged;
+            mnuShowParameterNames.CheckOnClick = true;
+            mnuShowInitialValue = new ToolStripMenuItem(Strings.MenuInitialValue, null);
+            mnuShowInitialValue.CheckedChanged += mnuShowInitialValue_CheckedChanged;
+            mnuShowInitialValue.CheckOnClick = true;
 
-		private void mnuNewAssociation_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Association);
-		}
+            mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, mnuPaste_Click);
+            mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, mnuSaveAsImage_Click);
+            mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, mnuSelectAll_Click);
 
-		private void mnuNewComposition_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Composition);
-		}
+            mnuAddNewElement.DropDownItems.AddRange(new ToolStripItem[] {
+                mnuNewPackage,
+                mnuNewClass,
+                mnuNewStructure,
+                mnuNewInterface,
+                mnuNewEnum,
+                mnuNewDelegate,
+                mnuNewComment,
+                new ToolStripSeparator(),
+                mnuNewAssociation,
+                mnuNewComposition,
+                mnuNewAggregation,
+                mnuNewGeneralization,
+                mnuNewRealization,
+                mnuNewDependency,
+                mnuNewNesting,
+                mnuNewCommentRelationship
+            });
+            mnuMembersFormat.DropDownItems.AddRange(new ToolStripItem[] {
+                mnuShowType,
+                mnuShowParameters,
+                mnuShowParameterNames,
+                mnuShowInitialValue
+            });
+            MenuList.AddRange(new ToolStripItem[] {
+                mnuAddNewElement,
+                mnuMembersFormat,
+                new ToolStripSeparator(),
+                mnuPaste,
+                mnuSaveAsImage,
+                mnuSelectAll
+            });
+        }
 
-		private void mnuNewAggregation_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Aggregation);
-		}
+        private void mnuNewPackage_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Package);
+        }
 
-		private void mnuNewGeneralization_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Generalization);
-		}
+        private void mnuNewClass_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Class);
+        }
 
-		private void mnuNewRealization_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Realization);
-		}
+        private void mnuNewStructure_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Structure);
+        }
 
-		private void mnuNewDependency_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Dependency);
-		}
+        private void mnuNewInterface_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Interface);
+        }
 
-		private void mnuNewNesting_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Nesting);
-		}
+        private void mnuNewEnum_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Enum);
+        }
 
-		private void mnuNewCommentRelationship_Click(object sender, EventArgs e)
-		{
-		    Diagram?.CreateConnection(RelationshipType.Comment);
-		}
+        private void mnuNewDelegate_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Delegate);
+        }
 
-		private void mnuShowType_CheckedChanged(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowType = ((ToolStripMenuItem) sender).Checked;
-		    Diagram?.Redraw();
-		}
+        private void mnuNewComment_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateShape(EntityType.Comment);
+        }
 
-		private void mnuShowParameters_CheckedChanged(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowParameters = ((ToolStripMenuItem) sender).Checked;
-		    Diagram?.Redraw();
-		}
+        private void mnuNewAssociation_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Association);
+        }
 
-		private void mnuShowParameterNames_CheckedChanged(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowParameterNames = ((ToolStripMenuItem) sender).Checked;
-		    Diagram?.Redraw();
-		}
+        private void mnuNewComposition_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Composition);
+        }
 
-		private void mnuShowInitialValue_CheckedChanged(object sender, EventArgs e)
-		{
-			DiagramEditor.Settings.Default.ShowInitialValue = ((ToolStripMenuItem) sender).Checked;
-			if (Diagram != null)
-				Diagram.Redraw();
-		}
+        private void mnuNewAggregation_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Aggregation);
+        }
 
-		private void mnuPaste_Click(object sender, EventArgs e)
-		{
-		    Diagram?.Paste();
-		}
+        private void mnuNewGeneralization_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Generalization);
+        }
 
-		private void mnuSaveAsImage_Click(object sender, EventArgs e)
-		{
-			if (Diagram != null && !Diagram.IsEmpty)
-				Diagram.SaveAsImage();
-		}
+        private void mnuNewRealization_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Realization);
+        }
 
-		private void mnuSelectAll_Click(object sender, EventArgs e)
-		{
-		    Diagram?.SelectAll();
-		}
-	}
+        private void mnuNewDependency_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Dependency);
+        }
+
+        private void mnuNewNesting_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Nesting);
+        }
+
+        private void mnuNewCommentRelationship_Click(object sender, EventArgs e)
+        {
+            Diagram?.CreateConnection(RelationshipType.Comment);
+        }
+
+        private void mnuShowType_CheckedChanged(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowType = ((ToolStripMenuItem)sender).Checked;
+            Diagram?.Redraw();
+        }
+
+        private void mnuShowParameters_CheckedChanged(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowParameters = ((ToolStripMenuItem)sender).Checked;
+            Diagram?.Redraw();
+        }
+
+        private void mnuShowParameterNames_CheckedChanged(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowParameterNames = ((ToolStripMenuItem)sender).Checked;
+            Diagram?.Redraw();
+        }
+
+        private void mnuShowInitialValue_CheckedChanged(object sender, EventArgs e)
+        {
+            DiagramEditor.Settings.Default.ShowInitialValue = ((ToolStripMenuItem)sender).Checked;
+            if (Diagram != null)
+                Diagram.Redraw();
+        }
+
+        private void mnuPaste_Click(object sender, EventArgs e)
+        {
+            Diagram?.Paste();
+        }
+
+        private void mnuSaveAsImage_Click(object sender, EventArgs e)
+        {
+            if (Diagram != null && !Diagram.IsEmpty)
+                Diagram.SaveAsImage();
+        }
+
+        private void mnuSelectAll_Click(object sender, EventArgs e)
+        {
+            Diagram?.SelectAll();
+        }
+    }
 }

@@ -214,7 +214,7 @@
   <data name="Field" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\field.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NewEntity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="NewElement" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\new_entity.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -580,6 +580,18 @@
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Actor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\actor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UseCase" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\usecase.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Extends" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\extends.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Includes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\includes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Package" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Package.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -588,5 +600,11 @@
   </data>
   <data name="Java" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\java.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UseCaseDiagram" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\usecase_diagram.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemBoundary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boundary.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

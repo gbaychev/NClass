@@ -24,117 +24,115 @@ using NClass.Translations;
 
 namespace NClass.CodeGenerator
 {
-	public abstract class SolutionGenerator
-	{
-		Project project;
-		List<ProjectGenerator> projectGenerators = new List<ProjectGenerator>();
+    public abstract class SolutionGenerator
+    {
+        Project project;
+        List<ProjectGenerator> projectGenerators = new List<ProjectGenerator>();
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="project"/> is null.
-		/// </exception>
-		protected SolutionGenerator(Project project)
-		{
-			if (project == null)
-				throw new ArgumentNullException("project");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="project"/> is null.
+        /// </exception>
+        protected SolutionGenerator(Project project)
+        {
+            if (project == null)
+                throw new ArgumentNullException("project");
 
-			this.project = project;
-		}
+            this.project = project;
+        }
 
-		public string SolutionName
-		{
-			get { return project.Name; }
-		}
+        public string SolutionName
+        {
+            get { return project.Name; }
+        }
 
-		protected Project Project
-		{
-			get { return project; }
-		}
+        protected Project Project
+        {
+            get { return project; }
+        }
 
-		protected List<ProjectGenerator> ProjectGenerators
-		{
-			get { return projectGenerators; }
-		}
+        protected List<ProjectGenerator> ProjectGenerators
+        {
+            get { return projectGenerators; }
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="location"/> contains invalid path characters.
-		/// </exception>
-		internal GenerationResult Generate(string location)
-		{
-			GenerationResult result = CheckDestination(location);
-			if (result != GenerationResult.Success)
-				return result;
+        /// <exception cref="ArgumentException">
+        /// <paramref name="location"/> contains invalid path characters.
+        /// </exception>
+        internal GenerationResult Generate(string location)
+        {
+            GenerationResult result = CheckDestination(location);
+            if (result != GenerationResult.Success)
+                return result;
 
-			if (!GenerateProjectFiles(location))
-				return GenerationResult.Error;
-			if (!GenerateSolutionFile(location))
-				return GenerationResult.Error;
+            if (!GenerateProjectFiles(location))
+                return GenerationResult.Error;
+            if (!GenerateSolutionFile(location))
+                return GenerationResult.Error;
 
-			return GenerationResult.Success;
-		}
+            return GenerationResult.Success;
+        }
 
-		private GenerationResult CheckDestination(string location)
-		{
-			try
-			{
-				location = Path.Combine(location, SolutionName);
-				if (Directory.Exists(location))
-				{
-					DialogResult result = MessageBox.Show(
-						Strings.CodeGenerationOverwriteConfirmation, Strings.Confirmation,
-						MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        private GenerationResult CheckDestination(string location)
+        {
+            try
+            {
+                location = Path.Combine(location, SolutionName);
+                if (Directory.Exists(location))
+                {
+                    DialogResult result = MessageBox.Show(
+                        Strings.CodeGenerationOverwriteConfirmation, Strings.Confirmation,
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-					if (result == DialogResult.Yes)
-						return GenerationResult.Success;
-					else
-						return GenerationResult.Cancelled;
-				}
-				else
-				{
-					Directory.CreateDirectory(location);
-					return GenerationResult.Success;
-				}
-			}
-			catch
-			{
-				return GenerationResult.Error;
-			}
-		}
+                    if (result == DialogResult.Yes)
+                        return GenerationResult.Success;
+                    else
+                        return GenerationResult.Cancelled;
+                }
+                else
+                {
+                    Directory.CreateDirectory(location);
+                    return GenerationResult.Success;
+                }
+            }
+            catch
+            {
+                return GenerationResult.Error;
+            }
+        }
 
-		private bool GenerateProjectFiles(string location)
-		{
-			bool success = true;
-			location = Path.Combine(location, project.Name);
+        private bool GenerateProjectFiles(string location)
+        {
+            bool success = true;
+            location = Path.Combine(location, project.Name);
 
-			projectGenerators.Clear();
-            //TODO model is no longer an project item, must be fixed
-			foreach (IProjectItem projectItem in project.Items)
-			{
-				ClassModel model = projectItem.Model as ClassModel;
+            projectGenerators.Clear();
+            foreach (var projectItem in project.Items)
+            {
+                var model = projectItem.Model as ClassModel;
 
-				if (model != null)
-				{
-					ProjectGenerator projectGenerator = CreateProjectGenerator(model);
-					projectGenerators.Add(projectGenerator);
+                if (model == null) continue; // not a class diagram
 
-					try
-					{
-						projectGenerator.Generate(location);
-					}
-					catch (FileGenerationException)
-					{
-						success = false;
-					}
-				}
-			}
+                var projectGenerator = CreateProjectGenerator(model);
+                projectGenerators.Add(projectGenerator);
 
-			return success;
-		}
+                try
+                {
+                    projectGenerator.Generate(location);
+                }
+                catch (FileGenerationException)
+                {
+                    success = false;
+                }
+            }
 
-		/// <exception cref="ArgumentException">
-		/// The <paramref name="model"/> is invalid.
-		/// </exception>
-		protected abstract ProjectGenerator CreateProjectGenerator(ClassModel model);
+            return success;
+        }
 
-		protected abstract bool GenerateSolutionFile(string location);
-	}
+        /// <exception cref="ArgumentException">
+        /// The <paramref name="model"/> is invalid.
+        /// </exception>
+        protected abstract ProjectGenerator CreateProjectGenerator(ClassModel model);
+
+        protected abstract bool GenerateSolutionFile(string location);
+    }
 }

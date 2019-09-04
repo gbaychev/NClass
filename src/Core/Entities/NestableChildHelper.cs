@@ -17,10 +17,7 @@ namespace NClass.Core
 
         internal NestableChildHelper(INestableChild nestableChild)
         {
-            if (nestableChild == null)
-                throw new ArgumentException(nameof(nestableChild));
-
-            this.nestableChild = nestableChild;
+            this.nestableChild = nestableChild ?? throw new ArgumentException(nameof(nestableChild));
         }
 
         internal INestable NestingParent
@@ -41,8 +38,7 @@ namespace NClass.Core
 
         private void OnNestingParentChanged(NestingChildEventArgs e)
         {
-            if (NestingParentChanged != null)
-                NestingParentChanged(this, e);
+            NestingParentChanged?.Invoke(this, e);
         }
     }
 }

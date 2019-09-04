@@ -33,6 +33,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Inst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyImport.Tests", "AssemblyImport.Tests\AssemblyImport.Tests.csproj", "{8C178134-FD78-42B6-AA06-8372E49C8287}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +158,18 @@ Global
 		{8C178134-FD78-42B6-AA06-8372E49C8287}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8C178134-FD78-42B6-AA06-8372E49C8287}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C178134-FD78-42B6-AA06-8372E49C8287}.Release|x86.Build.0 = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

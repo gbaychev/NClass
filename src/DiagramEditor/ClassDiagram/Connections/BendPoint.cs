@@ -25,7 +25,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
 	public sealed class BendPoint
 	{
-		const int Spacing = Connection.Spacing;
+		const int Spacing = RoutedConnection.Spacing;
 		internal const int SquareSize = 8;
 
 		static Color darkStartColor = Color.Blue;

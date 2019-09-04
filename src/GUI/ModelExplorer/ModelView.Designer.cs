@@ -180,6 +180,7 @@ namespace NClass.GUI.ModelExplorer
             this.imageList.Images.SetKeyName(1, "diagram");
             this.imageList.Images.SetKeyName(2, "csharp");
             this.imageList.Images.SetKeyName(3, "java");
+            this.imageList.Images.SetKeyName(4, "usecase");
             // 
             // lblAddProject
             // 

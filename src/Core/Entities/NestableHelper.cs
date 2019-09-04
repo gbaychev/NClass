@@ -17,14 +17,11 @@ namespace NClass.Core
 
         private List<INestableChild> nestedChilds = new List<INestableChild>();
 
-        internal IEnumerable<INestableChild> NestedChilds { get { return nestedChilds; } }
+        internal IEnumerable<INestableChild> NestedChilds => nestedChilds;
 
         internal NestableHelper(INestable nestable)
         {
-            if (nestable == null)
-                throw new ArgumentException(nameof(nestable));
-
-            this.nestable = nestable;
+            this.nestable = nestable ?? throw new ArgumentException(nameof(nestable));
         }
 
         internal bool IsNestedAncestor(INestableChild type)
@@ -54,14 +51,12 @@ namespace NClass.Core
 
         private void OnAddNestedChild(NestingEventArgs e)
         {
-            if (AddedNestedChild != null)
-                AddedNestedChild(this, e);
+            AddedNestedChild?.Invoke(this, e);
         }
 
         private void OnRemoveNestedChild(NestingEventArgs e)
         {
-            if (RemovedNestedChild != null)
-                RemovedNestedChild(this, e);
+            RemovedNestedChild?.Invoke(this, e);
         }
     }
 }

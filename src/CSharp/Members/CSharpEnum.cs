@@ -19,120 +19,128 @@ using NClass.Core;
 
 namespace NClass.CSharp
 {
-	internal sealed class CSharpEnum : EnumType
-	{
-		internal CSharpEnum() : this("NewEnum")
-		{
-		}
+    internal sealed class CSharpEnum : EnumType
+    {
+        internal CSharpEnum() : this("NewEnum")
+        {
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		internal CSharpEnum(string name) : base(name)
-		{
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        internal CSharpEnum(string name) : base(name)
+        {
+        }
 
-		public override AccessModifier AccessModifier
-		{
-			get
-			{
-				return base.AccessModifier;
-			}
-			set
-			{
-				if (IsTypeNested ||
-					value == AccessModifier.Default ||
-					value == AccessModifier.Internal ||
-					value == AccessModifier.Public)
-				{
-					base.AccessModifier = value;
-				}
-			}
-		}
+        public override AccessModifier AccessModifier
+        {
+            get
+            {
+                return base.AccessModifier;
+            }
+            set
+            {
+                if (IsTypeNested ||
+                    value == AccessModifier.Default ||
+                    value == AccessModifier.Internal ||
+                    value == AccessModifier.Public)
+                {
+                    base.AccessModifier = value;
+                }
+            }
+        }
 
-		public override AccessModifier DefaultAccess
-		{
-			get { return AccessModifier.Internal; }
-		}
+        public override AccessModifier DefaultAccess
+        {
+            get { return AccessModifier.Internal; }
+        }
 
-		public override Language Language
-		{
-			get { return CSharpLanguage.Instance; }
-		}
+        public override Language Language
+        {
+            get { return CSharpLanguage.Instance; }
+        }
 
-		/// <exception cref="ArgumentException">
-		/// The <paramref name="value"/> is already a child member of the type.
-		/// </exception>
-		public override INestable NestingParent
-		{
-			get
-			{
-				return base.NestingParent;
-			}
+        /// <exception cref="ArgumentException">
+        /// The <paramref name="value"/> is already a child member of the type.
+        /// </exception>
+        public override INestable NestingParent
+        {
+            get
+            {
+                return base.NestingParent;
+            }
 
-			set
-			{
-				try {
-					RaiseChangedEvent = false;
+            set
+            {
+                try
+                {
+                    RaiseChangedEvent = false;
 
-					base.NestingParent = value;
-					if (NestingParent == null && Access != AccessModifier.Public)
-						AccessModifier = AccessModifier.Internal;
-				}
-				finally {
-					RaiseChangedEvent = true;
-				}
-			}
-		}
+                    base.NestingParent = value;
+                    if (NestingParent == null && Access != AccessModifier.Public)
+                        AccessModifier = AccessModifier.Internal;
+                }
+                finally
+                {
+                    RaiseChangedEvent = true;
+                }
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The name does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The name is a reserved name.
-		/// </exception>
-		public override EnumValue AddValue(string declaration)
-		{
-			EnumValue newValue = new CSharpEnumValue(declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The name does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The name is a reserved name.
+        /// </exception>
+        public override EnumValue AddValue(string declaration)
+        {
+            EnumValue newValue = new CSharpEnumValue(declaration);
 
-			AddValue(newValue);
-			return newValue;
-		}
+            AddValue(newValue);
+            return newValue;
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The name does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The name is a reserved name.
-		/// </exception>
-		public override EnumValue ModifyValue(EnumValue value, string declaration)
-		{
-			EnumValue newValue = new CSharpEnumValue(declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The name does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The name is a reserved name.
+        /// </exception>
+        public override EnumValue ModifyValue(EnumValue value, string declaration)
+        {
+            EnumValue newValue = new CSharpEnumValue(declaration);
 
-			if (ChangeValue(value, newValue))
-				return newValue;
-			else
-				return value;
-		}
-		
-		public override string GetDeclaration()
-		{
-			StringBuilder builder = new StringBuilder();
+            if (ChangeValue(value, newValue))
+                return newValue;
+            else
+                return value;
+        }
 
-			if (AccessModifier != AccessModifier.Default) {
-				builder.Append(Language.GetAccessString(AccessModifier, true));
-				builder.Append(" ");
-			}
-			builder.AppendFormat("enum {0}", Name);
+        public override string GetDeclaration()
+        {
+            StringBuilder builder = new StringBuilder();
 
-			return builder.ToString();
-		}
+            if (AccessModifier != AccessModifier.Default)
+            {
+                builder.Append(Language.GetAccessString(AccessModifier, true));
+                builder.Append(" ");
+            }
+            builder.AppendFormat("enum {0}", Name);
 
-		public override EnumType Clone()
-		{
-			CSharpEnum newEnum = new CSharpEnum();
-			newEnum.CopyFrom(this);
-			return newEnum;
-		}
-	}
+            return builder.ToString();
+        }
+
+        public override EnumType Clone()
+        {
+            CSharpEnum newEnum = new CSharpEnum();
+            newEnum.CopyFrom(this);
+            return newEnum;
+        }
+
+        public override INestableChild CloneChild()
+        {
+            return Clone();
+        }
+    }
 }

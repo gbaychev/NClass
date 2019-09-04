@@ -63,6 +63,16 @@ namespace NClass.DiagramEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Actor {
+            get {
+                object obj = ResourceManager.GetObject("Actor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Aggregation {
             get {
                 object obj = ResourceManager.GetObject("Aggregation", resourceCulture);
@@ -553,6 +563,16 @@ namespace NClass.DiagramEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Extends {
+            get {
+                object obj = ResourceManager.GetObject("Extends", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Field {
             get {
                 object obj = ResourceManager.GetObject("Field", resourceCulture);
@@ -596,6 +616,16 @@ namespace NClass.DiagramEditor.Properties {
         public static System.Drawing.Bitmap Implements {
             get {
                 object obj = ResourceManager.GetObject("Implements", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Includes {
+            get {
+                object obj = ResourceManager.GetObject("Includes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -833,9 +863,9 @@ namespace NClass.DiagramEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap NewEntity {
+        public static System.Drawing.Bitmap NewElement {
             get {
-                object obj = ResourceManager.GetObject("NewEntity", resourceCulture);
+                object obj = ResourceManager.GetObject("NewElement", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1593,9 +1623,39 @@ namespace NClass.DiagramEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap SystemBoundary {
+            get {
+                object obj = ResourceManager.GetObject("SystemBoundary", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Unidirectional {
             get {
                 object obj = ResourceManager.GetObject("Unidirectional", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap UseCase {
+            get {
+                object obj = ResourceManager.GetObject("UseCase", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap UseCaseDiagram {
+            get {
+                object obj = ResourceManager.GetObject("UseCaseDiagram", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

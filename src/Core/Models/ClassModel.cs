@@ -117,44 +117,6 @@ namespace NClass.Core.Models
             return newDelegate;
         }
 
-
-        public Comment AddComment()
-        {
-            Comment comment = new Comment();
-            AddEntity(comment);
-            return comment;
-        }
-
-        public bool InsertComment(Comment comment)
-        {
-            if (comment != null && !Entities.Contains(comment))
-            {
-                AddEntity(comment);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool InsertRelationship(Relationship relationship)
-        {
-            if (relationship != null && !Relationships.Contains(relationship) &&
-                Entities.Contains(relationship.First) && Entities.Contains(relationship.Second))
-            {
-                AddRelationship(relationship);
-                return true;
-            }
-
-            return false;
-        }
-
-        private void AddRelationship(Relationship relationship)
-        {
-            relationships.Add(relationship);
-            relationship.Modified += ElementChanged;
-            OnRelationAdded(new RelationshipEventArgs(relationship));
-        }
-
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>
@@ -244,18 +206,7 @@ namespace NClass.Core.Models
             AddRelationship(nesting);
             return nesting;
         }
-
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="comment"/> or <paramref name="entity"/> is null.
-        /// </exception>
-        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
-        {
-            CommentRelationship commentRelationship = new CommentRelationship(comment, entity);
-
-            AddRelationship(commentRelationship);
-            return commentRelationship;
-        }
-
+        
         /// <exception cref="InvalidDataException">
 		/// The save format is corrupt and could not be loaded.
 		/// </exception>

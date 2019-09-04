@@ -29,7 +29,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Association : Connection
+	internal sealed class Association : RoutedConnection
 	{
 		const int DiamondWidth = 10;
 		const int DiamondHeight = 18;
@@ -41,8 +41,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Connections
 		};
 		static Pen linePen = new Pen(Color.Black);
 		static SolidBrush lineBrush = new SolidBrush(Color.Black);
-		static SolidBrush textBrush = new SolidBrush(Color.Black);
-		static StringFormat stringFormat = new StringFormat(StringFormat.GenericTypographic);
 
 		AssociationRelationship association;
 

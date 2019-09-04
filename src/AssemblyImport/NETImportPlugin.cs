@@ -110,7 +110,11 @@ namespace NClass.AssemblyImport
     /// </summary>
     public override bool IsAvailable
     {
-      get { return Workspace.HasActiveProject; }
+        get
+        {
+            var diagram = DocumentManager.ActiveDocument as ClassDiagram;
+            return Workspace.HasActiveProject && diagram?.Language == CSharpLanguage.Instance;
+        }
     }
 
     /// <summary>

@@ -27,8 +27,13 @@ namespace NClass.DiagramEditor
             {
                 if (classDiagram.Language == Language.GetLanguage("csharp"))
                     return Resources.CSharp; 
-                else if (classDiagram.Language == Language.GetLanguage("java"))
+                if (classDiagram.Language == Language.GetLanguage("java"))
                     return Resources.Java;
+            }
+
+            if (document is UseCaseDiagram.UseCaseDiagram)
+            {
+                return Resources.UseCaseDiagram;
             }
 
             return null;

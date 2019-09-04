@@ -43,17 +43,10 @@ namespace NClass.CSharp
             }
         }
 
-        protected override void CopyFrom(Package type)
-        {
-            base.CopyFrom(type);
-
-            //TODO
-        }
-
-        public override Package Clone()
+        public override Package Clone(bool cloneChildren)
         {
             CSharpNamespace newNamespace = new CSharpNamespace();
-            newNamespace.CopyFrom(this);
+            newNamespace.CopyFrom(this, cloneChildren);
             return newNamespace;
         }
     }

@@ -403,7 +403,7 @@ namespace NClass.Core
 				string typeName = typeAttribute.InnerText;
 				string assemblyName = assemblyAttribute.InnerText;
 
-                // This is some compatability fix with older file formats, pre 2.5
+                // This is some compatibility fix with older file formats, pre 2.5
 			    const string oldTypeName = "NClass.DiagramEditor.ClassDiagram.Diagram";
                 const string newTypeName = "NClass.DiagramEditor.ClassDiagram.ClassDiagram";
                 var realAssemblyName = new AssemblyName(assemblyName);

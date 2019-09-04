@@ -18,16 +18,17 @@ using System.Xml;
 
 namespace NClass.Core
 {
-	public interface IEntity : ISerializableElement, IModifiable
-	{
-		string Name
-		{
-			get;
-		}
+    public interface IEntity : ISerializableElement, IModifiable
+    {
+        string Name
+        {
+            get;
+            set;
+        }
 
-		EntityType EntityType
-		{
-			get;
-		}
-	}
+        EntityType EntityType
+        {
+            get;
+        }
+    }
 }

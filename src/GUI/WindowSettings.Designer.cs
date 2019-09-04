@@ -12,7 +12,7 @@ namespace NClass.GUI {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class WindowSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static WindowSettings defaultInstance = ((WindowSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new WindowSettings())));

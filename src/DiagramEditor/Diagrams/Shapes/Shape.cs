@@ -25,315 +25,317 @@ using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 
 namespace NClass.DiagramEditor.Diagrams.Shapes
 {
-	public abstract class Shape : DiagramElement
-	{
-		protected enum ResizeMode
-		{
-			None = 0,
-			Right = 1,
-			Bottom = 2,
+    public abstract class Shape : DiagramElement
+    {
+        protected enum ResizeMode
+        {
+            None = 0,
+            Right = 1,
+            Bottom = 2,
             Left = 4,
             Top = 8
         }
 
-		public const int SelectionMargin = 12;
-		static readonly Pen selectionSquarePen = new Pen(Color.Black);
-		protected static readonly float[] borderDashPattern = new float[] { 3, 3 };
-		protected static readonly SolidBrush shadowBrush = new SolidBrush(Color.Gray);
-		protected static readonly Size defaultMinSize = new Size(50, 50);
+        public const int SelectionMargin = 12;
+        static readonly Pen selectionSquarePen = new Pen(Color.Black);
+        protected static readonly float[] borderDashPattern = new float[] { 3, 3 };
+        protected static readonly SolidBrush shadowBrush = new SolidBrush(Color.Gray);
+        protected static readonly Size defaultMinSize = new Size(50, 50);
 
-		Point location;
-		Size size;
-		ResizeMode resizeMode = ResizeMode.None;
-		Size minimumSize = defaultMinSize;
-		bool mouseLeft = true;
-		Cursor cursor = Cursors.Default;
-	    private bool isBeingDragged;
+        Point location;
+        protected Size size;
+        ResizeMode resizeMode = ResizeMode.None;
+        Size minimumSize = defaultMinSize;
+        bool mouseLeft = true;
+        Cursor cursor = Cursors.Default;
+        private bool isBeingDragged;
 
-		public event MoveEventHandler Move;
-		public event MoveEventHandler Dragging;
-		public event ResizeEventHandler Resizing;
-		public event ResizeEventHandler Resize;
-	    public event EventHandler Renamed;
-	    public event EventHandler Dropped;
+        public event MoveEventHandler Move;
+        public event MoveEventHandler Dragging;
+        public event ResizeEventHandler Resizing;
+        public event ResizeEventHandler Resize;
+        public event EventHandler Renamed;
+        public event EventHandler Dropped;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="entity"/> is null.
-		/// </exception>
-		protected Shape(IEntity entity)
-		{
-			if (entity == null)
-				throw new ArgumentNullException("entity");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="entity"/> is null.
+        /// </exception>
+        protected Shape(IEntity entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
 
-			location = Point.Empty;
-			size = DefaultSize;
-		    isBeingDragged = false;
+            location = Point.Empty;
+            size = DefaultSize;
+            isBeingDragged = false;
 
-			entity.Modified += delegate { OnModified(EventArgs.Empty); };
+            entity.Modified += delegate { OnModified(EventArgs.Empty); };
 
-			entity.Serializing += delegate(object sender, SerializeEventArgs e) {
-				OnSerializing(e);
-			};
-			entity.Deserializing += delegate(object sender, SerializeEventArgs e) {
-				OnDeserializing(e);
-			};
-		}
+            entity.Serializing += delegate (object sender, SerializeEventArgs e)
+            {
+                OnSerializing(e);
+            };
+            entity.Deserializing += delegate (object sender, SerializeEventArgs e)
+            {
+                OnDeserializing(e);
+            };
+        }
 
-		protected abstract Size DefaultSize
-		{
-			get;
-		}
+        protected abstract Size DefaultSize
+        {
+            get;
+        }
 
-		protected Size MinimumSize
-		{
-			get
-			{
-				return minimumSize;
-			}
-			set
-			{
-				minimumSize = value;
-				if (minimumSize.Width > size.Width)
-					Width = value.Width;
-				if (minimumSize.Height > size.Height)
-					Height = value.Height;
-			}
-		}
+        protected Size MinimumSize
+        {
+            get
+            {
+                return minimumSize;
+            }
+            set
+            {
+                minimumSize = value;
+                if (minimumSize.Width > size.Width)
+                    Width = value.Width;
+                if (minimumSize.Height > size.Height)
+                    Height = value.Height;
+            }
+        }
 
-		public abstract IEntity Entity
-		{
-			get;
-		}
+        public abstract IEntity Entity
+        {
+            get;
+        }
 
-		public Point Location
-		{
-			get
-			{
-				return location;
-			}
-			set
-			{
-				if (location != value)
-				{
-					Size offset = new Size(value.X - X, value.Y - Y);
-					location = value;
-					OnMove(new MoveEventArgs(offset));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+        public Point Location
+        {
+            get
+            {
+                return location;
+            }
+            set
+            {
+                if (location != value)
+                {
+                    Size offset = new Size(value.X - X, value.Y - Y);
+                    location = value;
+                    OnMove(new MoveEventArgs(offset));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public int X
-		{
-			get
-			{
-				return location.X;
-			}
-			set
-			{
-				if (location.X != value)
-				{
-					Size offset = new Size(value - X, 0);
-					location.X = value;
-					OnMove(new MoveEventArgs(offset));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+        public int X
+        {
+            get
+            {
+                return location.X;
+            }
+            set
+            {
+                if (location.X != value)
+                {
+                    Size offset = new Size(value - X, 0);
+                    location.X = value;
+                    OnMove(new MoveEventArgs(offset));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public int Y
-		{
-			get
-			{
-				return location.Y;
-			}
-			set
-			{
-				if (location.Y != value)
-				{
-					Size offset = new Size(0, value - Y);
-					location.Y = value;
-					OnMove(new MoveEventArgs(offset));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+        public int Y
+        {
+            get
+            {
+                return location.Y;
+            }
+            set
+            {
+                if (location.Y != value)
+                {
+                    Size offset = new Size(0, value - Y);
+                    location.Y = value;
+                    OnMove(new MoveEventArgs(offset));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public virtual Size Size
-		{
-			get
-			{
-				return size;
-			}
-			set
-			{
-				if (value.Width < MinimumSize.Width)
-					value.Width = MinimumSize.Width;
-				if (value.Height < MinimumSize.Height)
-					value.Height = MinimumSize.Height;
+        public virtual Size Size
+        {
+            get
+            {
+                return size;
+            }
+            set
+            {
+                if (value.Width < MinimumSize.Width)
+                    value.Width = MinimumSize.Width;
+                if (value.Height < MinimumSize.Height)
+                    value.Height = MinimumSize.Height;
 
-				if (size != value)
-				{
-					Size change = new Size(value.Width - Width, value.Height - Height);
-					size = value;
-					OnResize(new ResizeEventArgs(change));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+                if (size != value)
+                {
+                    Size change = new Size(value.Width - Width, value.Height - Height);
+                    size = value;
+                    OnResize(new ResizeEventArgs(change));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public virtual int Width
-		{
-			get
-			{
-				return size.Width;
-			}
-			set
-			{
-				if (value < MinimumSize.Width)
-					value = MinimumSize.Width;
+        public virtual int Width
+        {
+            get
+            {
+                return size.Width;
+            }
+            set
+            {
+                if (value < MinimumSize.Width)
+                    value = MinimumSize.Width;
 
-				if (size.Width != value)
-				{
-					Size change = new Size(value - Width, 0);
-					size.Width = value;
-					OnResize(new ResizeEventArgs(change));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+                if (size.Width != value)
+                {
+                    Size change = new Size(value - Width, 0);
+                    size.Width = value;
+                    OnResize(new ResizeEventArgs(change));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public virtual int Height
-		{
-			get
-			{
-				return size.Height;
-			}
-			set
-			{
-				if (value < MinimumSize.Height)
-					value = MinimumSize.Height;
+        public virtual int Height
+        {
+            get
+            {
+                return size.Height;
+            }
+            set
+            {
+                if (value < MinimumSize.Height)
+                    value = MinimumSize.Height;
 
-				if (size.Height != value)
-				{
-					Size change = new Size(0, value - Height);
-					size.Height = value;
-					OnResize(new ResizeEventArgs(change));
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+                if (size.Height != value)
+                {
+                    Size change = new Size(0, value - Height);
+                    size.Height = value;
+                    OnResize(new ResizeEventArgs(change));
+                    OnModified(EventArgs.Empty);
+                }
+            }
+        }
 
-		public int Left
-		{
-			get { return X; }
-			set { X = value; }
-		}
+        public int Left
+        {
+            get { return X; }
+            set { X = value; }
+        }
 
-		public int Right
-		{
-			get { return X + Width; }
-			set { X = value - Width; }
-		}
+        public int Right
+        {
+            get { return X + Width; }
+            set { X = value - Width; }
+        }
 
-		public int Top
-		{
-			get { return Y; }
-			set { Y = value; }
-		}
+        public int Top
+        {
+            get { return Y; }
+            set { Y = value; }
+        }
 
-		public int Bottom
-		{
-			get { return Y + Height; }
-			set { Y = value - Height; }
-		}
+        public int Bottom
+        {
+            get { return Y + Height; }
+            set { Y = value - Height; }
+        }
 
-		public virtual Rectangle BorderRectangle
-		{
-			get { return new Rectangle(Location, Size); }
-		}
+        public virtual Rectangle BorderRectangle
+        {
+            get { return new Rectangle(Location, Size); }
+        }
 
-		public Point CenterPoint
-		{
-			get { return new Point(HorizontalCenter, VerticalCenter); }
-		}
+        public Point CenterPoint
+        {
+            get { return new Point(HorizontalCenter, VerticalCenter); }
+        }
 
-		public int HorizontalCenter
-		{
-			get
-			{
-				return ((Left + Right) / 2);
-			}
-		}
+        public int HorizontalCenter
+        {
+            get
+            {
+                return ((Left + Right) / 2);
+            }
+        }
 
-		public int VerticalCenter
-		{
-			get
-			{
-				return ((Top + Bottom) / 2);
-			}
-		}
+        public int VerticalCenter
+        {
+            get
+            {
+                return ((Top + Bottom) / 2);
+            }
+        }
 
-		protected abstract int GetBorderWidth(Style style);
+        protected abstract int GetBorderWidth(Style style);
 
-		protected override RectangleF CalculateDrawingArea(Style style, bool printing, float zoom)
-		{
-			RectangleF area = BorderRectangle;
+        protected override RectangleF CalculateDrawingArea(Style style, bool printing, float zoom)
+        {
+            RectangleF area = BorderRectangle;
 
-			if (printing || !IsSelected)
-			{
-				float borderSize = (float) GetBorderWidth(style) / 2;
-				area.Inflate(borderSize, borderSize);
+            if (printing || !IsSelected)
+            {
+                float borderSize = (float)GetBorderWidth(style) / 2;
+                area.Inflate(borderSize, borderSize);
 
-				if (style.ShadowOffset.Width > borderSize)
-					area.Width += style.ShadowOffset.Width - borderSize;
-				if (style.ShadowOffset.Height > borderSize)
-					area.Height += style.ShadowOffset.Height - borderSize;
+                if (style.ShadowOffset.Width > borderSize)
+                    area.Width += style.ShadowOffset.Width - borderSize;
+                if (style.ShadowOffset.Height > borderSize)
+                    area.Height += style.ShadowOffset.Height - borderSize;
 
-				return area;
-			}
-			else
-			{
-				float borderSize = (float) GetBorderWidth(style) / 2;
-				float selectionSize = SelectionMargin / zoom;
-				float inflation = Math.Max(borderSize, selectionSize);
+                return area;
+            }
+            else
+            {
+                float borderSize = (float)GetBorderWidth(style) / 2;
+                float selectionSize = SelectionMargin / zoom;
+                float inflation = Math.Max(borderSize, selectionSize);
 
-				area.Inflate(inflation, inflation);
-				return area;
-			}
-		}
+                area.Inflate(inflation, inflation);
+                return area;
+            }
+        }
 
-		internal bool IsResizing
-		{
-			get { return (resizeMode != ResizeMode.None); }
-		}
+        internal bool IsResizing
+        {
+            get { return (resizeMode != ResizeMode.None); }
+        }
 
-		public virtual void Collapse()
-		{
-		}
+        public virtual void Collapse()
+        {
+        }
 
-		public virtual void Expand()
-		{
-		}
+        public virtual void Expand()
+        {
+        }
 
-		protected virtual ResizeMode GetResizeMode(AbsoluteMouseEventArgs e)
-		{
-			if (e.Zoom <= UndreadableZoom)
-				return ResizeMode.None;
+        protected virtual ResizeMode GetResizeMode(AbsoluteMouseEventArgs e)
+        {
+            if (e.Zoom <= UndreadableZoom)
+                return ResizeMode.None;
 
-			ResizeMode mode = ResizeMode.None;
-			float squareSize = SelectionMargin / e.Zoom;
-			int horCenter = HorizontalCenter;
-			int verCenter = VerticalCenter;
+            ResizeMode mode = ResizeMode.None;
+            float squareSize = SelectionMargin / e.Zoom;
+            int horCenter = HorizontalCenter;
+            int verCenter = VerticalCenter;
 
-			bool left = (e.X >= Left - squareSize && e.X < Left);
-			bool top = (e.Y >= Top - squareSize && e.Y < Top);
-			bool right = (e.X > Right && e.X < Right + squareSize);
-			bool bottom = (e.Y > Bottom && e.Y < Bottom + squareSize);
-			bool center = (e.X >= horCenter - squareSize / 2 &&
-				e.X < horCenter + squareSize / 2);
-			bool middle = (e.Y >= verCenter - squareSize / 2 &&
-				e.Y < verCenter + squareSize / 2);
+            bool left = (e.X >= Left - squareSize && e.X < Left);
+            bool top = (e.Y >= Top - squareSize && e.Y < Top);
+            bool right = (e.X > Right && e.X < Right + squareSize);
+            bool bottom = (e.Y > Bottom && e.Y < Bottom + squareSize);
+            bool center = (e.X >= horCenter - squareSize / 2 &&
+                e.X < horCenter + squareSize / 2);
+            bool middle = (e.Y >= verCenter - squareSize / 2 &&
+                e.Y < verCenter + squareSize / 2);
 
             if (right && (top || middle || bottom))
                 mode |= ResizeMode.Right;
@@ -376,86 +378,86 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         }
 
         protected internal sealed override Rectangle GetLogicalArea()
-		{
-			return BorderRectangle;
-		}
+        {
+            return BorderRectangle;
+        }
 
-		protected static Rectangle TransformRelativeToAbsolute(Rectangle rectangle,
-			float zoom, Point offset)
-		{
-			rectangle = Rectangle.FromLTRB(
-				(int) (rectangle.Left * zoom),
-				(int) (rectangle.Top * zoom),
-				(int) Math.Ceiling(rectangle.Right * zoom),
-				(int) Math.Ceiling(rectangle.Bottom * zoom));
-			rectangle.Offset(-offset.X, -offset.Y);
-			
-			return rectangle;
-		}
+        protected static Rectangle TransformRelativeToAbsolute(Rectangle rectangle,
+            float zoom, Point offset)
+        {
+            rectangle = Rectangle.FromLTRB(
+                (int)(rectangle.Left * zoom),
+                (int)(rectangle.Top * zoom),
+                (int)Math.Ceiling(rectangle.Right * zoom),
+                (int)Math.Ceiling(rectangle.Bottom * zoom));
+            rectangle.Offset(-offset.X, -offset.Y);
 
-		protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
-		{
-			if (IsSelected)
-			{
-				if (zoom > UndreadableZoom)
-				{
-					// Draw selection border and resizing squares
-					Rectangle frame = TransformRelativeToAbsolute(BorderRectangle, zoom, offset);
-					int borderOffset = SelectionMargin / 2;
-					frame.Inflate(borderOffset, borderOffset);
+            return rectangle;
+        }
 
-					g.DrawRectangle(DiagramConstants.SelectionPen, frame);
-					DrawResizingSquares(g, frame);
-				}
-				else
-				{
-					// Draw only selection border
-					const int BorderOffset = 2;
-					Rectangle frame = TransformRelativeToAbsolute(BorderRectangle, zoom, offset);
-					frame.Inflate(BorderOffset, BorderOffset);
+        protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
+        {
+            if (IsSelected)
+            {
+                if (zoom > UndreadableZoom)
+                {
+                    // Draw selection border and resizing squares
+                    Rectangle frame = TransformRelativeToAbsolute(BorderRectangle, zoom, offset);
+                    int borderOffset = SelectionMargin / 2;
+                    frame.Inflate(borderOffset, borderOffset);
 
-					g.DrawRectangle(DiagramConstants.SelectionPen, frame);
-				}
-			}
-		}
+                    g.DrawRectangle(DiagramConstants.SelectionPen, frame);
+                    DrawResizingSquares(g, frame);
+                }
+                else
+                {
+                    // Draw only selection border
+                    const int BorderOffset = 2;
+                    Rectangle frame = TransformRelativeToAbsolute(BorderRectangle, zoom, offset);
+                    frame.Inflate(BorderOffset, BorderOffset);
 
-		private void DrawResizingSquares(Graphics g, Rectangle frame)
-		{
-			int squareSize = (SelectionMargin - 4);
+                    g.DrawRectangle(DiagramConstants.SelectionPen, frame);
+                }
+            }
+        }
 
-			for (int row = 0; row < 3; row++)
-			{
-				for (int column = 0; column < 3; column++)
-				{
-					if (row != 1 || column != 1) // It's not the center point
-					{
-						int x = frame.X + (frame.Width * column / 2) - squareSize / 2;
-						int y = frame.Y + (frame.Height * row / 2) - squareSize / 2;
+        private void DrawResizingSquares(Graphics g, Rectangle frame)
+        {
+            int squareSize = (SelectionMargin - 4);
 
-						g.FillRectangle(Brushes.White, x, y, squareSize, squareSize);
-						g.DrawRectangle(selectionSquarePen, x, y, squareSize, squareSize);
-					}
-				}
-			}
-		}
+            for (int row = 0; row < 3; row++)
+            {
+                for (int column = 0; column < 3; column++)
+                {
+                    if (row != 1 || column != 1) // It's not the center point
+                    {
+                        int x = frame.X + (frame.Width * column / 2) - squareSize / 2;
+                        int y = frame.Y + (frame.Height * row / 2) - squareSize / 2;
 
-		protected internal sealed override bool TrySelect(RectangleF frame)
-		{
-			if (frame.IntersectsWith(BorderRectangle))
-			{
-				IsSelected = true;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+                        g.FillRectangle(Brushes.White, x, y, squareSize, squareSize);
+                        g.DrawRectangle(selectionSquarePen, x, y, squareSize, squareSize);
+                    }
+                }
+            }
+        }
 
-		protected internal sealed override void Offset(Size offset)
-		{
-			this.Location += offset;
-		}
+        protected internal sealed override bool TrySelect(RectangleF frame)
+        {
+            if (frame.IntersectsWith(BorderRectangle))
+            {
+                IsSelected = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected internal sealed override void Offset(Size offset)
+        {
+            this.Location += offset;
+        }
 
         /// <summary>
         /// Calculates maximum size change with respect to minimum shape size.
@@ -509,210 +511,206 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         }
 
         protected internal override Size GetMaximumPositionChange(Size change, int padding)
-		{
-			if (IsSelected)
-			{
-				Rectangle newPosition = this.BorderRectangle;
-				newPosition.Offset(change.Width, change.Height);
+        {
+            if (IsSelected)
+            {
+                Rectangle newPosition = this.BorderRectangle;
+                newPosition.Offset(change.Width, change.Height);
 
-				if (newPosition.Left < padding)
-					change.Width += (padding - newPosition.Left);
-				if (newPosition.Top < padding)
-					change.Height += (padding - newPosition.Top);
-			}
-			return change;
-		}
+                if (newPosition.Left < padding)
+                    change.Width += (padding - newPosition.Left);
+                if (newPosition.Top < padding)
+                    change.Height += (padding - newPosition.Top);
+            }
+            return change;
+        }
 
-		protected internal bool Contains(PointF point)
-		{
-			return (
-				point.X >= Left && point.X <= Right &&
-				point.Y >= Top && point.Y <= Bottom
-			);
-		}
+        protected internal bool Contains(PointF point)
+        {
+            return (
+                point.X >= Left && point.X <= Right &&
+                point.Y >= Top && point.Y <= Bottom
+            );
+        }
 
-		internal void AutoWidth()
-		{
-			if (Graphics != null)
-				this.Width = (int) GetRequiredWidth(Graphics, Style.CurrentStyle) + 1;
-		}
+        internal void AutoWidth()
+        {
+            if (Graphics != null)
+                this.Width = (int)GetRequiredWidth(Graphics, Style.CurrentStyle) + 1;
+        }
 
-		protected virtual float GetRequiredWidth(Graphics g, Style style)
-		{
-			return MinimumSize.Width;
-		}
+        protected virtual float GetRequiredWidth(Graphics g, Style style)
+        {
+            return MinimumSize.Width;
+        }
 
-		internal void AutoHeight()
-		{
-			this.Height = GetRequiredHeight();
-		}
+        internal void AutoHeight()
+        {
+            this.Height = GetRequiredHeight();
+        }
 
-		protected virtual int GetRequiredHeight()
-		{
-			return MinimumSize.Height;
-		}
+        protected virtual int GetRequiredHeight()
+        {
+            return MinimumSize.Height;
+        }
 
-		protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
-		{
-			return ShapeContextMenu.Default.GetMenuItems(diagram);
-		}
+        protected internal override IEnumerable<ToolStripItem> GetContextMenuItems(IDiagram diagram, PointF? openedAt = null)
+        {
+            return ShapeContextMenu.Default.GetMenuItems(diagram);
+        }
 
-		protected internal Shape Paste(IDiagram diagram, Size offset)
-		{
-			if (CloneEntity(diagram))
-			{
-			    var shapeList = (ElementList<Shape>)diagram.Shapes;
-				Shape shape = shapeList.FirstValue;
-				shape.Location = this.Location + offset;
-				shape.Size = this.Size;
-				shape.IsSelected = true;
-				return shape;
-			}
-			else
-			{
-				return null;
-			}
-		}
+        protected internal Shape Paste(IDiagram diagram, Size offset)
+        {
+            if (CloneEntity(diagram))
+            {
+                var shapeList = (ElementList<Shape>)diagram.Shapes;
+                Shape shape = shapeList.FirstValue;
+                shape.Location = this.Location + offset;
+                shape.Size = this.Size;
+                shape.IsSelected = true;
+                return shape;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		protected abstract bool CloneEntity(IDiagram diagram);
+        protected abstract bool CloneEntity(IDiagram diagram);
 
-		[Obsolete]
-		protected internal sealed override void Serialize(XmlElement node)
-		{
-			OnSerializing(new SerializeEventArgs(node));
-		}
+        [Obsolete]
+        protected internal sealed override void Serialize(XmlElement node)
+        {
+            OnSerializing(new SerializeEventArgs(node));
+        }
 
-		[Obsolete]
-		protected internal sealed override void Deserialize(XmlElement node)
-		{
-			OnDeserializing(new SerializeEventArgs(node));
-		}
+        [Obsolete]
+        protected internal sealed override void Deserialize(XmlElement node)
+        {
+            OnDeserializing(new SerializeEventArgs(node));
+        }
 
-		protected virtual void OnSerializing(SerializeEventArgs e)
-		{
-			XmlElement locationNode = e.Node.OwnerDocument.CreateElement("Location");
-			locationNode.SetAttribute("left", Left.ToString());
-			locationNode.SetAttribute("top", Top.ToString());
-			e.Node.AppendChild(locationNode);
+        protected virtual void OnSerializing(SerializeEventArgs e)
+        {
+            XmlElement locationNode = e.Node.OwnerDocument.CreateElement("Location");
+            locationNode.SetAttribute("left", Left.ToString());
+            locationNode.SetAttribute("top", Top.ToString());
+            e.Node.AppendChild(locationNode);
 
-			XmlElement sizeNode = e.Node.OwnerDocument.CreateElement("Size");
-			sizeNode.SetAttribute("width", Width.ToString());
-			sizeNode.SetAttribute("height", Height.ToString());
-			e.Node.AppendChild(sizeNode);
-		}
+            XmlElement sizeNode = e.Node.OwnerDocument.CreateElement("Size");
+            sizeNode.SetAttribute("width", Width.ToString());
+            sizeNode.SetAttribute("height", Height.ToString());
+            e.Node.AppendChild(sizeNode);
+        }
 
-		protected virtual void OnDeserializing(SerializeEventArgs e)
-		{
-			XmlElement locationNode = e.Node["Location"];
-			if (locationNode != null)
-			{
-				int left, top;
+        protected virtual void OnDeserializing(SerializeEventArgs e)
+        {
+            XmlElement locationNode = e.Node["Location"];
+            if (locationNode != null)
+            {
+                int.TryParse(locationNode.GetAttribute("left"), out var left);
+                int.TryParse(locationNode.GetAttribute("top"), out var top);
+                this.Location = new Point(left, top);
+            }
 
-				int.TryParse(locationNode.GetAttribute("left"), out left);
-				int.TryParse(locationNode.GetAttribute("top"), out top);
-				this.Location = new Point(left, top);
-			}
+            XmlElement sizeNode = e.Node["Size"];
+            if (sizeNode != null)
+            {
+                int.TryParse(sizeNode.GetAttribute("width"), out var width);
+                int.TryParse(sizeNode.GetAttribute("height"), out var height);
+                this.Size = new Size(width, height);
+            }
+        }
 
-			XmlElement sizeNode = e.Node["Size"];
-			if (sizeNode != null)
-			{
-				int width, height;
+        internal sealed override void MousePressed(AbsoluteMouseEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                bool pressed = Contains(e.Location);
 
-				int.TryParse(sizeNode.GetAttribute("width"), out width);
-				int.TryParse(sizeNode.GetAttribute("height"), out height);
-				this.Size = new Size(width, height);
-			}
-		}
+                if (e.Button == MouseButtons.Left)
+                    pressed |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
 
-		internal sealed override void MousePressed(AbsoluteMouseEventArgs e)
-		{
-			if (!e.Handled)
-			{
-				bool pressed = Contains(e.Location);
+                if (pressed)
+                {
+                    e.Handled = true;
+                    resizeMode = GetResizeMode(e);
+                    Cursor.Current = cursor;
+                    OnMouseDown(e);
+                }
+            }
+        }
 
-				if (e.Button == MouseButtons.Left)
-					pressed |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
+        internal sealed override void MouseMoved(AbsoluteMouseEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                bool contains = IsResizing;
 
-				if (pressed)
-				{
-					e.Handled = true;
-					resizeMode = GetResizeMode(e);
-					Cursor.Current = cursor;
-					OnMouseDown(e);
-				}
-			}
-		}
+                if (!IsResizing)
+                {
+                    contains = Contains(e.Location);
 
-		internal sealed override void MouseMoved(AbsoluteMouseEventArgs e)
-		{
-			if (!e.Handled)
-			{
-				bool contains = IsResizing;
+                    if (Contains(e.Location) && mouseLeft)
+                        OnMouseEnter(EventArgs.Empty);
+                    else if (!Contains(e.Location) && !mouseLeft)
+                        OnMouseLeave(EventArgs.Empty);
 
-				if (!IsResizing)
-				{
-					contains = Contains(e.Location);
+                    contains |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
+                }
 
-					if (Contains(e.Location) && mouseLeft)
-						OnMouseEnter(EventArgs.Empty);
-					else if (!Contains(e.Location) && !mouseLeft)
-						OnMouseLeave(EventArgs.Empty);
+                if (IsMousePressed || contains)
+                {
+                    e.Handled = true;
+                    if (IsMousePressed)
+                    {
+                        Cursor.Current = cursor;
+                    }
+                    else
+                    {
+                        cursor = GetCursor(e);
+                        Cursor.Current = cursor;
+                    }
+                    OnMouseMove(e);
+                }
+            }
+            else // Already handled
+            {
+                if (!mouseLeft)
+                    OnMouseLeave(EventArgs.Empty);
+            }
+        }
 
-					contains |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
-				}
+        internal sealed override void MouseUpped(AbsoluteMouseEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                bool upped = IsMousePressed;
 
-				if (IsMousePressed || contains)
-				{
-					e.Handled = true;
-					if (IsMousePressed)
-					{
-						Cursor.Current = cursor;
-					}
-					else
-					{
-						cursor = GetCursor(e);
-						Cursor.Current = cursor;
-					}
-					OnMouseMove(e);
-				}
-			}
-			else // Already handled
-			{
-				if (!mouseLeft)
-					OnMouseLeave(EventArgs.Empty);
-			}
-		}
+                if (upped)
+                {
+                    e.Handled = true;
+                    OnMouseUp(e);
+                }
+            }
+        }
 
-		internal sealed override void MouseUpped(AbsoluteMouseEventArgs e)
-		{
-			if (!e.Handled)
-			{
-				bool upped = IsMousePressed;
+        internal sealed override void DoubleClicked(AbsoluteMouseEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                bool doubleClicked = Contains(e.Location);
 
-				if (upped)
-				{
-					e.Handled = true;
-					OnMouseUp(e);
-				}
-			}
-		}
+                if (e.Button == MouseButtons.Left)
+                    doubleClicked |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
 
-		internal sealed override void DoubleClicked(AbsoluteMouseEventArgs e)
-		{
-			if (!e.Handled)
-			{
-				bool doubleClicked = Contains(e.Location);
-
-				if (e.Button == MouseButtons.Left)
-					doubleClicked |= (IsSelected && GetResizeMode(e) != ResizeMode.None);
-
-				if (doubleClicked)
-				{
-					e.Handled = true;
-					OnDoubleClick(e);
-				}
-			}
-		}
+                if (doubleClicked)
+                {
+                    e.Handled = true;
+                    OnDoubleClick(e);
+                }
+            }
+        }
 
         private void PerformDragging(SizeF mouseOffset)
         {
@@ -720,8 +718,8 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         }
 
         private void PerformResize(SizeF mouseOffset)
-		{
-			SizeF sizeChange = SizeF.Empty;
+        {
+            SizeF sizeChange = SizeF.Empty;
             SizeF positionChange = SizeF.Empty;
 
             if ((resizeMode & ResizeMode.Right) != 0)
@@ -746,113 +744,109 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
             ResizeEventArgs e = new ResizeEventArgs(positionChange, sizeChange);
             OnResizing(e);
-			Size += e.SizeChange.ToSize();
+            Size += e.SizeChange.ToSize();
             Location += e.PositionChange.ToSize();
         }
 
         protected virtual void CopyFrom(Shape shape)
-		{
-			location = shape.location;
-			size = shape.size;
-		}
+        {
+            location = shape.location;
+            size = shape.size;
+        }
 
-		protected override void OnDeactivating(EventArgs e)
-		{
-			base.OnDeactivated(e);
-			HideEditor();
-		}
+        protected override void OnDeactivating(EventArgs e)
+        {
+            base.OnDeactivated(e);
+            HideEditor();
+        }
 
-		protected override void OnMouseDown(AbsoluteMouseEventArgs e)
-		{
-			base.OnMouseDown(e);
-		}
+        protected override void OnMouseDown(AbsoluteMouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+        }
 
-		protected override void OnMouseMove(AbsoluteMouseEventArgs e)
-		{
-			base.OnMouseMove(e);
+        protected override void OnMouseMove(AbsoluteMouseEventArgs e)
+        {
+            base.OnMouseMove(e);
 
-			if (IsResizing)
-			{
-				PerformResize(e.Offset);
-			}
-			else if (IsMousePressed && e.Button == MouseButtons.Left)
-			{
+            if (IsResizing)
+            {
+                PerformResize(e.Offset);
+            }
+            else if (IsMousePressed && e.Button == MouseButtons.Left)
+            {
                 PerformDragging(e.Offset);
-			}
-		}
+            }
+        }
 
-		protected override void OnMouseUp(AbsoluteMouseEventArgs e)
-		{
-			base.OnMouseUp(e);
-		    if (isBeingDragged)
-		    {
+        protected override void OnMouseUp(AbsoluteMouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (isBeingDragged)
+            {
                 OnDrop();
-		    }
-			resizeMode = ResizeMode.None;
-		}
+            }
+            resizeMode = ResizeMode.None;
+        }
 
-		protected override void OnDoubleClick(AbsoluteMouseEventArgs e)
-		{
-			base.OnDoubleClick(e);
-			ResizeMode resizeMode = GetResizeMode(e);
+        protected override void OnDoubleClick(AbsoluteMouseEventArgs e)
+        {
+            base.OnDoubleClick(e);
+            ResizeMode resizeMode = GetResizeMode(e);
 
-			if ((resizeMode & ResizeMode.Right) != 0)
-				AutoWidth();
-			if ((resizeMode & ResizeMode.Bottom) != 0)
-				AutoHeight();
-		}
+            if ((resizeMode & ResizeMode.Right) != 0)
+                AutoWidth();
+            if ((resizeMode & ResizeMode.Bottom) != 0)
+                AutoHeight();
+        }
 
-		protected virtual void OnMove(MoveEventArgs e)
-		{
-			if (Move != null)
-				Move(this, e);
-		}
+        protected virtual void OnMove(MoveEventArgs e)
+        {
+            Move?.Invoke(this, e);
+        }
 
-		protected virtual void OnDragging(MoveEventArgs e)
-		{
-		    isBeingDragged = true;
-			if (Dragging != null)
-				Dragging(this, e);
-		}
+        protected virtual void OnDragging(MoveEventArgs e)
+        {
+            isBeingDragged = true;
+            Dragging?.Invoke(this, e);
+        }
 
-	    protected virtual void OnDrop()
-	    {
-	        isBeingDragged = false;
+        protected virtual void OnDrop()
+        {
+            isBeingDragged = false;
             Dropped?.Invoke(this, EventArgs.Empty);
-	    }
+        }
 
-		protected virtual void OnResizing(ResizeEventArgs e)
-		{
-			if (Resizing != null)
-				Resizing(this, e);
-		}
+        protected virtual void OnResizing(ResizeEventArgs e)
+        {
+            Resizing?.Invoke(this, e);
+        }
 
-		protected virtual void OnResize(ResizeEventArgs e)
-		{
-			if (Resize != null)
-				Resize(this, e);
-		}
+        protected virtual void OnResize(ResizeEventArgs e)
+        {
+            Resize?.Invoke(this, e);
+        }
 
-		protected virtual void OnMouseEnter(EventArgs e)
-		{
-			mouseLeft = false;
-		}
+        protected virtual void OnMouseEnter(EventArgs e)
+        {
+            mouseLeft = false;
+        }
 
-		protected virtual void OnMouseLeave(EventArgs e)
-		{
-			mouseLeft = true;
-		}
+        protected virtual void OnMouseLeave(EventArgs e)
+        {
+            mouseLeft = true;
+        }
 
-		public override string ToString()
-		{
-			return Entity.ToString();
-		}
+        public override string ToString()
+        {
+            return Entity.ToString();
+        }
 
-	    protected void OnRenamed(EventArgs e)
-	    {
+        protected void OnRenamed(EventArgs e)
+        {
             Renamed?.Invoke(this, e);
-	    }
+        }
 
-	    public Shape ParentShape { get; set; }
-	}
+        public Shape ParentShape { get; set; }
+    }
 }

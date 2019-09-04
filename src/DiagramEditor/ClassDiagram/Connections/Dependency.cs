@@ -25,7 +25,7 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Dependency : Connection
+	internal sealed class Dependency : RoutedConnection
 	{
 		static Pen linePen = new Pen(Color.Black);
 

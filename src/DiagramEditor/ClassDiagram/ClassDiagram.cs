@@ -1,5 +1,5 @@
 ﻿// NClass - Free class diagram editor
-// Copyright (C) 2016 Georgi Baychev
+// Copyright (C) 2017 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -40,9 +40,9 @@ namespace NClass.DiagramEditor.ClassDiagram
         }
 
         /// <exception cref="ArgumentNullException">
-		/// <paramref name="language"/> is null.
-		/// </exception>
-		public ClassDiagram(Language language) : this()
+        /// <paramref name="language"/> is null.
+        /// </exception>
+        public ClassDiagram(Language language) : this()
         {
             model = new ClassModel(language);
             model.EntityRemoved += OnEntityRemoved;
@@ -85,11 +85,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             return model.InsertPackage(package);
         }
 
-        public bool InsertComment(Comment comment)
-        {
-            return model.InsertComment(comment);
-        }
-
         public bool InsertClass(ClassType newClass)
         {
             return model.InsertTypeEntity(newClass);
@@ -98,11 +93,6 @@ namespace NClass.DiagramEditor.ClassDiagram
         public bool InsertAssociation(AssociationRelationship associaton)
         {
             return model.InsertRelationship(associaton);
-        }
-
-        public bool InsertCommentRelationship(CommentRelationship commentRelationship)
-        {
-            return model.InsertRelationship(commentRelationship);
         }
 
         public bool InsertDependency(DependencyRelationship dependency)
@@ -126,9 +116,9 @@ namespace NClass.DiagramEditor.ClassDiagram
         }
 
         /// <exception cref="ArgumentNullException">
-		/// <paramref name="first"/> or <paramref name="second"/> is null.
-		/// </exception>
-		public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
+        /// <paramref name="first"/> or <paramref name="second"/> is null.
+        /// </exception>
+        public AssociationRelationship AddAssociation(TypeBase first, TypeBase second)
         {
             return model.AddAssociation(first, second);
         }
@@ -213,19 +203,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             return nesting;
         }
 
-        public CommentRelationship AddCommentRelationship(Comment comment, IEntity entity)
-        {
-            return model.AddCommentRelationship(comment, entity);
-        }
-
-        private CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
-        {
-            Shape startShape = GetShape(commentRelationship.First);
-            Shape endShape = GetShape(commentRelationship.Second);
-            AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
-            return commentRelationship;
-        }
-
         public Package AddPackage()
         {
             return model.AddPackage();
@@ -286,16 +263,6 @@ namespace NClass.DiagramEditor.ClassDiagram
             AddShape(new EnumShape(enumType));
         }
 
-        public Comment AddComment()
-        {
-            return model.AddComment();
-        }
-
-        private void AddComment(Comment comment)
-        {
-            AddShape(new CommentShape(comment));
-        }
-
         public override Shape AddShape(EntityType type)
         {
             switch (type)
@@ -338,79 +305,75 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         protected override void OnEntityAdded(object sender, EntityEventArgs e)
         {
+            switch (e.Entity.EntityType)
             {
-                switch (e.Entity.EntityType)
-                {
-                    case EntityType.Package:
-                        AddPackage(e.Entity as Package);
-                        break;
+                case EntityType.Package:
+                    AddPackage(e.Entity as Package);
+                    break;
 
-                    case EntityType.Class:
-                        AddClass(e.Entity as ClassType);
-                        break;
+                case EntityType.Class:
+                    AddClass(e.Entity as ClassType);
+                    break;
 
-                    case EntityType.Comment:
-                        AddComment(e.Entity as Comment);
-                        break;
+                case EntityType.Comment:
+                    AddComment(e.Entity as Comment);
+                    break;
 
-                    case EntityType.Delegate:
-                        AddDelegate(e.Entity as DelegateType);
-                        break;
+                case EntityType.Delegate:
+                    AddDelegate(e.Entity as DelegateType);
+                    break;
 
-                    case EntityType.Enum:
-                        AddEnum(e.Entity as EnumType);
-                        break;
+                case EntityType.Enum:
+                    AddEnum(e.Entity as EnumType);
+                    break;
 
-                    case EntityType.Interface:
-                        AddInterface(e.Entity as InterfaceType);
-                        break;
+                case EntityType.Interface:
+                    AddInterface(e.Entity as InterfaceType);
+                    break;
 
-                    case EntityType.Structure:
-                        AddStructure(e.Entity as StructureType);
-                        break;
-                }
-
-                RecalculateSize();
+                case EntityType.Structure:
+                    AddStructure(e.Entity as StructureType);
+                    break;
             }
+
+            RecalculateSize();
         }
 
         protected override void OnRelationAdded(object sender, RelationshipEventArgs e)
         {
+            switch (e.Relationship.RelationshipType)
             {
-                switch (e.Relationship.RelationshipType)
-                {
-                    case RelationshipType.Association:
-                        AddAssociation(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Association:
+                    AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Composition:
-                        AddComposition(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Composition:
+                    AddComposition(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Aggregation:
-                        AddAssociation(e.Relationship as AssociationRelationship);
-                        break;
+                case RelationshipType.Aggregation:
+                    AddAssociation(e.Relationship as AssociationRelationship);
+                    break;
 
-                    case RelationshipType.Generalization:
-                        AddGeneralization(e.Relationship as GeneralizationRelationship);
-                        break;
+                case RelationshipType.Generalization:
+                    AddGeneralization(e.Relationship as GeneralizationRelationship);
+                    break;
 
-                    case RelationshipType.Realization:
-                        AddRealization(e.Relationship as RealizationRelationship);
-                        break;
+                case RelationshipType.Realization:
+                    AddRealization(e.Relationship as RealizationRelationship);
+                    break;
 
-                    case RelationshipType.Dependency:
-                        AddDependency(e.Relationship as DependencyRelationship);
-                        break;
+                case RelationshipType.Dependency:
+                    AddDependency(e.Relationship as DependencyRelationship);
+                    break;
 
-                    case RelationshipType.Nesting:
-                        AddNesting(e.Relationship as NestingRelationship);
-                        break;
+                case RelationshipType.Nesting:
+                    AddNesting(e.Relationship as NestingRelationship);
+                    break;
 
-                    case RelationshipType.Comment:
-                        AddCommentRelationship(e.Relationship as CommentRelationship);
-                        break;
-                }
+                case RelationshipType.Comment:
+                    AddCommentRelationship(e.Relationship as CommentRelationship);
+                    break;
             }
         }
 
@@ -425,98 +388,45 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override void KeyDown(KeyEventArgs e)
         {
+            //TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
+            RedrawSuspended = true;
+
+            if (e.Modifiers == (Keys.Control | Keys.Shift))
             {
-                //TODO: ActiveElement.KeyDown() - de nem minden esetben (pl. törlésnél nem)
-                RedrawSuspended = true;
+                switch (e.KeyCode)
+                {
+                    case Keys.A:
+                        CreateShape();
+                        break;
 
-                // Delete
-                if (e.KeyCode == Keys.Delete)
-                {
-                    if (SelectedElementCount >= 2 || ActiveElement == null ||
-                        !ActiveElement.DeleteSelectedMember())
-                    {
-                        DeleteSelectedElements();
-                    }
-                }
-                // Escape
-                else if (e.KeyCode == Keys.Escape)
-                {
-                    state = State.Normal;
-                    DeselectAll();
-                    Redraw();
-                }
-                // Enter
-                else if ((e.KeyCode == Keys.Enter || e.KeyCode == Keys.F2) && ActiveElement != null)
-                {
-                    ActiveElement.ShowEditor();
-                }
-                // Up
-                else if (e.KeyCode == Keys.Up && ActiveElement != null)
-                {
-                    if (e.Shift || e.Control)
-                        ActiveElement.MoveUp();
-                    else
-                        ActiveElement.SelectPrevious();
-                }
-                // Down
-                else if (e.KeyCode == Keys.Down && ActiveElement != null)
-                {
-                    if (e.Shift || e.Control)
-                        ActiveElement.MoveDown();
-                    else
-                        ActiveElement.SelectNext();
-                }
-                // Ctrl + X
-                else if (e.KeyCode == Keys.X && e.Modifiers == Keys.Control)
-                {
-                    Cut();
-                }
-                // Ctrl + C
-                else if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
-                {
-                    Copy();
-                }
-                // Ctrl + V
-                else if (e.KeyCode == Keys.V && e.Modifiers == Keys.Control)
-                {
-                    Paste();
-                }
-                // Ctrl + Shift + ?
-                else if (e.Modifiers == (Keys.Control | Keys.Shift))
-                {
-                    switch (e.KeyCode)
-                    {
-                        case Keys.A:
-                            CreateShape();
-                            break;
+                    case Keys.C:
+                        CreateShape(EntityType.Class);
+                        break;
 
-                        case Keys.C:
-                            CreateShape(EntityType.Class);
-                            break;
+                    case Keys.S:
+                        CreateShape(EntityType.Structure);
+                        break;
 
-                        case Keys.S:
-                            CreateShape(EntityType.Structure);
-                            break;
+                    case Keys.I:
+                        CreateShape(EntityType.Interface);
+                        break;
 
-                        case Keys.I:
-                            CreateShape(EntityType.Interface);
-                            break;
+                    case Keys.E:
+                        CreateShape(EntityType.Enum);
+                        break;
 
-                        case Keys.E:
-                            CreateShape(EntityType.Enum);
-                            break;
+                    case Keys.D:
+                        CreateShape(EntityType.Delegate);
+                        break;
 
-                        case Keys.D:
-                            CreateShape(EntityType.Delegate);
-                            break;
-
-                        case Keys.N:
-                            CreateShape(EntityType.Comment);
-                            break;
-                    }
+                    case Keys.N:
+                        CreateShape(EntityType.Comment);
+                        break;
                 }
-                RedrawSuspended = false;
             }
+
+            base.KeyDown(e);
+            RedrawSuspended = false;
         }
 
         public override void CreateShape(EntityType type, Point? where = null)
@@ -547,7 +457,7 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         public override void CreateConnection(RelationshipType type)
         {
-            connectionCreator = new ConnectionCreator(this, type);
+            connectionCreator = new ClassConnectionCreator(this, type);
             base.CreateConnection(type);
         }
 
@@ -579,6 +489,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model.Deserializing += OnDeserializing;
                 model.Name = this.name;
             }
+
             model.Deserialize(node);
         }
 
@@ -587,5 +498,4 @@ namespace NClass.DiagramEditor.ClassDiagram
             return Strings.Language + ": " + model.Language.ToString();
         }
     }
-
 }

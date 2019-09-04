@@ -43,7 +43,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
         static PackageEditor editor = new PackageEditor();
         static Pen borderPen = new Pen(Color.Black);
         static SolidBrush backgroundBrush = new SolidBrush(Color.White);
-        static SolidBrush solidHeaderBrush = new SolidBrush(Color.White);
         static SolidBrush nameBrush = new SolidBrush(Color.Black);
         static SolidBrush identifierBrush = new SolidBrush(Color.Black);
         static StringFormat headerFormat = new StringFormat(StringFormat.GenericTypographic);
@@ -105,7 +104,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
-            return ((ClassDiagram)diagram).InsertPackage(Package.Clone());
+            return ((ClassDiagram)diagram).InsertPackage(Package.Clone(false));
         }
 
         public static Rectangle GetOutline(Style style)

@@ -1,0 +1,320 @@
+<Project>
+  <Name>FILTERSET</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Model</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>FilterItemBase</Name>
+        <Access>Public</Access>
+        <Location left="1030" top="209" />
+        <Size width="313" height="196" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">protected FilterItemBase()</Member>
+        <Member type="Constructor">protected FilterItemBase(FilterItemBase other)</Member>
+        <Member type="Property">public abstract FilterTypeEnum FilterType { get; }</Member>
+        <Member type="Property">public abstract string Name { get; }</Member>
+        <Member type="Property">public abstract string Description { get; }</Member>
+        <Member type="Property">public abstract string IconID { get; }</Member>
+        <Member type="Property">public IPropertyInstanceCollection PropertyInstances { get; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>HighPassFilterItem</Name>
+        <Access>Public</Access>
+        <Location left="1030" top="457" />
+        <Size width="313" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public override FilterTypeEnum FilterType { get; }</Member>
+        <Member type="Property">public override string Name { get; }</Member>
+        <Member type="Property">public override string Description { get; }</Member>
+        <Member type="Property">public override string IconID { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilterSetting</Name>
+        <Access>Public</Access>
+        <Location left="1382" top="209" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPropertyInstance</Name>
+        <Access>Public</Access>
+        <Location left="1382" top="104" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPropertyOwner</Name>
+        <Access>Public</Access>
+        <Location left="1089" top="104" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+      </Entity>
+      <Entity type="Enum">
+        <Name>FilterTypeEnum</Name>
+        <Access>Public</Access>
+        <Location left="822" top="209" />
+        <Size width="163" height="129" />
+        <Collapsed>False</Collapsed>
+        <Value>HighPassFilter</Value>
+        <Value>BandStopFilter</Value>
+        <Value>OrderStopFilter</Value>
+        <Value>etc</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>ControlDefinition</Name>
+        <Access>Public</Access>
+        <Location left="275" top="106" />
+        <Size width="188" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">protected ControlDefinition(string name, string description)</Member>
+        <Member type="Property">public string Name { get; }</Member>
+        <Member type="Property">public string Description { get; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ButtonDefinition</Name>
+        <Access>Public</Access>
+        <Location left="39" top="306" />
+        <Size width="316" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">ButtonDefinition(string name, string description, string iconID, ICommand command, object commandParam = null)</Member>
+        <Member type="Property">public ICommand Command { get; }</Member>
+        <Member type="Property">public object CommandParameter { get; }</Member>
+        <Member type="Property">public string IconID { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilterButtonDefinition</Name>
+        <Access>Public</Access>
+        <Location left="66" top="507" />
+        <Size width="255" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public FilterButtonDefinition(FilterBase filterDefinition, ICommand command)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CheckBoxDefinition</Name>
+        <Access>Public</Access>
+        <Location left="388" top="306" />
+        <Size width="228" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Event">public event EventHandler IsCheckedChanged</Member>
+        <Member type="Constructor">public CheckBoxDefinition(string label, string toolTip, bool defaultValue)</Member>
+        <Member type="Property">public bool IsChecked { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="2" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="0" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="0" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1368</X>
+          <Y>318</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>ViewModel</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ButtonViewModel</Name>
+        <Access>Public</Access>
+        <Location left="146" top="343" />
+        <Size width="229" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public ButtonViewModel(ButtonDefinition def)</Member>
+        <Member type="Property">public ICommand Command { get; }</Member>
+        <Member type="Property">public object CommandParameter { get; }</Member>
+        <Member type="Property">public string Icon { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPropertyOwnerVM</Name>
+        <Access>Public</Access>
+        <Location left="1036" top="143" />
+        <Size width="162" height="61" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilterSettingViewModel</Name>
+        <Access>Public</Access>
+        <Location left="1252" top="296" />
+        <Size width="214" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public FilterSettingViewModel(FilterSetting setting)</Member>
+        <Member type="Property">public string Label { get; }</Member>
+        <Member type="Property">public object Value { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPropertyVM</Name>
+        <Access>Public</Access>
+        <Location left="1277" top="183" />
+        <Size width="162" height="61" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilterViewModel</Name>
+        <Access>Public</Access>
+        <Location left="910" top="270" />
+        <Size width="244" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public FilterViewModel(FilterItemBase filterItem)</Member>
+        <Member type="Property">public string Name { get; }</Member>
+        <Member type="Property">public string Description { get; }</Member>
+        <Member type="Property">public string FilterLabel { get; set; }</Member>
+        <Member type="Property">public bool IsActive { get; set; }</Member>
+        <Member type="Property">public string Icon { get; }</Member>
+        <Member type="Property">public List&lt;FilterEnum&gt; OtherFilters { get; }</Member>
+        <Member type="Property">public ICommand TurnIntoOtherFilter { get; }</Member>
+        <Member type="Property">public List&lt;IPropertyVM&gt; FilterSettings { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FilterPaneViewModel</Name>
+        <Access>Public</Access>
+        <Location left="488" top="567" />
+        <Size width="254" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Event">public event EventHandler FilterSettingsChanged</Member>
+        <Member type="Event">public event EventHandler FilterListChanged</Member>
+        <Member type="Property">private ICommand AddFilterCommand { get; }</Member>
+        <Member type="Property">public ICommand RemoveFilterCommand { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ControlViewModel</Name>
+        <Access>Public</Access>
+        <Location left="146" top="160" />
+        <Size width="229" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">protected ControlViewModel(ControlDefinition def)</Member>
+        <Member type="Property">public string Label { get; }</Member>
+        <Member type="Property">public string ToolTip { get; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GenericPaneViewModel&lt;T&gt;</Name>
+        <Access>Public</Access>
+        <Location left="436" top="384" />
+        <Size width="387" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public TopRowViewModel TopRowViewModel { get; protected set; }</Member>
+        <Member type="Property">public IReadOnlyCollection&lt;ControlViewModel&gt; ToolBarControls { get; protected set; }</Member>
+        <Member type="Property">public ObservableCollection&lt;T&gt; Items { get; protected set; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PaneItemViewModel</Name>
+        <Access>Public</Access>
+        <Location left="855" top="143" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="4">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="2" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1352</X>
+          <Y>269</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="0" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>View</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GenericPaneControl</Name>
+        <Access>Public</Access>
+        <Location left="204" top="140" />
+        <Size width="324" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public static readonly DependencyProperty GenericDefinitionsProperty</Member>
+        <Member type="Field">public static readonly DependencyProperty ItemsSourceProperty</Member>
+        <Member type="Field">public static readonly DependencyProperty ItemTemplateProperty</Member>
+        <Member type="Field">public static readonly DependencyProperty ItemTemplateSelectorProperty</Member>
+        <Member type="Field">public static readonly DependencyProperty AllowReorderProperty</Member>
+        <Member type="Property">public IEnumerable GenericDefinitions { get; set; }</Member>
+        <Member type="Property">public IList ItemsSource { get; set; }</Member>
+        <Member type="Property">public DataTemplate ItemTemplate { get; set; }</Member>
+        <Member type="Property">public DataTemplateSelector ItemTemplateSelector { get; set; }</Member>
+        <Member type="Property">public bool AllowReorder { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UserControl</Name>
+        <Access>Public</Access>
+        <Location left="286" top="43" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="0" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
