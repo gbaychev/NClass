@@ -1,4 +1,6 @@
-# NClass ![Build Status](https://ci.appveyor.com/api/projects/status/github/gbaychev/nclass?branch=master)
+# NClass [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-master)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=3)
+
+## About
 
 NClass is a free tool to easily create UML class diagrams with C# and Java language support. The user interface is designed to be simple and user-friendly for easy and fast development. Initially the project was developed by the great Balasz Tihanyi on [sourceforge](http://nclass.sourceforge.net/), but the project has gone inactive due the lack of time. 
 
@@ -31,6 +33,18 @@ Drop an email to nclass dot editor at gmail dot com with subject NClass to get a
 
 Please bear in mind that currently the response times on Slack are slow.
 
+## How to build
+- at root folder level run:
+
+        git submodule sync --recursive
+
+- then go to < root >\src\AssemblyImport\lib\NReflect build nreflect with visual studio or run
+        
+        msbuild /p:Configuration=Debug /p:Platform="Any CPU"
+
+  This implies that you have msbuild in your path.
+
+- build NClass with Visual Studio or msbuild
 
 :page_with_curl: License 
 ----
