@@ -11,7 +11,7 @@
         <File Source="$(var.AssemblyImport.TargetPath)" />
       </Component>
       <Component Id="C_NReflect.dll" Directory="PLUGINS_FOLDER">
-        <File Source="$(var.AssemblyImport.ProjectDir)libs\NReflect\NReflect\bin\Release\NReflect.dll" />
+        <File Source="$(var.AssemblyImport.ProjectDir)..\..\libs\NReflect\NReflect\bin\Release\NReflect.dll" />
       </Component>
       <Component Id="C_AssemblyImport.resources.dll" Directory="PLUGINS_FOLDER_LANG_DE">
         <File Source="$(var.AssemblyImport.TargetDir)de\AssemblyImport.resources.dll" />
