@@ -192,7 +192,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             if (!isEditorShown)
             {
-                editor.Init(this, Style.CurrentStyle.BackgroundColor, Style.CurrentStyle.ActorTextColor, Style.CurrentStyle.ActorFont);
+                editor.Init(this, Style.CurrentStyle.ActorBackColor, Style.CurrentStyle.ActorTextColor, Style.CurrentStyle.ActorFont);
                 editor.Relocate(this, GetTextRectangle());
                 ShowWindow(editor);
                 editor.Focus();

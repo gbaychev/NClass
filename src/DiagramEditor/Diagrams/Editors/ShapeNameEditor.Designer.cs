@@ -1,4 +1,6 @@
-﻿namespace NClass.DiagramEditor.Diagrams.Editors
+﻿using System.Windows.Forms;
+
+namespace NClass.DiagramEditor.Diagrams.Editors
 {
     partial class ShapeNameEditor
     {
@@ -29,13 +31,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtName = new TextBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // txtName
             // 
+            this.txtName.BackColor = System.Drawing.SystemColors.Control;
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtName.Location = new System.Drawing.Point(0, 0);
@@ -54,6 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.txtName);
             this.Name = "ShapeNameEditor";
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
@@ -64,7 +68,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtName;
+        private TextBox txtName;
         private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

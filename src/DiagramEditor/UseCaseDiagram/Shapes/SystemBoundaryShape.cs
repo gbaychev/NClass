@@ -209,5 +209,14 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             HideEditor();
         }
+
+        protected override void OnMouseDown(AbsoluteMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                IsActive = true;
+            }
+            base.OnMouseDown(e);
+        }
     }
 }

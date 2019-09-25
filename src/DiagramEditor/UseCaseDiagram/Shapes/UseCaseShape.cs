@@ -192,6 +192,11 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             base.OnMove(e);
         }
 
+        protected internal override void MoveWindow()
+        {
+            HideEditor();
+        }
+
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);

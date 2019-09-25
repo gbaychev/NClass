@@ -29,12 +29,17 @@ namespace NClass.DiagramEditor.Diagrams.Editors
         public ShapeNameEditor()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.SupportsTransparentBackColor |
+                     ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.ResizeRedraw |
+                     ControlStyles.UserPaint, true);
+            BackColor = Color.Transparent;
         }
 
         internal void Init(Shape element, Color background, Color foreground, Font textFont)
         {
             shape = element;
-
             txtName.BackColor = background;
             txtName.ForeColor = foreground;
             txtName.Text = shape.Entity.Name;
@@ -95,6 +100,11 @@ namespace NClass.DiagramEditor.Diagrams.Editors
                     shape.HideEditor();
                     break;
             }
+        }
+
+        public override void Closing()
+        {
+            TryValidateData();
         }
     }
 }
