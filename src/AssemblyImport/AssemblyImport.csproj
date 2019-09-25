@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NReflect">
-      <HintPath>libs\NReflect\NReflect\bin\$(Configuration)\NReflect.dll</HintPath>
+      <HintPath>..\..\libs\NReflect\NReflect\bin\$(Configuration)\NReflect.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
