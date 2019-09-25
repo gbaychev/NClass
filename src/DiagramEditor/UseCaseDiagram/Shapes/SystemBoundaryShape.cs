@@ -188,7 +188,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             if (!editorShown)
             {
-                editor.Init(this, Style.CurrentStyle.SystemBoundaryBackColor, Style.CurrentStyle.SystemBoundaryTextColor, Style.CurrentStyle.SystemBoundaryFont);
+                var backColor = Style.CurrentStyle.SystemBoundaryBackColor;
+                var gradColor = Style.CurrentStyle.SystemBoundaryGradientStyle == GradientStyle.None ?
+                                Style.CurrentStyle.SystemBoundaryBackColor :
+                                Style.CurrentStyle.SystemBoundaryGradientColor;
+                var textColor = Style.CurrentStyle.SystemBoundaryTextColor;
+                editor.Init(this, backColor, gradColor, textColor, Style.CurrentStyle.SystemBoundaryFont);
                 editor.Relocate(this, GetTextRectangle());
                 ShowWindow(editor);
                 editor.Focus();
@@ -215,6 +220,8 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
             if (e.Button == MouseButtons.Left)
             {
                 IsActive = true;
+                if(editorShown)
+                    HideEditor();
             }
             base.OnMouseDown(e);
         }

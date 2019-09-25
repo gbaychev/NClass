@@ -37,10 +37,10 @@ namespace NClass.DiagramEditor.Diagrams.Editors
             BackColor = Color.Transparent;
         }
 
-        internal void Init(Shape element, Color background, Color foreground, Font textFont)
+        internal void Init(Shape element, Color background, Color backGradient, Color foreground, Font textFont)
         {
             shape = element;
-            txtName.BackColor = background;
+            txtName.BackColor = Color.FromArgb((background.R + backGradient.R) / 2, (background.G + backGradient.G) / 2, (background.B + backGradient.B) / 2);
             txtName.ForeColor = foreground;
             txtName.Text = shape.Entity.Name;
 

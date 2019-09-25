@@ -192,7 +192,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         {
             if (!isEditorShown)
             {
-                editor.Init(this, Style.CurrentStyle.ActorBackColor, Style.CurrentStyle.ActorTextColor, Style.CurrentStyle.ActorFont);
+                editor.Init(this, Style.CurrentStyle.ActorBackColor, Style.CurrentStyle.ActorBackColor, Style.CurrentStyle.ActorTextColor, Style.CurrentStyle.ActorFont);
                 editor.Relocate(this, GetTextRectangle());
                 ShowWindow(editor);
                 editor.Focus();
@@ -216,5 +216,12 @@ namespace NClass.DiagramEditor.UseCaseDiagram.Shapes
         }
 
         public override IUseCaseEntity UseCaseEntity => this.actor;
+
+        protected override void OnMouseDown(AbsoluteMouseEventArgs e)
+        {
+            if (isEditorShown)
+                HideEditor();
+            base.OnMouseDown(e);
+        }
     }
 }
