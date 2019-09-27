@@ -29,6 +29,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.4.1823.0")]
-[assembly: AssemblyFileVersion("2.4.1823.0")]
+[assembly: AssemblyVersion("2.7.0.0")]
+[assembly: AssemblyFileVersion("2.7.0.0")]
 [assembly: AssemblyInformationalVersion("branch-and-git-hash-here")]

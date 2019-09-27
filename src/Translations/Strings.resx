@@ -1216,4 +1216,7 @@ Do you still want to continue?</value>
   <data name="ErrorUseCaseCannotInheritActor" xml:space="preserve">
     <value>Use case cannot inherit from actor</value>
   </data>
+  <data name="GitCommitHash" xml:space="preserve">
+    <value>Git commit hash:</value>
+  </data>
 </root>

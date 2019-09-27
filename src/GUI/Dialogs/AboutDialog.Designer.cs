@@ -37,6 +37,7 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.lblTranslator = new System.Windows.Forms.Label();
             this.lblBuildInfo = new System.Windows.Forms.Label();
+            this.lblGitCommit = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picEmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHomepage)).BeginInit();
             this.SuspendLayout();
@@ -149,12 +150,21 @@
             // lblBuildInfo
             // 
             this.lblBuildInfo.AutoSize = true;
-            this.lblBuildInfo.Location = new System.Drawing.Point(145, 53);
+            this.lblBuildInfo.Location = new System.Drawing.Point(151, 53);
             this.lblBuildInfo.Name = "lblBuildInfo";
             this.lblBuildInfo.Size = new System.Drawing.Size(80, 13);
             this.lblBuildInfo.TabIndex = 14;
             this.lblBuildInfo.Text = "branch-git-hash";
             this.lblBuildInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGitCommit
+            // 
+            this.lblGitCommit.AutoSize = true;
+            this.lblGitCommit.Location = new System.Drawing.Point(63, 53);
+            this.lblGitCommit.Name = "lblGitCommit";
+            this.lblGitCommit.Size = new System.Drawing.Size(85, 13);
+            this.lblGitCommit.TabIndex = 15;
+            this.lblGitCommit.Text = "Git commit hash:";
             // 
             // AboutDialog
             // 
@@ -163,6 +173,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(371, 244);
+            this.Controls.Add(this.lblGitCommit);
             this.Controls.Add(this.lblBuildInfo);
             this.Controls.Add(this.lblTranslator);
             this.Controls.Add(this.lblStatus);
@@ -199,5 +210,6 @@
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.Label lblTranslator;
         private System.Windows.Forms.Label lblBuildInfo;
+        private System.Windows.Forms.Label lblGitCommit;
     }
 }

@@ -1459,6 +1459,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Git commit hash:.
+        /// </summary>
+        public static string GitCommitHash {
+            get {
+                return ResourceManager.GetString("GitCommitHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Implement explicitly.
         /// </summary>
         public static string ImplementExplicitly {

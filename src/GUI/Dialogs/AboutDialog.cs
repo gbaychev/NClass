@@ -37,6 +37,7 @@ namespace NClass.GUI.Dialogs
             lblStatus.Text = string.Format(Strings.BetaVersion);
             lnkEmail.Text = Strings.SendEmail;
             lnkHomepage.Text = Strings.VisitHomepage;
+            lblGitCommit.Text = Strings.GitCommitHash;
             btnClose.Text = Strings.ButtonClose;
 
             lnkHomepage.Links.Clear();
@@ -51,7 +52,7 @@ namespace NClass.GUI.Dialogs
 
         private string GetAuthorText()
         {
-            var sb = new StringBuilder($"Copyright (C) 2016-2018 {Strings.Author}");
+            var sb = new StringBuilder($"Copyright (C) 2016-2019 {Strings.Author}");
             sb.Append($"\r\nCopyright (C) 2006-2009 {Strings.AuthorRetired}");
             return sb.ToString();
         }
@@ -106,5 +107,5 @@ namespace NClass.GUI.Dialogs
 		{
 			this.Close();
 		}
-	}
+    }
 }
