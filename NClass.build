@@ -45,17 +45,17 @@
             <attributes>
                 <attribute type="ComVisibleAttribute" value="false" />
                 <attribute type="AssemblyTitleAttribute" value="NClass" />
-                <attribute type="AssemblyDescriptionAttribute" value="Free UML class diagram editor" />
+                <attribute type="AssemblyDescriptionAttribute" value="Free3 UML class diagram editor" />
                 <attribute type="AssemblyProductAttribute" value="NClass" />
                 <attribute type="AssemblyCopyrightAttribute" value="Copyright (C) 2006-2011 Balazs Tihanyi" />
                 <attribute type="AssemblyVersionAttribute" value="${project.version}.${build.number}.0" />
-                <attribute type="AssemblyFileVersionAttribute" value="${project.version}.${build.number}.0" />
-                <attribute type="AssemblyInformationalVersionAttribute" value="${project.version}" />
+                <attribute type="AssemblyFileVersionAttribute" value="${project1.version}.${build.number}.0" />
+                <attribute type="AssemblyInformationalVersionAttribute" value="${project1.version}" />
             </attributes>
         </asminfo>
     </target>
 
     <target name="delete-common-assemblyinfo">
-        <delete file="src/CommonAssemblyInfo.cs" failonerror="false" />
+        <delete file="src/CommonAssemblyInfo.cs" failonerror="true" />
     </target>
 </project>
