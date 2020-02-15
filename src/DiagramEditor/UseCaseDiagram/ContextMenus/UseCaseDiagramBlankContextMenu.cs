@@ -40,6 +40,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
         ToolStripMenuItem mnuNewGeneralization;
         ToolStripMenuItem mnuNewCommentRelationship;
 
+        ToolStripMenuItem mnuUndo;
+        ToolStripMenuItem mnuRedo;
+
         ToolStripMenuItem mnuPaste;
         ToolStripMenuItem mnuSaveAsImage;
         ToolStripMenuItem mnuSelectAll;
@@ -80,6 +83,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             mnuNewGeneralization = new ToolStripMenuItem(Strings.MenuGeneralization, Resources.Generalization, (s, e) => Diagram?.CreateConnection(RelationshipType.UseCaseGeneralization));
             mnuNewCommentRelationship = new ToolStripMenuItem(Strings.MenuCommentRelationship, Resources.CommentRel, (s, e) => Diagram?.CreateConnection(RelationshipType.Comment));
 
+            mnuUndo = new ToolStripMenuItem(Strings.MenuUndo, Resources.Undo, (s, e) => throw new NotImplementedException("Undo is not yet implemented"));
+            mnuRedo = new ToolStripMenuItem(Strings.MenuRedo, Resources.Redo, (s, e) => throw new NotImplementedException("Redo is not yet implemented"));
+
             mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, (s, e) => Diagram?.Paste());
             mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, (s, e) => Diagram?.SaveAsImage());
             mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, (s, e) => Diagram?.SelectAll());
@@ -99,6 +105,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             
             MenuList.AddRange(new ToolStripItem[] {
                 mnuAddNewElement,
+                new ToolStripSeparator(),
+                mnuUndo,
+                mnuRedo,
                 new ToolStripSeparator(),
                 mnuPaste,
                 mnuSaveAsImage,

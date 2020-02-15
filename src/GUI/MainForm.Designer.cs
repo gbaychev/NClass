@@ -36,7 +36,10 @@ namespace NClass.GUI
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblShortDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.windowClient = new System.Windows.Forms.SplitContainer();
+            this.tabbedWindow = new NClass.GUI.TabbedWindow();
             this.toolsPanel = new System.Windows.Forms.SplitContainer();
+            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
+            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,12 +127,9 @@ namespace NClass.GUI
             this.toolSepRedo = new System.Windows.Forms.ToolStripSeparator();
             this.toolZoomValue = new System.Windows.Forms.ToolStripLabel();
             this.toolZoomOut = new System.Windows.Forms.ToolStripButton();
+            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolZoomIn = new System.Windows.Forms.ToolStripButton();
             this.toolAutoZoom = new System.Windows.Forms.ToolStripButton();
-            this.tabbedWindow = new NClass.GUI.TabbedWindow();
-            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
-            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
-            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -186,7 +186,7 @@ namespace NClass.GUI
             // lblStatus
             // 
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(748, 17);
+            this.lblStatus.Size = new System.Drawing.Size(779, 17);
             this.lblStatus.Spring = true;
             this.lblStatus.Text = "Status";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -223,6 +223,16 @@ namespace NClass.GUI
             this.windowClient.SplitterDistance = 650;
             this.windowClient.TabIndex = 0;
             // 
+            // tabbedWindow
+            // 
+            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabbedWindow.DocumentManager = null;
+            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
+            this.tabbedWindow.Name = "tabbedWindow";
+            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
+            this.tabbedWindow.TabIndex = 0;
+            // 
             // toolsPanel
             // 
             this.toolsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -247,6 +257,36 @@ namespace NClass.GUI
             this.toolsPanel.Size = new System.Drawing.Size(238, 595);
             this.toolsPanel.SplitterDistance = 405;
             this.toolsPanel.TabIndex = 0;
+            // 
+            // modelExplorer
+            // 
+            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.modelExplorer.ImageIndex = 0;
+            this.modelExplorer.Indent = 22;
+            this.modelExplorer.ItemHeight = 18;
+            this.modelExplorer.LabelEdit = true;
+            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
+            this.modelExplorer.Name = "modelExplorer";
+            this.modelExplorer.SelectedImageIndex = 0;
+            this.modelExplorer.ShowNodeToolTips = true;
+            this.modelExplorer.ShowRootLines = false;
+            this.modelExplorer.Size = new System.Drawing.Size(236, 403);
+            this.modelExplorer.TabIndex = 0;
+            this.modelExplorer.Workspace = null;
+            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
+            // 
+            // diagramNavigator
+            // 
+            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
+            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.diagramNavigator.DocumentVisualizer = null;
+            this.diagramNavigator.Location = new System.Drawing.Point(1, 1);
+            this.diagramNavigator.Name = "diagramNavigator";
+            this.diagramNavigator.Size = new System.Drawing.Size(236, 184);
+            this.diagramNavigator.TabIndex = 0;
+            this.diagramNavigator.Text = "diagramNavigator";
             // 
             // menuStrip
             // 
@@ -504,9 +544,8 @@ namespace NClass.GUI
             this.mnuUndo.Image = global::NClass.GUI.Properties.Resources.Undo;
             this.mnuUndo.Name = "mnuUndo";
             this.mnuUndo.ShortcutKeyDisplayString = "Ctrl+Z";
-            this.mnuUndo.Size = new System.Drawing.Size(164, 22);
+            this.mnuUndo.Size = new System.Drawing.Size(180, 22);
             this.mnuUndo.Text = "&Undo";
-            this.mnuUndo.Visible = false;
             this.mnuUndo.Click += new System.EventHandler(this.mnuUndo_Click);
             // 
             // mnuRedo
@@ -514,23 +553,21 @@ namespace NClass.GUI
             this.mnuRedo.Image = global::NClass.GUI.Properties.Resources.Redo;
             this.mnuRedo.Name = "mnuRedo";
             this.mnuRedo.ShortcutKeyDisplayString = "Ctrl+Y";
-            this.mnuRedo.Size = new System.Drawing.Size(164, 22);
+            this.mnuRedo.Size = new System.Drawing.Size(180, 22);
             this.mnuRedo.Text = "&Redo";
-            this.mnuRedo.Visible = false;
             this.mnuRedo.Click += new System.EventHandler(this.mnuRedo_Click);
             // 
             // mnuSepReso
             // 
             this.mnuSepReso.Name = "mnuSepReso";
-            this.mnuSepReso.Size = new System.Drawing.Size(161, 6);
-            this.mnuSepReso.Visible = false;
+            this.mnuSepReso.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuCut
             // 
             this.mnuCut.Image = global::NClass.GUI.Properties.Resources.Cut;
             this.mnuCut.Name = "mnuCut";
             this.mnuCut.ShortcutKeyDisplayString = "Ctrl+X";
-            this.mnuCut.Size = new System.Drawing.Size(164, 22);
+            this.mnuCut.Size = new System.Drawing.Size(180, 22);
             this.mnuCut.Text = "Cu&t";
             this.mnuCut.Click += new System.EventHandler(this.mnuCut_Click);
             // 
@@ -539,7 +576,7 @@ namespace NClass.GUI
             this.mnuCopy.Image = global::NClass.GUI.Properties.Resources.Copy;
             this.mnuCopy.Name = "mnuCopy";
             this.mnuCopy.ShortcutKeyDisplayString = "Ctrl+C";
-            this.mnuCopy.Size = new System.Drawing.Size(164, 22);
+            this.mnuCopy.Size = new System.Drawing.Size(180, 22);
             this.mnuCopy.Text = "&Copy";
             this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
             // 
@@ -548,7 +585,7 @@ namespace NClass.GUI
             this.mnuPaste.Image = global::NClass.GUI.Properties.Resources.Paste;
             this.mnuPaste.Name = "mnuPaste";
             this.mnuPaste.ShortcutKeyDisplayString = "Ctrl+V";
-            this.mnuPaste.Size = new System.Drawing.Size(164, 22);
+            this.mnuPaste.Size = new System.Drawing.Size(180, 22);
             this.mnuPaste.Text = "&Paste";
             this.mnuPaste.Click += new System.EventHandler(this.mnuPaste_Click);
             // 
@@ -557,21 +594,21 @@ namespace NClass.GUI
             this.mnuDelete.Image = global::NClass.GUI.Properties.Resources.Delete;
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.ShortcutKeyDisplayString = "Del";
-            this.mnuDelete.Size = new System.Drawing.Size(164, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
             this.mnuDelete.Text = "&Delete";
             this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
             // mnuSepDelete
             // 
             this.mnuSepDelete.Name = "mnuSepDelete";
-            this.mnuSepDelete.Size = new System.Drawing.Size(161, 6);
+            this.mnuSepDelete.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeyDisplayString = "";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(164, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(180, 22);
             this.mnuSelectAll.Text = "Select &All";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -800,7 +837,7 @@ namespace NClass.GUI
             this.toolAutoZoom});
             this.standardToolStrip.Location = new System.Drawing.Point(3, 24);
             this.standardToolStrip.Name = "standardToolStrip";
-            this.standardToolStrip.Size = new System.Drawing.Size(396, 25);
+            this.standardToolStrip.Size = new System.Drawing.Size(448, 25);
             this.standardToolStrip.TabIndex = 1;
             // 
             // toolNew
@@ -970,7 +1007,6 @@ namespace NClass.GUI
             this.toolUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolUndo.Name = "toolUndo";
             this.toolUndo.Size = new System.Drawing.Size(23, 22);
-            this.toolUndo.Visible = false;
             // 
             // toolRedo
             // 
@@ -980,13 +1016,11 @@ namespace NClass.GUI
             this.toolRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolRedo.Name = "toolRedo";
             this.toolRedo.Size = new System.Drawing.Size(23, 22);
-            this.toolRedo.Visible = false;
             // 
             // toolSepRedo
             // 
             this.toolSepRedo.Name = "toolSepRedo";
             this.toolSepRedo.Size = new System.Drawing.Size(6, 25);
-            this.toolSepRedo.Visible = false;
             // 
             // toolZoomValue
             // 
@@ -1007,6 +1041,13 @@ namespace NClass.GUI
             this.toolZoomOut.Size = new System.Drawing.Size(23, 22);
             this.toolZoomOut.Click += new System.EventHandler(this.toolZoomOut_Click);
             // 
+            // toolZoom
+            // 
+            this.toolZoom.Enabled = false;
+            this.toolZoom.Name = "toolZoom";
+            this.toolZoom.Size = new System.Drawing.Size(100, 22);
+            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
+            // 
             // toolZoomIn
             // 
             this.toolZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1026,53 +1067,6 @@ namespace NClass.GUI
             this.toolAutoZoom.Name = "toolAutoZoom";
             this.toolAutoZoom.Size = new System.Drawing.Size(23, 22);
             this.toolAutoZoom.Click += new System.EventHandler(this.mnuAutoZoom_Click);
-            // 
-            // tabbedWindow
-            // 
-            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabbedWindow.DocumentManager = null;
-            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
-            this.tabbedWindow.Name = "tabbedWindow";
-            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
-            this.tabbedWindow.TabIndex = 0;
-            // 
-            // modelExplorer
-            // 
-            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.modelExplorer.ImageIndex = 0;
-            this.modelExplorer.Indent = 22;
-            this.modelExplorer.ItemHeight = 18;
-            this.modelExplorer.LabelEdit = true;
-            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
-            this.modelExplorer.Name = "modelExplorer";
-            this.modelExplorer.SelectedImageIndex = 0;
-            this.modelExplorer.ShowNodeToolTips = true;
-            this.modelExplorer.ShowRootLines = false;
-            this.modelExplorer.Size = new System.Drawing.Size(236, 403);
-            this.modelExplorer.TabIndex = 0;
-            this.modelExplorer.Workspace = null;
-            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
-            // 
-            // diagramNavigator
-            // 
-            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
-            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.diagramNavigator.DocumentVisualizer = null;
-            this.diagramNavigator.Location = new System.Drawing.Point(1, 1);
-            this.diagramNavigator.Name = "diagramNavigator";
-            this.diagramNavigator.Size = new System.Drawing.Size(236, 184);
-            this.diagramNavigator.TabIndex = 0;
-            this.diagramNavigator.Text = "diagramNavigator";
-            // 
-            // toolZoom
-            // 
-            this.toolZoom.Enabled = false;
-            this.toolZoom.Name = "toolZoom";
-            this.toolZoom.Size = new System.Drawing.Size(100, 22);
-            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
             // 
             // MainForm
             // 

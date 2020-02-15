@@ -425,6 +425,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\boundary.bmp" />
+    <None Include="Resources\undo.png" />
+    <None Include="Resources\redo.png" />
     <Content Include="Resources\usecase_diagram.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
