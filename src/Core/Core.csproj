@@ -88,6 +88,7 @@
     <Compile Include="Entities\IUseCaseEntity.cs" />
     <Compile Include="Entities\SystemBoundary.cs" />
     <Compile Include="Entities\UseCase.cs" />
+    <Compile Include="ITrackable.cs" />
     <Compile Include="Members\MemberType.cs" />
     <Compile Include="Models\ClassModel.cs" />
     <Compile Include="NestingChildEventArgs.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Entities\StructureType.cs" />
     <Compile Include="Relationships\Relationship.cs" />
     <Compile Include="LanguageElement.cs" />
+    <Compile Include="TrackableValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
