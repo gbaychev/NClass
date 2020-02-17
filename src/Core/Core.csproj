@@ -157,7 +157,9 @@
     <Compile Include="Entities\StructureType.cs" />
     <Compile Include="Relationships\Relationship.cs" />
     <Compile Include="LanguageElement.cs" />
-    <Compile Include="TrackableValue.cs" />
+    <Compile Include="UndoRedo\Modification.cs" />
+    <Compile Include="UndoRedo\TrackableValue.cs" />
+    <Compile Include="UndoRedo\UndoRedoEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

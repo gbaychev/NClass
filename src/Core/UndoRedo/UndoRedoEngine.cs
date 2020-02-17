@@ -13,19 +13,33 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-namespace NClass.Core
-{
-    public class TrackableValue<T> : ITrackable
-    {
-        private readonly string _propertyName;
-        private T _value, _originalValue;
+using System.Collections.Generic;
 
-        public TrackableValue(string propertyName, T defaultValue)
+namespace NClass.Core.UndoRedo
+{
+    public class UndoRedoEngine
+    {
+        private Stack<Modification> UndoStack { get; }
+        private Stack<Modification> RedoStack { get; }
+
+        public UndoRedoEngine()
         {
-            _propertyName = propertyName;
-            _originalValue = _value = defaultValue;
+            UndoStack = new Stack<Modification>(25);
+            RedoStack = new Stack<Modification>(25);
         }
 
-        public bool HasChanges => _originalValue.Equals(_value);
+        public void Undo()
+        {
+            var modification = UndoStack.Pop();
+            modification.UndoAction();
+            RedoStack.Push(modification);
+        }
+
+        public void Redo()
+        {
+            var modification = RedoStack.Pop();
+            modification.RedoAction();
+            UndoStack.Push(modification);
+        }
     }
 }
