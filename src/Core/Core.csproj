@@ -158,6 +158,7 @@
     <Compile Include="Relationships\Relationship.cs" />
     <Compile Include="LanguageElement.cs" />
     <Compile Include="UndoRedo\Modification.cs" />
+    <Compile Include="UndoRedo\ModificationEventArgs.cs" />
     <Compile Include="UndoRedo\TrackableValue.cs" />
     <Compile Include="UndoRedo\UndoRedoEngine.cs" />
   </ItemGroup>

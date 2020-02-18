@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using System.Linq;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -30,7 +31,7 @@ namespace NClass.Core
         protected bool isDirty = false;
         protected bool loading = false;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
         public event EntityEventHandler EntityAdded;
         public event EntityEventHandler EntityRemoved;
         public event EntityEventHandler EntityNested;
@@ -63,7 +64,8 @@ namespace NClass.Core
 
         protected void ElementChanged(object sender, EventArgs e)
         {
-            OnModified(e);
+            // TODO
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected void AddEntity(IEntity entity)
@@ -296,25 +298,25 @@ namespace NClass.Core
         protected virtual void OnEntityAdded(EntityEventArgs e)
         {
             EntityAdded?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnEntityRemoved(EntityEventArgs e)
         {
             EntityRemoved?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnRelationAdded(RelationshipEventArgs e)
         {
             RelationAdded?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnRelationRemoved(RelationshipEventArgs e)
         {
             RelationRemoved?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnSerializing(SerializeEventArgs e)
@@ -325,10 +327,10 @@ namespace NClass.Core
         protected virtual void OnDeserializing(SerializeEventArgs e)
         {
             Deserializing?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);

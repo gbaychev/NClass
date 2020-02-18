@@ -15,6 +15,7 @@
 
 using System;
 using System.Xml;
+using NClass.Core.UndoRedo;
 
 namespace NClass.Core
 {
@@ -23,7 +24,7 @@ namespace NClass.Core
         bool isDirty = false;
         int dontRaiseRequestCount = 0;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
 
         public bool IsDirty
         {
@@ -49,7 +50,7 @@ namespace NClass.Core
                     dontRaiseRequestCount--;
 
                 if (RaiseChangedEvent && isDirty)
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
             }
         }
 
@@ -58,13 +59,21 @@ namespace NClass.Core
             if (!Initializing)
             {
                 if (RaiseChangedEvent)
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 else
                     isDirty = true;
             }
         }
 
-        private void OnModified(EventArgs e)
+        protected void Changed(Action doAction, Action undoAction)
+        {
+            if (Initializing || !RaiseChangedEvent) return;
+
+            var modification = new Modification {RedoAction = doAction, UndoAction = undoAction};
+            OnModified(new ModificationEventArgs(modification));
+        }
+
+        private void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);

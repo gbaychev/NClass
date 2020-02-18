@@ -21,6 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Editors;
 using NClass.DiagramEditor.Diagrams;
@@ -100,7 +101,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 					Size oldSize = Size;
 					collapsed = value;
 					OnResize(new ResizeEventArgs(Size - oldSize));
-					OnModified(EventArgs.Empty);
+					OnModified(ModificationEventArgs.Empty);
 				}
 			}
 		}

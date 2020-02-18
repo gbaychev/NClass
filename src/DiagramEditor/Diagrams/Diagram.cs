@@ -23,6 +23,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
@@ -72,7 +73,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected SizeF positionChangeCumulation = SizeF.Empty;
         protected SizeF sizeChangeCumulation = SizeF.Empty;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
         public event EventHandler OffsetChanged;
         public event EventHandler SizeChanged;
         public event EventHandler ZoomChanged;
@@ -196,7 +197,7 @@ namespace NClass.DiagramEditor.Diagrams
                     name = value;
                     model.Name = value;
                     OnRenamed(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -1531,7 +1532,7 @@ namespace NClass.DiagramEditor.Diagrams
         {
             if (!RedrawSuspended)
                 RequestRedrawIfNeeded();
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         private void element_Activating(object sender, EventArgs e)
@@ -2086,7 +2087,7 @@ namespace NClass.DiagramEditor.Diagrams
             model.RemoveRelationship(relationship);
         }
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);

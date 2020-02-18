@@ -21,6 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
@@ -280,7 +281,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 ClearBendPoints();
                 Reroute();
                 OnRouteChanged(EventArgs.Empty);
-                OnModified(EventArgs.Empty);
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
@@ -1227,7 +1228,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     point.AutoPosition = false;
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
                 return true;
             }
@@ -1256,7 +1257,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     }
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
                 e.Handled = true;
                 return true;
@@ -1398,7 +1399,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }

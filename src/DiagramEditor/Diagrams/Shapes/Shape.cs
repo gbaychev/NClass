@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 
@@ -69,7 +70,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             size = DefaultSize;
             isBeingDragged = false;
 
-            entity.Modified += delegate { OnModified(EventArgs.Empty); };
+            entity.Modified += delegate { OnModified(ModificationEventArgs.Empty); };
 
             entity.Serializing += delegate (object sender, SerializeEventArgs e)
             {
@@ -120,7 +121,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size offset = new Size(value.X - X, value.Y - Y);
                     location = value;
                     OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -138,7 +139,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size offset = new Size(value - X, 0);
                     location.X = value;
                     OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -156,7 +157,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size offset = new Size(0, value - Y);
                     location.Y = value;
                     OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -179,7 +180,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(value.Width - Width, value.Height - Height);
                     size = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -200,7 +201,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(value - Width, 0);
                     size.Width = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -221,7 +222,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(0, value - Height);
                     size.Height = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }

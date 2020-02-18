@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
@@ -36,7 +37,7 @@ namespace NClass.DiagramEditor.Diagrams
         bool isMousePressed = false;
         bool needsRedraw = true;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
         public event EventHandler SelectionChanged;
         public event EventHandler Activating;
         public event EventHandler Activated;
@@ -239,7 +240,7 @@ namespace NClass.DiagramEditor.Diagrams
         [Obsolete]
         protected internal abstract void Deserialize(XmlElement node);
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             NeedsRedraw = true;
