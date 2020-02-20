@@ -369,16 +369,20 @@ namespace NClass.GUI
         {
             if (docManager.HasDocument)
             {
-                IDocument document = docManager.ActiveDocument;
+                var document = docManager.ActiveDocument;
                 toolCut.Enabled = document.CanCutToClipboard;
                 toolCopy.Enabled = document.CanCopyToClipboard;
                 toolPaste.Enabled = document.CanPasteFromClipboard;
+                toolUndo.Enabled = document.CanUndo;
+                toolRedo.Enabled = document.CanRedo;
             }
             else
             {
                 toolCut.Enabled = false;
                 toolCopy.Enabled = false;
                 toolPaste.Enabled = false;
+                toolUndo.Enabled = false;
+                toolUndo.Enabled = false;
             }
         }
 
@@ -654,9 +658,8 @@ namespace NClass.GUI
             {
                 IDocument document = docManager.ActiveDocument;
 
-                //UNDONE:
-                //mnuUndo.Enabled = document.CanUndo;
-                //mnuRedo.Enabled = document.CanRedo;
+                mnuUndo.Enabled = document.CanUndo;
+                mnuRedo.Enabled = document.CanRedo;
                 mnuCut.Enabled = document.CanCutToClipboard;
                 mnuCopy.Enabled = document.CanCopyToClipboard;
                 mnuPaste.Enabled = document.CanPasteFromClipboard;
@@ -688,16 +691,12 @@ namespace NClass.GUI
 
         private void mnuUndo_Click(object sender, EventArgs e)
         {
-            //UNDONE: mnuUndo_Click
-            MessageBox.Show(Strings.NotImplemented, "Undo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            docManager.ActiveDocument.Undo();
         }
 
         private void mnuRedo_Click(object sender, EventArgs e)
         {
-            //UNDONE: mnuRedo_Click
-            MessageBox.Show(Strings.NotImplemented, "Redo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            docManager.ActiveDocument.Redo();
         }
 
         private void mnuCut_Click(object sender, EventArgs e)
@@ -931,5 +930,19 @@ namespace NClass.GUI
         }
 
         #endregion
+
+        private void toolUndo_Click(object sender, EventArgs e)
+        {
+            if (!docManager.HasDocument)
+                return;
+            docManager.ActiveDocument.Undo();
+        }
+
+        private void toolRedo_Click(object sender, EventArgs e)
+        {
+            if (!docManager.HasDocument)
+                return;
+            docManager.ActiveDocument.Redo();
+        }
     }
 }

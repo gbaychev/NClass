@@ -91,12 +91,14 @@ namespace NClass.DiagramEditor.Diagrams
         protected string name;
 
         public DiagramType DiagramType { get; protected set; }
+        private readonly UndoRedoEngine _undoRedoEngine;
 
 
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor
         protected Diagram()
         {
+            _undoRedoEngine = new UndoRedoEngine();
         }
 
         /// <exception cref="ArgumentException">
@@ -2175,6 +2177,19 @@ namespace NClass.DiagramEditor.Diagrams
             Shape endShape = GetShape(commentRelationship.Second);
             AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
             return commentRelationship;
+        }
+
+        public bool CanUndo => _undoRedoEngine.CanUndo;
+        public bool CanRedo => _undoRedoEngine.CanRedo;
+
+        public void Undo()
+        {
+            _undoRedoEngine.Undo();
+        }
+
+        public void Redo()
+        {
+            _undoRedoEngine.Redo();
         }
     }
 }

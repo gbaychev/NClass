@@ -67,6 +67,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram.ContextMenus
             mnuPaste.Enabled = diagram.CanPasteFromClipboard;
 
             mnuSaveAsImage.Enabled = !diagram.IsEmpty;
+
+            mnuUndo.Enabled = diagram.CanUndo;
+            mnuRedo.Enabled = diagram.CanRedo;
         }
 
         private void InitMenuItems()

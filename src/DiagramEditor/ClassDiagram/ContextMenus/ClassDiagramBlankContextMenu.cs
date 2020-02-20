@@ -88,6 +88,9 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
             mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
 
             mnuSaveAsImage.Enabled = !diagram.IsEmpty;
+
+            mnuUndo.Enabled = diagram.CanUndo;
+            mnuRedo.Enabled = diagram.CanRedo;
         }
 
         private void InitMenuItems()
@@ -285,12 +288,12 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 
         private void mnuUndo_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException("Undo is not yet implemented");
+            Diagram?.Undo();
         }
 
         private void mnuRedo_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException("Redo is not yet implemented");
+            Diagram?.Redo();
         }
     }
 }

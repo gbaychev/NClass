@@ -30,6 +30,8 @@ namespace NClass.Core.UndoRedo
 
         public void Undo()
         {
+            if (UndoStack.Count == 0)
+                return;
             var modification = UndoStack.Pop();
             modification.UndoAction();
             RedoStack.Push(modification);
@@ -37,9 +39,14 @@ namespace NClass.Core.UndoRedo
 
         public void Redo()
         {
+            if (RedoStack.Count == 0)
+                return;
             var modification = RedoStack.Pop();
             modification.RedoAction();
             UndoStack.Push(modification);
         }
+
+        public bool CanUndo => UndoStack.Count > 0;
+        public bool CanRedo => RedoStack.Count > 0;
     }
 }

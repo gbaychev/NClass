@@ -837,7 +837,7 @@ namespace NClass.GUI
             this.toolAutoZoom});
             this.standardToolStrip.Location = new System.Drawing.Point(3, 24);
             this.standardToolStrip.Name = "standardToolStrip";
-            this.standardToolStrip.Size = new System.Drawing.Size(448, 25);
+            this.standardToolStrip.Size = new System.Drawing.Size(479, 25);
             this.standardToolStrip.TabIndex = 1;
             // 
             // toolNew
@@ -1007,6 +1007,7 @@ namespace NClass.GUI
             this.toolUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolUndo.Name = "toolUndo";
             this.toolUndo.Size = new System.Drawing.Size(23, 22);
+            this.toolUndo.Click += new System.EventHandler(this.toolUndo_Click);
             // 
             // toolRedo
             // 
@@ -1016,6 +1017,7 @@ namespace NClass.GUI
             this.toolRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolRedo.Name = "toolRedo";
             this.toolRedo.Size = new System.Drawing.Size(23, 22);
+            this.toolRedo.Click += new System.EventHandler(this.toolRedo_Click);
             // 
             // toolSepRedo
             // 
