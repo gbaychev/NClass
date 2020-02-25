@@ -56,13 +56,17 @@ namespace NClass.Core
 
         protected void Changed()
         {
-            if (!Initializing)
-            {
-                if (RaiseChangedEvent)
-                    OnModified(ModificationEventArgs.Empty);
-                else
-                    isDirty = true;
-            }
+            Changed(ModificationEventArgs.Empty);
+        }
+
+        protected void Changed(ModificationEventArgs args)
+        {
+            if (Initializing) return;
+
+            if (RaiseChangedEvent)
+                OnModified(args);
+            else
+                isDirty = true;
         }
 
         protected void Changed(Action doAction, Action undoAction)

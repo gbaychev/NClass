@@ -17,6 +17,7 @@ using System;
 using System.Xml;
 using System.Collections;
 using System.Text.RegularExpressions;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -55,11 +56,27 @@ namespace NClass.Core
             set
             {
                 string newName = Language.GetValidName(value, true);
-
+                
                 if (newName != name)
                 {
+                    var oldName = name;
+                    var modification = new Modification
+                    {
+                        UndoAction = () =>
+                        {
+                            RaiseChangedEvent = false;
+                            name = oldName;
+                            RaiseChangedEvent = true;
+                        }, 
+                        RedoAction = () =>
+                        {
+                            RaiseChangedEvent = false;
+                            name = newName;
+                            RaiseChangedEvent = true;
+                        }
+                    };
                     name = newName;
-                    Changed();
+                    Changed(new ModificationEventArgs(modification));
                 }
             }
         }

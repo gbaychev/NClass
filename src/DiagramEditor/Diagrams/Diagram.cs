@@ -98,7 +98,16 @@ namespace NClass.DiagramEditor.Diagrams
         // hide the public ctor
         protected Diagram()
         {
+            this.Modified += OnModified;
             _undoRedoEngine = new UndoRedoEngine();
+        }
+
+        protected void OnModified(object sender, ModificationEventArgs e)
+        {
+            if (e == ModificationEventArgs.Empty)
+                return;
+
+            _undoRedoEngine.TrackModification(e.Modification);
         }
 
         /// <exception cref="ArgumentException">

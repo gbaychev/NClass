@@ -487,6 +487,7 @@ namespace NClass.DiagramEditor.ClassDiagram
                 model.RelationRemoved += OnRelationRemoved;
                 model.RelationAdded += OnRelationAdded;
                 model.Deserializing += OnDeserializing;
+                model.Modified += OnModified;
                 model.Name = this.name;
             }
 

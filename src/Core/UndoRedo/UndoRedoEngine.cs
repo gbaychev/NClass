@@ -46,6 +46,11 @@ namespace NClass.Core.UndoRedo
             UndoStack.Push(modification);
         }
 
+        public void TrackModification(Modification modification)
+        {
+            UndoStack.Push(modification);
+        }
+
         public bool CanUndo => UndoStack.Count > 0;
         public bool CanRedo => RedoStack.Count > 0;
     }

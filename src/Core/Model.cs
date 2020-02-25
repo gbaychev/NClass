@@ -65,7 +65,7 @@ namespace NClass.Core
         protected void ElementChanged(object sender, EventArgs e)
         {
             // TODO
-            OnModified(ModificationEventArgs.Empty);
+            OnModified((ModificationEventArgs)e);
         }
 
         protected void AddEntity(IEntity entity)
