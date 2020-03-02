@@ -27,7 +27,7 @@ namespace NClass.DiagramEditor
         bool CanRedo { get; }
 
         event EventHandler ClipboardAvailabilityChanged;
-
+        
         void Cut();
         void Copy();
         void Paste();
@@ -35,5 +35,6 @@ namespace NClass.DiagramEditor
         void DeleteSelectedElements();
         void Undo();
         void Redo();
+        event EventHandler UndoRedoChanged;
     }
 }

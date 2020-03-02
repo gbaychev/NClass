@@ -70,7 +70,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             size = DefaultSize;
             isBeingDragged = false;
 
-            entity.Modified += delegate { OnModified(ModificationEventArgs.Empty); };
+            entity.Modified += (s, e) => OnModified(e);
 
             entity.Serializing += delegate (object sender, SerializeEventArgs e)
             {

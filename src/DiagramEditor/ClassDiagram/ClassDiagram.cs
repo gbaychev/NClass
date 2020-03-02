@@ -53,6 +53,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             model.Deserializing += OnDeserializing;
             model.Project = this.Project;
             model.Name = this.name;
+            model.Modified += OnModified;
 
             newShapeType = EntityType.Class;
             DiagramType = DiagramType.ClassDiagram;

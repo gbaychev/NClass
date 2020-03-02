@@ -13,6 +13,7 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Collections.Generic;
 
 namespace NClass.Core.UndoRedo
@@ -22,6 +23,8 @@ namespace NClass.Core.UndoRedo
         private Stack<Modification> UndoStack { get; }
         private Stack<Modification> RedoStack { get; }
 
+        public event EventHandler UndoRedoChanged;
+        
         public UndoRedoEngine()
         {
             UndoStack = new Stack<Modification>(25);
@@ -35,6 +38,7 @@ namespace NClass.Core.UndoRedo
             var modification = UndoStack.Pop();
             modification.UndoAction();
             RedoStack.Push(modification);
+            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Redo()
@@ -44,11 +48,13 @@ namespace NClass.Core.UndoRedo
             var modification = RedoStack.Pop();
             modification.RedoAction();
             UndoStack.Push(modification);
+            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void TrackModification(Modification modification)
         {
             UndoStack.Push(modification);
+            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public bool CanUndo => UndoStack.Count > 0;

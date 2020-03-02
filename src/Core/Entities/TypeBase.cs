@@ -38,7 +38,7 @@ namespace NClass.Core
         protected TypeBase(string name)
         {
             Initializing = true;
-            Name = name;
+            this.name = name;
             nestableChildHelper = new NestableChildHelper(this);
             nestableChildHelper.NestingParentChanged += (s, a) => Changed();
             Initializing = false;
@@ -49,10 +49,7 @@ namespace NClass.Core
         /// </exception>
         public virtual string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             set
             {
                 string newName = Language.GetValidName(value, true);

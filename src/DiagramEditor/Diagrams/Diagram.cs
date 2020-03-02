@@ -81,6 +81,7 @@ namespace NClass.DiagramEditor.Diagrams
         public event EventHandler SelectionChanged;
         public event EventHandler NeedsRedraw;
         public event EventHandler ClipboardAvailabilityChanged;
+        public event EventHandler UndoRedoChanged;
         public event PopupWindowEventHandler ShowingWindow;
         public event PopupWindowEventHandler HidingWindow;
         public event EventHandler Renamed;
@@ -91,7 +92,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected string name;
 
         public DiagramType DiagramType { get; protected set; }
-        private readonly UndoRedoEngine _undoRedoEngine;
+        private readonly UndoRedoEngine undoRedoEngine;
 
 
         // ReSharper disable once UnusedMember.Global
@@ -99,7 +100,8 @@ namespace NClass.DiagramEditor.Diagrams
         protected Diagram()
         {
             this.Modified += OnModified;
-            _undoRedoEngine = new UndoRedoEngine();
+            undoRedoEngine = new UndoRedoEngine();
+            undoRedoEngine.UndoRedoChanged += (o, e) => UndoRedoChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected void OnModified(object sender, ModificationEventArgs e)
@@ -107,7 +109,7 @@ namespace NClass.DiagramEditor.Diagrams
             if (e == ModificationEventArgs.Empty)
                 return;
 
-            _undoRedoEngine.TrackModification(e.Modification);
+            undoRedoEngine.TrackModification(e.Modification);
         }
 
         /// <exception cref="ArgumentException">
@@ -2188,17 +2190,17 @@ namespace NClass.DiagramEditor.Diagrams
             return commentRelationship;
         }
 
-        public bool CanUndo => _undoRedoEngine.CanUndo;
-        public bool CanRedo => _undoRedoEngine.CanRedo;
+        public bool CanUndo => undoRedoEngine.CanUndo;
+        public bool CanRedo => undoRedoEngine.CanRedo;
 
         public void Undo()
         {
-            _undoRedoEngine.Undo();
+            undoRedoEngine.Undo();
         }
 
         public void Redo()
         {
-            _undoRedoEngine.Redo();
+            undoRedoEngine.Redo();
         }
     }
 }

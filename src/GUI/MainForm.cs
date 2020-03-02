@@ -365,6 +365,21 @@ namespace NClass.GUI
             toolAutoZoom.Enabled = docManager.HasDocument && !docManager.ActiveDocument.IsEmpty;
         }
 
+        private void UpdateUndoRedoButtons()
+        {
+            if (docManager.HasDocument)
+            {
+                var document = docManager.ActiveDocument;
+                toolUndo.Enabled = document.CanUndo;
+                toolRedo.Enabled = document.CanRedo;
+            }
+            else
+            {
+                toolUndo.Enabled = false;
+                toolUndo.Enabled = false;
+            }
+        }
+
         private void UpdateClipboardToolBar()
         {
             if (docManager.HasDocument)
@@ -451,6 +466,7 @@ namespace NClass.GUI
                 docManager.ActiveDocument.StatusChanged += ActiveDocument_StatusChanged;
                 docManager.ActiveDocument.ClipboardAvailabilityChanged +=
                     ActiveDocument_ClipboardAvailabilityChanged;
+                docManager.ActiveDocument.UndoRedoChanged += ActiveDocument_UndoRedChanged;
             }
             else
             {
@@ -464,12 +480,19 @@ namespace NClass.GUI
                 oldDocument.StatusChanged -= ActiveDocument_StatusChanged;
                 oldDocument.ClipboardAvailabilityChanged -=
                     ActiveDocument_ClipboardAvailabilityChanged;
+                oldDocument.UndoRedoChanged -= ActiveDocument_UndoRedChanged;
             }
 
             UpdateStatusBar();
             UpdateDynamicMenus();
+            UpdateUndoRedoButtons();
             UpdateClipboardToolBar();
             UpdateStandardToolStrip();
+        }
+
+        private void ActiveDocument_UndoRedChanged(object sender, EventArgs e)
+        {
+            UpdateUndoRedoButtons();
         }
 
         private void ActiveDocument_Modified(object sender, EventArgs e)
