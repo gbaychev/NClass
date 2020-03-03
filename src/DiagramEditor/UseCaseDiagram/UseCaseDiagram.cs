@@ -109,7 +109,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             }
 
             RecalculateSize();
-            return shapes.FirstValue;
+            return base.AddShape(type);
         }
 
         private Actor AddActor()

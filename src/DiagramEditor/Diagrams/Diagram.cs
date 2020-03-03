@@ -187,7 +187,15 @@ namespace NClass.DiagramEditor.Diagrams
             newShapeType = type;
         }
 
-        public abstract Shape AddShape(EntityType type);
+        public virtual Shape AddShape(EntityType type)
+        {
+            var newShape = shapes.LastValue;
+            Action undoAction = () => { RemoveShape(newShape); };
+            Action redoAction = () => { AddShape(newShape.Entity.EntityType); };
+            var modification = new Modification(undoAction, redoAction, "AddShape");
+            OnModified(new ModificationEventArgs(modification));
+            return shapes.LastValue;
+        }
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
         #endregion
