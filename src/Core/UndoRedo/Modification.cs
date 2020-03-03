@@ -19,13 +19,15 @@ namespace NClass.Core.UndoRedo
 {
     public class Modification
     {
-        public Modification(Action undoAction, Action redoAction)
+        public Modification(Action undoAction, Action redoAction, string debugTag = "<unknown>")
         {
             UndoAction = undoAction;
             RedoAction = redoAction;
+            DebugTag = debugTag;
         }
 
-        public Action RedoAction { get; set; }
-        public Action UndoAction { get; set; }
+        public Action RedoAction { get; }
+        public Action UndoAction { get;  }
+        public string DebugTag { get; }
     }
 }

@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Core.UndoRedo;
 
 namespace NClass.DiagramEditor
 {
@@ -35,6 +36,6 @@ namespace NClass.DiagramEditor
         void DeleteSelectedElements();
         void Undo();
         void Redo();
-        event EventHandler UndoRedoChanged;
+        event UndoRedoHandler UndoRedoChanged;
     }
 }

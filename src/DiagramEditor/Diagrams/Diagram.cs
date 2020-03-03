@@ -81,7 +81,7 @@ namespace NClass.DiagramEditor.Diagrams
         public event EventHandler SelectionChanged;
         public event EventHandler NeedsRedraw;
         public event EventHandler ClipboardAvailabilityChanged;
-        public event EventHandler UndoRedoChanged;
+        public event UndoRedoHandler UndoRedoChanged;
         public event PopupWindowEventHandler ShowingWindow;
         public event PopupWindowEventHandler HidingWindow;
         public event EventHandler Renamed;
@@ -101,7 +101,7 @@ namespace NClass.DiagramEditor.Diagrams
         {
             this.Modified += OnModified;
             undoRedoEngine = new UndoRedoEngine();
-            undoRedoEngine.UndoRedoChanged += (o, e) => UndoRedoChanged?.Invoke(this, EventArgs.Empty);
+            undoRedoEngine.UndoRedoChanged += (o, e) => UndoRedoChanged?.Invoke(this, e);
         }
 
         protected void OnModified(object sender, ModificationEventArgs e)

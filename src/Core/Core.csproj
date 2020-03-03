@@ -160,7 +160,9 @@
     <Compile Include="UndoRedo\Modification.cs" />
     <Compile Include="UndoRedo\ModificationEventArgs.cs" />
     <Compile Include="UndoRedo\TrackableValue.cs" />
+    <Compile Include="UndoRedo\UndoRedoAction.cs" />
     <Compile Include="UndoRedo\UndoRedoEngine.cs" />
+    <Compile Include="UndoRedo\UndoRedoEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

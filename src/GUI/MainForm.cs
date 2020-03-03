@@ -21,6 +21,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.CSharp;
 using NClass.Java;
 using NClass.DiagramEditor;
@@ -39,6 +40,7 @@ namespace NClass.GUI
         bool showNavigator = true;
         DynamicMenu dynamicMenu = null;
         List<Plugin> plugins = new List<Plugin>();
+        private readonly UndoRedoExplorer undoRedoExplorer = new UndoRedoExplorer();
 
         public MainForm()
         {
@@ -54,6 +56,7 @@ namespace NClass.GUI
             modelExplorer.Workspace = Workspace.Default;
             tabbedWindow.DocumentManager = docManager;
             diagramNavigator.DocumentVisualizer = tabbedWindow.Canvas;
+            undoRedoExplorer.Show(this);
 
             UpdateTexts();
             UpdateStatusBar();
@@ -466,7 +469,7 @@ namespace NClass.GUI
                 docManager.ActiveDocument.StatusChanged += ActiveDocument_StatusChanged;
                 docManager.ActiveDocument.ClipboardAvailabilityChanged +=
                     ActiveDocument_ClipboardAvailabilityChanged;
-                docManager.ActiveDocument.UndoRedoChanged += ActiveDocument_UndoRedChanged;
+                docManager.ActiveDocument.UndoRedoChanged += ActiveDocument_UndoRedoChanged;
             }
             else
             {
@@ -480,7 +483,7 @@ namespace NClass.GUI
                 oldDocument.StatusChanged -= ActiveDocument_StatusChanged;
                 oldDocument.ClipboardAvailabilityChanged -=
                     ActiveDocument_ClipboardAvailabilityChanged;
-                oldDocument.UndoRedoChanged -= ActiveDocument_UndoRedChanged;
+                oldDocument.UndoRedoChanged -= ActiveDocument_UndoRedoChanged;
             }
 
             UpdateStatusBar();
@@ -490,9 +493,10 @@ namespace NClass.GUI
             UpdateStandardToolStrip();
         }
 
-        private void ActiveDocument_UndoRedChanged(object sender, EventArgs e)
+        private void ActiveDocument_UndoRedoChanged(object sender, UndoRedoEventArgs e)
         {
             UpdateUndoRedoButtons();
+            undoRedoExplorer.Track(e);
         }
 
         private void ActiveDocument_Modified(object sender, EventArgs e)

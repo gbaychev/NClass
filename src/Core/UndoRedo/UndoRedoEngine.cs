@@ -18,13 +18,15 @@ using System.Collections.Generic;
 
 namespace NClass.Core.UndoRedo
 {
+    public delegate void UndoRedoHandler(object sender, UndoRedoEventArgs args);
+
     public class UndoRedoEngine
     {
         private Stack<Modification> UndoStack { get; }
         private Stack<Modification> RedoStack { get; }
 
-        public event EventHandler UndoRedoChanged;
-        
+        public event UndoRedoHandler UndoRedoChanged;
+
         public UndoRedoEngine()
         {
             UndoStack = new Stack<Modification>(25);
@@ -38,7 +40,8 @@ namespace NClass.Core.UndoRedo
             var modification = UndoStack.Pop();
             modification.UndoAction();
             RedoStack.Push(modification);
-            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPop | UndoRedoAction.RedoPush, modification.DebugTag);
+            UndoRedoChanged?.Invoke(this, args);
         }
 
         public void Redo()
@@ -48,13 +51,15 @@ namespace NClass.Core.UndoRedo
             var modification = RedoStack.Pop();
             modification.RedoAction();
             UndoStack.Push(modification);
-            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
+            var args = new UndoRedoEventArgs(UndoRedoAction.RedoPop | UndoRedoAction.UndoPush, modification.DebugTag);
+            UndoRedoChanged?.Invoke(this, args);
         }
 
         public void TrackModification(Modification modification)
         {
             UndoStack.Push(modification);
-            UndoRedoChanged?.Invoke(this, EventArgs.Empty);
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush, modification.DebugTag);
+            UndoRedoChanged?.Invoke(this, args);
         }
 
         public bool CanUndo => UndoStack.Count > 0;

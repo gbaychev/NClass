@@ -181,6 +181,12 @@
     <Compile Include="TabbedWindow.Designer.cs">
       <DependentUpon>TabbedWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="UndoRedoExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UndoRedoExplorer.Designer.cs">
+      <DependentUpon>UndoRedoExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdatesChecker.cs" />
     <Compile Include="WindowSettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -191,6 +197,9 @@
     <Compile Include="ZoomingToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="UndoRedoExplorer.resx">
+      <DependentUpon>UndoRedoExplorer.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
