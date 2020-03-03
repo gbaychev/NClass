@@ -14,6 +14,8 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml;
 using NClass.Core.UndoRedo;
 
@@ -69,18 +71,31 @@ namespace NClass.Core
                 isDirty = true;
         }
 
-        protected void Changed(Action doAction, Action undoAction)
-        {
-            if (Initializing || !RaiseChangedEvent) return;
-
-            var modification = new Modification {RedoAction = doAction, UndoAction = undoAction};
-            OnModified(new ModificationEventArgs(modification));
-        }
-
         private void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);
+        }
+
+        protected Modification TrackPropertyModification<T, U>(Expression<Func<T, U>> propertySelector, U oldValue, U newValue) where T : Element
+        {
+            Action undoAction = () =>
+            {
+                RaiseChangedEvent = false;
+                var body = (MemberExpression) propertySelector.Body;
+                var property = (PropertyInfo)body.Member;
+                property.SetValue(this, oldValue);
+                RaiseChangedEvent = true;
+            };
+            Action redoAction = () =>
+            {
+                RaiseChangedEvent = false;
+                var body = (MemberExpression) propertySelector.Body;
+                var property = (PropertyInfo) body.Member;
+                property.SetValue(this, newValue);
+                RaiseChangedEvent = true;
+            };
+            return new Modification(undoAction, redoAction);
         }
     }
 }

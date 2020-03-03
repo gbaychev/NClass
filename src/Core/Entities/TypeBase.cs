@@ -56,22 +56,7 @@ namespace NClass.Core
                 
                 if (newName != name)
                 {
-                    var oldName = name;
-                    var modification = new Modification
-                    {
-                        UndoAction = () =>
-                        {
-                            RaiseChangedEvent = false;
-                            name = oldName;
-                            RaiseChangedEvent = true;
-                        }, 
-                        RedoAction = () =>
-                        {
-                            RaiseChangedEvent = false;
-                            name = newName;
-                            RaiseChangedEvent = true;
-                        }
-                    };
+                    var modification = TrackPropertyModification((TypeBase t) => t.Name, name, newName);
                     name = newName;
                     Changed(new ModificationEventArgs(modification));
                 }

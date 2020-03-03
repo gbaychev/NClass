@@ -19,6 +19,12 @@ namespace NClass.Core.UndoRedo
 {
     public class Modification
     {
+        public Modification(Action undoAction, Action redoAction)
+        {
+            UndoAction = undoAction;
+            RedoAction = redoAction;
+        }
+
         public Action RedoAction { get; set; }
         public Action UndoAction { get; set; }
     }
