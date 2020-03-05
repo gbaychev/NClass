@@ -178,6 +178,16 @@ namespace NClass.DiagramEditor.Diagrams
             {
                 Paste();
             }
+            // Ctrl + Z
+            else if (e.KeyCode == Keys.Z && e.Modifiers == Keys.Control)
+            {
+                Undo();
+            }
+            // Ctrl + Y
+            else if (e.KeyCode == Keys.Y && e.Modifiers == Keys.Control)
+            {
+                Redo();
+            }
         }
 
         public virtual void CreateShape(EntityType type, Point? where = null)
