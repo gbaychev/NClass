@@ -29,7 +29,7 @@ namespace NClass.GUI
 {
     public static class UpdatesChecker
     {
-        private class VersionInfo
+        public class VersionInfo
         {
             /// <exception cref="ArgumentException">
             /// <paramref name="version"/> is an invalid value.
@@ -139,12 +139,12 @@ namespace NClass.GUI
             System.Diagnostics.Process.Start(url);
         }
 
-        public static async Task CheckForUpdates()
+        public static async Task CheckForUpdates(bool silent = false)
         {
             try
             {
                 VersionInfo info = await GetVersionManifestInfo();
-                ShowNewVersionInfo(info);
+                ShowNewVersionInfo(info, silent);
             }
             catch (Octokit.NotFoundException)
             {
@@ -163,7 +163,7 @@ namespace NClass.GUI
             }
         }
 
-        private static void ShowNewVersionInfo(VersionInfo info)
+        public static void ShowNewVersionInfo(VersionInfo info, bool silent = false)
         {
             if (info.IsUpdated)
             {
@@ -175,9 +175,12 @@ namespace NClass.GUI
             }
             else
             {
-                MessageBox.Show(
-                    Strings.NoUpdates, Strings.CheckingForUpdates,
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!silent)
+                {
+                    MessageBox.Show(
+                        Strings.NoUpdates, Strings.CheckingForUpdates,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }

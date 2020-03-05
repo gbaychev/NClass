@@ -25,10 +25,10 @@ using NClass.CSharp;
 using NClass.Java;
 using NClass.DiagramEditor;
 using NClass.DiagramEditor.ClassDiagram;
-using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.UseCaseDiagram;
 using NClass.GUI.Dialogs;
 using NClass.Translations;
+using Timer = System.Threading.Timer;
 
 namespace NClass.GUI
 {
@@ -39,6 +39,8 @@ namespace NClass.GUI
         bool showNavigator = true;
         DynamicMenu dynamicMenu = null;
         List<Plugin> plugins = new List<Plugin>();
+        private Timer updateTimer;
+        private UpdatesChecker.VersionInfo versionInfo;
 
         public MainForm()
         {
@@ -119,6 +121,17 @@ namespace NClass.GUI
         {
             LoadPlugins();
             LoadWindowSettings();
+            StartUpdateChecker();
+        }
+
+        private void StartUpdateChecker()
+        {
+            updateTimer = new Timer(UpdateTimer_Tick, null, 0, 1000 * 60 * 60);
+        }
+
+        private async void UpdateTimer_Tick(object args)
+        {
+            await UpdatesChecker.CheckForUpdates();
         }
 
         private void LoadPlugins()
@@ -232,6 +245,11 @@ namespace NClass.GUI
                 return;
             }
             SaveWindowSettings();
+            if (updateTimer != null)
+            {
+                updateTimer.Dispose();
+                updateTimer = null;
+            }
         }
 
         private void UpdateTexts()
