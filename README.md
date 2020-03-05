@@ -1,4 +1,14 @@
-# NClass [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-master)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=3)
+# NClass 
+
+## Build status
+| Branch | Status |
+| -----  | -----  |
+| Master | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-master)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=3) |
+| Stable | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-stable)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=4) |
+| topics/undoredo | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/Features/NClass-UndoRedo)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=5) |
+
+The feature branch currently worked on is undo/redo
+
 
 ## About
 
