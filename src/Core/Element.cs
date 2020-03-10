@@ -76,25 +76,5 @@ namespace NClass.Core
             isDirty = true;
             Modified?.Invoke(this, e);
         }
-
-        protected Modification TrackPropertyModification<T, U>(Expression<Func<T, U>> propertySelector, U oldValue, U newValue) where T : Element
-        {
-            var body = (MemberExpression)propertySelector.Body;
-            var property = (PropertyInfo)body.Member;
-            Action undoAction = () =>
-            {
-                RaiseChangedEvent = false;
-                
-                property.SetValue(this, oldValue);
-                RaiseChangedEvent = true;
-            };
-            Action redoAction = () =>
-            {
-                RaiseChangedEvent = false;
-                property.SetValue(this, newValue);
-                RaiseChangedEvent = true;
-            };
-            return new Modification(undoAction, redoAction, $"Property changed: {body.Member.Name}");
-        }
     }
 }

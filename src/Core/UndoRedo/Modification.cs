@@ -14,6 +14,8 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NClass.Core.UndoRedo
 {
@@ -29,5 +31,24 @@ namespace NClass.Core.UndoRedo
         public Action RedoAction { get; }
         public Action UndoAction { get;  }
         public string DebugTag { get; }
+
+        public static Modification TrackPropertyModification<T, U>(T sender, Expression<Func<T, U>> propertySelector, U oldValue, U newValue) where T : IModifiable
+        {
+            var body = (MemberExpression)propertySelector.Body;
+            var property = (PropertyInfo)body.Member;
+            Action undoAction = () =>
+            {
+                sender.RaiseChangedEvent = false;
+                property.SetValue(sender, oldValue);
+                sender.RaiseChangedEvent = true;
+            };
+            Action redoAction = () =>
+            {
+                sender.RaiseChangedEvent = false;
+                property.SetValue(sender, newValue);
+                sender.RaiseChangedEvent = true;
+            };
+            return new Modification(undoAction, redoAction, $"Property changed: {body.Member.Name}");
+        }
     }
 }
