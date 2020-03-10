@@ -30,6 +30,8 @@ namespace NClass.Core
         protected List<Relationship> relationships = new List<Relationship>();
         protected bool isDirty = false;
         protected bool loading = false;
+        protected int dontRaiseRequestCount = 0;
+
 
         public event ModifiedEventHandler Modified;
         public event EntityEventHandler EntityAdded;
@@ -46,6 +48,18 @@ namespace NClass.Core
         {
             get => name ?? Strings.Untitled;
             set => name = value;
+        }
+
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
         }
 
         public bool IsDirty => isDirty;

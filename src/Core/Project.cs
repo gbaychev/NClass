@@ -60,6 +60,8 @@ namespace NClass.Core
             this.name = name;
         }
 
+        public bool RaiseChangedEvent { get; set; }
+
         public string Name
         {
             get

@@ -48,6 +48,19 @@ namespace NClass.DiagramEditor.Diagrams
         public event AbsoluteMouseEventHandler MouseUp;
         public event AbsoluteMouseEventHandler DoubleClick;
 
+        private int dontRaiseRequestCount = 0;
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
+        }
+
         public IDiagram Diagram
         {
             get { return diagram; }

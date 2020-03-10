@@ -94,6 +94,18 @@ namespace NClass.DiagramEditor.Diagrams
         public DiagramType DiagramType { get; protected set; }
         private readonly UndoRedoEngine undoRedoEngine;
 
+        private int dontRaiseRequestCount = 0;
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
+        }
 
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor

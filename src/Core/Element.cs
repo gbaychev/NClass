@@ -41,7 +41,7 @@ namespace NClass.Core
 
         protected bool Initializing { get; set; }
 
-        protected bool RaiseChangedEvent
+        public bool RaiseChangedEvent
         {
             get => (dontRaiseRequestCount == 0);
             set

@@ -26,5 +26,7 @@ namespace NClass.Core
         bool IsDirty { get; }
 
         void Clean();
+
+        bool RaiseChangedEvent { get; set; }
     }
 }
