@@ -209,7 +209,34 @@ namespace NClass.DiagramEditor.Diagrams
             newShapeType = type;
         }
 
-        public abstract Shape AddShape(EntityType type);
+        //public abstract Shape AddShape(EntityType type);
+        public virtual Shape AddShape(EntityType type)
+        {
+            var shape = shapes.FirstValue;
+            Action undoAction = () =>
+            {
+                Model.RaiseChangedEvent = false;
+                RaiseChangedEvent = false;
+                this.RemoveShape(shape);
+                RaiseChangedEvent = true;
+                Model.RaiseChangedEvent = true;
+                Redraw();
+            };
+
+            Action redoAction = () =>
+            {
+                Model.RaiseChangedEvent = false;
+                RaiseChangedEvent = false;
+                this.AddShape(shape);
+                RaiseChangedEvent = true;
+                Model.RaiseChangedEvent = true;
+                Redraw();
+            };
+            var modification = new Modification(undoAction, redoAction, $"AddShape: {shape.Entity.Name}");
+            OnModified(new ModificationEventArgs(modification));
+            return shape;
+        }
+
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
         #endregion

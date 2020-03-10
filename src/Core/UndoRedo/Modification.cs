@@ -48,7 +48,7 @@ namespace NClass.Core.UndoRedo
                 property.SetValue(sender, newValue);
                 sender.RaiseChangedEvent = true;
             };
-            return new Modification(undoAction, redoAction, $"Property changed: {body.Member.Name}");
+            return new Modification(undoAction, redoAction, $"PC: {body.Member.Name}, O: {oldValue}, N: {newValue}");
         }
     }
 }

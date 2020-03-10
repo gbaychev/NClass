@@ -37,22 +37,22 @@
             this.undoStack.FormattingEnabled = true;
             this.undoStack.Location = new System.Drawing.Point(12, 12);
             this.undoStack.Name = "undoStack";
-            this.undoStack.Size = new System.Drawing.Size(120, 290);
+            this.undoStack.Size = new System.Drawing.Size(297, 290);
             this.undoStack.TabIndex = 0;
             // 
             // redoStack
             // 
             this.redoStack.FormattingEnabled = true;
-            this.redoStack.Location = new System.Drawing.Point(138, 12);
+            this.redoStack.Location = new System.Drawing.Point(315, 12);
             this.redoStack.Name = "redoStack";
-            this.redoStack.Size = new System.Drawing.Size(120, 290);
+            this.redoStack.Size = new System.Drawing.Size(285, 290);
             this.redoStack.TabIndex = 1;
             // 
             // UndoRedoExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(274, 313);
+            this.ClientSize = new System.Drawing.Size(612, 315);
             this.Controls.Add(this.redoStack);
             this.Controls.Add(this.undoStack);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
