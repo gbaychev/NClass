@@ -69,6 +69,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
+    <Compile Include="Commands\AddConnectionCommand.cs" />
+    <Compile Include="Commands\AddMemberCommand.cs" />
+    <Compile Include="Commands\AddShapeCommand.cs" />
+    <Compile Include="Commands\ChangePropertyCommand.cs" />
+    <Compile Include="Commands\MoveShapeCommand.cs" />
+    <Compile Include="Commands\PasteCommand.cs" />
+    <Compile Include="Commands\RemoveConnectionCommand.cs" />
+    <Compile Include="Commands\RemoveMemberCommand.cs" />
+    <Compile Include="Commands\RemoveShapeCommand.cs" />
+    <Compile Include="Commands\RenameConnectionCommand.cs" />
     <Compile Include="RoundedRectangle.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />
@@ -429,6 +439,7 @@
     <None Include="Resources\redo.png" />
     <Content Include="Resources\usecase_diagram.bmp" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
