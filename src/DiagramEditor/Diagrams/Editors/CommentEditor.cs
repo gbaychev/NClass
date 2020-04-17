@@ -21,77 +21,77 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Editors
 {
-	public sealed partial class CommentEditor :
+    public sealed partial class CommentEditor :
 #if DEBUG
-	    DesignerHelperWindow
+        DesignerHelperWindow
 #else
         EditorWindow
 #endif
     {
         CommentShape shape = null;
 
-		public CommentEditor()
-		{
-			InitializeComponent();
-		}
+        public CommentEditor()
+        {
+            InitializeComponent();
+        }
 
-		protected override void OnLocationChanged(EventArgs e)
-		{
-			base.OnLocationChanged(e);
-		}
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+        }
 
-		internal override void Init(DiagramElement element)
-		{
-			shape = (CommentShape) element;
-			
-			txtComment.BackColor = Style.CurrentStyle.CommentBackColor;
-			txtComment.ForeColor = Style.CurrentStyle.CommentTextColor;
-			txtComment.Text = shape.Comment.Text;
+        internal override void Init(DiagramElement element)
+        {
+            shape = (CommentShape)element;
 
-			Font font = Style.CurrentStyle.CommentFont;
-			txtComment.Font = new Font(font.FontFamily,
-				font.SizeInPoints * shape.Diagram.Zoom, font.Style);
-		}
+            txtComment.BackColor = Style.CurrentStyle.CommentBackColor;
+            txtComment.ForeColor = Style.CurrentStyle.CommentTextColor;
+            txtComment.Text = shape.Comment.Text;
 
-		internal override void Relocate(DiagramElement element)
-		{
-			Relocate((CommentShape) element);
-		}
+            Font font = Style.CurrentStyle.CommentFont;
+            txtComment.Font = new Font(font.FontFamily,
+                font.SizeInPoints * shape.Diagram.Zoom, font.Style);
+        }
 
-		internal void Relocate(CommentShape shape)
-		{
-			IDiagram diagram = shape.Diagram;
-			if (diagram != null)
-			{
-				Rectangle absolute = shape.GetTextRectangle();
-				// The following lines are required because of a .NET bug:
-				// http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=380085
-				if (!MonoHelper.IsRunningOnMono)
-				{
-					absolute.X -= 3;
-					absolute.Width += 3;
-				}
-				
-				this.SetBounds(
-					(int) (absolute.X * diagram.Zoom) - diagram.Offset.X + ParentLocation.X,
-					(int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y + ParentLocation.Y,
-					(int) (absolute.Width * diagram.Zoom),
-					(int) (absolute.Height * diagram.Zoom));
-			}
-		}
+        internal override void Relocate(DiagramElement element)
+        {
+            Relocate((CommentShape)element);
+        }
 
-		public override void ValidateData()
-		{
-			shape.Comment.Text = txtComment.Text;
-		}
+        internal void Relocate(CommentShape shape)
+        {
+            IDiagram diagram = shape.Diagram;
+            if (diagram != null)
+            {
+                Rectangle absolute = shape.GetTextRectangle();
+                // The following lines are required because of a .NET bug:
+                // http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=380085
+                if (!MonoHelper.IsRunningOnMono)
+                {
+                    absolute.X -= 3;
+                    absolute.Width += 3;
+                }
 
-		private void txtComment_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Enter && e.Modifiers != Keys.None ||
-				e.KeyCode == Keys.Escape)
-			{
-				shape.HideEditor();
-			}
-		}
-	}
+                this.SetBounds(
+                    (int)(absolute.X * diagram.Zoom) - diagram.Offset.X + ParentLocation.X,
+                    (int)(absolute.Y * diagram.Zoom) - diagram.Offset.Y + ParentLocation.Y,
+                    (int)(absolute.Width * diagram.Zoom),
+                    (int)(absolute.Height * diagram.Zoom));
+            }
+        }
+
+        public override void ValidateData()
+        {
+            shape.Comment.Text = txtComment.Text;
+        }
+
+        private void txtComment_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && e.Modifiers != Keys.None ||
+                e.KeyCode == Keys.Escape)
+            {
+                shape.HideEditor();
+            }
+        }
+    }
 }
