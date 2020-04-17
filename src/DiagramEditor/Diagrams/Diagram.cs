@@ -118,10 +118,6 @@ namespace NClass.DiagramEditor.Diagrams
 
         protected void OnModified(object sender, ModificationEventArgs e)
         {
-            if (e == ModificationEventArgs.Empty)
-                return;
-
-            undoRedoEngine.TrackModification(e.Modification);
         }
 
         /// <exception cref="ArgumentException">

@@ -13,7 +13,6 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
 using System.Collections.Generic;
 
 namespace NClass.Core.UndoRedo
@@ -22,25 +21,25 @@ namespace NClass.Core.UndoRedo
 
     public class UndoRedoEngine
     {
-        private Stack<Modification> UndoStack { get; }
-        private Stack<Modification> RedoStack { get; }
+        private Stack<ICommand> UndoStack { get; }
+        private Stack<ICommand> RedoStack { get; }
 
         public event UndoRedoHandler UndoRedoChanged;
 
         public UndoRedoEngine()
         {
-            UndoStack = new Stack<Modification>(25);
-            RedoStack = new Stack<Modification>(25);
+            UndoStack = new Stack<ICommand>(25);
+            RedoStack = new Stack<ICommand>(25);
         }
 
         public void Undo()
         {
             if (UndoStack.Count == 0)
                 return;
-            var modification = UndoStack.Pop();
-            modification.UndoAction();
-            RedoStack.Push(modification);
-            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPop | UndoRedoAction.RedoPush, modification.DebugTag);
+            var command = UndoStack.Pop();
+            command.Undo();
+            RedoStack.Push(command);
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPop | UndoRedoAction.RedoPush, command.ToString());
             UndoRedoChanged?.Invoke(this, args);
         }
 
@@ -48,17 +47,17 @@ namespace NClass.Core.UndoRedo
         {
             if (RedoStack.Count == 0)
                 return;
-            var modification = RedoStack.Pop();
-            modification.RedoAction();
-            UndoStack.Push(modification);
-            var args = new UndoRedoEventArgs(UndoRedoAction.RedoPop | UndoRedoAction.UndoPush, modification.DebugTag);
+            var command = RedoStack.Pop();
+            command.Execute();
+            UndoStack.Push(command);
+            var args = new UndoRedoEventArgs(UndoRedoAction.RedoPop | UndoRedoAction.UndoPush, command.ToString());
             UndoRedoChanged?.Invoke(this, args);
         }
 
-        public void TrackModification(Modification modification)
+        public void TrackCommand(ICommand command)
         {
-            UndoStack.Push(modification);
-            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush, modification.DebugTag);
+            UndoStack.Push(command);
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush, command.ToString());
             UndoRedoChanged?.Invoke(this, args);
         }
 
