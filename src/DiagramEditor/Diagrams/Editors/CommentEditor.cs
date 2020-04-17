@@ -17,6 +17,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.Diagrams.Editors
@@ -82,7 +84,10 @@ namespace NClass.DiagramEditor.Diagrams.Editors
 
         public override void ValidateData()
         {
-            shape.Comment.Text = txtComment.Text;
+            var newText = txtComment.Text;
+            var changeNameCommand = new ChangePropertyCommand<CommentShape, string>(shape, s => s.Comment.Text, (s, newValue) => s.Comment.Text = newValue, newText);
+            changeNameCommand.Execute();
+            shape.Diagram.TrackCommand(changeNameCommand);
         }
 
         private void txtComment_KeyDown(object sender, KeyEventArgs e)
