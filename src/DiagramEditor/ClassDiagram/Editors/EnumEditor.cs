@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
@@ -148,18 +149,20 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
         private bool ValidateName()
         {
-            if (needValidation)
+            if (!needValidation) return true;
+
+            try
             {
-                try
-                {
-                    shape.EnumType.Name = txtName.Text;
-                    RefreshValues();
-                }
-                catch (BadSyntaxException ex)
-                {
-                    SetError(ex.Message);
-                    return false;
-                }
+                var newName = shape.EnumType.ValidateName(txtName.Text);
+                var changeNameCommand = new ChangePropertyCommand<EnumShape, string>(shape, s => s.EnumType.Name, (s, newValue) => s.EnumType.Name = newValue, newName);
+                changeNameCommand.Execute();
+                shape.Diagram.TrackCommand(changeNameCommand);
+                RefreshValues();
+            }
+            catch (BadSyntaxException ex)
+            {
+                SetError(ex.Message);
+                return false;
             }
             return true;
         }

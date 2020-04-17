@@ -21,6 +21,7 @@ using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Translations;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
@@ -312,18 +313,19 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
         private bool ValidateName()
         {
-            if (needValidation)
+            if (!needValidation) return true;
+            try
             {
-                try
-                {
-                    shape.CompositeType.Name = txtName.Text;
-                    RefreshValues();
-                }
-                catch (BadSyntaxException ex)
-                {
-                    SetError(ex.Message);
-                    return false;
-                }
+                var newName = shape.TypeBase.ValidateName(txtName.Text);
+                var changeNameCommand = new ChangePropertyCommand<TypeShape, string>(shape, s => s.TypeBase.Name, (s, newValue) => s.TypeBase.Name = newValue, newName);
+                changeNameCommand.Execute();
+                shape.Diagram.TrackCommand(changeNameCommand);
+                RefreshValues();
+            }
+            catch (BadSyntaxException ex)
+            {
+                SetError(ex.Message);
+                return false;
             }
             return true;
         }

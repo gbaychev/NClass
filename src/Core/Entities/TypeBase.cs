@@ -63,6 +63,11 @@ namespace NClass.Core
             }
         }
 
+        public string ValidateName(string newName)
+        {
+            return Language.GetValidName(newName, true);
+        }
+
         public abstract EntityType EntityType
         {
             get;

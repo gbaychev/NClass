@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
@@ -153,19 +154,20 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
         private bool ValidateName()
         {
-            if (needValidation)
+            if (!needValidation) return true;
+
+            try
             {
-                try
-                {
-                    shape.DelegateType.Name = txtName.Text;
-                    shape.DelegateType.ReturnType = txtReturnType.Text;
-                    RefreshValues();
-                }
-                catch (BadSyntaxException ex)
-                {
-                    SetError(ex.Message);
-                    return false;
-                }
+                var newName = shape.DelegateType.ValidateName(txtName.Text);
+                var changeNameCommand = new ChangePropertyCommand<DelegateShape, string>(shape, s => s.DelegateType.Name, (s, newValue) => s.DelegateType.Name = newValue, newName);
+                changeNameCommand.Execute();
+                shape.Diagram.TrackCommand(changeNameCommand);
+                RefreshValues();
+            }
+            catch (BadSyntaxException ex)
+            {
+                SetError(ex.Message);
+                return false;
             }
             return true;
         }

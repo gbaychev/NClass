@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
@@ -64,5 +65,6 @@ namespace NClass.DiagramEditor.Diagrams
         bool InsertComment(Comment comment);
         bool InsertCommentRelationship(CommentRelationship commentRelationship);
         CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
+        void TrackCommand(ICommand command);
     }
 }

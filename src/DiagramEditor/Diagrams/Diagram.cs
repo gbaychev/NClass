@@ -2227,6 +2227,11 @@ namespace NClass.DiagramEditor.Diagrams
             return model.AddCommentRelationship(comment, entity);
         }
 
+        public void TrackCommand(ICommand command)
+        {
+            undoRedoEngine.TrackCommand(command);
+        }
+
         protected CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
         {
             Shape startShape = GetShape(commentRelationship.First);

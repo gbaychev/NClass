@@ -24,289 +24,283 @@ using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Shapes
 {
-	internal sealed class EnumShape : TypeShape
-	{
-		static EnumEditor typeEditor = new EnumEditor();
-		static EnumValueEditor valueEditor = new EnumValueEditor();
-		static EnumDialog enumDialog = new EnumDialog();
-		static SolidBrush itemBrush = new SolidBrush(Color.Black);
+    internal sealed class EnumShape : TypeShape
+    {
+        static EnumEditor typeEditor = new EnumEditor();
+        static EnumValueEditor valueEditor = new EnumValueEditor();
+        static EnumDialog enumDialog = new EnumDialog();
+        static SolidBrush itemBrush = new SolidBrush(Color.Black);
 
-		EnumType _enum;
+        EnumType _enum;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="enumType"/> is null.
-		/// </exception>
-		internal EnumShape(EnumType _enum) : base(_enum)
-		{
-			this._enum = _enum;
-			UpdateMinSize();
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="enumType"/> is null.
+        /// </exception>
+        internal EnumShape(EnumType _enum) : base(_enum)
+        {
+            this._enum = _enum;
+            UpdateMinSize();
+        }
 
-		public override TypeBase TypeBase
-		{
-			get { return _enum; }
-		}
+        public override TypeBase TypeBase => _enum;
 
-		public EnumType EnumType
-		{
-			get { return _enum; }
-		}
+        public EnumType EnumType => _enum;
 
-		internal EnumValue ActiveValue
-		{
-			get
-			{
-				if (ActiveMemberIndex >= 0)
-					return EnumType.GetValue(ActiveMemberIndex);
-				else
-					return null;
-			}
-		}
+        internal EnumValue ActiveValue
+        {
+            get
+            {
+                if (ActiveMemberIndex >= 0)
+                    return EnumType.GetValue(ActiveMemberIndex);
+                else
+                    return null;
+            }
+        }
 
-		protected internal override int ActiveMemberIndex
-		{
-			get
-			{
-				return base.ActiveMemberIndex;
-			}
-			set
-			{
-				EnumValue oldValue = ActiveValue;
+        protected internal override int ActiveMemberIndex
+        {
+            get
+            {
+                return base.ActiveMemberIndex;
+            }
+            set
+            {
+                EnumValue oldValue = ActiveValue;
 
-				if (value < EnumType.ValueCount)
-					base.ActiveMemberIndex = value;
-				else
-					base.ActiveMemberIndex = EnumType.ValueCount - 1;
+                if (value < EnumType.ValueCount)
+                    base.ActiveMemberIndex = value;
+                else
+                    base.ActiveMemberIndex = EnumType.ValueCount - 1;
 
-				if (oldValue != ActiveValue)
-					OnActiveMemberChanged(EventArgs.Empty);
-			}
-		}
+                if (oldValue != ActiveValue)
+                    OnActiveMemberChanged(EventArgs.Empty);
+            }
+        }
 
-		protected override TypeEditor HeaderEditor
-		{
-			get { return typeEditor; }
-		}
+        protected override TypeEditor HeaderEditor
+        {
+            get { return typeEditor; }
+        }
 
-		protected override EditorWindow ContentEditor
-		{
-			get { return valueEditor; }
-		}
+        protected override EditorWindow ContentEditor
+        {
+            get { return valueEditor; }
+        }
 
-		protected override EditorWindow GetEditorWindow()
-		{
-			if (ActiveValue == null)
-				return typeEditor;
-			else
-				return valueEditor;
-		}
+        protected override EditorWindow GetEditorWindow()
+        {
+            if (ActiveValue == null)
+                return typeEditor;
+            else
+                return valueEditor;
+        }
 
-		protected internal override bool DeleteSelectedMember(bool showConfirmation)
-		{
-			if (IsActive && ActiveValue != null)
-			{
-				if (!showConfirmation || ConfirmMemberDelete())
-					DeleteActiveValue();
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+        protected internal override bool DeleteSelectedMember(bool showConfirmation)
+        {
+            if (IsActive && ActiveValue != null)
+            {
+                if (!showConfirmation || ConfirmMemberDelete())
+                    DeleteActiveValue();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		protected override bool CloneEntity(IDiagram diagram)
-		{
+        protected override bool CloneEntity(IDiagram diagram)
+        {
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             return ((ClassDiagram)diagram).InsertEnum(EnumType.Clone());
-		}
+        }
 
-		protected override Color GetBackgroundColor(Style style)
-		{
-			return style.EnumBackgroundColor;
-		}
+        protected override Color GetBackgroundColor(Style style)
+        {
+            return style.EnumBackgroundColor;
+        }
 
-		protected override Color GetBorderColor(Style style)
-		{
-			return style.EnumBorderColor;
-		}
+        protected override Color GetBorderColor(Style style)
+        {
+            return style.EnumBorderColor;
+        }
 
-		protected override int GetBorderWidth(Style style)
-		{
-			return style.EnumBorderWidth;
-		}
+        protected override int GetBorderWidth(Style style)
+        {
+            return style.EnumBorderWidth;
+        }
 
-		protected override bool IsBorderDashed(Style style)
-		{
-			return style.IsEnumBorderDashed;
-		}
+        protected override bool IsBorderDashed(Style style)
+        {
+            return style.IsEnumBorderDashed;
+        }
 
-		protected override Color GetHeaderColor(Style style)
-		{
-			return style.EnumHeaderColor;
-		}
+        protected override Color GetHeaderColor(Style style)
+        {
+            return style.EnumHeaderColor;
+        }
 
-		protected override int GetRoundingSize(Style style)
-		{
-			return style.EnumRoundingSize;
-		}
+        protected override int GetRoundingSize(Style style)
+        {
+            return style.EnumRoundingSize;
+        }
 
-		protected override GradientStyle GetGradientHeaderStyle(Style style)
-		{
-			return style.EnumGradientHeaderStyle;
-		}
+        protected override GradientStyle GetGradientHeaderStyle(Style style)
+        {
+            return style.EnumGradientHeaderStyle;
+        }
 
-		public override void MoveUp()
-		{
-			if (ActiveValue != null && EnumType.MoveUpItem(ActiveValue))
-			{
-				ActiveMemberIndex--;
-			}
-		}
+        public override void MoveUp()
+        {
+            if (ActiveValue != null && EnumType.MoveUpItem(ActiveValue))
+            {
+                ActiveMemberIndex--;
+            }
+        }
 
-		public override void MoveDown()
-		{
-			if (ActiveValue != null && EnumType.MoveDownItem(ActiveValue))
-			{
-				ActiveMemberIndex++;
-			}
-		}
+        public override void MoveDown()
+        {
+            if (ActiveValue != null && EnumType.MoveDownItem(ActiveValue))
+            {
+                ActiveMemberIndex++;
+            }
+        }
 
-		protected internal override void EditMembers()
-		{
-			enumDialog.ShowDialog(EnumType);
-		}
+        protected internal override void EditMembers()
+        {
+            enumDialog.ShowDialog(EnumType);
+        }
 
-		protected override void OnMouseDown(AbsoluteMouseEventArgs e)
-		{
-			base.OnMouseDown(e);
-			SelectMember(e.Location);
-		}
+        protected override void OnMouseDown(AbsoluteMouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            SelectMember(e.Location);
+        }
 
-		private void SelectMember(PointF location)
-		{
-			if (Contains(location))
-			{
-				int index;
-				int y = (int) location.Y;
-				int top = Top + HeaderHeight + MarginSize;
+        private void SelectMember(PointF location)
+        {
+            if (Contains(location))
+            {
+                int index;
+                int y = (int)location.Y;
+                int top = Top + HeaderHeight + MarginSize;
 
-				if (top <= y)
-				{
-					index = (y - top) / MemberHeight;
-					if (index < EnumType.ValueCount)
-					{
-						ActiveMemberIndex = index;
-						return;
-					}
-				}
-				ActiveMemberIndex = -1;
-			}
-		}
+                if (top <= y)
+                {
+                    index = (y - top) / MemberHeight;
+                    if (index < EnumType.ValueCount)
+                    {
+                        ActiveMemberIndex = index;
+                        return;
+                    }
+                }
+                ActiveMemberIndex = -1;
+            }
+        }
 
-		internal void DeleteActiveValue()
-		{
-			if (ActiveMemberIndex >= 0)
-			{
-				int newIndex;
-				if (ActiveMemberIndex == EnumType.ValueCount - 1) // Last value
-				{
-					newIndex = ActiveMemberIndex - 1;
-				}
-				else
-				{
-					newIndex = ActiveMemberIndex;
-				}
-				
-				EnumType.RemoveValue(ActiveValue);
-				ActiveMemberIndex = newIndex;
-				OnActiveMemberChanged(EventArgs.Empty);
-			}
-		}
+        internal void DeleteActiveValue()
+        {
+            if (ActiveMemberIndex >= 0)
+            {
+                int newIndex;
+                if (ActiveMemberIndex == EnumType.ValueCount - 1) // Last value
+                {
+                    newIndex = ActiveMemberIndex - 1;
+                }
+                else
+                {
+                    newIndex = ActiveMemberIndex;
+                }
 
-		internal Rectangle GetMemberRectangle(int memberIndex)
-		{
-			return new Rectangle(
-				Left + MarginSize,
-				Top + HeaderHeight + MarginSize + memberIndex * MemberHeight,
-				Width - MarginSize * 2,
-				MemberHeight);
-		}
+                EnumType.RemoveValue(ActiveValue);
+                ActiveMemberIndex = newIndex;
+                OnActiveMemberChanged(EventArgs.Empty);
+            }
+        }
 
-		private void DrawItem(IGraphics g, EnumValue value, Rectangle record, Style style)
-		{
-			Font font = GetFont(style);
-			string memberString = value.ToString();
-			itemBrush.Color = style.EnumItemColor;
+        internal Rectangle GetMemberRectangle(int memberIndex)
+        {
+            return new Rectangle(
+                Left + MarginSize,
+                Top + HeaderHeight + MarginSize + memberIndex * MemberHeight,
+                Width - MarginSize * 2,
+                MemberHeight);
+        }
 
-			if (style.UseIcons)
-			{
-				Image icon = Properties.Resources.EnumItem;
-				g.DrawImage(icon, record.X, record.Y);
+        private void DrawItem(IGraphics g, EnumValue value, Rectangle record, Style style)
+        {
+            Font font = GetFont(style);
+            string memberString = value.ToString();
+            itemBrush.Color = style.EnumItemColor;
 
-				Rectangle textBounds = new Rectangle(
-					record.X + IconSpacing, record.Y,
-					record.Width - IconSpacing, record.Height);
+            if (style.UseIcons)
+            {
+                Image icon = Properties.Resources.EnumItem;
+                g.DrawImage(icon, record.X, record.Y);
 
-				g.DrawString(memberString, font, itemBrush, textBounds, memberFormat);
-			}
-			else
-			{
-				g.DrawString(memberString, font, itemBrush, record, memberFormat);
-			}
-		}
+                Rectangle textBounds = new Rectangle(
+                    record.X + IconSpacing, record.Y,
+                    record.Width - IconSpacing, record.Height);
 
-		protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
-		{
-			base.DrawSelectionLines(g, zoom, offset);
+                g.DrawString(memberString, font, itemBrush, textBounds, memberFormat);
+            }
+            else
+            {
+                g.DrawString(memberString, font, itemBrush, record, memberFormat);
+            }
+        }
 
-			// Draw selected parameter rectangle
-			if (IsActive && ActiveValue != null)
-			{
-				Rectangle record = GetMemberRectangle(ActiveMemberIndex);
-				record = TransformRelativeToAbsolute(record, zoom, offset);
-				record.Inflate(2, 0);
-				g.DrawRectangle(DiagramConstants.SelectionPen, record);
-			}
-		}
+        protected internal override void DrawSelectionLines(Graphics g, float zoom, Point offset)
+        {
+            base.DrawSelectionLines(g, zoom, offset);
 
-		protected override void DrawContent(IGraphics g, Style style)
-		{
-			Rectangle record = new Rectangle(
-				Left + MarginSize, Top + HeaderHeight + MarginSize,
-				Width - MarginSize * 2, MemberHeight);
+            // Draw selected parameter rectangle
+            if (IsActive && ActiveValue != null)
+            {
+                Rectangle record = GetMemberRectangle(ActiveMemberIndex);
+                record = TransformRelativeToAbsolute(record, zoom, offset);
+                record.Inflate(2, 0);
+                g.DrawRectangle(DiagramConstants.SelectionPen, record);
+            }
+        }
 
-			foreach (EnumValue value in EnumType.Values)
-			{
-				DrawItem(g, value, record, style);
-				record.Y += MemberHeight;
-			}
-		}
+        protected override void DrawContent(IGraphics g, Style style)
+        {
+            Rectangle record = new Rectangle(
+                Left + MarginSize, Top + HeaderHeight + MarginSize,
+                Width - MarginSize * 2, MemberHeight);
 
-		protected override float GetRequiredWidth(Graphics g, Style style)
-		{
-			float requiredWidth = 0;
+            foreach (EnumValue value in EnumType.Values)
+            {
+                DrawItem(g, value, record, style);
+                record.Y += MemberHeight;
+            }
+        }
 
-			Font font = GetFont(style);
-			foreach (EnumValue value in EnumType.Values)
-			{
-				float itemWidth = g.MeasureString(value.ToString(),
-					font, PointF.Empty, memberFormat).Width;
-				requiredWidth = Math.Max(requiredWidth, itemWidth);
-			}
+        protected override float GetRequiredWidth(Graphics g, Style style)
+        {
+            float requiredWidth = 0;
 
-			if (style.UseIcons)
-				requiredWidth += IconSpacing;
-			requiredWidth += MarginSize * 2;
+            Font font = GetFont(style);
+            foreach (EnumValue value in EnumType.Values)
+            {
+                float itemWidth = g.MeasureString(value.ToString(),
+                    font, PointF.Empty, memberFormat).Width;
+                requiredWidth = Math.Max(requiredWidth, itemWidth);
+            }
 
-			return Math.Max(requiredWidth, base.GetRequiredWidth(g, style));
-		}
+            if (style.UseIcons)
+                requiredWidth += IconSpacing;
+            requiredWidth += MarginSize * 2;
 
-		protected override int GetRequiredHeight()
-		{
-			return (HeaderHeight + (MarginSize * 2) + (EnumType.ValueCount * MemberHeight));
-		}
-	}
+            return Math.Max(requiredWidth, base.GetRequiredWidth(g, style));
+        }
+
+        protected override int GetRequiredHeight()
+        {
+            return (HeaderHeight + (MarginSize * 2) + (EnumType.ValueCount * MemberHeight));
+        }
+    }
 }
