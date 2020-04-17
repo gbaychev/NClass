@@ -17,6 +17,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 
@@ -72,7 +74,10 @@ namespace NClass.DiagramEditor.Diagrams.Editors
         {
             try
             {
-                shape.Entity.Name = txtName.Text;
+                var newName = txtName.Text;
+                var changeNameCommand = new ChangePropertyCommand<Shape, string>(shape, s => s.Entity.Name, (s, newValue) => s.Entity.Name = newValue, newName);
+                changeNameCommand.Execute();
+                shape.Diagram.TrackCommand(changeNameCommand);
                 errorProvider.SetError(this, null);
                 return true;
             }
@@ -90,7 +95,6 @@ namespace NClass.DiagramEditor.Diagrams.Editors
                 case Keys.Enter:
                     if (e.Modifiers == Keys.None || !txtName.Multiline)
                     {
-                        TryValidateData();
                         shape.HideEditor();
                     }
                     else if (e.Modifiers == Keys.Control && txtName.Multiline)
