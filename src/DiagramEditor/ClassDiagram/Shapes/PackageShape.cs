@@ -31,7 +31,7 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Shapes
 {
-    internal sealed class PackageShape : ShapeContainer
+    public sealed class PackageShape : ShapeContainer
     {
         const float LabelRatio = 0.4f;
 

@@ -24,7 +24,7 @@ using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Shapes
 {
-    internal sealed class EnumShape : TypeShape
+    public sealed class EnumShape : TypeShape
     {
         static EnumEditor typeEditor = new EnumEditor();
         static EnumValueEditor valueEditor = new EnumValueEditor();
