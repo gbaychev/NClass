@@ -32,6 +32,7 @@ namespace NClass.DiagramEditor.Diagrams
         DiagramType DiagramType { get; }
         int SelectedElementCount { get; }
         DiagramElement TopSelectedElement { get; }
+        void DeselectAll();
         void ShowWindow(PopupWindow window);
         void HideWindow(PopupWindow window);
         IEnumerable<AbstractConnection> GetSelectedConnections();
@@ -61,10 +62,13 @@ namespace NClass.DiagramEditor.Diagrams
         int SelectedShapeCount { get; }
         event EventHandler SelectionChanged;
         IEnumerable<Shape> GetShapesInDisplayOrder();
-        void AddComment();
         bool InsertComment(Comment comment);
         bool InsertCommentRelationship(CommentRelationship commentRelationship);
         CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
         void TrackCommand(ICommand command);
+        void ReinsertShapes(List<Shape> shapes);
+        void ReinsertConnections(List<AbstractConnection> connections);
+        void RemoveEntity(IEntity entity);
+        void RemoveRelationship(Relationship relationship);
     }
 }

@@ -34,11 +34,10 @@ namespace NClass.DiagramEditor.Diagrams
         List<AbstractConnection> connections = new List<AbstractConnection>();
         Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
         int currentOffset = 0;
-        private DiagramType sourceDiagramType;
 
         public ElementContainer(DiagramType sourceDiagramType)
         {
-            this.sourceDiagramType = sourceDiagramType;
+            this.SourceDiagramType = sourceDiagramType;
         }
 
         public void AddShape(Shape shape)
@@ -51,6 +50,9 @@ namespace NClass.DiagramEditor.Diagrams
         {
             connections.Add(connection);
         }
+
+        public IEnumerable<Shape> Shapes => shapes;
+        public IEnumerable<AbstractConnection> Connections => connections;
 
         void IClipboardItem.Paste(IDocument document)
         {
@@ -106,10 +108,7 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-        public DiagramType SourceDiagramType
-        {
-            get { return sourceDiagramType; }
-        }
+        public DiagramType SourceDiagramType { get; }
 
         //TODO: legyenek inkább hivatkozások a shape-ekhez
         public Shape GetShape(IEntity entity)

@@ -29,6 +29,7 @@ using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.Translations;
@@ -198,6 +199,11 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
+        public void DeleteElements(List<Shape> shapes)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void CreateShape(EntityType type, Point? where = null)
         {
             state = State.CreatingShape;
@@ -205,33 +211,7 @@ namespace NClass.DiagramEditor.Diagrams
             newShapeType = type;
         }
 
-        //public abstract Shape AddShape(EntityType type);
-        public virtual Shape AddShape(EntityType type)
-        {
-            var shape = shapes.FirstValue;
-            Action undoAction = () =>
-            {
-                Model.RaiseChangedEvent = false;
-                RaiseChangedEvent = false;
-                this.RemoveShape(shape);
-                RaiseChangedEvent = true;
-                Model.RaiseChangedEvent = true;
-                Redraw();
-            };
-
-            Action redoAction = () =>
-            {
-                Model.RaiseChangedEvent = false;
-                RaiseChangedEvent = false;
-                this.AddShape(shape);
-                RaiseChangedEvent = true;
-                Model.RaiseChangedEvent = true;
-                Redraw();
-            };
-            var modification = new Modification(undoAction, redoAction, $"AddShape: {shape.Entity.Name}");
-            OnModified(new ModificationEventArgs(modification));
-            return shape;
-        }
+        public abstract Shape AddShape(EntityType type);
 
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
@@ -1110,31 +1090,33 @@ namespace NClass.DiagramEditor.Diagrams
 
         public void DeleteSelectedElements()
         {
-            DeleteSelectedElements(true);
+            DeleteSelectedElements(false);
         }
 
-        private void DeleteSelectedElements(bool showConfirmation)
+        protected void DeleteSelectedElements(bool showConfirmation)
         {
-            if (HasSelectedElement && (!showConfirmation || ConfirmDelete()))
+            var toBeRemovedShapes = new List<Shape>();
+            var toBeRemovedConnections = new List<AbstractConnection>();
+
+            bool ShouldRemoveConnection(AbstractConnection c)
             {
-                if (selectedShapeCount > 0)
-                {
-                    foreach (Shape shape in shapes.GetModifiableList())
-                    {
-                        if (shape.IsSelected)
-                            RemoveEntity(shape.Entity);
-                    }
-                }
-                if (selectedConnectionCount > 0)
-                {
-                    foreach (var connection in connections.GetModifiableList())
-                    {
-                        if (connection.IsSelected)
-                            RemoveRelationship(connection.Relationship);
-                    }
-                }
-                Redraw();
+                return c.IsSelected
+                       || toBeRemovedShapes.Contains(c.StartShape)
+                       || toBeRemovedShapes.Contains(c.EndShape);
             }
+            
+            if (!HasSelectedElement || (showConfirmation && !ConfirmDelete())) return;
+
+            if (selectedShapeCount > 0)
+            {
+                toBeRemovedShapes.AddRange(shapes.GetModifiableList().Where(s => s.IsSelected));
+            }
+
+            toBeRemovedConnections.AddRange(connections.GetModifiableList().Where(ShouldRemoveConnection));
+            
+            var command = new DeleteElementsCommand(toBeRemovedShapes, toBeRemovedConnections, this);
+            command.Execute();
+            TrackCommand(command);
         }
 
         public void Redraw()
@@ -2230,6 +2212,32 @@ namespace NClass.DiagramEditor.Diagrams
         public void TrackCommand(ICommand command)
         {
             undoRedoEngine.TrackCommand(command);
+        }
+
+        public void ReinsertShapes(List<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+            {
+                Debug.Assert(shape.Entity != null);
+                model.ReinsertEntity(shape.Entity);
+                AddShape(shape);
+            }
+
+            Redraw();
+        }
+
+        public void ReinsertConnections(List<AbstractConnection> connections)
+        {
+            foreach (var connection in connections)
+            {
+                Debug.Assert(connection.Relationship != null);
+                Debug.Assert(connection.StartShape != null && Shapes.Contains(connection.StartShape));
+                Debug.Assert(connection.EndShape != null && Shapes.Contains(connection.StartShape));
+                model.ReinsertRelationship(connection.Relationship);
+                AddConnection(connection);
+            }
+
+            Redraw();
         }
 
         protected CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)

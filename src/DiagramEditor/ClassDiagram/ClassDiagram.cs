@@ -301,7 +301,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             }
 
             RecalculateSize();
-            return base.AddShape(type);
+            return shapes.FirstValue;
         }
 
         protected override void OnEntityAdded(object sender, EntityEventArgs e)

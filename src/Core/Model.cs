@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml;
 using System.IO;
 using System.Linq;
@@ -82,11 +83,12 @@ namespace NClass.Core
             OnModified((ModificationEventArgs)e);
         }
 
-        protected void AddEntity(IEntity entity)
+        protected void AddEntity(IEntity entity, bool notify = true)
         {
             entities.Add(entity);
             entity.Modified += ElementChanged;
-            OnEntityAdded(new EntityEventArgs(entity));
+            if(notify)
+                OnEntityAdded(new EntityEventArgs(entity));
         }
 
         public void RemoveEntity(IEntity entity)
@@ -143,11 +145,12 @@ namespace NClass.Core
             return commentRelationship;
         }
 
-        protected void AddRelationship(Relationship relationship)
+        protected void AddRelationship(Relationship relationship, bool notify = true)
         {
             relationships.Add(relationship);
             relationship.Modified += ElementChanged;
-            OnRelationAdded(new RelationshipEventArgs(relationship));
+            if(notify)
+                OnRelationAdded(new RelationshipEventArgs(relationship));
         }
 
         public virtual void Serialize(XmlElement node)
@@ -371,6 +374,32 @@ namespace NClass.Core
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Reinsert an entity to the model, without notifying the diagram.
+        /// Used by undo/redo when undoing the deletion of elements
+        /// </summary>
+        public void ReinsertEntity(IEntity entity)
+        {
+            Debug.Assert(entity != null);
+            Debug.Assert(!Entities.Contains(entity));
+
+            AddEntity(entity, false);
+        }
+
+        /// <summary>
+        /// Reinsert a relationship to the model, without notifying the diagram.
+        /// Used by undo/redo when undoing the deletion of elements
+        /// </summary>
+        public void ReinsertRelationship(Relationship relationship)
+        {
+            Debug.Assert(relationship != null);
+            Debug.Assert(!Relationships.Contains(relationship));
+            Debug.Assert(Entities.Contains(relationship.First));
+            Debug.Assert(Entities.Contains(relationship.Second));
+
+            AddRelationship(relationship, false);
         }
     }
 }

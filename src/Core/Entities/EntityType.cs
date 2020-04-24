@@ -16,18 +16,18 @@
 
 namespace NClass.Core
 {
-	public enum EntityType
-	{
+    public enum EntityType
+    {
         Package,
-		Class,
-		Structure,
-		Interface,
-		Enum,
-		Delegate,
-		Comment,
+        Class,
+        Structure,
+        Interface,
+        Enum,
+        Delegate,
+        Comment,
 
         Actor,
         UseCase,
         SystemBoundary
-	}
+    }
 }

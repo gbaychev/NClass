@@ -77,7 +77,7 @@
     <Compile Include="Commands\PasteCommand.cs" />
     <Compile Include="Commands\RemoveConnectionCommand.cs" />
     <Compile Include="Commands\RemoveMemberCommand.cs" />
-    <Compile Include="Commands\RemoveShapeCommand.cs" />
+    <Compile Include="Commands\DeleteElementsCommand.cs" />
     <Compile Include="Commands\RenameConnectionCommand.cs" />
     <Compile Include="RoundedRectangle.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
