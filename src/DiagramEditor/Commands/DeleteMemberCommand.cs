@@ -3,13 +3,12 @@ using NClass.Core;
 using NClass.Core.UndoRedo;
 
 namespace NClass.DiagramEditor.Commands
-
 {
-    public class RemoveMemberCommand : ICommand
+    public class DeleteMemberCommand : ICommand
     {
         readonly TypeBase shape;
 
-        public RemoveMemberCommand(TypeBase shape, Member member)
+        public DeleteMemberCommand(TypeBase shape, Member member)
         {
             throw new NotImplementedException();
         }

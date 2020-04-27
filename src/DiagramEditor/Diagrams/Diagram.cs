@@ -1306,6 +1306,7 @@ namespace NClass.DiagramEditor.Diagrams
                 ActiveElement = null;
             }
 
+            mousePreviousLocation = e.Location;
             RedrawSuspended = false;
         }
 
@@ -1314,6 +1315,7 @@ namespace NClass.DiagramEditor.Diagrams
             DeselectAll();
             Shape shape = AddShape(shapeType);
             shape.Location = shapeOutline.Location;
+            shape.OldLocation = shapeOutline.Location;
             RecalculateSize();
             state = State.Normal;
 
@@ -1406,34 +1408,9 @@ namespace NClass.DiagramEditor.Diagrams
             }
             else if (state == State.Dragging)
             {
-                var dropTarget = shapes.GetUnselectedElements()
-                                       .Where(s => s is ShapeContainer)
-                                       .Cast<ShapeContainer>()
-                                       .OrderByDescending(s => s.SortOrder)
-                                       .FirstOrDefault(s => s.Contains(GetSelectedShapes().First().Location));
-
-                if (dropTarget == null)
-                {
-                    foreach (var selectedShape in GetSelectedShapes())
-                    {
-                        if (selectedShape.ParentShape is ShapeContainer parentShape && !parentShape.IsSelected)
-                        {
-                            parentShape?.DetachShapes(new List<Shape> { selectedShape });
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var selectedShape in GetSelectedShapes())
-                    {
-                        var oldParent = selectedShape.ParentShape as ShapeContainer;
-                        if (oldParent != dropTarget)
-                        {
-                            oldParent?.DetachShapes(new List<Shape> { selectedShape });
-                            dropTarget.AttachShapes(new List<Shape> { selectedShape });
-                        }
-                    }
-                }
+                var command = new MoveElementsCommand(GetSelectedShapes().ToList(), this);
+                command.Execute();
+                TrackCommand(command);
 
                 foreach (var diagramElement in GetElementsInDisplayOrder())
                 {
@@ -1442,9 +1419,9 @@ namespace NClass.DiagramEditor.Diagrams
                         container.ExitHover();
                         diagramElement.NeedsRedraw = true;
                     }
+
                     diagramElement.MouseUpped(e);
                 }
-
                 state = State.Normal;
             }
             else
@@ -1456,6 +1433,32 @@ namespace NClass.DiagramEditor.Diagrams
             }
 
             RedrawSuspended = false;
+        }
+
+        public void ReattachShapes(List<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+            {
+                var dropTarget = this.shapes
+                    .Where(s => s is ShapeContainer && s != shape)
+                    .Cast<ShapeContainer>()
+                    .OrderByDescending(s => s.SortOrder)
+                    .FirstOrDefault(s => s.Contains(shape.Location));
+
+                if (dropTarget == null)
+                {
+                    ((ShapeContainer)shape.ParentShape)?.DetachShapes(new List<Shape> { shape });
+                }
+                else
+                {
+                    var oldParent = shape.ParentShape as ShapeContainer;
+                    if (oldParent != dropTarget)
+                    {
+                        oldParent?.DetachShapes(new List<Shape> { shape });
+                        dropTarget.AttachShapes(new List<Shape> { shape });
+                    }
+                }
+            }
         }
 
         private void TrySelectElements()

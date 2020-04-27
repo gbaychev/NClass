@@ -73,12 +73,11 @@
     <Compile Include="Commands\AddMemberCommand.cs" />
     <Compile Include="Commands\AddShapeCommand.cs" />
     <Compile Include="Commands\ChangePropertyCommand.cs" />
-    <Compile Include="Commands\MoveShapeCommand.cs" />
+    <Compile Include="Commands\MoveElementsCommand.cs" />
     <Compile Include="Commands\PasteCommand.cs" />
-    <Compile Include="Commands\RemoveConnectionCommand.cs" />
-    <Compile Include="Commands\RemoveMemberCommand.cs" />
+    <Compile Include="Commands\DeleteConnectionCommand.cs" />
+    <Compile Include="Commands\DeleteMemberCommand.cs" />
     <Compile Include="Commands\DeleteElementsCommand.cs" />
-    <Compile Include="Commands\RenameConnectionCommand.cs" />
     <Compile Include="RoundedRectangle.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />

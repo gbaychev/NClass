@@ -70,5 +70,6 @@ namespace NClass.DiagramEditor.Diagrams
         void ReinsertConnections(List<AbstractConnection> connections);
         void RemoveEntity(IEntity entity);
         void RemoveRelationship(Relationship relationship);
+        void ReattachShapes(List<Shape> shapes);
     }
 }

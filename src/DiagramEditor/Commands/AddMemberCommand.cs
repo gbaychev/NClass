@@ -5,26 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using NClass.Core;
 using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
 
 namespace NClass.DiagramEditor.Commands
 {
     public class AddMemberCommand : ICommand
     {
-        readonly TypeBase shape;
+        private readonly CompositeTypeShape shape;
+        private readonly MemberType memberType;
+        private Member member;
 
-        public AddMemberCommand(TypeBase shape, Member member)
+        public AddMemberCommand(CompositeTypeShape shape, MemberType memberType)
         {
-            throw new NotImplementedException();
+            this.shape = shape;
+            this.memberType = memberType;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            shape.InsertNewMember(memberType);
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
         }
 
         public CommandId CommandId

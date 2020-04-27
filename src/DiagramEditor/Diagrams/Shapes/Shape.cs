@@ -44,6 +44,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         protected static readonly Size defaultMinSize = new Size(50, 50);
 
         Point location;
+        private Point oldLocation;
         protected Size size;
         ResizeMode resizeMode = ResizeMode.None;
         Size minimumSize = defaultMinSize;
@@ -66,7 +67,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            location = Point.Empty;
+            oldLocation = location = Point.Empty;
             size = DefaultSize;
             isBeingDragged = false;
 
@@ -108,6 +109,16 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             get;
         }
 
+        public Point OldLocation
+        {
+            get => oldLocation;
+            set
+            {
+                if (oldLocation != value)
+                    oldLocation = value;
+            }
+        }
+
         public Point Location
         {
             get
@@ -128,46 +139,35 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         public int X
         {
-            get
-            {
-                return location.X;
-            }
+            get => location.X;
             set
             {
-                if (location.X != value)
-                {
-                    Size offset = new Size(value - X, 0);
-                    location.X = value;
-                    OnMove(new MoveEventArgs(offset));
-                    OnModified(ModificationEventArgs.Empty);
-                }
+                if (location.X == value) return;
+
+                var offset = new Size(value - X, 0);
+                location.X = value;
+                OnMove(new MoveEventArgs(offset));
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
         public int Y
         {
-            get
-            {
-                return location.Y;
-            }
+            get => location.Y;
             set
             {
-                if (location.Y != value)
-                {
-                    Size offset = new Size(0, value - Y);
-                    location.Y = value;
-                    OnMove(new MoveEventArgs(offset));
-                    OnModified(ModificationEventArgs.Empty);
-                }
+                if (location.Y == value) return;
+
+                var offset = new Size(0, value - Y);
+                location.Y = value;
+                OnMove(new MoveEventArgs(offset));
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
         public virtual Size Size
         {
-            get
-            {
-                return size;
-            }
+            get => size;
             set
             {
                 if (value.Width < MinimumSize.Width)
@@ -187,10 +187,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         public virtual int Width
         {
-            get
-            {
-                return size.Width;
-            }
+            get => size.Width;
             set
             {
                 if (value < MinimumSize.Width)
@@ -208,10 +205,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         public virtual int Height
         {
-            get
-            {
-                return size.Height;
-            }
+            get => size.Height;
             set
             {
                 if (value < MinimumSize.Height)
@@ -229,53 +223,35 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         public int Left
         {
-            get { return X; }
-            set { X = value; }
+            get => X;
+            set => X = value;
         }
 
         public int Right
         {
-            get { return X + Width; }
-            set { X = value - Width; }
+            get => X + Width;
+            set => X = value - Width;
         }
 
         public int Top
         {
-            get { return Y; }
-            set { Y = value; }
+            get => Y;
+            set => Y = value;
         }
 
         public int Bottom
         {
-            get { return Y + Height; }
-            set { Y = value - Height; }
+            get => Y + Height;
+            set => Y = value - Height;
         }
 
-        public virtual Rectangle BorderRectangle
-        {
-            get { return new Rectangle(Location, Size); }
-        }
+        public virtual Rectangle BorderRectangle => new Rectangle(Location, Size);
 
-        public Point CenterPoint
-        {
-            get { return new Point(HorizontalCenter, VerticalCenter); }
-        }
+        public Point CenterPoint => new Point(HorizontalCenter, VerticalCenter);
 
-        public int HorizontalCenter
-        {
-            get
-            {
-                return ((Left + Right) / 2);
-            }
-        }
+        public int HorizontalCenter => ((Left + Right) / 2);
 
-        public int VerticalCenter
-        {
-            get
-            {
-                return ((Top + Bottom) / 2);
-            }
-        }
+        public int VerticalCenter => ((Top + Bottom) / 2);
 
         protected abstract int GetBorderWidth(Style style);
 
@@ -306,10 +282,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             }
         }
 
-        internal bool IsResizing
-        {
-            get { return (resizeMode != ResizeMode.None); }
-        }
+        internal bool IsResizing => (resizeMode != ResizeMode.None);
 
         public virtual void Collapse()
         {
@@ -612,6 +585,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 int.TryParse(locationNode.GetAttribute("left"), out var left);
                 int.TryParse(locationNode.GetAttribute("top"), out var top);
                 this.Location = new Point(left, top);
+                this.oldLocation = new Point(left, top);  
             }
 
             XmlElement sizeNode = e.Node["Size"];
