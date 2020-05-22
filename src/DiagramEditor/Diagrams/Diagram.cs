@@ -1312,19 +1312,11 @@ namespace NClass.DiagramEditor.Diagrams
 
         private void AddCreatedShape()
         {
-            DeselectAll();
-            Shape shape = AddShape(shapeType);
-            shape.Location = shapeOutline.Location;
-            shape.OldLocation = shapeOutline.Location;
+            var command = new AddShapeCommand(shapeType, this, shapeOutline.Location);
+            command.Execute();
+            TrackCommand(command);
             RecalculateSize();
             state = State.Normal;
-
-            shape.IsSelected = true;
-            shape.IsActive = true;
-            if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
-                container.AttachShapes(new List<Shape> { shape });
-            if (shape is TypeShape) //TODO: nem szép
-                shape.ShowEditor();
         }
 
         private void SelectElements(AbsoluteMouseEventArgs e)

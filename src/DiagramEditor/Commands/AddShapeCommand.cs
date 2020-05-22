@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using NClass.Core;
 using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
@@ -8,22 +13,37 @@ namespace NClass.DiagramEditor.Commands
 {
     public class AddShapeCommand : ICommand
     {
-        readonly Shape shape;
-        readonly IDiagram diagram;
+        private Shape shape;
+        private readonly IDiagram diagram;
+        private readonly Point location;
+        private readonly EntityType shapeType;
 
-        public AddShapeCommand(Shape shape, IDiagram diagram)
+        public AddShapeCommand(EntityType shapeType, IDiagram diagram, Point location)
         {
-            throw new NotImplementedException();
+            this.diagram = diagram;
+            this.location = location;
+            this.shapeType = shapeType;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            diagram.DeselectAll();
+            shape = diagram.AddShape(shapeType);
+            shape.Location = location;
+            shape.OldLocation = location;
+            shape.IsSelected = true;
+            shape.IsActive = true;
+
+            if (diagram.Shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
+                container.AttachShapes(new List<Shape> { shape });
+            if (shape is TypeShape) //TODO: not pretty
+                shape.ShowEditor();
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            diagram.RemoveEntity(this.shape.Entity);
+            diagram.Redraw();
         }
 
         public CommandId CommandId

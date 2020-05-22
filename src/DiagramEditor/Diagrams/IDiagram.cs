@@ -71,5 +71,6 @@ namespace NClass.DiagramEditor.Diagrams
         void RemoveEntity(IEntity entity);
         void RemoveRelationship(Relationship relationship);
         void ReattachShapes(List<Shape> shapes);
+        Shape AddShape(EntityType shapeType);
     }
 }
