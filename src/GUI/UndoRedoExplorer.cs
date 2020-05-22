@@ -12,6 +12,10 @@ namespace NClass.GUI
 
         public void Track(UndoRedoEventArgs args)
         {
+            if ((args.Action & UndoRedoAction.RedoClear) == UndoRedoAction.RedoClear)
+            {
+                redoStack.Items.Clear();
+            }
             if ((args.Action & UndoRedoAction.RedoPop) == UndoRedoAction.RedoPop)
             {
                 redoStack.Items.RemoveAt(redoStack.Items.Count - 1);

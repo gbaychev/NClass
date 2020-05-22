@@ -8,6 +8,7 @@ namespace NClass.Core.UndoRedo
         UndoPush = 1,
         UndoPop = 1 << 1,
         RedoPush = 1 << 2,
-        RedoPop = 1 << 3
+        RedoPop = 1 << 3,
+        RedoClear = 1 << 4
     }
 }

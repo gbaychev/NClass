@@ -57,7 +57,8 @@ namespace NClass.Core.UndoRedo
         public void TrackCommand(ICommand command)
         {
             UndoStack.Push(command);
-            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush, command.ToString());
+            RedoStack.Clear();
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush | UndoRedoAction.RedoClear, command.ToString());
             UndoRedoChanged?.Invoke(this, args);
         }
 
