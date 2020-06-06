@@ -14,9 +14,11 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using System.Windows.Forms;
+using NClass.DiagramEditor.Commands;
 using NClass.Translations;
 using NClass.DiagramEditor.Diagrams;
 
@@ -67,12 +69,12 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateAssociation()
         {
-            TypeShape shape1 = first as TypeShape;
-            TypeShape shape2 = second as TypeShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is TypeShape shape1 && second is TypeShape shape2)
             {
-                diagram.AddAssociation(shape1.TypeBase, shape2.TypeBase);
+                Func<Relationship> _connectionFactory = () => diagram.AddAssociation(shape1.TypeBase, shape2.TypeBase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -82,12 +84,12 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateComposition()
         {
-            TypeShape shape1 = first as TypeShape;
-            TypeShape shape2 = second as TypeShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is TypeShape shape1 && second is TypeShape shape2)
             {
-                diagram.AddComposition(shape1.TypeBase, shape2.TypeBase);
+                Func<Relationship> _connectionFactory = () => diagram.AddComposition(shape1.TypeBase, shape2.TypeBase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -97,12 +99,12 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateAggregation()
         {
-            TypeShape shape1 = first as TypeShape;
-            TypeShape shape2 = second as TypeShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is TypeShape shape1 && second is TypeShape shape2)
             {
-                diagram.AddAggregation(shape1.TypeBase, shape2.TypeBase);
+                Func<Relationship> _connectionFactory = () => diagram.AddAggregation(shape1.TypeBase, shape2.TypeBase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -112,14 +114,14 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateGeneralization()
         {
-            CompositeTypeShape shape1 = first as CompositeTypeShape;
-            CompositeTypeShape shape2 = second as CompositeTypeShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is CompositeTypeShape shape1 && second is CompositeTypeShape shape2)
             {
                 try
                 {
-                    diagram.AddGeneralization(shape1.CompositeType, shape2.CompositeType);
+                    Func<Relationship> _connectionFactory = () => diagram.AddGeneralization(shape1.CompositeType, shape2.CompositeType);
+                    var command = new AddConnectionCommand(diagram, _connectionFactory);
+                    command.Execute();
+                    diagram.TrackCommand(command);
                 }
                 catch (RelationshipException)
                 {
@@ -134,14 +136,14 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateRealization()
         {
-            TypeShape shape1 = first as TypeShape;
-            InterfaceShape shape2 = second as InterfaceShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is TypeShape shape1 && second is InterfaceShape shape2)
             {
                 try
                 {
-                    diagram.AddRealization(shape1.TypeBase, shape2.InterfaceType);
+                    Func<Relationship> _connectionFactory = () => diagram.AddRealization(shape1.TypeBase, shape2.InterfaceType);
+                    var command = new AddConnectionCommand(diagram, _connectionFactory);
+                    command.Execute();
+                    diagram.TrackCommand(command);
                 }
                 catch (RelationshipException)
                 {
@@ -156,12 +158,12 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateDependency()
         {
-            TypeShape shape1 = first as TypeShape;
-            TypeShape shape2 = second as TypeShape;
-
-            if (shape1 != null && shape2 != null)
+            if (first is TypeShape shape1 && second is TypeShape shape2)
             {
-                diagram.AddDependency(shape1.TypeBase, shape2.TypeBase);
+                Func<Relationship> _connectionFactory = () => diagram.AddDependency(shape1.TypeBase, shape2.TypeBase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -171,8 +173,8 @@ namespace NClass.DiagramEditor.ClassDiagram
 
         private void CreateNesting()
         {
-            INestable parent = first.Entity as INestable;
-            INestableChild child = second.Entity as INestableChild;
+            var parent = first.Entity as INestable;
+            var child = second.Entity as INestableChild;
 
             try
             {
@@ -182,34 +184,15 @@ namespace NClass.DiagramEditor.ClassDiagram
                 if (child == null)
                     throw new RelationshipException(Strings.ErrorChildNestingNotSupported);
 
-                diagram.AddNesting(parent, child);
+                Func<Relationship> _connectionFactory = () => diagram.AddNesting(parent, child);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             catch (RelationshipException ex)
             {
                 MessageBox.Show(Strings.ErrorCannotCreateRelationship + " " + ex.Message);
             }
         }
-
-        //private void CreateNesting()
-        //{
-        //    CompositeTypeShape shape1 = first as CompositeTypeShape;
-        //    TypeShape shape2 = second as TypeShape;
-
-        //    if (shape1 != null && shape2 != null)
-        //    {
-        //        try
-        //        {
-        //            diagram.AddNesting(shape1.CompositeType, shape2.TypeBase);
-        //        }
-        //        catch (RelationshipException)
-        //        {
-        //            MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-        //    }
-        //}
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NClass.Core;
 using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Connections;
@@ -12,22 +13,25 @@ namespace NClass.DiagramEditor.Commands
 {
     public class AddConnectionCommand : ICommand
     {
-        readonly AbstractConnection connection;
-        readonly IDiagram diagram;
+        private Relationship _relationship;
+        private readonly IDiagram _diagram;
+        private readonly Func<Relationship> _createConnectionFactory;
 
-        public AddConnectionCommand(Shape shape, IDiagram diagram)
+        public AddConnectionCommand(IDiagram diagram, Func<Relationship> createConnectionFactory)
         {
-            throw new NotImplementedException();
+            _diagram = diagram;
+            _createConnectionFactory = createConnectionFactory;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            _relationship = _createConnectionFactory();
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            _diagram.RemoveRelationship(_relationship);
+            _diagram.Redraw();
         }
 
         public CommandId CommandId
