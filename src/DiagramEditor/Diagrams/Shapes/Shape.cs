@@ -540,6 +540,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 var shapeList = (ElementList<Shape>)diagram.Shapes;
                 Shape shape = shapeList.FirstValue;
                 shape.Location = this.Location + offset;
+                shape.OldLocation = this.Location + offset;
                 shape.Size = this.Size;
                 shape.IsSelected = true;
                 return shape;

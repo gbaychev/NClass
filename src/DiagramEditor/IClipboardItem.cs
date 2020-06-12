@@ -14,11 +14,19 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor
 {
-	public interface IClipboardItem
-	{
-		void Paste(IDocument document);
-	}
+    public enum ClipboardCommand : short
+    {
+        Cut,
+        Copy
+    }
+
+    public interface IClipboardItem
+    {
+        PasteResult Paste(IDocument document);
+        ClipboardCommand ClipboardCommand { get; }
+    }
 }

@@ -614,40 +614,43 @@ namespace NClass.DiagramEditor.Diagrams
 
         public void Cut()
         {
-            if (CanCutToClipboard)
-            {
-                Copy();
-                DeleteSelectedElements(false);
-            }
+            if (!CanCutToClipboard) return;
+
+            Copy(ClipboardCommand.Cut);
+            DeleteSelectedElements(false);
         }
 
         public void Copy()
         {
-            if (CanCopyToClipboard)
+            Copy(ClipboardCommand.Copy);
+        }
+
+        private void Copy(ClipboardCommand clipboardCommand)
+        {
+            if (!CanCopyToClipboard) return;
+
+            var elements = new ElementContainer(this.DiagramType, clipboardCommand);
+            foreach (var shape in GetSelectedShapes())
             {
-                ElementContainer elements = new ElementContainer(this.DiagramType);
-                foreach (Shape shape in GetSelectedShapes())
-                {
-                    elements.AddShape(shape);
-                }
-                foreach (var connection in GetSelectedConnections())
-                {
-                    elements.AddConnection(connection);
-                }
-                Clipboard.Item = elements;
+                elements.AddShape(shape);
             }
+            foreach (var connection in GetSelectedConnections())
+            {
+                elements.AddConnection(connection);
+            }
+            Clipboard.Item = elements;
         }
 
         public void Paste()
         {
-            if (CanPasteFromClipboard)
-            {
-                DeselectAll();
-                RedrawSuspended = true;
-                Clipboard.Paste(this);
-                RedrawSuspended = false;
-                OnClipboardAvailabilityChanged(EventArgs.Empty);
-            }
+            if (!CanPasteFromClipboard) return;
+
+            RedrawSuspended = true;
+            var command = new PasteCommand(this);
+            command.Execute();
+            TrackCommand(command);
+            RedrawSuspended = false;
+            OnClipboardAvailabilityChanged(EventArgs.Empty);
         }
 
         public void Display(Graphics g)
