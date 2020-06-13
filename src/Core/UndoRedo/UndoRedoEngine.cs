@@ -14,6 +14,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NClass.Core.UndoRedo
 {
@@ -64,5 +65,12 @@ namespace NClass.Core.UndoRedo
 
         public bool CanUndo => UndoStack.Count > 0;
         public bool CanRedo => RedoStack.Count > 0;
+
+        public void Visualize(IUndoRedoVisualizer undoRedoVisualizer)
+        {
+            var items = UndoStack.Select(command => new UndoRedoListBoxItem(command.ToString(), UndoRedoType.Undo))
+                                 .Concat(RedoStack.Select(c => new UndoRedoListBoxItem(c.ToString(), UndoRedoType.Redo))).ToArray();
+            undoRedoVisualizer.SetItems(items);
+        }
     }
 }

@@ -40,7 +40,6 @@ namespace NClass.GUI
         bool showNavigator = true;
         DynamicMenu dynamicMenu = null;
         List<Plugin> plugins = new List<Plugin>();
-        private readonly UndoRedoExplorer undoRedoExplorer = new UndoRedoExplorer();
 
         public MainForm()
         {
@@ -56,7 +55,6 @@ namespace NClass.GUI
             modelExplorer.Workspace = Workspace.Default;
             tabbedWindow.DocumentManager = docManager;
             diagramNavigator.DocumentVisualizer = tabbedWindow.Canvas;
-            undoRedoExplorer.Show(this);
 
             UpdateTexts();
             UpdateStatusBar();
@@ -368,6 +366,12 @@ namespace NClass.GUI
             toolAutoZoom.Enabled = docManager.HasDocument && !docManager.ActiveDocument.IsEmpty;
         }
 
+        private void UpdateUndoRedoVisualizer()
+        {
+            docManager.ActiveDocument?.VisualizeUndoRedo(undoRedoListView);
+            undoRedoListView.SetDocument(docManager.ActiveDocument);
+        }
+
         private void UpdateUndoRedoButtons()
         {
             if (docManager.HasDocument)
@@ -488,6 +492,7 @@ namespace NClass.GUI
 
             UpdateStatusBar();
             UpdateDynamicMenus();
+            UpdateUndoRedoVisualizer();
             UpdateUndoRedoButtons();
             UpdateClipboardToolBar();
             UpdateStandardToolStrip();
@@ -496,7 +501,7 @@ namespace NClass.GUI
         private void ActiveDocument_UndoRedoChanged(object sender, UndoRedoEventArgs e)
         {
             UpdateUndoRedoButtons();
-            undoRedoExplorer.Track(e);
+            undoRedoListView.Track(e);
         }
 
         private void ActiveDocument_Modified(object sender, EventArgs e)

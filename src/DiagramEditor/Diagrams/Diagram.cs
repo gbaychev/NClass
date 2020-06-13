@@ -2258,5 +2258,10 @@ namespace NClass.DiagramEditor.Diagrams
         {
             undoRedoEngine.Redo();
         }
+
+        public void VisualizeUndoRedo(IUndoRedoVisualizer undoRedoVisualizer)
+        {
+            undoRedoEngine.Visualize(undoRedoVisualizer);
+        }
     }
 }

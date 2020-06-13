@@ -37,5 +37,6 @@ namespace NClass.DiagramEditor
         void Undo();
         void Redo();
         event UndoRedoHandler UndoRedoChanged;
+        void VisualizeUndoRedo(IUndoRedoVisualizer undoRedoVisualizer);
     }
 }

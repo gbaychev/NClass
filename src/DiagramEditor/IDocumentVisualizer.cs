@@ -1,5 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 2016-2020 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -19,33 +20,21 @@ using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
 {
-	public interface IDocumentVisualizer
-	{
-		event EventHandler DocumentRedrawed;
-		event EventHandler VisibleAreaChanged;
+    public interface IDocumentVisualizer
+    {
+        event EventHandler DocumentRedrawed;
+        event EventHandler VisibleAreaChanged;
+        bool HasDocument { get; }
+        IDocument Document { get; }
+        Point Offset { get; set; }
+        Size DocumentSize { get; }
+        Rectangle VisibleArea { get; }
+        float Zoom { get; }
 
-
-		bool HasDocument { get; }
-
-		IDocument Document { get; }
-
-		Point Offset { get; set; }
-
-		Size DocumentSize { get; }
-
-		Rectangle VisibleArea { get; }
-
-		float Zoom { get; }
-
-
-		void ChangeZoom(bool enlarge);
-		
-		void ChangeZoom(float zoom);
-
-		void AutoZoom();
-
-		void AutoZoom(bool selectedOnly);
-
-		void DrawDocument(Graphics g);
-	}
+        void ChangeZoom(bool enlarge);
+        void ChangeZoom(float zoom);
+        void AutoZoom();
+        void AutoZoom(bool selectedOnly);
+        void DrawDocument(Graphics g);
+    }
 }

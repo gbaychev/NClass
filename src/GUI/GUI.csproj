@@ -181,11 +181,11 @@
     <Compile Include="TabbedWindow.Designer.cs">
       <DependentUpon>TabbedWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UndoRedoExplorer.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UndoRedoListView.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UndoRedoExplorer.Designer.cs">
-      <DependentUpon>UndoRedoExplorer.cs</DependentUpon>
+    <Compile Include="UndoRedoListView.Designer.cs">
+      <DependentUpon>UndoRedoListView.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdatesChecker.cs" />
     <Compile Include="WindowSettings.Designer.cs">
@@ -197,9 +197,6 @@
     <Compile Include="ZoomingToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="UndoRedoExplorer.resx">
-      <DependentUpon>UndoRedoExplorer.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj">
@@ -273,6 +270,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

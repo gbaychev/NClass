@@ -36,10 +36,6 @@ namespace NClass.GUI
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblShortDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.windowClient = new System.Windows.Forms.SplitContainer();
-            this.tabbedWindow = new NClass.GUI.TabbedWindow();
-            this.toolsPanel = new System.Windows.Forms.SplitContainer();
-            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
-            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,9 +123,15 @@ namespace NClass.GUI
             this.toolSepRedo = new System.Windows.Forms.ToolStripSeparator();
             this.toolZoomValue = new System.Windows.Forms.ToolStripLabel();
             this.toolZoomOut = new System.Windows.Forms.ToolStripButton();
-            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolZoomIn = new System.Windows.Forms.ToolStripButton();
             this.toolAutoZoom = new System.Windows.Forms.ToolStripButton();
+            this.toolsPanel = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabbedWindow = new NClass.GUI.TabbedWindow();
+            this.modelExplorer = new NClass.GUI.ModelExplorer.ModelView();
+            this.undoRedoListView = new NClass.GUI.UndoRedoListView();
+            this.diagramNavigator = new NClass.GUI.DiagramNavigator();
+            this.toolZoom = new NClass.GUI.ZoomingToolStrip();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -139,12 +141,16 @@ namespace NClass.GUI
             this.windowClient.Panel1.SuspendLayout();
             this.windowClient.Panel2.SuspendLayout();
             this.windowClient.SuspendLayout();
+            this.menuStrip.SuspendLayout();
+            this.standardToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.toolsPanel)).BeginInit();
             this.toolsPanel.Panel1.SuspendLayout();
             this.toolsPanel.Panel2.SuspendLayout();
             this.toolsPanel.SuspendLayout();
-            this.menuStrip.SuspendLayout();
-            this.standardToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer
@@ -222,71 +228,6 @@ namespace NClass.GUI
             this.windowClient.Size = new System.Drawing.Size(892, 595);
             this.windowClient.SplitterDistance = 650;
             this.windowClient.TabIndex = 0;
-            // 
-            // tabbedWindow
-            // 
-            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabbedWindow.DocumentManager = null;
-            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
-            this.tabbedWindow.Name = "tabbedWindow";
-            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
-            this.tabbedWindow.TabIndex = 0;
-            // 
-            // toolsPanel
-            // 
-            this.toolsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolsPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.toolsPanel.Location = new System.Drawing.Point(0, 0);
-            this.toolsPanel.Name = "toolsPanel";
-            this.toolsPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // toolsPanel.Panel1
-            // 
-            this.toolsPanel.Panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolsPanel.Panel1.Controls.Add(this.modelExplorer);
-            this.toolsPanel.Panel1.Padding = new System.Windows.Forms.Padding(1);
-            this.toolsPanel.Panel1MinSize = 100;
-            // 
-            // toolsPanel.Panel2
-            // 
-            this.toolsPanel.Panel2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolsPanel.Panel2.Controls.Add(this.diagramNavigator);
-            this.toolsPanel.Panel2.Padding = new System.Windows.Forms.Padding(1);
-            this.toolsPanel.Panel2MinSize = 100;
-            this.toolsPanel.Size = new System.Drawing.Size(238, 595);
-            this.toolsPanel.SplitterDistance = 405;
-            this.toolsPanel.TabIndex = 0;
-            // 
-            // modelExplorer
-            // 
-            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.modelExplorer.ImageIndex = 0;
-            this.modelExplorer.Indent = 22;
-            this.modelExplorer.ItemHeight = 18;
-            this.modelExplorer.LabelEdit = true;
-            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
-            this.modelExplorer.Name = "modelExplorer";
-            this.modelExplorer.SelectedImageIndex = 0;
-            this.modelExplorer.ShowNodeToolTips = true;
-            this.modelExplorer.ShowRootLines = false;
-            this.modelExplorer.Size = new System.Drawing.Size(236, 403);
-            this.modelExplorer.TabIndex = 0;
-            this.modelExplorer.Workspace = null;
-            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
-            // 
-            // diagramNavigator
-            // 
-            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
-            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.diagramNavigator.DocumentVisualizer = null;
-            this.diagramNavigator.Location = new System.Drawing.Point(1, 1);
-            this.diagramNavigator.Name = "diagramNavigator";
-            this.diagramNavigator.Size = new System.Drawing.Size(236, 184);
-            this.diagramNavigator.TabIndex = 0;
-            this.diagramNavigator.Text = "diagramNavigator";
             // 
             // menuStrip
             // 
@@ -544,7 +485,7 @@ namespace NClass.GUI
             this.mnuUndo.Image = global::NClass.GUI.Properties.Resources.Undo;
             this.mnuUndo.Name = "mnuUndo";
             this.mnuUndo.ShortcutKeyDisplayString = "Ctrl+Z";
-            this.mnuUndo.Size = new System.Drawing.Size(180, 22);
+            this.mnuUndo.Size = new System.Drawing.Size(164, 22);
             this.mnuUndo.Text = "&Undo";
             this.mnuUndo.Click += new System.EventHandler(this.mnuUndo_Click);
             // 
@@ -553,21 +494,21 @@ namespace NClass.GUI
             this.mnuRedo.Image = global::NClass.GUI.Properties.Resources.Redo;
             this.mnuRedo.Name = "mnuRedo";
             this.mnuRedo.ShortcutKeyDisplayString = "Ctrl+Y";
-            this.mnuRedo.Size = new System.Drawing.Size(180, 22);
+            this.mnuRedo.Size = new System.Drawing.Size(164, 22);
             this.mnuRedo.Text = "&Redo";
             this.mnuRedo.Click += new System.EventHandler(this.mnuRedo_Click);
             // 
             // mnuSepReso
             // 
             this.mnuSepReso.Name = "mnuSepReso";
-            this.mnuSepReso.Size = new System.Drawing.Size(177, 6);
+            this.mnuSepReso.Size = new System.Drawing.Size(161, 6);
             // 
             // mnuCut
             // 
             this.mnuCut.Image = global::NClass.GUI.Properties.Resources.Cut;
             this.mnuCut.Name = "mnuCut";
             this.mnuCut.ShortcutKeyDisplayString = "Ctrl+X";
-            this.mnuCut.Size = new System.Drawing.Size(180, 22);
+            this.mnuCut.Size = new System.Drawing.Size(164, 22);
             this.mnuCut.Text = "Cu&t";
             this.mnuCut.Click += new System.EventHandler(this.mnuCut_Click);
             // 
@@ -576,7 +517,7 @@ namespace NClass.GUI
             this.mnuCopy.Image = global::NClass.GUI.Properties.Resources.Copy;
             this.mnuCopy.Name = "mnuCopy";
             this.mnuCopy.ShortcutKeyDisplayString = "Ctrl+C";
-            this.mnuCopy.Size = new System.Drawing.Size(180, 22);
+            this.mnuCopy.Size = new System.Drawing.Size(164, 22);
             this.mnuCopy.Text = "&Copy";
             this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
             // 
@@ -585,7 +526,7 @@ namespace NClass.GUI
             this.mnuPaste.Image = global::NClass.GUI.Properties.Resources.Paste;
             this.mnuPaste.Name = "mnuPaste";
             this.mnuPaste.ShortcutKeyDisplayString = "Ctrl+V";
-            this.mnuPaste.Size = new System.Drawing.Size(180, 22);
+            this.mnuPaste.Size = new System.Drawing.Size(164, 22);
             this.mnuPaste.Text = "&Paste";
             this.mnuPaste.Click += new System.EventHandler(this.mnuPaste_Click);
             // 
@@ -594,21 +535,21 @@ namespace NClass.GUI
             this.mnuDelete.Image = global::NClass.GUI.Properties.Resources.Delete;
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.ShortcutKeyDisplayString = "Del";
-            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(164, 22);
             this.mnuDelete.Text = "&Delete";
             this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
             // mnuSepDelete
             // 
             this.mnuSepDelete.Name = "mnuSepDelete";
-            this.mnuSepDelete.Size = new System.Drawing.Size(177, 6);
+            this.mnuSepDelete.Size = new System.Drawing.Size(161, 6);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeyDisplayString = "";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(164, 22);
             this.mnuSelectAll.Text = "Select &All";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -837,7 +778,7 @@ namespace NClass.GUI
             this.toolAutoZoom});
             this.standardToolStrip.Location = new System.Drawing.Point(3, 24);
             this.standardToolStrip.Name = "standardToolStrip";
-            this.standardToolStrip.Size = new System.Drawing.Size(479, 25);
+            this.standardToolStrip.Size = new System.Drawing.Size(448, 25);
             this.standardToolStrip.TabIndex = 1;
             // 
             // toolNew
@@ -1043,13 +984,6 @@ namespace NClass.GUI
             this.toolZoomOut.Size = new System.Drawing.Size(23, 22);
             this.toolZoomOut.Click += new System.EventHandler(this.toolZoomOut_Click);
             // 
-            // toolZoom
-            // 
-            this.toolZoom.Enabled = false;
-            this.toolZoom.Name = "toolZoom";
-            this.toolZoom.Size = new System.Drawing.Size(100, 22);
-            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
-            // 
             // toolZoomIn
             // 
             this.toolZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1069,6 +1003,106 @@ namespace NClass.GUI
             this.toolAutoZoom.Name = "toolAutoZoom";
             this.toolAutoZoom.Size = new System.Drawing.Size(23, 22);
             this.toolAutoZoom.Click += new System.EventHandler(this.mnuAutoZoom_Click);
+            // 
+            // toolsPanel
+            // 
+            this.toolsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolsPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.toolsPanel.Location = new System.Drawing.Point(0, 0);
+            this.toolsPanel.Name = "toolsPanel";
+            this.toolsPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // toolsPanel.Panel1
+            // 
+            this.toolsPanel.Panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolsPanel.Panel1.Controls.Add(this.modelExplorer);
+            this.toolsPanel.Panel1.Padding = new System.Windows.Forms.Padding(1);
+            this.toolsPanel.Panel1MinSize = 100;
+            // 
+            // toolsPanel.Panel2
+            // 
+            this.toolsPanel.Panel2.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolsPanel.Panel2.Controls.Add(this.splitContainer1);
+            this.toolsPanel.Panel2.Padding = new System.Windows.Forms.Padding(1);
+            this.toolsPanel.Panel2MinSize = 100;
+            this.toolsPanel.Size = new System.Drawing.Size(238, 595);
+            this.toolsPanel.SplitterDistance = 240;
+            this.toolsPanel.TabIndex = 0;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(1, 1);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.undoRedoListView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.diagramNavigator);
+            this.splitContainer1.Size = new System.Drawing.Size(236, 349);
+            this.splitContainer1.SplitterDistance = 196;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // tabbedWindow
+            // 
+            this.tabbedWindow.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tabbedWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabbedWindow.DocumentManager = null;
+            this.tabbedWindow.Location = new System.Drawing.Point(1, 1);
+            this.tabbedWindow.Name = "tabbedWindow";
+            this.tabbedWindow.Size = new System.Drawing.Size(648, 593);
+            this.tabbedWindow.TabIndex = 0;
+            // 
+            // modelExplorer
+            // 
+            this.modelExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.modelExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.modelExplorer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.modelExplorer.ImageIndex = 0;
+            this.modelExplorer.Indent = 22;
+            this.modelExplorer.ItemHeight = 18;
+            this.modelExplorer.LabelEdit = true;
+            this.modelExplorer.Location = new System.Drawing.Point(1, 1);
+            this.modelExplorer.Name = "modelExplorer";
+            this.modelExplorer.SelectedImageIndex = 0;
+            this.modelExplorer.ShowNodeToolTips = true;
+            this.modelExplorer.ShowRootLines = false;
+            this.modelExplorer.Size = new System.Drawing.Size(236, 238);
+            this.modelExplorer.TabIndex = 0;
+            this.modelExplorer.Workspace = null;
+            this.modelExplorer.DocumentOpening += new NClass.DiagramEditor.DocumentEventHandler(this.modelExplorer_DocumentOpening);
+            // 
+            // undoRedoListView
+            // 
+            this.undoRedoListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.undoRedoListView.FormattingEnabled = true;
+            this.undoRedoListView.Location = new System.Drawing.Point(0, 0);
+            this.undoRedoListView.Margin = new System.Windows.Forms.Padding(0);
+            this.undoRedoListView.Name = "undoRedoListView";
+            this.undoRedoListView.Size = new System.Drawing.Size(236, 196);
+            this.undoRedoListView.TabIndex = 0;
+            // 
+            // diagramNavigator
+            // 
+            this.diagramNavigator.BackColor = System.Drawing.SystemColors.Window;
+            this.diagramNavigator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.diagramNavigator.DocumentVisualizer = null;
+            this.diagramNavigator.Location = new System.Drawing.Point(0, 0);
+            this.diagramNavigator.Name = "diagramNavigator";
+            this.diagramNavigator.Size = new System.Drawing.Size(236, 149);
+            this.diagramNavigator.TabIndex = 1;
+            this.diagramNavigator.Text = "diagramNavigator";
+            // 
+            // toolZoom
+            // 
+            this.toolZoom.Enabled = false;
+            this.toolZoom.Name = "toolZoom";
+            this.toolZoom.Size = new System.Drawing.Size(100, 22);
+            this.toolZoom.ZoomValueChanged += new System.EventHandler(this.toolZoom_ZoomValueChanged);
             // 
             // MainForm
             // 
@@ -1102,14 +1136,18 @@ namespace NClass.GUI
             this.windowClient.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.windowClient)).EndInit();
             this.windowClient.ResumeLayout(false);
-            this.toolsPanel.Panel1.ResumeLayout(false);
-            this.toolsPanel.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.toolsPanel)).EndInit();
-            this.toolsPanel.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.standardToolStrip.ResumeLayout(false);
             this.standardToolStrip.PerformLayout();
+            this.toolsPanel.Panel1.ResumeLayout(false);
+            this.toolsPanel.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.toolsPanel)).EndInit();
+            this.toolsPanel.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -1182,11 +1220,8 @@ namespace NClass.GUI
 		private System.Windows.Forms.ToolStripButton toolRedo;
 		private System.Windows.Forms.ToolStripSeparator toolSepPaste;
 		private System.Windows.Forms.SplitContainer windowClient;
-		private System.Windows.Forms.SplitContainer toolsPanel;
 		private System.Windows.Forms.ToolStripMenuItem mnuModelExplorer;
 		private System.Windows.Forms.ToolStripMenuItem mnuDiagramNavigator;
-		private NClass.GUI.ModelExplorer.ModelView modelExplorer;
-		private NClass.GUI.DiagramNavigator diagramNavigator;
 		private TabbedWindow tabbedWindow;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewProject;
 		private System.Windows.Forms.ToolStripSeparator mnuSepProject;
@@ -1215,5 +1250,10 @@ namespace NClass.GUI
 		private System.Windows.Forms.ToolStripMenuItem mnuOptions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuNewUseCaseDiagram;
+        private System.Windows.Forms.SplitContainer toolsPanel;
+        private ModelExplorer.ModelView modelExplorer;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private DiagramNavigator diagramNavigator;
+        private UndoRedoListView undoRedoListView;
     }
 }

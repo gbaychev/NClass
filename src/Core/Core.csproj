@@ -159,12 +159,15 @@
     <Compile Include="LanguageElement.cs" />
     <Compile Include="UndoRedo\CommandId.cs" />
     <Compile Include="UndoRedo\ICommand.cs" />
+    <Compile Include="UndoRedo\IUndoRedoVisualizer.cs" />
     <Compile Include="UndoRedo\Modification.cs" />
     <Compile Include="UndoRedo\ModificationEventArgs.cs" />
     <Compile Include="UndoRedo\TrackableValue.cs" />
     <Compile Include="UndoRedo\UndoRedoAction.cs" />
     <Compile Include="UndoRedo\UndoRedoEngine.cs" />
     <Compile Include="UndoRedo\UndoRedoEventArgs.cs" />
+    <Compile Include="UndoRedo\UndoRedoListBoxItem.cs" />
+    <Compile Include="UndoRedo\UndoRedoType.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
