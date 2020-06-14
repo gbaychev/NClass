@@ -45,7 +45,7 @@ namespace NClass.GUI
 
                 item.Type = UndoRedoType.Redo;
                 this.Items[activeIndex--] = item;
-                activeIndex = Math.Max(0, activeIndex);
+                activeIndex = Math.Max(-1, activeIndex);
             }
 
             if ((args.Action & UndoRedoAction.UndoPush) == UndoRedoAction.UndoPush)
