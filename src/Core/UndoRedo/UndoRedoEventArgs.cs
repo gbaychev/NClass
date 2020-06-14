@@ -4,12 +4,12 @@ namespace NClass.Core.UndoRedo
 {
     public class UndoRedoEventArgs : EventArgs
     {
-        public UndoRedoEventArgs(UndoRedoAction action, string debugTag)
+        public UndoRedoEventArgs(UndoRedoAction action, string displayText)
         {
             Action = action;
-            DebugTag = debugTag;
+            DisplayText = displayText;
         }
         public UndoRedoAction Action { get; }
-        public string DebugTag { get; }
+        public string DisplayText { get; }
     }
 }

@@ -52,7 +52,7 @@ namespace NClass.GUI
             {
                 if (activeIndex == Items.Count - 1)
                 {
-                    this.Items.Add(new UndoRedoListBoxItem(args.DebugTag, UndoRedoType.Undo));
+                    this.Items.Add(new UndoRedoListBoxItem(args.DisplayText, UndoRedoType.Undo));
                     activeIndex++;
                 }
                 else

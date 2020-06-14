@@ -25,5 +25,7 @@ namespace NClass.Core.UndoRedo
         {
             get;
         }
+
+        string DisplayText { get; } 
     }
 }

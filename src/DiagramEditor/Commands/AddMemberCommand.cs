@@ -30,9 +30,7 @@ namespace NClass.DiagramEditor.Commands
         {
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.AddMember;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

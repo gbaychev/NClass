@@ -46,9 +46,7 @@ namespace NClass.DiagramEditor.Commands
             diagram.ReattachShapes(shapes);
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.MoveElements;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

@@ -46,9 +46,7 @@ namespace NClass.DiagramEditor.Commands
             diagram.Redraw();
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.AddShape;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

@@ -46,9 +46,7 @@ namespace NClass.DiagramEditor.Commands
             diagram.ReinsertConnections(connections);
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.DeleteElements;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

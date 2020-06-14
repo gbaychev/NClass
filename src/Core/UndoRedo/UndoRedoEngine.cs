@@ -40,7 +40,7 @@ namespace NClass.Core.UndoRedo
             var command = UndoStack.Pop();
             command.Undo();
             RedoStack.Push(command);
-            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPop | UndoRedoAction.RedoPush, command.ToString());
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPop | UndoRedoAction.RedoPush, command.DisplayText);
             UndoRedoChanged?.Invoke(this, args);
         }
 
@@ -51,7 +51,7 @@ namespace NClass.Core.UndoRedo
             var command = RedoStack.Pop();
             command.Execute();
             UndoStack.Push(command);
-            var args = new UndoRedoEventArgs(UndoRedoAction.RedoPop | UndoRedoAction.UndoPush, command.ToString());
+            var args = new UndoRedoEventArgs(UndoRedoAction.RedoPop | UndoRedoAction.UndoPush, command.DisplayText);
             UndoRedoChanged?.Invoke(this, args);
         }
 
@@ -59,7 +59,7 @@ namespace NClass.Core.UndoRedo
         {
             UndoStack.Push(command);
             RedoStack.Clear();
-            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush | UndoRedoAction.RedoClear, command.ToString());
+            var args = new UndoRedoEventArgs(UndoRedoAction.UndoPush | UndoRedoAction.RedoClear, command.DisplayText);
             UndoRedoChanged?.Invoke(this, args);
         }
 

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.Diagrams;
 
@@ -56,9 +54,7 @@ namespace NClass.DiagramEditor.Commands
             _diagram.Redraw();
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.Paste;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

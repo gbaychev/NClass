@@ -23,9 +23,7 @@ namespace NClass.DiagramEditor.Commands
             throw new NotImplementedException();
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.DeleteMember;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

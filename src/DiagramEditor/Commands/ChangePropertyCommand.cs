@@ -35,9 +35,7 @@ namespace NClass.DiagramEditor.Commands
             shape.RaiseChangedEvent = true;
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.ChangeProperty;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }

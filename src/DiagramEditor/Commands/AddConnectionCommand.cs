@@ -34,9 +34,7 @@ namespace NClass.DiagramEditor.Commands
             _diagram.Redraw();
         }
 
-        public CommandId CommandId
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public CommandId CommandId => CommandId.AddConnection;
+        public string DisplayText => CommandIdToString.GetString(CommandId);
     }
 }
