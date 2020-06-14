@@ -1219,4 +1219,28 @@ Do you still want to continue?</value>
   <data name="GitCommitHash" xml:space="preserve">
     <value>Git commit hash:</value>
   </data>
+  <data name="CommandAddConnection" xml:space="preserve">
+    <value>Add Connection</value>
+  </data>
+  <data name="CommandAddMember" xml:space="preserve">
+    <value>Add Member</value>
+  </data>
+  <data name="CommandAddShape" xml:space="preserve">
+    <value>Add Shape</value>
+  </data>
+  <data name="CommandChangeProperty" xml:space="preserve">
+    <value>Change Property</value>
+  </data>
+  <data name="CommandDeleteElements" xml:space="preserve">
+    <value>Delete Elements</value>
+  </data>
+  <data name="CommandDeleteMember" xml:space="preserve">
+    <value>Delete Member</value>
+  </data>
+  <data name="CommandMoveElements" xml:space="preserve">
+    <value>Move Elements</value>
+  </data>
+  <data name="CommandPaste" xml:space="preserve">
+    <value>Paste Elements</value>
+  </data>
 </root>

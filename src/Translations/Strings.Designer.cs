@@ -19,7 +19,7 @@ namespace NClass.Translations {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public partial class Strings {
@@ -548,11 +548,83 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Connection.
+        /// </summary>
+        public static string CommandAddConnection {
+            get {
+                return ResourceManager.GetString("CommandAddConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Member.
+        /// </summary>
+        public static string CommandAddMember {
+            get {
+                return ResourceManager.GetString("CommandAddMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Shape.
+        /// </summary>
+        public static string CommandAddShape {
+            get {
+                return ResourceManager.GetString("CommandAddShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Property.
+        /// </summary>
+        public static string CommandChangeProperty {
+            get {
+                return ResourceManager.GetString("CommandChangeProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Elements.
+        /// </summary>
+        public static string CommandDeleteElements {
+            get {
+                return ResourceManager.GetString("CommandDeleteElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Member.
+        /// </summary>
+        public static string CommandDeleteMember {
+            get {
+                return ResourceManager.GetString("CommandDeleteMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command failed..
         /// </summary>
         public static string CommandFailed {
             get {
                 return ResourceManager.GetString("CommandFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Elements.
+        /// </summary>
+        public static string CommandMoveElements {
+            get {
+                return ResourceManager.GetString("CommandMoveElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Elements.
+        /// </summary>
+        public static string CommandPaste {
+            get {
+                return ResourceManager.GetString("CommandPaste", resourceCulture);
             }
         }
         

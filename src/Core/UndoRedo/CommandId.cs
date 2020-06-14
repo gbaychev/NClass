@@ -29,20 +29,20 @@ namespace NClass.Core.UndoRedo
         DeleteMember
     }
 
-    public class CommandIdToString
+    public static class CommandIdToString
     {
-        private static Dictionary<CommandId, string> _strings = new Dictionary<CommandId, string>();
+        private static readonly Dictionary<CommandId, string> Strings = new Dictionary<CommandId, string>();
 
         static CommandIdToString()
         {
-            _strings[CommandId.AddShape] = "Add Shape";
-            _strings[CommandId.AddConnection] = "Add Connection";
-            _strings[CommandId.DeleteElements] = "Delete Elements";
-            _strings[CommandId.ChangeProperty] = "Change Property";
-            _strings[CommandId.MoveElements] = "Move Elements";
-            _strings[CommandId.Paste] = "Paste";
-            _strings[CommandId.AddMember] = "Add Member";
-            _strings[CommandId.DeleteMember] = "Delete Member";
+            Strings[CommandId.AddShape] = Translations.Strings.CommandAddShape;
+            Strings[CommandId.AddConnection] = Translations.Strings.CommandAddConnection;
+            Strings[CommandId.DeleteElements] = Translations.Strings.CommandDeleteElements;
+            Strings[CommandId.ChangeProperty] = Translations.Strings.CommandChangeProperty;
+            Strings[CommandId.MoveElements] = Translations.Strings.CommandMoveElements;
+            Strings[CommandId.Paste] = Translations.Strings.CommandPaste;
+            Strings[CommandId.AddMember] = Translations.Strings.CommandAddMember;
+            Strings[CommandId.DeleteMember] = Translations.Strings.CommandDeleteMember;
         }
 
         public static string GetString(CommandId commandId)
@@ -50,23 +50,23 @@ namespace NClass.Core.UndoRedo
             switch (commandId)
             {
                 case CommandId.AddShape:
-                    return _strings[CommandId.AddShape];
+                    return Strings[CommandId.AddShape];
                 case CommandId.AddConnection:
-                    return _strings[CommandId.AddConnection];
+                    return Strings[CommandId.AddConnection];
                 case CommandId.DeleteElements:
-                    return _strings[CommandId.DeleteElements];
+                    return Strings[CommandId.DeleteElements];
                 case CommandId.ChangeProperty:
-                    return _strings[CommandId.ChangeProperty];
+                    return Strings[CommandId.ChangeProperty];
                 case CommandId.MoveElements:
-                    return _strings[CommandId.MoveElements];
+                    return Strings[CommandId.MoveElements];
                 case CommandId.Paste:
-                    return _strings[CommandId.Paste];
+                    return Strings[CommandId.Paste];
                 case CommandId.AddMember:
-                    return _strings[CommandId.AddMember];
+                    return Strings[CommandId.AddMember];
                 case CommandId.DeleteMember:
-                    return _strings[CommandId.DeleteMember];
+                    return Strings[CommandId.DeleteMember];
                 default:
-                    return "<unknown>";
+                    return Translations.Strings.Unknown;
             }
         }
     }
