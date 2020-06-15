@@ -141,20 +141,7 @@ namespace NClass.Core
         /// </exception>
         public void InsertMember(MemberType type, int index)
         {
-            if (type == MemberType.Field)
-            {
-                if (index > FieldCount)
-                    index = FieldCount;
-            }
-            else
-            {
-                index -= FieldCount;
-                if (index > OperationCount)
-                    index = OperationCount;
-            }
-
-            if (index < 0)
-                index = 0;
+            index = CalculateMemberIndex(type, index);
 
             switch (type)
             {
@@ -196,6 +183,59 @@ namespace NClass.Core
             }
         }
 
+
+        public void ReinsertMember(Member member, int index)
+        {
+            index = CalculateMemberIndex(member.MemberType, index);
+
+            switch (member.MemberType)
+            {
+                case MemberType.Field:
+                    fields.Insert(index, member as Field);
+                    break;
+
+                case MemberType.Method:
+                    operations.Insert(index, member as Method);
+                    break;
+
+                case MemberType.Constructor:
+                    operations.Insert(index, member as Constructor);
+                    break;
+
+                case MemberType.Destructor:
+                    operations.Insert(index, member as Destructor);
+                    break;
+
+                case MemberType.Property:
+                    operations.Insert(index, member as Property);
+                    break;
+
+                case MemberType.Event:
+                    operations.Insert(index, member as Event);
+                    break;
+            }
+            Changed();
+        }
+
+        private int CalculateMemberIndex(MemberType memberType, int index)
+        {
+            if (memberType == MemberType.Field)
+            {
+                if (index > FieldCount)
+                    index = FieldCount;
+            }
+            else
+            {
+                index -= FieldCount;
+                if (index > OperationCount)
+                    index = OperationCount;
+            }
+
+            if (index < 0)
+                index = 0;
+            return index;
+        }
+
         protected void AddField(Field field)
         {
             if (field != null && !FieldList.Contains(field))
@@ -232,18 +272,23 @@ namespace NClass.Core
                 return null;
         }
 
-        public void RemoveMember(Member member)
+        public int RemoveMember(Member member)
         {
-            if (member is Field)
+            var index = -1;
+            if (member is Field field)
             {
-                if (FieldList.Remove((Field)member))
+                index = FieldList.IndexOf(field);
+                if (FieldList.Remove(field))
                     Changed();
             }
-            else if (member is Operation)
+            else if (member is Operation operation)
             {
-                if (OperationList.Remove((Operation)member))
+                index = OperationList.IndexOf(operation);
+                if (OperationList.Remove(operation))
                     Changed();
             }
+
+            return index;
         }
 
         public Operation GetDefinedOperation(Operation operation)

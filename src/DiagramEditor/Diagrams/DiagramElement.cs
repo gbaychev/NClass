@@ -30,7 +30,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected const float UndreadableZoom = 0.25F;
         internal static Graphics Graphics = null; // Graphics object for text measuring
 
-        IDiagram diagram;
+        protected IDiagram diagram;
         bool isSelected = false;
         bool isActive = false;
         bool isDirty = true;

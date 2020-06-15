@@ -6,21 +6,27 @@ namespace NClass.DiagramEditor.Commands
 {
     public class DeleteMemberCommand : ICommand
     {
-        readonly TypeBase shape;
+        private readonly CompositeType compositeType;
+        private readonly Member member;
+        private int index;
 
-        public DeleteMemberCommand(TypeBase shape, Member member)
+        public DeleteMemberCommand(CompositeType compositeType, Member member)
         {
-            throw new NotImplementedException();
+            this.compositeType = compositeType;
+            this.member = member;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            index = compositeType.RemoveMember(member);
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            if (index != -1)
+            {
+                compositeType.ReinsertMember(member, index);
+            }
         }
 
         public CommandId CommandId => CommandId.DeleteMember;

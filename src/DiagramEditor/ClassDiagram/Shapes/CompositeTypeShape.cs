@@ -19,6 +19,7 @@ using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Editors;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Editors;
 
@@ -124,7 +125,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         protected internal override void EditMembers()
         {
-            membersDialog.ShowDialog(CompositeType);
+            membersDialog.ShowDialog(diagram,CompositeType);
         }
 
         protected override EditorWindow GetEditorWindow()
@@ -233,7 +234,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     newIndex = ActiveMemberIndex;
                 }
 
-                CompositeType.RemoveMember(ActiveMember);
+                var command = new DeleteMemberCommand(CompositeType, ActiveMember);
+                command.Execute();
+                diagram.TrackCommand(command);
+
                 ActiveMemberIndex = newIndex;
                 OnActiveMemberChanged(EventArgs.Empty);
             }
