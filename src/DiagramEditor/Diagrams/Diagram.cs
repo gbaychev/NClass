@@ -2233,6 +2233,7 @@ namespace NClass.DiagramEditor.Diagrams
                 Debug.Assert(connection.EndShape != null && Shapes.Contains(connection.StartShape));
                 model.ReinsertRelationship(connection.Relationship);
                 AddConnection(connection);
+                connection.Reattach();
             }
 
             Redraw();

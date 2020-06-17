@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -72,6 +73,20 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 OnDeserializing(e);
             };
+        }
+
+        /// <summary>
+        /// Called when reinserting shapes via undo/redo
+        /// </summary>
+        internal void Reattach()
+        {
+            Debug.Assert(startShape != null);
+            Debug.Assert(endShape != null);
+
+            startShape.Move += ShapeMoving;
+            startShape.Resize += StartShapeResizing;
+            endShape.Move += ShapeMoving;
+            endShape.Resize += EndShapeResizing;
         }
 
         protected virtual Size StartCapSize => Size.Empty;
