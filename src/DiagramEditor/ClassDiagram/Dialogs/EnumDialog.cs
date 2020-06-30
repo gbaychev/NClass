@@ -21,81 +21,84 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
-	public class EnumDialog : ListDialog
-	{
-		EnumType parent = null;
+    public class EnumDialog : ListDialog
+    {
+        EnumType parent = null;
 
-		protected override void FillList()
-		{
-			lstItems.Items.Clear();
-			foreach (EnumValue value in parent.Values) {
-				ListViewItem item = lstItems.Items.Add(value.ToString());
+        protected override void FillList()
+        {
+            lstItems.Items.Clear();
+            foreach (EnumValue value in parent.Values)
+            {
+                ListViewItem item = lstItems.Items.Add(value.ToString());
 
-				item.Tag = value;
-				item.ImageIndex = Icons.EnumItemImageIndex;
-			}
-		}
+                item.Tag = value;
+                item.ImageIndex = Icons.EnumItemImageIndex;
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void AddToList(string text)
-		{
-			EnumValue value = parent.AddValue(text);
-			ListViewItem item = lstItems.Items.Add(value.ToString());
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void AddToList(string text)
+        {
+            EnumValue value = parent.AddValue(text);
+            ListViewItem item = lstItems.Items.Add(value.ToString());
 
-			item.Tag = value;
-			item.ImageIndex = Icons.EnumItemImageIndex;
-		}
+            item.Tag = value;
+            item.ImageIndex = Icons.EnumItemImageIndex;
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void Modify(ListViewItem item, string text)
-		{
-			if (item.Tag is EnumValue) {
-				EnumValue enumItem = parent.ModifyValue((EnumValue) item.Tag, text);
-				item.Tag = enumItem;
-				item.Text = enumItem.ToString();
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void Modify(ListViewItem item, string text)
+        {
+            if (item.Tag is EnumValue)
+            {
+                EnumValue enumItem = parent.ModifyValue((EnumValue)item.Tag, text);
+                item.Tag = enumItem;
+                item.Text = enumItem.ToString();
+            }
+        }
 
-		protected override void MoveUpItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveUpItem(item.Tag);
-			base.MoveUpItem(item);
-		}
+        protected override void MoveUpItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveUpItem(item.Tag);
+            base.MoveUpItem(item);
+        }
 
-		protected override void MoveDownItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveDownItem(item.Tag);
-			base.MoveDownItem(item);
-		}
+        protected override void MoveDownItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveDownItem(item.Tag);
+            base.MoveDownItem(item);
+        }
 
-		protected override void Remove(ListViewItem item)
-		{
-			if (item != null && item.Tag is EnumValue)
-				parent.RemoveValue((EnumValue) item.Tag);
-			base.Remove(item);
-		}
+        protected override void Remove(ListViewItem item)
+        {
+            if (item != null && item.Tag is EnumValue)
+                parent.RemoveValue((EnumValue)item.Tag);
+            base.Remove(item);
+        }
 
-		public void ShowDialog(EnumType parent)
-		{
-			if (parent != null) {
-				this.parent = parent;
-				this.Text = string.Format(Strings.ItemsOfType, parent.Name);
-				FillList();
+        public void ShowDialog(EnumType parent)
+        {
+            if (parent != null)
+            {
+                this.parent = parent;
+                this.Text = string.Format(Strings.ItemsOfType, parent.Name);
+                FillList();
 
-				base.ShowDialog();
-			}
-		}
-	}
+                base.ShowDialog();
+            }
+        }
+    }
 }
