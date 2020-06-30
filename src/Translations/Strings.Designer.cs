@@ -557,6 +557,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Enum Member.
+        /// </summary>
+        public static string CommandAddEnumMember {
+            get {
+                return ResourceManager.GetString("CommandAddEnumMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Member.
         /// </summary>
         public static string CommandAddMember {
@@ -589,6 +598,15 @@ namespace NClass.Translations {
         public static string CommandDeleteElements {
             get {
                 return ResourceManager.GetString("CommandDeleteElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Enum Member.
+        /// </summary>
+        public static string CommandDeleteEnumMember {
+            get {
+                return ResourceManager.GetString("CommandDeleteEnumMember", resourceCulture);
             }
         }
         

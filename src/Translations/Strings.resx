@@ -1243,4 +1243,10 @@ Do you still want to continue?</value>
   <data name="CommandPaste" xml:space="preserve">
     <value>Paste Elements</value>
   </data>
+  <data name="CommandAddEnumMember" xml:space="preserve">
+    <value>Add Enum Member</value>
+  </data>
+  <data name="CommandDeleteEnumMember" xml:space="preserve">
+    <value>Delete Enum Member</value>
+  </data>
 </root>

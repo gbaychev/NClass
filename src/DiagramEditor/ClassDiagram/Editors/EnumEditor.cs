@@ -181,7 +181,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             {
                 try
                 {
-                    shape.EnumType.AddValue(txtNewValue.Text);
+                    var command = new AddEnumMemberCommand(shape, txtNewValue.Text);
+                    command.Execute();
+                    shape.Diagram.TrackCommand(command);
                     ClearNewValueField();
                 }
                 catch (BadSyntaxException ex)
