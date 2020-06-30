@@ -105,10 +105,10 @@ namespace NClass.Core
         /// <exception cref="ReservedNameException">
         /// The new name is a reserved name.
         /// </exception>
-        protected bool ChangeValue(EnumValue oldValue, EnumValue newValue)
+        protected void ChangeValue(EnumValue oldValue, EnumValue newValue)
         {
             if (oldValue == null || newValue == null)
-                return false;
+                return;
 
             int index = -1;
             for (int i = 0; i < values.Count; i++)
@@ -119,16 +119,10 @@ namespace NClass.Core
                     throw new ReservedNameException(newValue.Name);
             }
 
-            if (index == -1)
-            {
-                return false;
-            }
-            else
-            {
-                values[index] = newValue;
-                Changed();
-                return true;
-            }
+            if (index == -1) return;
+
+            values[index].Name = newValue.Name;
+            Changed();
         }
 
         public void RemoveValue(EnumValue value)

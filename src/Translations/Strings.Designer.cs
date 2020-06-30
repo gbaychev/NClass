@@ -647,6 +647,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rename Enum Member.
+        /// </summary>
+        public static string CommandRenameEnumMember {
+            get {
+                return ResourceManager.GetString("CommandRenameEnumMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         public static string Comment {

@@ -15,35 +15,31 @@
 
 using NClass.Core;
 using NClass.Core.UndoRedo;
-using NClass.DiagramEditor.ClassDiagram.Shapes;
 
 namespace NClass.DiagramEditor.Commands
 {
-    public class AddEnumMemberCommand : ICommand
+    public class DeleteFromEnumTypeCommand : ICommand
     {
-        private EnumType enumType;
-        private string enumMember;
-        private EnumValue enumValue;
+        private readonly EnumType enumType;
+        private readonly EnumValue enumValue;
 
-        public EnumValue EnumValue => enumValue;
-
-        public AddEnumMemberCommand(EnumType enumType, string enumMember)
+        public DeleteFromEnumTypeCommand(EnumType enumType, EnumValue enumValue)
         {
             this.enumType = enumType;
-            this.enumMember = enumMember;
+            this.enumValue = enumValue;
         }
 
         public void Execute()
         {
-            enumValue = enumType.AddValue(enumMember);
+            enumType.RemoveValue(enumValue);
         }
 
         public void Undo()
         {
-            enumType.RemoveValue(enumValue);
+            enumType.AddValue(enumValue.ToString());
         }
 
-        public CommandId CommandId => CommandId.AddEnumMember;
-        public string DisplayText => CommandIdToString.GetString(CommandId);
+        public CommandId CommandId => CommandId.DeleteEnumMember;
+        public string DisplayText => CommandIdToString.GetString(CommandId.DeleteEnumMember);
     }
 }

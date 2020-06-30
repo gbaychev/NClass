@@ -1249,4 +1249,7 @@ Do you still want to continue?</value>
   <data name="CommandDeleteEnumMember" xml:space="preserve">
     <value>Delete Enum Member</value>
   </data>
+  <data name="CommandRenameEnumMember" xml:space="preserve">
+    <value>Rename Enum Member</value>
+  </data>
 </root>

@@ -86,7 +86,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             {
                 try
                 {
-                    shape.EnumType.ModifyValue(shape.ActiveValue, DeclarationText);
+                    var command = new RenameEnumMemberCommand(shape.ActiveValue, shape.EnumType, DeclarationText);
+                    command.Execute();
+                    shape.Diagram.TrackCommand(command);
                     RefreshValues();
                 }
                 catch (BadSyntaxException ex)

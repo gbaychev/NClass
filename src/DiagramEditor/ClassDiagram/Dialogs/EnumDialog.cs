@@ -17,13 +17,16 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.DiagramEditor.Commands;
+using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
     public class EnumDialog : ListDialog
     {
-        EnumType parent = null;
+        private IDiagram diagram;
+        private EnumType parent = null;
 
         protected override void FillList()
         {
@@ -45,7 +48,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         /// </exception>
         protected override void AddToList(string text)
         {
-            EnumValue value = parent.AddValue(text);
+            var command = new AddEnumMemberCommand(parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
+
+            EnumValue value = command.EnumValue;
             ListViewItem item = lstItems.Items.Add(value.ToString());
 
             item.Tag = value;
@@ -60,12 +67,14 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         /// </exception>
         protected override void Modify(ListViewItem item, string text)
         {
-            if (item.Tag is EnumValue)
-            {
-                EnumValue enumItem = parent.ModifyValue((EnumValue)item.Tag, text);
-                item.Tag = enumItem;
-                item.Text = enumItem.ToString();
-            }
+            if (!(item.Tag is EnumValue tag)) return;
+
+            var command = new RenameEnumMemberCommand(tag, parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
+
+            item.Tag = command.EnumValue;
+            item.Text = command.EnumValue.ToString();
         }
 
         protected override void MoveUpItem(ListViewItem item)
@@ -84,21 +93,43 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 
         protected override void Remove(ListViewItem item)
         {
-            if (item != null && item.Tag is EnumValue)
-                parent.RemoveValue((EnumValue)item.Tag);
+            if (item != null && item.Tag is EnumValue tag)
+            {
+                var command = new DeleteFromEnumTypeCommand(parent, tag);
+                command.Execute();
+                diagram.TrackCommand(command);
+            }
             base.Remove(item);
         }
 
-        public void ShowDialog(EnumType parent)
+        public void ShowDialog(IDiagram diagram, EnumType parent)
         {
-            if (parent != null)
+            if (parent != null && diagram != null)
             {
+                this.diagram = diagram;
                 this.parent = parent;
                 this.Text = string.Format(Strings.ItemsOfType, parent.Name);
                 FillList();
 
                 base.ShowDialog();
             }
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Z when e.Modifiers == Keys.Control:
+                    diagram.Undo();
+                    FillList();
+                    break;
+                case Keys.Y when e.Modifiers == Keys.Control:
+                    diagram.Redo();
+                    FillList();
+                    break;
+            }
+
+            base.OnKeyDown(e);
         }
     }
 }

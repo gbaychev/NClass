@@ -38,7 +38,7 @@ namespace NClass.Core
 			{
 				return name;
 			}
-			protected set
+			set
 			{
 				if (name != value)
 				{

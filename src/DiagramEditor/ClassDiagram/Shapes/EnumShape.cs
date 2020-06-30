@@ -175,7 +175,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         protected internal override void EditMembers()
         {
-            enumDialog.ShowDialog(EnumType);
+            enumDialog.ShowDialog(diagram, EnumType);
         }
 
         protected override void OnMouseDown(AbsoluteMouseEventArgs e)
