@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
@@ -942,8 +943,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             if (!ValidateDeclarationLine())
                 return;
 
+            var diagram = shape.Diagram;
             NewMemberType = type;
-            shape.InsertNewMember(type);
+            var command = new InsertMemberCommand(shape, NewMemberType);
+            command.Execute();
+            diagram.TrackCommand(command);
             txtDeclaration.SelectionStart = 0;
         }
 

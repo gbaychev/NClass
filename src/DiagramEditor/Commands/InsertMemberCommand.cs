@@ -9,13 +9,13 @@ using NClass.DiagramEditor.ClassDiagram.Shapes;
 
 namespace NClass.DiagramEditor.Commands
 {
-    public class AddMemberCommand : ICommand
+    public class InsertMemberCommand : ICommand
     {
         private readonly CompositeTypeShape shape;
         private readonly MemberType memberType;
         private Member member;
 
-        public AddMemberCommand(CompositeTypeShape shape, MemberType memberType)
+        public InsertMemberCommand(CompositeTypeShape shape, MemberType memberType)
         {
             this.shape = shape;
             this.memberType = memberType;
@@ -23,11 +23,12 @@ namespace NClass.DiagramEditor.Commands
 
         public void Execute()
         {
-            shape.InsertNewMember(memberType);
+            member = shape.InsertNewMember(memberType);
         }
 
         public void Undo()
         {
+            shape.CompositeType.RemoveMember(member);
         }
 
         public CommandId CommandId => CommandId.AddMember;

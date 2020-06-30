@@ -139,47 +139,49 @@ namespace NClass.Core
         /// <exception cref="InvalidOperationException">
         /// The type does not support the given kind of member.
         /// </exception>
-        public void InsertMember(MemberType type, int index)
+        public Member InsertMember(MemberType type, int index)
         {
             index = CalculateMemberIndex(type, index);
 
             switch (type)
             {
                 case MemberType.Field:
-                    Field field = AddField();
+                    var field = AddField();
                     fields.RemoveAt(FieldCount - 1);
                     fields.Insert(index, field);
-                    break;
+                    return field;
 
                 case MemberType.Method:
-                    Method method = AddMethod();
+                    var method = AddMethod();
                     operations.RemoveAt(OperationCount - 1);
                     operations.Insert(index, method);
-                    break;
+                    return method;
 
                 case MemberType.Constructor:
-                    Constructor constructor = AddConstructor();
+                    var constructor = AddConstructor();
                     operations.RemoveAt(OperationCount - 1);
                     operations.Insert(index, constructor);
-                    break;
+                    return constructor;
 
                 case MemberType.Destructor:
-                    Destructor destructor = AddDestructor();
+                    var destructor = AddDestructor();
                     operations.RemoveAt(OperationCount - 1);
                     operations.Insert(index, destructor);
-                    break;
+                    return destructor;
 
                 case MemberType.Property:
-                    Property property = AddProperty();
+                    var property = AddProperty();
                     operations.RemoveAt(OperationCount - 1);
                     operations.Insert(index, property);
-                    break;
+                    return property;
 
                 case MemberType.Event:
-                    Event _event = AddEvent();
+                    var _event = AddEvent();
                     operations.RemoveAt(OperationCount - 1);
                     operations.Insert(index, _event);
-                    break;
+                    return _event;
+                default:
+                    throw new ArgumentException($"{type.ToString()} is not a valid MemberType", nameof(type));
             }
         }
 

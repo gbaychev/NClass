@@ -243,19 +243,17 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             }
         }
 
-        internal void InsertNewMember(MemberType type)
+        internal Member InsertNewMember(MemberType type)
         {
             int fieldCount = CompositeType.FieldCount;
+            Member newMember = null;
             switch (type)
             {
                 case MemberType.Field:
                     if (CompositeType.SupportsFields)
                     {
                         int index = Math.Min(ActiveMemberIndex + 1, fieldCount);
-                        bool changing = (index == fieldCount &&
-                            ActiveMember.MemberType != MemberType.Field);
-
-                        CompositeType.InsertMember(MemberType.Field, index);
+                        newMember = CompositeType.InsertMember(MemberType.Field, index);
                         ActiveMemberIndex = index;
                     }
                     break;
@@ -264,7 +262,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     if (CompositeType.SupportsMethods)
                     {
                         int index = Math.Max(ActiveMemberIndex + 1, fieldCount);
-                        CompositeType.InsertMember(MemberType.Method, index);
+                        newMember = CompositeType.InsertMember(MemberType.Method, index);
                         ActiveMemberIndex = index;
                     }
                     break;
@@ -273,7 +271,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     if (CompositeType.SupportsConstuctors)
                     {
                         int index = Math.Max(ActiveMemberIndex + 1, fieldCount);
-                        CompositeType.InsertMember(MemberType.Constructor, index);
+                        newMember = CompositeType.InsertMember(MemberType.Constructor, index);
                         ActiveMemberIndex = index;
                     }
                     break;
@@ -282,7 +280,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     if (CompositeType.SupportsDestructors)
                     {
                         int index = Math.Max(ActiveMemberIndex + 1, fieldCount);
-                        CompositeType.InsertMember(MemberType.Destructor, index);
+                        newMember = CompositeType.InsertMember(MemberType.Destructor, index);
                         ActiveMemberIndex = index;
                     }
                     break;
@@ -291,7 +289,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     if (CompositeType.SupportsProperties)
                     {
                         int index = Math.Max(ActiveMemberIndex + 1, fieldCount);
-                        CompositeType.InsertMember(MemberType.Property, index);
+                        newMember = CompositeType.InsertMember(MemberType.Property, index);
                         ActiveMemberIndex = index;
                     }
                     break;
@@ -300,11 +298,15 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
                     if (CompositeType.SupportsEvents)
                     {
                         int index = Math.Max(ActiveMemberIndex + 1, fieldCount);
-                        CompositeType.InsertMember(MemberType.Event, index);
+                        newMember = CompositeType.InsertMember(MemberType.Event, index);
                         ActiveMemberIndex = index;
                     }
                     break;
+                default:
+                    throw new ArgumentException($"{type.ToString()} is not a valid member type", nameof(type));
             }
+
+            return newMember;
         }
 
         private static string GetAccessString(Member member)
