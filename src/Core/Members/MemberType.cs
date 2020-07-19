@@ -17,13 +17,13 @@ using System;
 
 namespace NClass.Core
 {
-	public enum MemberType
-	{
-		Field,
-		Method,
-		Constructor,
-		Destructor,
-		Property,
-		Event
-	}
+    public enum MemberType
+    {
+        Field,
+        Method,
+        Constructor,
+        Destructor,
+        Property,
+        Event
+    }
 }

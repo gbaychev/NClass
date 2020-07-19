@@ -1,32 +1,32 @@
-﻿namespace NClass.CodeGenerator
+namespace NClass.CodeGenerator
 {
-	partial class Dialog
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class Dialog
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null)) {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.chkUseTabs = new System.Windows.Forms.CheckBox();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -373,32 +373,32 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.CheckBox chkUseTabs;
-		private System.Windows.Forms.Button btnGenerate;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.NumericUpDown updIndentSize;
-		private System.Windows.Forms.Label lblIndentSize;
-		private System.Windows.Forms.ListBox lstImportList;
-		private System.Windows.Forms.ToolStrip importToolStrip;
-		private System.Windows.Forms.ToolStripButton toolDelete;
-		private System.Windows.Forms.ToolStripButton toolMoveDown;
-		private System.Windows.Forms.ToolStripButton toolMoveUp;
-		private System.Windows.Forms.ToolStripLabel toolImportList;
-		private System.Windows.Forms.TextBox txtNewImport;
-		private System.Windows.Forms.Button btnAddItem;
-		private System.Windows.Forms.GroupBox grpCodeStyle;
-		private System.Windows.Forms.Label lblSolutionType;
-		private System.Windows.Forms.ComboBox cboSolutionType;
-		private System.Windows.Forms.CheckBox chkNotImplemented;
-		private System.Windows.Forms.ComboBox cboLanguage;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.Button btnBrowse;
-		private System.Windows.Forms.TextBox txtDestination;
-		private System.Windows.Forms.Label lblDestination;
+        private System.Windows.Forms.CheckBox chkUseTabs;
+        private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.NumericUpDown updIndentSize;
+        private System.Windows.Forms.Label lblIndentSize;
+        private System.Windows.Forms.ListBox lstImportList;
+        private System.Windows.Forms.ToolStrip importToolStrip;
+        private System.Windows.Forms.ToolStripButton toolDelete;
+        private System.Windows.Forms.ToolStripButton toolMoveDown;
+        private System.Windows.Forms.ToolStripButton toolMoveUp;
+        private System.Windows.Forms.ToolStripLabel toolImportList;
+        private System.Windows.Forms.TextBox txtNewImport;
+        private System.Windows.Forms.Button btnAddItem;
+        private System.Windows.Forms.GroupBox grpCodeStyle;
+        private System.Windows.Forms.Label lblSolutionType;
+        private System.Windows.Forms.ComboBox cboSolutionType;
+        private System.Windows.Forms.CheckBox chkNotImplemented;
+        private System.Windows.Forms.ComboBox cboLanguage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.TextBox txtDestination;
+        private System.Windows.Forms.Label lblDestination;
         private System.Windows.Forms.CheckBox chkUseRootnamespace;
     }
 }

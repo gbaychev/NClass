@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -24,69 +24,69 @@ using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.GUI.ModelExplorer
 {
-	public sealed class EmptyProjectNode : ModelNode
-	{
-		Project project;
+    public sealed class EmptyProjectNode : ModelNode
+    {
+        Project project;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="project"/> is null.
-		/// </exception>
-		public EmptyProjectNode(Project project)
-		{
-			if (project == null)
-				throw new ArgumentNullException("project");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="project"/> is null.
+        /// </exception>
+        public EmptyProjectNode(Project project)
+        {
+            if (project == null)
+                throw new ArgumentNullException("project");
 
-			this.project = project;
-			project.ItemAdded += new ProjectItemEventHandler(project_ItemAdded);
+            this.project = project;
+            project.ItemAdded += new ProjectItemEventHandler(project_ItemAdded);
 
-			this.Text = Strings.DoubleClickToAddDiagram;
-			this.ImageKey = "diagram";
-			this.SelectedImageKey = "diagram";
-		}
+            this.Text = Strings.DoubleClickToAddDiagram;
+            this.ImageKey = "diagram";
+            this.SelectedImageKey = "diagram";
+        }
 
-		protected internal override void AfterInitialized()
-		{
-			base.AfterInitialized();
-			NodeFont = new Font(TreeView.Font, FontStyle.Italic);
-		}
+        protected internal override void AfterInitialized()
+        {
+            base.AfterInitialized();
+            NodeFont = new Font(TreeView.Font, FontStyle.Italic);
+        }
 
-		private void project_ItemAdded(object sender, ProjectItemEventArgs e)
-		{
-			this.Delete();
-		}
+        private void project_ItemAdded(object sender, ProjectItemEventArgs e)
+        {
+            this.Delete();
+        }
 
-		public override void LabelModified(NodeLabelEditEventArgs e)
-		{
-			e.CancelEdit = true;
-		}
+        public override void LabelModified(NodeLabelEditEventArgs e)
+        {
+            e.CancelEdit = true;
+        }
 
-		private void AddEmptyDiagram()
-		{
-			TreeNode parent = Parent;
+        private void AddEmptyDiagram()
+        {
+            TreeNode parent = Parent;
 
-			this.Delete();
-			// TODO: in the settings there should be a default diagram. This should check
-			// for the default first and then only if it is a class diagram for the 
-			// default language
-			IDiagram diagram = new ClassDiagram(Settings.Default.GetDefaultLanguage());
-			project.Add(diagram);
-		}
+            this.Delete();
+            // TODO: in the settings there should be a default diagram. This should check
+            // for the default first and then only if it is a class diagram for the 
+            // default language
+            IDiagram diagram = new ClassDiagram(Settings.Default.GetDefaultLanguage());
+            project.Add(diagram);
+        }
 
-		public override void DoubleClick()
-		{
-			AddEmptyDiagram();
-		}
+        public override void DoubleClick()
+        {
+            AddEmptyDiagram();
+        }
 
-		public override void EnterPressed()
-		{
-			AddEmptyDiagram();
-		}
+        public override void EnterPressed()
+        {
+            AddEmptyDiagram();
+        }
 
-		public override void BeforeDelete()
-		{
-			project.ItemAdded -= new ProjectItemEventHandler(project_ItemAdded);
-			NodeFont.Dispose();
-			base.BeforeDelete();
-		}
-	}
+        public override void BeforeDelete()
+        {
+            project.ItemAdded -= new ProjectItemEventHandler(project_ItemAdded);
+            NodeFont.Dispose();
+            base.BeforeDelete();
+        }
+    }
 }

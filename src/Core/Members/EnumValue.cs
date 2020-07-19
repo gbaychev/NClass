@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -18,46 +18,46 @@ using System.Text.RegularExpressions;
 
 namespace NClass.Core
 {
-	public abstract class EnumValue : LanguageElement
-	{
-		string name = null;
+    public abstract class EnumValue : LanguageElement
+    {
+        string name = null;
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		protected EnumValue(string declaration)
-		{
-			Initializing = true;
-			InitFromString(declaration);
-			Initializing = false;
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        protected EnumValue(string declaration)
+        {
+            Initializing = true;
+            InitFromString(declaration);
+            Initializing = false;
+        }
 
-		public string Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				if (name != value)
-				{
-					name = value;
-					Changed();
-				}
-			}
-		}
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    Changed();
+                }
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public abstract void InitFromString(string declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public abstract void InitFromString(string declaration);
 
-		protected internal abstract EnumValue Clone();
+        protected internal abstract EnumValue Clone();
 
-		public override string ToString()
-		{
-			return GetDeclaration();
-		}
-	}
+        public override string ToString()
+        {
+            return GetDeclaration();
+        }
+    }
 }

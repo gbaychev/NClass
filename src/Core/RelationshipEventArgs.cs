@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -17,20 +17,20 @@ using System;
 
 namespace NClass.Core
 {
-	public delegate void RelationshipEventHandler(object sender, RelationshipEventArgs e);
+    public delegate void RelationshipEventHandler(object sender, RelationshipEventArgs e);
 
-	public class RelationshipEventArgs : EventArgs
-	{
-		Relationship relationship;
+    public class RelationshipEventArgs : EventArgs
+    {
+        Relationship relationship;
 
-		public RelationshipEventArgs(Relationship relationship)
-		{
-			this.relationship = relationship;
-		}
+        public RelationshipEventArgs(Relationship relationship)
+        {
+            this.relationship = relationship;
+        }
 
-		public Relationship Relationship
-		{
-			get { return relationship; }
-		}
-	}
+        public Relationship Relationship
+        {
+            get { return relationship; }
+        }
+    }
 }

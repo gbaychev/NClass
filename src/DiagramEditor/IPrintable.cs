@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -18,16 +18,16 @@ using System.Drawing;
 
 namespace NClass.DiagramEditor
 {
-	public interface IPrintable
-	{
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="g"/> is null.-or-
-		/// <paramref name="style"/> is null.
-		/// </exception>
-		void Print(IGraphics g, bool selectedOnly, Style style);
+    public interface IPrintable
+    {
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="g"/> is null.-or-
+        /// <paramref name="style"/> is null.
+        /// </exception>
+        void Print(IGraphics g, bool selectedOnly, Style style);
 
-		RectangleF GetPrintingArea(bool selectedOnly);
+        RectangleF GetPrintingArea(bool selectedOnly);
 
-		void ShowPrintDialog();
-	}
+        void ShowPrintDialog();
+    }
 }

@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,31 +19,31 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public class ReservedNameException : BadSyntaxException
-	{
-		string name;
+    public class ReservedNameException : BadSyntaxException
+    {
+        string name;
 
-		public ReservedNameException()
-			: base(Strings.ErrorReservedName)
-		{
-			name = null;
-		}
+        public ReservedNameException()
+            : base(Strings.ErrorReservedName)
+        {
+            name = null;
+        }
 
-		public ReservedNameException(string name)
-			: base(Strings.ErrorReservedName)
-		{
-			this.name = name;
-		}
+        public ReservedNameException(string name)
+            : base(Strings.ErrorReservedName)
+        {
+            this.name = name;
+        }
 
-		public ReservedNameException(string name, Exception innerException)
-			: base(Strings.ErrorReservedName, innerException)
-		{
-			this.name = name;
-		}
+        public ReservedNameException(string name, Exception innerException)
+            : base(Strings.ErrorReservedName, innerException)
+        {
+            this.name = name;
+        }
 
-		public string ReservedName
-		{
-			get { return name; }
-		}
-	}
+        public string ReservedName
+        {
+            get { return name; }
+        }
+    }
 }

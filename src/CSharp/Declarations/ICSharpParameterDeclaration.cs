@@ -1,7 +1,7 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpParameterDeclaration : IParameterDeclaration
-	{ }
+    public interface ICSharpParameterDeclaration : IParameterDeclaration
+    { }
 }

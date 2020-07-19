@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,24 +19,24 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public class RelationshipException : Exception
-	{
-		public RelationshipException() : base(Strings.ErrorCannotCreateRelationship)
-		{
-		}
+    public class RelationshipException : Exception
+    {
+        public RelationshipException() : base(Strings.ErrorCannotCreateRelationship)
+        {
+        }
 
-		public RelationshipException(string message) : base(message)
-		{
-		}
+        public RelationshipException(string message) : base(message)
+        {
+        }
 
-		public RelationshipException(string message, Exception innerException)
-			: base(message, innerException)
-		{
-		}
+        public RelationshipException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
 
-		protected RelationshipException(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
-	}
+        protected RelationshipException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }

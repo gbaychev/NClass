@@ -22,105 +22,105 @@ using NClass.Core.Models;
 
 namespace NClass.CodeGenerator
 {
-	public abstract class ProjectGenerator
-	{
-		ClassModel model;
-		List<string> fileNames = new List<string>();
+    public abstract class ProjectGenerator
+    {
+        ClassModel model;
+        List<string> fileNames = new List<string>();
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="model"/> is null.
-		/// </exception>
-		protected ProjectGenerator(ClassModel model)
-		{
-			if (model == null)
-				throw new ArgumentNullException("model");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="model"/> is null.
+        /// </exception>
+        protected ProjectGenerator(ClassModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
 
-			this.model = model;
-		}
+            this.model = model;
+        }
 
-		public string ProjectName
-		{
-			get { return model.Name; }
-		}
+        public string ProjectName
+        {
+            get { return model.Name; }
+        }
 
-		public abstract string RelativeProjectFileName
-		{
-			get;
-		}
+        public abstract string RelativeProjectFileName
+        {
+            get;
+        }
 
-		public Language ProjectLanguage
-		{
-			get { return model.Language; }
-		}
+        public Language ProjectLanguage
+        {
+            get { return model.Language; }
+        }
 
-		protected Model Model
-		{
-			get { return model; }
-		}
+        protected Model Model
+        {
+            get { return model; }
+        }
 
-	    protected string RootNamespace
-	    {
-	        get
-	        {
-	            string projectName = Model.Project.Name;
-	            string modelName = Model.Name;
+        protected string RootNamespace
+        {
+            get
+            {
+                string projectName = Model.Project.Name;
+                string modelName = Model.Name;
 
-	            if (string.Equals(projectName, modelName, StringComparison.OrdinalIgnoreCase))
-	                return modelName;
-	            else
-	                return projectName + "." + modelName;
-	        }
-	    }
+                if (string.Equals(projectName, modelName, StringComparison.OrdinalIgnoreCase))
+                    return modelName;
+                else
+                    return projectName + "." + modelName;
+            }
+        }
 
         protected List<string> FileNames
-		{
-			get { return fileNames; }
-		}
+        {
+            get { return fileNames; }
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="location"/> contains invalid path characters.
-		/// </exception>
-		internal bool Generate(string location)
-		{
-			bool success = true;
+        /// <exception cref="ArgumentException">
+        /// <paramref name="location"/> contains invalid path characters.
+        /// </exception>
+        internal bool Generate(string location)
+        {
+            bool success = true;
 
-			success &= GenerateSourceFiles(location);
-			success &= GenerateProjectFiles(location);
+            success &= GenerateSourceFiles(location);
+            success &= GenerateProjectFiles(location);
 
-			return success;
-		}
+            return success;
+        }
 
-		private bool GenerateSourceFiles(string location)
-		{
-			bool success = true;
-			location = Path.Combine(location, ProjectName);
+        private bool GenerateSourceFiles(string location)
+        {
+            bool success = true;
+            location = Path.Combine(location, ProjectName);
 
-			fileNames.Clear();
-			foreach (IEntity entity in model.Entities)
-			{
-				TypeBase type = entity as TypeBase;
+            fileNames.Clear();
+            foreach (IEntity entity in model.Entities)
+            {
+                TypeBase type = entity as TypeBase;
 
-				if (type != null && !type.IsTypeNested)
-				{
-					SourceFileGenerator sourceFile = CreateSourceFileGenerator(type);
+                if (type != null && !type.IsTypeNested)
+                {
+                    SourceFileGenerator sourceFile = CreateSourceFileGenerator(type);
 
-					try
-					{
-						string fileName = sourceFile.Generate(location);
-						fileNames.Add(fileName);
-					}
-					catch (FileGenerationException)
-					{
-						success = false;
-					}
-				}
-			}
+                    try
+                    {
+                        string fileName = sourceFile.Generate(location);
+                        fileNames.Add(fileName);
+                    }
+                    catch (FileGenerationException)
+                    {
+                        success = false;
+                    }
+                }
+            }
 
-			return success;
-		}
+            return success;
+        }
 
-		protected abstract SourceFileGenerator CreateSourceFileGenerator(TypeBase type);
+        protected abstract SourceFileGenerator CreateSourceFileGenerator(TypeBase type);
 
-		protected abstract bool GenerateProjectFiles(string location);
-	}
+        protected abstract bool GenerateProjectFiles(string location);
+    }
 }

@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -16,10 +16,10 @@
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	public enum ClearTypeMode
-	{
-		Never = 0,
-		WhenZoomed,
-		Always		
-	}
+    public enum ClearTypeMode
+    {
+        Never = 0,
+        WhenZoomed,
+        Always        
+    }
 }

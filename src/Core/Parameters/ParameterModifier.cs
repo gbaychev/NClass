@@ -17,11 +17,11 @@ using System;
 
 namespace NClass.Core
 {
-	public enum ParameterModifier
-	{
-		In,
-		Inout,
-		Out,
-		Params
-	}
+    public enum ParameterModifier
+    {
+        In,
+        Inout,
+        Out,
+        Params
+    }
 }

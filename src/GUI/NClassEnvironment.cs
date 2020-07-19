@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,25 +19,25 @@ using NClass.DiagramEditor;
 
 namespace NClass.GUI
 {
-	public sealed class NClassEnvironment
-	{
-		Workspace workspace;
-		DocumentManager docManager;
+    public sealed class NClassEnvironment
+    {
+        Workspace workspace;
+        DocumentManager docManager;
 
-		internal NClassEnvironment(Workspace workspace, DocumentManager docManager)
-		{
-			this.workspace = workspace;
-			this.docManager = docManager;
-		}
+        internal NClassEnvironment(Workspace workspace, DocumentManager docManager)
+        {
+            this.workspace = workspace;
+            this.docManager = docManager;
+        }
 
-		public Workspace Workspace
-		{
-			get { return workspace; }
-		}
+        public Workspace Workspace
+        {
+            get { return workspace; }
+        }
 
-		public DocumentManager DocumentManager
-		{
-			get { return docManager; }
-		}
-	}
+        public DocumentManager DocumentManager
+        {
+            get { return docManager; }
+        }
+    }
 }

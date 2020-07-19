@@ -20,36 +20,36 @@ using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
 {
-	public abstract class ContextMenu
-	{
-		internal static readonly ContextMenuStrip MenuStrip = new ContextMenuStrip();
+    public abstract class ContextMenu
+    {
+        internal static readonly ContextMenuStrip MenuStrip = new ContextMenuStrip();
 
-		List<ToolStripItem> menuItems = new List<ToolStripItem>();
+        List<ToolStripItem> menuItems = new List<ToolStripItem>();
 
-	    protected PointF? menuPosition;
+        protected PointF? menuPosition;
 
-		public IEnumerable<ToolStripItem> GetMenuItems(IDocument document, PointF? openedAt = null)
-		{
-		    this.menuPosition = openedAt;
-			ValidateMenuItems(document);
-			return menuItems;
-		}
+        public IEnumerable<ToolStripItem> GetMenuItems(IDocument document, PointF? openedAt = null)
+        {
+            this.menuPosition = openedAt;
+            ValidateMenuItems(document);
+            return menuItems;
+        }
 
-		protected abstract IDocument Document
-		{
-			get;
-		}
+        protected abstract IDocument Document
+        {
+            get;
+        }
 
-		internal IEnumerable<ToolStripItem> MenuItems
-		{
-			get { return menuItems; }
-		}
+        internal IEnumerable<ToolStripItem> MenuItems
+        {
+            get { return menuItems; }
+        }
 
-		protected List<ToolStripItem> MenuList
-		{
-			get { return menuItems; }
-		}
+        protected List<ToolStripItem> MenuList
+        {
+            get { return menuItems; }
+        }
 
-		public abstract void ValidateMenuItems(IDocument document);
-	}
+        public abstract void ValidateMenuItems(IDocument document);
+    }
 }

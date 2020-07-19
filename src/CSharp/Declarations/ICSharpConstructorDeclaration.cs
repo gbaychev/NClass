@@ -1,9 +1,9 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpConstructorDeclaration : IMethodDeclaration
-	{
-		bool IsStatic { get; }
-	}
+    public interface ICSharpConstructorDeclaration : IMethodDeclaration
+    {
+        bool IsStatic { get; }
+    }
 }

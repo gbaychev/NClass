@@ -1,4 +1,4 @@
-ï»¿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016-2018 Georgi Baychev
 // 
@@ -252,7 +252,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (!bendPoint.RelativeToStartShape)
                     break;
-				bendPoint.ShapeResized(e.SizeChange.ToSize());
+                bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -266,7 +266,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (bendPoint.RelativeToStartShape)
                     break;
-				bendPoint.ShapeResized(e.SizeChange.ToSize());
+                bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -1372,7 +1372,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         {
             base.OnMouseMove(e);
 
-            //TODO: szebb lenne kÃ¼lÃ¶n eljÃ¡rÃ¡sba tenni
+            //TODO: szebb lenne külön eljárásba tenni
             if (e.Button == MouseButtons.Left && selectedBendPoint != null)
             {
                 Point newLocation = Point.Truncate(e.Location);

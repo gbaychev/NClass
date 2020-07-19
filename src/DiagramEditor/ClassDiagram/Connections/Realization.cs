@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -25,80 +25,80 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Realization : RoutedConnection
-	{
-		static Pen linePen = new Pen(Color.Black);
+    internal sealed class Realization : RoutedConnection
+    {
+        static Pen linePen = new Pen(Color.Black);
 
-		RealizationRelationship realization;
+        RealizationRelationship realization;
 
-		static Realization()
-		{
-			linePen.MiterLimit = 2.0F;
-			linePen.LineJoin = LineJoin.MiterClipped;
-		}
+        static Realization()
+        {
+            linePen.MiterLimit = 2.0F;
+            linePen.LineJoin = LineJoin.MiterClipped;
+        }
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="realization"/> is null.-or-
-		/// <paramref name="startShape"/> is null.-or-
-		/// <paramref name="endShape"/> is null.
-		/// </exception>
-		public Realization(RealizationRelationship realization, Shape startShape, Shape endShape)
-			: base(realization, startShape, endShape)
-		{
-			this.realization = realization;
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="realization"/> is null.-or-
+        /// <paramref name="startShape"/> is null.-or-
+        /// <paramref name="endShape"/> is null.
+        /// </exception>
+        public Realization(RealizationRelationship realization, Shape startShape, Shape endShape)
+            : base(realization, startShape, endShape)
+        {
+            this.realization = realization;
+        }
 
-		internal RealizationRelationship RealizationRelationship
-		{
-			get { return realization; }
-		}
+        internal RealizationRelationship RealizationRelationship
+        {
+            get { return realization; }
+        }
 
-		protected internal override Relationship Relationship
-		{
-			get { return realization; }
-		}
+        protected internal override Relationship Relationship
+        {
+            get { return realization; }
+        }
 
-		protected override bool IsDashed
-		{
-			get { return true; }
-		}
+        protected override bool IsDashed
+        {
+            get { return true; }
+        }
 
-		protected override Size EndCapSize
-		{
-			get { return Arrowhead.ClosedArrowSize; }
-		}
+        protected override Size EndCapSize
+        {
+            get { return Arrowhead.ClosedArrowSize; }
+        }
 
-		protected override int EndSelectionOffset
-		{
-			get { return Arrowhead.ClosedArrowHeight; }
-		}
+        protected override int EndSelectionOffset
+        {
+            get { return Arrowhead.ClosedArrowHeight; }
+        }
 
-		protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
-		{
-			linePen.Color = style.RelationshipColor;
-			linePen.Width = style.RelationshipWidth;
+        protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
+        {
+            linePen.Color = style.RelationshipColor;
+            linePen.Width = style.RelationshipWidth;
 
-			g.FillPath(Brushes.White, Arrowhead.ClosedArrowPath);
-			g.DrawPath(linePen, Arrowhead.ClosedArrowPath);
-		}
+            g.FillPath(Brushes.White, Arrowhead.ClosedArrowPath);
+            g.DrawPath(linePen, Arrowhead.ClosedArrowPath);
+        }
 
-		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
-		{
+        protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
+        {
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             TypeBase firstType = first.Entity as TypeBase;
-			InterfaceType secondType = second.Entity as InterfaceType;
+            InterfaceType secondType = second.Entity as InterfaceType;
 
-			if (firstType != null && secondType != null)
-			{
-				RealizationRelationship clone = realization.Clone(firstType, secondType);
-				return ((ClassDiagram)diagram).InsertRealization(clone);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            if (firstType != null && secondType != null)
+            {
+                RealizationRelationship clone = realization.Clone(firstType, secondType);
+                return ((ClassDiagram)diagram).InsertRealization(clone);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

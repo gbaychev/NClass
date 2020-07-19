@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -25,73 +25,73 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Dependency : RoutedConnection
-	{
-		static Pen linePen = new Pen(Color.Black);
+    internal sealed class Dependency : RoutedConnection
+    {
+        static Pen linePen = new Pen(Color.Black);
 
-		DependencyRelationship dependency;
+        DependencyRelationship dependency;
 
-		static Dependency()
-		{
-			linePen.MiterLimit = 2.0F;
-			linePen.LineJoin = LineJoin.MiterClipped;
-		}
+        static Dependency()
+        {
+            linePen.MiterLimit = 2.0F;
+            linePen.LineJoin = LineJoin.MiterClipped;
+        }
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="dependency"/> is null.-or-
-		/// <paramref name="startShape"/> is null.-or-
-		/// <paramref name="endShape"/> is null.
-		/// </exception>
-		public Dependency(DependencyRelationship dependency, Shape startShape, Shape endShape)
-			: base(dependency, startShape, endShape)
-		{
-			this.dependency = dependency;
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="dependency"/> is null.-or-
+        /// <paramref name="startShape"/> is null.-or-
+        /// <paramref name="endShape"/> is null.
+        /// </exception>
+        public Dependency(DependencyRelationship dependency, Shape startShape, Shape endShape)
+            : base(dependency, startShape, endShape)
+        {
+            this.dependency = dependency;
+        }
 
-		internal DependencyRelationship DependencyRelationship
-		{
-			get { return dependency; }
-		}
+        internal DependencyRelationship DependencyRelationship
+        {
+            get { return dependency; }
+        }
 
-		protected internal override Relationship Relationship
-		{
-			get { return dependency; }
-		}
+        protected internal override Relationship Relationship
+        {
+            get { return dependency; }
+        }
 
-		protected override bool IsDashed
-		{
-			get { return true; }
-		}
+        protected override bool IsDashed
+        {
+            get { return true; }
+        }
 
-		protected override Size EndCapSize
-		{
-			get { return Arrowhead.OpenArrowSize; }
-		}
+        protected override Size EndCapSize
+        {
+            get { return Arrowhead.OpenArrowSize; }
+        }
 
-		protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
-		{
-			linePen.Color = style.RelationshipColor;
-			linePen.Width = style.RelationshipWidth;
-			g.DrawLines(linePen, Arrowhead.OpenArrowPoints);
-		}
+        protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
+        {
+            linePen.Color = style.RelationshipColor;
+            linePen.Width = style.RelationshipWidth;
+            g.DrawLines(linePen, Arrowhead.OpenArrowPoints);
+        }
 
-		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
-		{
+        protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
+        {
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             TypeBase firstType = first.Entity as TypeBase;
-			TypeBase secondType = second.Entity as TypeBase;
+            TypeBase secondType = second.Entity as TypeBase;
 
-			if (firstType != null && secondType != null)
-			{
-				DependencyRelationship clone = dependency.Clone(firstType, secondType);
-				return ((ClassDiagram)diagram).InsertDependency(clone);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            if (firstType != null && secondType != null)
+            {
+                DependencyRelationship clone = dependency.Clone(firstType, secondType);
+                return ((ClassDiagram)diagram).InsertDependency(clone);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

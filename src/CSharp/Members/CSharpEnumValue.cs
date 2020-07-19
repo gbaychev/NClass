@@ -19,45 +19,45 @@ using NClass.Translations;
 
 namespace NClass.CSharp
 {
-	internal sealed class CSharpEnumValue : EnumValue
-	{
-		// <name> [= value]
-		const string EnumNamePattern = "(?<name>" + CSharpLanguage.NamePattern + ")";
-		const string EnumItemPattern = @"^\s*" + EnumNamePattern +
-			@"(\s*=\s*(?<value>\d+))?\s*$";
+    internal sealed class CSharpEnumValue : EnumValue
+    {
+        // <name> [= value]
+        const string EnumNamePattern = "(?<name>" + CSharpLanguage.NamePattern + ")";
+        const string EnumItemPattern = @"^\s*" + EnumNamePattern +
+            @"(\s*=\s*(?<value>\d+))?\s*$";
 
-		static Regex enumItemRegex = new Regex(EnumItemPattern, RegexOptions.ExplicitCapture);
-				
-		int? initValue;
+        static Regex enumItemRegex = new Regex(EnumItemPattern, RegexOptions.ExplicitCapture);
+                
+        int? initValue;
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		internal CSharpEnumValue(string declaration) : base(declaration)
-		{
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        internal CSharpEnumValue(string declaration) : base(declaration)
+        {
+        }
 
-		public int? InitValue
-		{
-			get { return initValue; }
-		}
+        public int? InitValue
+        {
+            get { return initValue; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public override void InitFromString(string declaration)
-		{
-			Match match = enumItemRegex.Match(declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public override void InitFromString(string declaration)
+        {
+            Match match = enumItemRegex.Match(declaration);
 
-			try {
-				RaiseChangedEvent = false;
+            try {
+                RaiseChangedEvent = false;
 
-				if (match.Success) {
-					Group nameGroup = match.Groups["name"];
-					Group valueGroup = match.Groups["value"];
+                if (match.Success) {
+                    Group nameGroup = match.Groups["name"];
+                    Group valueGroup = match.Groups["value"];
 
-					Name = nameGroup.Value;
-				  if (valueGroup.Success)
+                    Name = nameGroup.Value;
+                  if (valueGroup.Success)
           {
             int intValue;
             if(int.TryParse(valueGroup.Value, out intValue))
@@ -69,26 +69,26 @@ namespace NClass.CSharp
           {
             initValue = null;
           }
-				}
-				else {
-					throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
-				}
-			}
-			finally {
-				RaiseChangedEvent = true;
-			}
-		}
+                }
+                else {
+                    throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
+                }
+            }
+            finally {
+                RaiseChangedEvent = true;
+            }
+        }
 
-		public override string GetDeclaration()
-		{
-		  if (InitValue == null)
-				return Name;
-		  return Name + " = " + InitValue;
-		}
+        public override string GetDeclaration()
+        {
+          if (InitValue == null)
+                return Name;
+          return Name + " = " + InitValue;
+        }
 
-	  protected override EnumValue Clone()
-		{
-			return new CSharpEnumValue(GetDeclaration());
-		}
-	}
+      protected override EnumValue Clone()
+        {
+            return new CSharpEnumValue(GetDeclaration());
+        }
+    }
 }

@@ -1,34 +1,34 @@
-﻿using System;
+using System;
 
 namespace NClass.GUI
 {
-	sealed partial class MainForm
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    sealed partial class MainForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null)) {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
@@ -1150,104 +1150,104 @@ namespace NClass.GUI
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.ToolStripContainer toolStripContainer;
-		private System.Windows.Forms.StatusStrip statusStrip;
-		private System.Windows.Forms.MenuStrip menuStrip;
-		private System.Windows.Forms.ToolStrip standardToolStrip;
-		private System.Windows.Forms.ToolStripMenuItem mnuFile;
-		private System.Windows.Forms.ToolStripMenuItem mnuNew;
-		private System.Windows.Forms.ToolStripMenuItem mnuNewCSharpDiagram;
-		private System.Windows.Forms.ToolStripMenuItem mnuNewJavaDiagram;
-		private System.Windows.Forms.ToolStripMenuItem mnuOpen;
-		private System.Windows.Forms.ToolStripMenuItem mnuOpenFile;
-		private System.Windows.Forms.ToolStripSeparator sepOpenFile;
-		private System.Windows.Forms.ToolStripMenuItem mnuSave;
-		private System.Windows.Forms.ToolStripMenuItem mnuSaveAs;
-		private System.Windows.Forms.ToolStripSeparator mnuSepSaveAll;
-		private System.Windows.Forms.ToolStripMenuItem mnuPrint;
-		private System.Windows.Forms.ToolStripSeparator mnuSepExport;
-		private System.Windows.Forms.ToolStripMenuItem mnuExit;
-		private System.Windows.Forms.ToolStripMenuItem mnuHelp;
-		private System.Windows.Forms.ToolStripMenuItem mnuContents;
-		private System.Windows.Forms.ToolStripSeparator mnuSepUpdates;
-		private System.Windows.Forms.ToolStripMenuItem mnuAbout;
-		private System.Windows.Forms.ToolStripMenuItem mnuRecentFile1;
-		private System.Windows.Forms.ToolStripSplitButton toolOpen;
-		private System.Windows.Forms.ToolStripButton toolSave;
-		private System.Windows.Forms.ToolStripSeparator toolSepPrint;
-		private System.Windows.Forms.ToolStripMenuItem mnuRecentFile2;
-		private System.Windows.Forms.ToolStripMenuItem mnuRecentFile3;
-		private System.Windows.Forms.ToolStripMenuItem mnuRecentFile4;
-		private System.Windows.Forms.ToolStripMenuItem mnuRecentFile5;
-		private System.Windows.Forms.ToolStripMenuItem toolRecentFile1;
-		private System.Windows.Forms.ToolStripMenuItem toolRecentFile2;
-		private System.Windows.Forms.ToolStripMenuItem toolRecentFile3;
-		private System.Windows.Forms.ToolStripMenuItem toolRecentFile4;
-		private System.Windows.Forms.ToolStripMenuItem toolRecentFile5;
-		private System.Windows.Forms.ToolStripButton toolZoomIn;
-		private System.Windows.Forms.ToolStripButton toolZoomOut;
-		private System.Windows.Forms.ToolStripButton toolAutoZoom;
-		private System.Windows.Forms.ToolStripStatusLabel lblShortDesc;
-		private System.Windows.Forms.ToolStripStatusLabel lblStatus;
-		private System.Windows.Forms.ToolStripButton toolPrint;
-		private System.Windows.Forms.ToolStripMenuItem mnuEdit;
-		private System.Windows.Forms.ToolStripMenuItem mnuUndo;
-		private System.Windows.Forms.ToolStripMenuItem mnuRedo;
-		private System.Windows.Forms.ToolStripSeparator mnuSepReso;
-		private System.Windows.Forms.ToolStripMenuItem mnuCut;
-		private System.Windows.Forms.ToolStripMenuItem mnuPaste;
-		private System.Windows.Forms.ToolStripMenuItem mnuDelete;
-		private System.Windows.Forms.ToolStripSeparator mnuSepDelete;
-		private System.Windows.Forms.ToolStripMenuItem mnuSelectAll;
-		private System.Windows.Forms.ToolStripMenuItem mnuCheckForUpdates;
-		private System.Windows.Forms.ToolStripMenuItem mnuPlugins;
-		private ZoomingToolStrip toolZoom;
-		private System.Windows.Forms.ToolStripLabel toolZoomValue;
-		private System.Windows.Forms.ToolStripMenuItem mnuSaveAll;
-		private System.Windows.Forms.ToolStripMenuItem mnuCopy;
-		private System.Windows.Forms.ToolStripMenuItem mnuView;
-		private System.Windows.Forms.ToolStripButton toolCut;
-		private System.Windows.Forms.ToolStripButton toolCopy;
-		private System.Windows.Forms.ToolStripButton toolPaste;
-		private System.Windows.Forms.ToolStripSeparator toolSepRedo;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom;
-		private System.Windows.Forms.ToolStripMenuItem mnuAutoZoom;
-		private System.Windows.Forms.ToolStripButton toolUndo;
-		private System.Windows.Forms.ToolStripButton toolRedo;
-		private System.Windows.Forms.ToolStripSeparator toolSepPaste;
-		private System.Windows.Forms.SplitContainer windowClient;
-		private System.Windows.Forms.ToolStripMenuItem mnuModelExplorer;
-		private System.Windows.Forms.ToolStripMenuItem mnuDiagramNavigator;
-		private TabbedWindow tabbedWindow;
-		private System.Windows.Forms.ToolStripMenuItem mnuNewProject;
-		private System.Windows.Forms.ToolStripSeparator mnuSepProject;
-		private System.Windows.Forms.ToolStripDropDownButton toolNew;
-		private System.Windows.Forms.ToolStripMenuItem toolNewProject;
-		private System.Windows.Forms.ToolStripSeparator toolSepProject;
-		private System.Windows.Forms.ToolStripMenuItem toolNewCSharpDiagram;
-		private System.Windows.Forms.ToolStripMenuItem toolNewJavaDiagram;
-		private System.Windows.Forms.ToolStripSeparator mnuSepClose;
-		private System.Windows.Forms.ToolStripMenuItem mnuCloseProject;
-		private System.Windows.Forms.ToolStripMenuItem mnuCloseAllProjects;
-		private System.Windows.Forms.ToolStripMenuItem mnuCloseAllDocuments;
-		private System.Windows.Forms.ToolStripSeparator mnuSepOpen;
-		private System.Windows.Forms.ToolStripSeparator mnuSepAutoZoom;
-		private System.Windows.Forms.ToolStripSeparator mnuSepDiagramNavigator;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom10;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom25;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom50;
-		private System.Windows.Forms.ToolStripSeparator mnuSep50;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom100;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom150;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom200;
-		private System.Windows.Forms.ToolStripMenuItem mnuZoom400;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem mnuOptions;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStrip standardToolStrip;
+        private System.Windows.Forms.ToolStripMenuItem mnuFile;
+        private System.Windows.Forms.ToolStripMenuItem mnuNew;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewCSharpDiagram;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewJavaDiagram;
+        private System.Windows.Forms.ToolStripMenuItem mnuOpen;
+        private System.Windows.Forms.ToolStripMenuItem mnuOpenFile;
+        private System.Windows.Forms.ToolStripSeparator sepOpenFile;
+        private System.Windows.Forms.ToolStripMenuItem mnuSave;
+        private System.Windows.Forms.ToolStripMenuItem mnuSaveAs;
+        private System.Windows.Forms.ToolStripSeparator mnuSepSaveAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuPrint;
+        private System.Windows.Forms.ToolStripSeparator mnuSepExport;
+        private System.Windows.Forms.ToolStripMenuItem mnuExit;
+        private System.Windows.Forms.ToolStripMenuItem mnuHelp;
+        private System.Windows.Forms.ToolStripMenuItem mnuContents;
+        private System.Windows.Forms.ToolStripSeparator mnuSepUpdates;
+        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile1;
+        private System.Windows.Forms.ToolStripSplitButton toolOpen;
+        private System.Windows.Forms.ToolStripButton toolSave;
+        private System.Windows.Forms.ToolStripSeparator toolSepPrint;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile2;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile3;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile4;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile5;
+        private System.Windows.Forms.ToolStripMenuItem toolRecentFile1;
+        private System.Windows.Forms.ToolStripMenuItem toolRecentFile2;
+        private System.Windows.Forms.ToolStripMenuItem toolRecentFile3;
+        private System.Windows.Forms.ToolStripMenuItem toolRecentFile4;
+        private System.Windows.Forms.ToolStripMenuItem toolRecentFile5;
+        private System.Windows.Forms.ToolStripButton toolZoomIn;
+        private System.Windows.Forms.ToolStripButton toolZoomOut;
+        private System.Windows.Forms.ToolStripButton toolAutoZoom;
+        private System.Windows.Forms.ToolStripStatusLabel lblShortDesc;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+        private System.Windows.Forms.ToolStripButton toolPrint;
+        private System.Windows.Forms.ToolStripMenuItem mnuEdit;
+        private System.Windows.Forms.ToolStripMenuItem mnuUndo;
+        private System.Windows.Forms.ToolStripMenuItem mnuRedo;
+        private System.Windows.Forms.ToolStripSeparator mnuSepReso;
+        private System.Windows.Forms.ToolStripMenuItem mnuCut;
+        private System.Windows.Forms.ToolStripMenuItem mnuPaste;
+        private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.ToolStripSeparator mnuSepDelete;
+        private System.Windows.Forms.ToolStripMenuItem mnuSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuCheckForUpdates;
+        private System.Windows.Forms.ToolStripMenuItem mnuPlugins;
+        private ZoomingToolStrip toolZoom;
+        private System.Windows.Forms.ToolStripLabel toolZoomValue;
+        private System.Windows.Forms.ToolStripMenuItem mnuSaveAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuCopy;
+        private System.Windows.Forms.ToolStripMenuItem mnuView;
+        private System.Windows.Forms.ToolStripButton toolCut;
+        private System.Windows.Forms.ToolStripButton toolCopy;
+        private System.Windows.Forms.ToolStripButton toolPaste;
+        private System.Windows.Forms.ToolStripSeparator toolSepRedo;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom;
+        private System.Windows.Forms.ToolStripMenuItem mnuAutoZoom;
+        private System.Windows.Forms.ToolStripButton toolUndo;
+        private System.Windows.Forms.ToolStripButton toolRedo;
+        private System.Windows.Forms.ToolStripSeparator toolSepPaste;
+        private System.Windows.Forms.SplitContainer windowClient;
+        private System.Windows.Forms.ToolStripMenuItem mnuModelExplorer;
+        private System.Windows.Forms.ToolStripMenuItem mnuDiagramNavigator;
+        private TabbedWindow tabbedWindow;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewProject;
+        private System.Windows.Forms.ToolStripSeparator mnuSepProject;
+        private System.Windows.Forms.ToolStripDropDownButton toolNew;
+        private System.Windows.Forms.ToolStripMenuItem toolNewProject;
+        private System.Windows.Forms.ToolStripSeparator toolSepProject;
+        private System.Windows.Forms.ToolStripMenuItem toolNewCSharpDiagram;
+        private System.Windows.Forms.ToolStripMenuItem toolNewJavaDiagram;
+        private System.Windows.Forms.ToolStripSeparator mnuSepClose;
+        private System.Windows.Forms.ToolStripMenuItem mnuCloseProject;
+        private System.Windows.Forms.ToolStripMenuItem mnuCloseAllProjects;
+        private System.Windows.Forms.ToolStripMenuItem mnuCloseAllDocuments;
+        private System.Windows.Forms.ToolStripSeparator mnuSepOpen;
+        private System.Windows.Forms.ToolStripSeparator mnuSepAutoZoom;
+        private System.Windows.Forms.ToolStripSeparator mnuSepDiagramNavigator;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom10;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom25;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom50;
+        private System.Windows.Forms.ToolStripSeparator mnuSep50;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom100;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom150;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom200;
+        private System.Windows.Forms.ToolStripMenuItem mnuZoom400;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem mnuOptions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuNewUseCaseDiagram;
         private System.Windows.Forms.SplitContainer toolsPanel;

@@ -1,9 +1,9 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpFieldDeclaration : IFieldDeclaration
-	{
-		bool IsHider { get; }
-	}
+    public interface ICSharpFieldDeclaration : IFieldDeclaration
+    {
+        bool IsHider { get; }
+    }
 }

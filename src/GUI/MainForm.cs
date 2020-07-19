@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -880,10 +880,10 @@ namespace NClass.GUI
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-		private async void mnuCheckForUpdates_Click(object sender, EventArgs e)
-		{
-			await UpdatesChecker.CheckForUpdates();
-		}
+        private async void mnuCheckForUpdates_Click(object sender, EventArgs e)
+        {
+            await UpdatesChecker.CheckForUpdates();
+        }
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {

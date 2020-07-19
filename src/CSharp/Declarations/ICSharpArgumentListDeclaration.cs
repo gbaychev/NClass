@@ -1,8 +1,8 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpArgumentListDeclaration<out TParameter> : IArgumentListDeclaration<TParameter> 
-		where TParameter : ICSharpParameterDeclaration
-	{ }
+    public interface ICSharpArgumentListDeclaration<out TParameter> : IArgumentListDeclaration<TParameter> 
+        where TParameter : ICSharpParameterDeclaration
+    { }
 }

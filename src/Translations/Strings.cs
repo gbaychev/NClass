@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -17,8 +17,8 @@ using System;
 
 namespace NClass.Translations
 {
-	// Empty partial class for a resgen hack.
-	public partial class Strings
-	{
-	}
+    // Empty partial class for a resgen hack.
+    public partial class Strings
+    {
+    }
 }

@@ -1,9 +1,9 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpPropertyDeclaration : IPropertyDeclaration
-	{
-		bool IsExplicitImplementation { get; }
-	}
+    public interface ICSharpPropertyDeclaration : IPropertyDeclaration
+    {
+        bool IsExplicitImplementation { get; }
+    }
 }

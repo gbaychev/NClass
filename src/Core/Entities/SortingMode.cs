@@ -17,10 +17,10 @@ using System;
 
 namespace NClass.Core
 {
-	public enum SortingMode
-	{
-		ByKind,
-		ByAccess,
-		ByName
-	}
+    public enum SortingMode
+    {
+        ByKind,
+        ByAccess,
+        ByName
+    }
 }

@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,23 +19,23 @@ using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
 {
-	public delegate void AbsoluteMouseEventHandler(object sender, AbsoluteMouseEventArgs e);
+    public delegate void AbsoluteMouseEventHandler(object sender, AbsoluteMouseEventArgs e);
 
-	public class AbsoluteMouseEventArgs
-	{
+    public class AbsoluteMouseEventArgs
+    {
         PointF location;
         SizeF offset;
         MouseButtons button;
-		bool handled = false;
-		float zoom;
+        bool handled = false;
+        float zoom;
 
-		public AbsoluteMouseEventArgs(MouseButtons button, PointF location, float zoom)
-		{
-			this.button = button;
+        public AbsoluteMouseEventArgs(MouseButtons button, PointF location, float zoom)
+        {
+            this.button = button;
             this.location = location;
             this.offset = SizeF.Empty;
             this.zoom = zoom;
-		}
+        }
 
         public AbsoluteMouseEventArgs(MouseButtons button, PointF location, SizeF offset, float zoom)
         {
@@ -45,18 +45,18 @@ namespace NClass.DiagramEditor
             this.zoom = zoom;
         }
 
-		public MouseButtons Button
-		{
-			get { return button; }
-		}
+        public MouseButtons Button
+        {
+            get { return button; }
+        }
 
-		public float X
-		{
-			get { return location.X; }
-		}
+        public float X
+        {
+            get { return location.X; }
+        }
 
-		public float Y
-		{
+        public float Y
+        {
             get { return location.Y; }
         }
 
@@ -66,20 +66,20 @@ namespace NClass.DiagramEditor
         }
 
         public PointF Location
-		{
-			get { return location; }
-		}
+        {
+            get { return location; }
+        }
 
-		public bool Handled
-		{
-			get { return handled; }
-			set { handled = value; }
-		}
+        public bool Handled
+        {
+            get { return handled; }
+            set { handled = value; }
+        }
 
-		public float Zoom
-		{
-			get { return zoom; }
-			set { zoom = value; }
-		}
-	}
+        public float Zoom
+        {
+            get { return zoom; }
+            set { zoom = value; }
+        }
+    }
 }

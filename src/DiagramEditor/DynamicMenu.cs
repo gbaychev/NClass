@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,39 +19,39 @@ using System.Windows.Forms;
 
 namespace NClass.DiagramEditor
 {
-	public abstract class DynamicMenu : IEnumerable<ToolStripMenuItem>
-	{
-		int preferredIndex;
+    public abstract class DynamicMenu : IEnumerable<ToolStripMenuItem>
+    {
+        int preferredIndex;
 
-		public DynamicMenu()
-		{
-			this.preferredIndex = -1;
-		}
+        public DynamicMenu()
+        {
+            this.preferredIndex = -1;
+        }
 
-		public DynamicMenu(int preferredIndex)
-		{
-			this.preferredIndex = preferredIndex;
-		}
+        public DynamicMenu(int preferredIndex)
+        {
+            this.preferredIndex = preferredIndex;
+        }
 
-		public int PreferredIndex
-		{
-			get { return preferredIndex; }
-		}
+        public int PreferredIndex
+        {
+            get { return preferredIndex; }
+        }
 
-		public IEnumerator<ToolStripMenuItem> GetEnumerator()
-		{
-			return GetMenuItems().GetEnumerator();
-		}
+        public IEnumerator<ToolStripMenuItem> GetEnumerator()
+        {
+            return GetMenuItems().GetEnumerator();
+        }
 
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-		public abstract IEnumerable<ToolStripMenuItem> GetMenuItems();
+        public abstract IEnumerable<ToolStripMenuItem> GetMenuItems();
 
-		public abstract ToolStrip GetToolStrip();
+        public abstract ToolStrip GetToolStrip();
 
-		public abstract void SetReference(IDocument document);
-	}
+        public abstract void SetReference(IDocument document);
+    }
 }

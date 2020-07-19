@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -16,9 +16,9 @@
 
 namespace NClass.DiagramEditor.Diagrams.Connections
 {
-	public enum LineOrientation
-	{
-		Horizontal,
-		Vertical
-	}
+    public enum LineOrientation
+    {
+        Horizontal,
+        Vertical
+    }
 }

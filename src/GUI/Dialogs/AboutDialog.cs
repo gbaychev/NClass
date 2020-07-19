@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -22,14 +22,14 @@ using NClass.Translations;
 
 namespace NClass.GUI.Dialogs
 {
-	public partial class AboutDialog : Form
-	{
-		public AboutDialog()
-		{
-			InitializeComponent();
-		}
+    public partial class AboutDialog : Form
+    {
+        public AboutDialog()
+        {
+            InitializeComponent();
+        }
 
-		private void UpdateTexts()
+        private void UpdateTexts()
         {
             this.Text = Strings.AboutNClass;
             lblTitle.Text = Program.GetVersionString();
@@ -58,54 +58,54 @@ namespace NClass.GUI.Dialogs
         }
 
         protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-			UpdateTexts();
-		}
+        {
+            base.OnLoad(e);
+            UpdateTexts();
+        }
 
-		private void lnkEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			string target = e.Link.LinkData as string;
+        private void lnkEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string target = e.Link.LinkData as string;
 
-			if (target != null)
-			{
-				try
-				{
-					System.Diagnostics.Process.Start(target);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(
-						string.Format("{0}\n{1}: {2}", Strings.CommandFailed,
-							Strings.ErrorsReason, ex.Message),
-						Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-			}
-		}
+            if (target != null)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(target);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        string.Format("{0}\n{1}: {2}", Strings.CommandFailed,
+                            Strings.ErrorsReason, ex.Message),
+                        Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
-		private void lnkHomepage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			string target = e.Link.LinkData as string;
+        private void lnkHomepage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string target = e.Link.LinkData as string;
 
-			if (target != null)
-			{
-				try
-				{
-					System.Diagnostics.Process.Start(target);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(
-						string.Format("{0}\n{1}: {2}", Strings.CommandFailed,
-							Strings.ErrorsReason, ex.Message),
-						Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-			}
-		}
+            if (target != null)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(target);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        string.Format("{0}\n{1}: {2}", Strings.CommandFailed,
+                            Strings.ErrorsReason, ex.Message),
+                        Strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
-		private void btnClose_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -23,28 +23,28 @@ using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 {
-	public abstract class DiagramContextMenu : ContextMenu
-	{
-		IDiagram diagram = null;
+    public abstract class DiagramContextMenu : ContextMenu
+    {
+        IDiagram diagram = null;
 
-		protected sealed override IDocument Document
-		{
-			get { return diagram; }
-		}
+        protected sealed override IDocument Document
+        {
+            get { return diagram; }
+        }
 
-		protected IDiagram Diagram
-		{
-			get { return diagram; }
-		}
+        protected IDiagram Diagram
+        {
+            get { return diagram; }
+        }
 
-		public sealed override void ValidateMenuItems(IDocument document)
-		{
-			ValidateMenuItems(document as IDiagram);
-		}
+        public sealed override void ValidateMenuItems(IDocument document)
+        {
+            ValidateMenuItems(document as IDiagram);
+        }
 
-		public virtual void ValidateMenuItems(IDiagram diagram)
-		{
-			this.diagram = diagram;
-		}
-	}
+        public virtual void ValidateMenuItems(IDiagram diagram)
+        {
+            this.diagram = diagram;
+        }
+    }
 }

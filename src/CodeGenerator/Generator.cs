@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -18,35 +18,35 @@ using NClass.Core;
 
 namespace NClass.CodeGenerator
 {
-	public class Generator
-	{
-		SolutionGenerator solutionGenerator;
+    public class Generator
+    {
+        SolutionGenerator solutionGenerator;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="project"/> is null.
-		/// </exception>
-		public Generator(Project project, SolutionType type)
-		{
-			if (project == null)
-				throw new ArgumentNullException("project");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="project"/> is null.
+        /// </exception>
+        public Generator(Project project, SolutionType type)
+        {
+            if (project == null)
+                throw new ArgumentNullException("project");
 
-			solutionGenerator = CreateSolutionGenerator(project, type);
-		}
+            solutionGenerator = CreateSolutionGenerator(project, type);
+        }
 
-		protected virtual SolutionGenerator CreateSolutionGenerator(Project project, SolutionType type)
-		{
-			return new VSSolutionGenerator(project, type);
-		}
+        protected virtual SolutionGenerator CreateSolutionGenerator(Project project, SolutionType type)
+        {
+            return new VSSolutionGenerator(project, type);
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="location"/> contains invalid path characters.
-		/// </exception>
-		public GenerationResult Generate(string location)
-		{
-			GenerationResult result = solutionGenerator.Generate(location);
-			SourceFileGenerator.FinishWork();
+        /// <exception cref="ArgumentException">
+        /// <paramref name="location"/> contains invalid path characters.
+        /// </exception>
+        public GenerationResult Generate(string location)
+        {
+            GenerationResult result = solutionGenerator.Generate(location);
+            SourceFileGenerator.FinishWork();
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

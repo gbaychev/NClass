@@ -1,7 +1,7 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.Java
 {
-	public interface IJavaParameterDeclaration : IParameterDeclaration
-	{ }
+    public interface IJavaParameterDeclaration : IParameterDeclaration
+    { }
 }
