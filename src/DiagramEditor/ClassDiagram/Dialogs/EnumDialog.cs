@@ -104,15 +104,14 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 
         public void ShowDialog(IDiagram diagram, EnumType parent)
         {
-            if (parent != null && diagram != null)
-            {
-                this.diagram = diagram;
-                this.parent = parent;
-                this.Text = string.Format(Strings.ItemsOfType, parent.Name);
-                FillList();
+            if (parent == null || diagram == null) return;
 
-                base.ShowDialog();
-            }
+            this.diagram = diagram;
+            this.parent = parent;
+            this.Text = string.Format(Strings.ItemsOfType, parent.Name);
+            FillList();
+
+            base.ShowDialog();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

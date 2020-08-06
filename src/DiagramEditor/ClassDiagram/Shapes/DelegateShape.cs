@@ -177,7 +177,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
 
         protected internal override void EditMembers()
         {
-            delegateDialog.ShowDialog(DelegateType);
+            delegateDialog.ShowDialog(diagram, DelegateType);
         }
 
         protected override void OnMouseDown(AbsoluteMouseEventArgs e)

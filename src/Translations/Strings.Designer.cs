@@ -647,6 +647,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rename Delegate Parameter.
+        /// </summary>
+        public static string CommandRenameDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandRenameDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename Enum Member.
         /// </summary>
         public static string CommandRenameEnumMember {

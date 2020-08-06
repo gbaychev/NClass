@@ -18,12 +18,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
     public class DelegateDialog : ListDialog
     {
+        private IDiagram diagram;
         DelegateType parent = null;
 
         protected override void FillList()
@@ -61,12 +64,14 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         /// </exception>
         protected override void Modify(ListViewItem item, string text)
         {
-            if (item.Tag is Parameter)
-            {
-                Parameter parameter = parent.ModifyParameter((Parameter)item.Tag, text);
-                item.Tag = parameter;
-                item.Text = parameter.ToString();
-            }
+            if (!(item.Tag is Parameter tag)) return;
+
+            var command = new RenameDelegateParameterCommand(tag, parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
+
+            item.Tag = command.Parameter;
+            item.Text = command.Parameter.ToString();
         }
 
         protected override void MoveUpItem(ListViewItem item)
@@ -90,16 +95,16 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
             base.Remove(item);
         }
 
-        public void ShowDialog(DelegateType parent)
+        public void ShowDialog(IDiagram diagram, DelegateType parent)
         {
-            if (parent != null)
-            {
-                this.parent = parent;
-                this.Text = string.Format(Strings.ItemsOfType, parent.Name);
-                FillList();
+            if (parent == null || diagram == null) return;
 
-                base.ShowDialog();
-            }
+            this.diagram = diagram;
+            this.parent = parent;
+            this.Text = string.Format(Strings.ItemsOfType, parent.Name);
+            FillList();
+
+            base.ShowDialog();
         }
     }
 }
