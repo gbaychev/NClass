@@ -157,7 +157,6 @@
     <Compile Include="Entities\StructureType.cs" />
     <Compile Include="Relationships\Relationship.cs" />
     <Compile Include="LanguageElement.cs" />
-    <Compile Include="UndoRedo\AddDelegateParameterCommand.cs" />
     <Compile Include="UndoRedo\CommandId.cs" />
     <Compile Include="UndoRedo\ICommand.cs" />
     <Compile Include="UndoRedo\IUndoRedoVisualizer.cs" />

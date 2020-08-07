@@ -70,7 +70,9 @@
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
     <Compile Include="Commands\AddConnectionCommand.cs" />
+    <Compile Include="Commands\AddDelegateParameterCommand.cs" />
     <Compile Include="Commands\AddEnumMemberCommand.cs" />
+    <Compile Include="Commands\DeleteDelegateParameter.cs" />
     <Compile Include="Commands\DeleteEnumMemberCommand.cs" />
     <Compile Include="Commands\DeleteFromEnumTypeCommand.cs" />
     <Compile Include="Commands\InsertMemberCommand.cs" />

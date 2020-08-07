@@ -602,6 +602,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Delegate Parameter.
+        /// </summary>
+        public static string CommandDeleteDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandDeleteDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Elements.
         /// </summary>
         public static string CommandDeleteElements {

@@ -20,6 +20,7 @@ using System.Drawing;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Editors;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.DiagramEditor.Diagrams.Editors;
 
@@ -107,7 +108,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Shapes
             if (IsActive && ActiveParameter != null)
             {
                 if (!showConfirmation || ConfirmMemberDelete())
-                    DeleteActiveParameter();
+                {
+                    var command = new DeleteDelegateParameter(this);
+                    command.Execute();
+                    diagram.TrackCommand(command);
+                }
                 return true;
             }
             else

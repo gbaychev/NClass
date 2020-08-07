@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Core;
 using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
@@ -140,7 +141,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 
         protected override void Delete()
         {
-            shape.DeleteActiveParameter();
+            var command = new DeleteDelegateParameter(shape);
+            command.Execute();
+            shape.Diagram.TrackCommand(command);
         }
     }
 }
