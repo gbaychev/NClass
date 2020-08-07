@@ -52,8 +52,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
             command.Execute();
             diagram.TrackCommand(command);
 
-            EnumValue value = command.EnumValue;
-            ListViewItem item = lstItems.Items.Add(value.ToString());
+            var value = command.EnumValue;
+            var item = lstItems.Items.Add(value.ToString());
 
             item.Tag = value;
             item.ImageIndex = Icons.EnumItemImageIndex;

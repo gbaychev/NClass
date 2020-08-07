@@ -31,7 +31,8 @@ namespace NClass.Core.UndoRedo
         AddEnumMember,
         DeleteEnumMember,
         RenameEnumMember,
-        RenameDelegateParameter
+        RenameDelegateParameter,
+        AddDelegateParameter
     }
 
     public static class CommandIdToString
@@ -52,6 +53,7 @@ namespace NClass.Core.UndoRedo
             Strings[CommandId.DeleteEnumMember] = Translations.Strings.CommandDeleteEnumMember;
             Strings[CommandId.RenameEnumMember] = Translations.Strings.CommandRenameEnumMember;
             Strings[CommandId.RenameDelegateParameter] = Translations.Strings.CommandRenameDelegateParameter;
+            Strings[CommandId.AddDelegateParameter] = Translations.Strings.CommandAddDelegateParameter;
         }
 
         public static string GetString(CommandId commandId)
@@ -82,6 +84,8 @@ namespace NClass.Core.UndoRedo
                     return Strings[CommandId.RenameEnumMember];
                 case CommandId.RenameDelegateParameter:
                     return Strings[CommandId.RenameDelegateParameter];
+                case CommandId.AddDelegateParameter:
+                    return Strings[CommandId.AddDelegateParameter];
                 default:
                     return Translations.Strings.Unknown;
             }

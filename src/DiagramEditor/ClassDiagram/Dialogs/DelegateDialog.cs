@@ -49,8 +49,12 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         /// </exception>
         protected override void AddToList(string text)
         {
-            Parameter value = parent.AddParameter(text);
-            ListViewItem item = lstItems.Items.Add(value.ToString());
+            var command = new AddDelegateParameterCommand(parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
+
+            var value = command.Parameter;
+            var item = lstItems.Items.Add(value.ToString());
 
             item.Tag = value;
             item.ImageIndex = Icons.ParameterImageIndex;

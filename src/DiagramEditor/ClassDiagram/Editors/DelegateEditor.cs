@@ -19,6 +19,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
@@ -186,7 +187,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             {
                 try
                 {
-                    shape.DelegateType.AddParameter(txtNewParameter.Text);
+                    var command = new AddDelegateParameterCommand(shape.DelegateType, txtNewParameter.Text);
+                    command.Execute();
+                    shape.Diagram.TrackCommand(command);
                     ClearNewValueField();
                 }
                 catch (BadSyntaxException ex)

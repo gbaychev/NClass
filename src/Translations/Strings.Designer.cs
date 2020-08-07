@@ -557,6 +557,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Delegate Parameter.
+        /// </summary>
+        public static string CommandAddDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandAddDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Enum Member.
         /// </summary>
         public static string CommandAddEnumMember {
