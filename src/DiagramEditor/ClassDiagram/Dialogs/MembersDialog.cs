@@ -544,9 +544,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
             {
                 try
                 {
-                    string oldValue = member.ToString();
+                    var oldValue = member.ToString();
+                    var command = new RenameMemberCommand(member, oldValue, txtSyntax.Text, (m, d) => m.InitFromString(d));
+                    command.Execute();
+                    diagram.TrackCommand(command);
 
-                    member.InitFromString(txtSyntax.Text);
                     errorProvider.SetError(txtSyntax, null);
                     error = false;
 
@@ -569,9 +571,12 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
             {
                 try
                 {
-                    string oldValue = member.Name;
+                    var oldValue = member.Name;
 
-                    member.Name = txtName.Text;
+                    var command = new RenameMemberCommand(member, oldValue, txtName.Text, (m, d) => m.Name = d);
+                    command.Execute();
+                    diagram.TrackCommand(command);
+
                     errorProvider.SetError(txtName, null);
                     error = false;
 

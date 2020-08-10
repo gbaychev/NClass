@@ -1264,4 +1264,7 @@ Do you still want to continue?</value>
   <data name="CommandAddNewMember" xml:space="preserve">
     <value>Add New Member</value>
   </data>
+  <data name="CommandRenameMember" xml:space="preserve">
+    <value>Rename Member</value>
+  </data>
 </root>

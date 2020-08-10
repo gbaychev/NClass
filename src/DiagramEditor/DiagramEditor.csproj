@@ -85,6 +85,7 @@
     <Compile Include="Commands\DeleteElementsCommand.cs" />
     <Compile Include="Commands\RenameDelegateParameterCommand.cs" />
     <Compile Include="Commands\RenameEnumMemberCommand.cs" />
+    <Compile Include="Commands\RenameMemberCommand.cs" />
     <Compile Include="Diagrams\PasteResult.cs" />
     <Compile Include="RoundedRectangle.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />

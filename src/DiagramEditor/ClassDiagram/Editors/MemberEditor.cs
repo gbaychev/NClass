@@ -492,7 +492,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             {
                 try
                 {
-                    shape.ActiveMember.InitFromString(txtDeclaration.Text);
+                    var command = new RenameMemberCommand(shape.ActiveMember, shape.ActiveMember.ToString(), txtDeclaration.Text, (m, d) => m.InitFromString(d));
+                    command.Execute();
+                    shape.Diagram.TrackCommand(command);
                     RefreshValues();
                 }
                 catch (BadSyntaxException ex)
