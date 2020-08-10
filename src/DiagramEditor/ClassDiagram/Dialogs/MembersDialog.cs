@@ -16,6 +16,7 @@
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.DiagramEditor.Commands;
@@ -527,13 +528,27 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
                 case Keys.Enter:
                     lstMembers.Focus();
                     break;
-                case Keys.Z when (e.Modifiers &  Keys.Control) != 0:
-                    diagram.Undo();
-                    FillMembersList();
+                case Keys.Z when (e.Modifiers & Keys.Control) != 0:
+                    {
+                        var oldMemberCount = parent.Fields.Count() + parent.Operations.Count();
+                        diagram.Undo();
+                        var newMemberCount = parent.Fields.Count() + parent.Operations.Count();
+                        if (oldMemberCount != newMemberCount)
+                            FillMembersList();
+                        else
+                            RefreshValues();
+                    }
                     break;
                 case Keys.Y when (e.Modifiers & Keys.Control) != 0:
-                    diagram.Redo();
-                    FillMembersList();
+                    {
+                        var oldMemberCount = parent.Fields.Count() + parent.Operations.Count();
+                        diagram.Redo();
+                        var newMemberCount = parent.Fields.Count() + parent.Operations.Count();
+                        if (oldMemberCount != newMemberCount)
+                            FillMembersList();
+                        else
+                            RefreshValues();
+                    }
                     break;
             }
         }
