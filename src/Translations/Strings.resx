@@ -1261,4 +1261,7 @@ Do you still want to continue?</value>
   <data name="CommandDeleteDelegateParameter" xml:space="preserve">
     <value>Delete Delegate Parameter</value>
   </data>
+  <data name="CommandAddNewMember" xml:space="preserve">
+    <value>Add New Member</value>
+  </data>
 </root>

@@ -980,23 +980,30 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         {
             if (parent.SupportsFields)
             {
-                Field field = parent.AddField();
-                AddNewField(field);
+                var command = new AddNewMemberCommand(parent, p => p.AddField());
+                command.Execute();
+                diagram.TrackCommand(command);
+
+                AddNewField(command.Member as Field);
             }
         }
 
         private void toolNewMethod_Click(object sender, EventArgs e)
         {
-            Method method = parent.AddMethod();
-            AddNewOperation(method);
+            var command = new AddNewMemberCommand(parent, p => p.AddMethod());
+            command.Execute();
+            diagram.TrackCommand(command);
+            AddNewOperation(command.Member as Method);
         }
 
         private void toolNewProperty_Click(object sender, EventArgs e)
         {
             if (parent.SupportsProperties)
             {
-                Property property = parent.AddProperty();
-                AddNewOperation(property);
+                var command = new AddNewMemberCommand(parent, p => p.AddProperty());
+                command.Execute();
+                diagram.TrackCommand(command);
+                AddNewOperation(command.Member as Property);
             }
         }
 
@@ -1004,8 +1011,10 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         {
             if (parent.SupportsEvents)
             {
-                Event _event = parent.AddEvent();
-                AddNewOperation(_event);
+                var command = new AddNewMemberCommand(parent, p => p.AddEvent());
+                command.Execute();
+                diagram.TrackCommand(command);
+                AddNewOperation(command.Member as Event);
             }
         }
 
@@ -1013,9 +1022,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         {
             if (parent.SupportsConstuctors)
             {
-                Method constructor = parent.AddConstructor();
-                ListViewItem item = AddOperationToList(constructor);
+                var command = new AddNewMemberCommand(parent, p => p.AddConstructor());
+                command.Execute();
+                diagram.TrackCommand(command);
 
+                var item = AddOperationToList(command.Member as Constructor);
                 item.Focused = true;
                 item.Selected = true;
                 OnContentsChanged(EventArgs.Empty);
@@ -1026,9 +1037,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
         {
             if (parent.SupportsDestructors)
             {
-                Method destructor = parent.AddDestructor();
-                ListViewItem item = AddOperationToList(destructor);
-
+                var command = new AddNewMemberCommand(parent, p => p.AddDestructor());
+                command.Execute();
+                diagram.TrackCommand(command);
+                
+                var item = AddOperationToList(command.Member as Destructor);
                 item.Focused = true;
                 item.Selected = true;
                 OnContentsChanged(EventArgs.Empty);

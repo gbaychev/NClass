@@ -584,6 +584,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New Member.
+        /// </summary>
+        public static string CommandAddNewMember {
+            get {
+                return ResourceManager.GetString("CommandAddNewMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Shape.
         /// </summary>
         public static string CommandAddShape {
