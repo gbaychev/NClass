@@ -516,16 +516,25 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 
         private void PropertiesDialog_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            switch (e.KeyCode)
             {
-                if (error)
+                case Keys.Escape when error:
                     RefreshValues();
-                else
+                    break;
+                case Keys.Escape:
                     this.Close();
-            }
-            else if (e.KeyCode == Keys.Enter)
-            {
-                lstMembers.Focus();
+                    break;
+                case Keys.Enter:
+                    lstMembers.Focus();
+                    break;
+                case Keys.Z when (e.Modifiers &  Keys.Control) != 0:
+                    diagram.Undo();
+                    FillMembersList();
+                    break;
+                case Keys.Y when (e.Modifiers & Keys.Control) != 0:
+                    diagram.Redo();
+                    FillMembersList();
+                    break;
             }
         }
 
@@ -1040,8 +1049,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
                 var command = new AddNewMemberCommand(parent, p => p.AddDestructor());
                 command.Execute();
                 diagram.TrackCommand(command);
-                
-                var item = AddOperationToList(command.Member as Destructor);
+                ListViewItem item = AddOperationToList(command.Member as Destructor);
+
                 item.Focused = true;
                 item.Selected = true;
                 OnContentsChanged(EventArgs.Empty);
