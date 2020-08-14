@@ -13,11 +13,14 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram;
+using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NUnit.Framework;
 using Shouldly;
 
@@ -81,7 +84,7 @@ namespace Tests.UndoRedoTests
         }
 
         [Test]
-        public void CanDoMultipleAddDelete()
+        public void CanProperlyUndoRedoDeletionOfNewShapes()
         {
             classDiagram.CreateShapeAt(EntityType.Interface, new Point(0, 0));
             classDiagram.DeleteSelectedElements();
@@ -97,6 +100,40 @@ namespace Tests.UndoRedoTests
 
             oldCount.ShouldBe(0);
             newCount.ShouldBe(0);
+        }
+
+        [Test]
+        public void CanProperlyUndoRedoDeletionOfNewConnections()
+        {
+            classDiagram.CreateShapeAt(EntityType.Interface, new Point(0, 0));
+            classDiagram.CreateShapeAt(EntityType.Class, new Point(0, 0));
+            classDiagram.CreateShapeAt(EntityType.Interface, new Point(0, 0));
+            classDiagram.CreateShapeAt(EntityType.Class, new Point(0, 0));
+
+            var shapes = classDiagram.Shapes.ToArray(); // shapes is an elementlist, also everything is backwards
+            var firstInterFace = (InterfaceShape)shapes[3];
+            var firstClass = (ClassShape)shapes[2];
+            Func<Relationship> _connectionFactory = () => classDiagram.AddAssociation(firstInterFace.TypeBase, firstClass.TypeBase);
+            var command = new AddConnectionCommand(classDiagram, _connectionFactory);
+            command.Execute();
+            classDiagram.TrackCommand(command);
+
+            var secondInterFace = (InterfaceShape)shapes[1];
+            var secondClass = (ClassShape)shapes[0];
+            _connectionFactory = () => classDiagram.AddAssociation(secondInterFace.TypeBase, secondClass.TypeBase);
+            command = new AddConnectionCommand(classDiagram, _connectionFactory);
+            command.Execute();
+            classDiagram.TrackCommand(command);
+
+            classDiagram.Undo();
+            classDiagram.Undo();
+            var oldCount = classDiagram.ConnectionCount;
+            classDiagram.Redo();
+            classDiagram.Redo();
+            var newCount = classDiagram.ConnectionCount;
+
+            oldCount.ShouldBe(0);
+            newCount.ShouldBe(2);
         }
     }
 }
