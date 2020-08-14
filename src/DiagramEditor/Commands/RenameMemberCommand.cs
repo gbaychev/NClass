@@ -30,7 +30,7 @@ namespace NClass.DiagramEditor.Commands
         {
             this.member = member;
             this.oldValue = oldValue;
-            this.newValue = newValue;
+            this.newValue = newValue; 
             this.setter = setter;
         }
 

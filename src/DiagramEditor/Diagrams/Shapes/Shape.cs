@@ -50,6 +50,13 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         Size minimumSize = defaultMinSize;
         bool mouseLeft = true;
         Cursor cursor = Cursors.Default;
+        /// <summary>
+        /// For some unknown reasons, windows sends multiple
+        /// MOUSE_DOWN messages (with btn_left), when the user right clicks
+        /// and then left clicks in the shape, which leads to starting drag
+        /// and drop. This is a workaround for this behavior
+        /// </summary>
+        private bool preDrag;
         private bool isBeingDragged;
 
         public event MoveEventHandler Move;
@@ -69,6 +76,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
             oldLocation = location = Point.Empty;
             size = DefaultSize;
+            preDrag = false;
             isBeingDragged = false;
 
             entity.Modified += (s, e) => OnModified(e);
@@ -738,6 +746,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         protected override void OnMouseDown(AbsoluteMouseEventArgs e)
         {
+            e.Handled = true;
             base.OnMouseDown(e);
         }
 
@@ -751,7 +760,9 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             }
             else if (IsMousePressed && e.Button == MouseButtons.Left)
             {
-                PerformDragging(e.Offset);
+                if(preDrag)
+                    PerformDragging(e.Offset);
+                preDrag = true;
             }
         }
 
@@ -762,6 +773,8 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             {
                 OnDrop();
             }
+
+            preDrag = false;
             resizeMode = ResizeMode.None;
         }
 
