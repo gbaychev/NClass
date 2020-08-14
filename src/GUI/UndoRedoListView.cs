@@ -78,7 +78,7 @@ namespace NClass.GUI
 
         private void OnDrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0 || !(Items[e.Index] is UndoRedoListBoxItem item))
+            if (e.Index < 0 || Items.Count <= 0 || !(Items[e.Index] is UndoRedoListBoxItem item))
                 return;
 
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
