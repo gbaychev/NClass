@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.Core.UndoRedo;
+using NClass.GUI.Dialogs;
 using NClass.Translations;
 
 namespace NClass.GUI
@@ -220,8 +221,7 @@ namespace NClass.GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Strings.Error + ": " + ex.Message,
-                    Strings.Load, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DetailsErrorDialog.Show(Strings.Load, Strings.Error + ": " + ex.Message, ex.StackTrace, MessageBoxIcon.Error, true);
                 return null;
             }
         }

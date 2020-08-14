@@ -24,6 +24,7 @@ using NClass.CSharp;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
 using NClass.GUI;
+using NClass.GUI.Dialogs;
 using NReflect;
 using NReflect.Filter;
 
@@ -198,8 +199,8 @@ namespace NClass.AssemblyImport
       }
       catch (Exception ex)
       {
-        MessageBox.Show(String.Format(Strings.Error_GeneralException, ex), Strings.Error_MessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        return false;
+          DetailsErrorDialog.Show(Strings.Error_MessageBoxTitle, Strings.Error_GeneralException, ex.ToString(), MessageBoxIcon.Error);
+          return false;
       }
     }
 

@@ -282,8 +282,6 @@
   <data name="Error_GeneralException" xml:space="preserve">
     <value>Error while importing!
 
-{0}
-
 Note: Assemblys which are created with a fuscator might fail to import.</value>
   </data>
   <data name="UnsafeTypesPresent" xml:space="preserve">

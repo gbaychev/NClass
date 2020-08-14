@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrashHandler.cs" />
+    <Compile Include="Dialogs\DetailsErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Dialogs\UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
