@@ -67,6 +67,7 @@ namespace NClass.GUI
 
             this.SelectedIndex = -1;
             this.Invalidate();
+            this.TopIndex = this.Items.Count - 1;
         }
 
         protected override void OnMeasureItem(MeasureItemEventArgs e)
