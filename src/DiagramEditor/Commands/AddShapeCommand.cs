@@ -27,17 +27,25 @@ namespace NClass.DiagramEditor.Commands
 
         public void Execute()
         {
-            diagram.DeselectAll();
-            shape = diagram.AddShape(shapeType);
-            shape.Location = location;
-            shape.OldLocation = location;
-            shape.IsSelected = true;
-            shape.IsActive = true;
+            if (shape == null)
+            {
+                diagram.DeselectAll();
+                shape = diagram.AddShape(shapeType);
+                shape.Location = location;
+                shape.OldLocation = location;
+                shape.IsSelected = true;
+                shape.IsActive = true;
 
-            if (diagram.Shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
-                container.AttachShapes(new List<Shape> { shape });
-            if (shape is TypeShape) //TODO: not pretty
-                shape.ShowEditor();
+                if (diagram.Shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is
+                    ShapeContainer container)
+                    container.AttachShapes(new List<Shape> {shape});
+                if (shape is TypeShape) //TODO: not pretty
+                    shape.ShowEditor();
+            }
+            else
+            {
+                diagram.ReinsertShape(shape);
+            }
         }
 
         public void Undo()

@@ -66,7 +66,9 @@ namespace NClass.DiagramEditor.Diagrams
         bool InsertCommentRelationship(CommentRelationship commentRelationship);
         CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
         void TrackCommand(ICommand command);
+        void ReinsertShape(Shape shape, bool redraw = true);
         void ReinsertShapes(List<Shape> shapes);
+        void ReinsertConnection(AbstractConnection connection, bool redraw = true);
         void ReinsertConnections(List<AbstractConnection> connections);
         void RemoveEntity(IEntity entity);
         void RemoveRelationship(Relationship relationship);

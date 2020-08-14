@@ -2212,28 +2212,44 @@ namespace NClass.DiagramEditor.Diagrams
             undoRedoEngine.TrackCommand(command);
         }
 
+        public void ReinsertShape(Shape shape, bool redraw = true)
+        {
+            Debug.Assert(shape.Entity != null);
+            model.ReinsertEntity(shape.Entity);
+            AddShape(shape);
+
+            if(redraw)
+                Redraw();
+        }
+
         public void ReinsertShapes(List<Shape> shapes)
         {
             foreach (var shape in shapes)
             {
-                Debug.Assert(shape.Entity != null);
-                model.ReinsertEntity(shape.Entity);
-                AddShape(shape);
+                ReinsertShape(shape, false);
             }
 
             Redraw();
+        }
+
+        public void ReinsertConnection(AbstractConnection connection, bool redraw = true)
+        {
+            Debug.Assert(connection.Relationship != null);
+            Debug.Assert(connection.StartShape != null && Shapes.Contains(connection.StartShape));
+            Debug.Assert(connection.EndShape != null && Shapes.Contains(connection.StartShape));
+            model.ReinsertRelationship(connection.Relationship);
+            AddConnection(connection);
+            connection.Reattach();
+
+            if(redraw)
+                Redraw();
         }
 
         public void ReinsertConnections(List<AbstractConnection> connections)
         {
             foreach (var connection in connections)
             {
-                Debug.Assert(connection.Relationship != null);
-                Debug.Assert(connection.StartShape != null && Shapes.Contains(connection.StartShape));
-                Debug.Assert(connection.EndShape != null && Shapes.Contains(connection.StartShape));
-                model.ReinsertRelationship(connection.Relationship);
-                AddConnection(connection);
-                connection.Reattach();
+                ReinsertConnection(connection, false);
             }
 
             Redraw();

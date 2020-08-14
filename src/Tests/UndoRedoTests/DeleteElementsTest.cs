@@ -79,5 +79,24 @@ namespace Tests.UndoRedoTests
             newConnectionCount.ShouldBe(0);
             afterUndoConnectionCount.ShouldBe(oldConnectionCount);
         }
+
+        [Test]
+        public void CanDoMultipleAddDelete()
+        {
+            classDiagram.CreateShapeAt(EntityType.Interface, new Point(0, 0));
+            classDiagram.DeleteSelectedElements();
+            classDiagram.CreateShapeAt(EntityType.Class, new Point(0, 0));
+            classDiagram.DeleteSelectedElements();
+
+            var oldCount = classDiagram.Shapes.Count();
+            while(classDiagram.CanUndo)
+                classDiagram.Undo();
+            while(classDiagram.CanRedo)
+                classDiagram.Redo();
+            var newCount = classDiagram.Shapes.Count();
+
+            oldCount.ShouldBe(0);
+            newCount.ShouldBe(0);
+        }
     }
 }
