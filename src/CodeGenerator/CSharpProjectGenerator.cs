@@ -70,22 +70,22 @@ namespace NClass.CodeGenerator
                         line = line.Replace("${RootNamespace}", RootNamespace);
                         line = line.Replace("${AssemblyName}", ProjectName);
 
-                        if (line.Contains("${VS2015:"))
-                        {
-                            if (solutionType == SolutionType.VisualStudio2015)
-                                line = Regex.Replace(line, @"\${VS2015:(?<content>.+?)}", "${content}");
-                            else
-                                line = Regex.Replace(line, @"\${VS2015:(?<content>.+?)}", "");
-
-                            if (line.Length == 0)
-                                continue;
-                        }
                         if (line.Contains("${VS2017:"))
                         {
                             if (solutionType == SolutionType.VisualStudio2017)
                                 line = Regex.Replace(line, @"\${VS2017:(?<content>.+?)}", "${content}");
                             else
                                 line = Regex.Replace(line, @"\${VS2017:(?<content>.+?)}", "");
+
+                            if (line.Length == 0)
+                                continue;
+                        }
+                        if (line.Contains("${VS2019:"))
+                        {
+                            if (solutionType == SolutionType.VisualStudio2019)
+                                line = Regex.Replace(line, @"\${VS2019:(?<content>.+?)}", "${content}");
+                            else
+                                line = Regex.Replace(line, @"\${VS2019:(?<content>.+?)}", "");
 
                             if (line.Length == 0)
                                 continue;

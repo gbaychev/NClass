@@ -44,7 +44,7 @@ namespace NClass.CodeGenerator
             }
             set
             {
-                if (value == SolutionType.VisualStudio2015 ||
+                if (value == SolutionType.VisualStudio2019 ||
                     value == SolutionType.VisualStudio2017)
                 {
                     version = value;
@@ -58,10 +58,10 @@ namespace NClass.CodeGenerator
         {
             get
             {
-                if (Version == SolutionType.VisualStudio2015)
-                    return "Visual Studio 14";
-                else
+                if (Version == SolutionType.VisualStudio2017)
                     return "Visual Studio 15";
+                else
+                    return "Visual Studio 16";
             }
         }
 
