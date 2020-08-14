@@ -474,6 +474,7 @@ namespace NClass.GUI
                 docManager.ActiveDocument.ClipboardAvailabilityChanged +=
                     ActiveDocument_ClipboardAvailabilityChanged;
                 docManager.ActiveDocument.UndoRedoChanged += ActiveDocument_UndoRedoChanged;
+                this.tabbedWindow.Canvas.Focus();
             }
             else
             {
