@@ -44,7 +44,7 @@ namespace NClass.CSharp
 
         public string Type
         {
-            get { return string.Empty; }
+            get { return match.Groups["type"].Value; }
         }
 
         public AccessModifier AccessModifier
