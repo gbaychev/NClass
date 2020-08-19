@@ -35,7 +35,14 @@ namespace NClass.DiagramEditor.Commands
 
         public void Execute()
         {
-            newMember = addOperation(parent);
+            if (newMember == null)
+            {
+                newMember = addOperation(parent);
+            }
+            else
+            {
+                parent.ReinsertMember(newMember, parent.MemberCount);
+            }
         }
 
         public void Undo()
