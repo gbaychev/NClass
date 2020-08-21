@@ -35,7 +35,14 @@ namespace NClass.DiagramEditor.Commands
 
         public void Execute()
         {
-            enumValue = enumType.AddValue(enumMember);
+            if (enumValue == null)
+            {
+                enumValue = enumType.AddValue(enumMember);
+            }
+            else
+            {
+                enumType.ReinsertValue(enumValue);
+            }
         }
 
         public void Undo()

@@ -86,6 +86,20 @@ namespace NClass.Core
             }
         }
 
+        public void ReinsertValue(EnumValue newValue)
+        {
+            if (newValue == null) return;
+
+            foreach (var value in Values)
+            {
+                if (value.Name == newValue.Name)
+                    throw new ReservedNameException(newValue.Name);
+            }
+
+            values.Add(newValue);
+            Changed();
+        }
+
         public EnumValue GetValue(int index)
         {
             if (index >= 0 && index < values.Count)
