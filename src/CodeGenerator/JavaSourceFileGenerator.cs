@@ -63,6 +63,7 @@ namespace NClass.CodeGenerator
                 else
                     packageDeclaration += parentPackage.FullName;
 
+            packageDeclaration = packageDeclaration.Replace(" " , "");
             return packageDeclaration;
         }
 
