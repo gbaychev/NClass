@@ -39,7 +39,6 @@ namespace NClass.GUI
         bool showNavigator = true;
         DynamicMenu dynamicMenu = null;
         List<Plugin> plugins = new List<Plugin>();
-        private UpdatesChecker.VersionInfo versionInfo;
 
         public MainForm()
         {

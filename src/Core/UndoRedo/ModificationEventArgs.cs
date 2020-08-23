@@ -21,13 +21,6 @@ namespace NClass.Core.UndoRedo
 
     public class ModificationEventArgs : EventArgs
     {
-        public Modification Modification { get; }
-
-        public static readonly ModificationEventArgs Empty = new ModificationEventArgs(null);
-
-        public ModificationEventArgs(Modification modification)
-        {
-            Modification = modification;
-        }
+        public new static readonly ModificationEventArgs Empty = new ModificationEventArgs();
     }
 }

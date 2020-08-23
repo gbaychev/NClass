@@ -57,9 +57,8 @@ namespace NClass.Core
                 
                 if (newName != name)
                 {
-                    var modification = Modification.TrackPropertyModification(this,(TypeBase t) => t.Name, name, newName);
                     name = newName;
-                    Changed(new ModificationEventArgs(modification));
+                    Changed(ModificationEventArgs.Empty);
                 }
             }
         }

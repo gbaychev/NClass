@@ -162,7 +162,6 @@
     <Compile Include="UndoRedo\IUndoRedoVisualizer.cs" />
     <Compile Include="UndoRedo\Modification.cs" />
     <Compile Include="UndoRedo\ModificationEventArgs.cs" />
-    <Compile Include="UndoRedo\TrackableValue.cs" />
     <Compile Include="UndoRedo\UndoRedoAction.cs" />
     <Compile Include="UndoRedo\UndoRedoEngine.cs" />
     <Compile Include="UndoRedo\UndoRedoEventArgs.cs" />
