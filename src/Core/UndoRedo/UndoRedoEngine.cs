@@ -31,6 +31,7 @@ namespace NClass.Core.UndoRedo
         {
             UndoStack = new Stack<ICommand>(25);
             RedoStack = new Stack<ICommand>(25);
+            Source = UndoRedoSource.FileNew;
         }
 
         public void Undo()
@@ -70,7 +71,9 @@ namespace NClass.Core.UndoRedo
         {
             var items = UndoStack.Select(command => new UndoRedoListBoxItem(command.ToString(), UndoRedoType.Undo))
                                  .Concat(RedoStack.Select(c => new UndoRedoListBoxItem(c.ToString(), UndoRedoType.Redo))).ToArray();
-            undoRedoVisualizer.SetItems(items);
+            undoRedoVisualizer.SetItems(items, Source);
         }
+
+        public UndoRedoSource Source { get; set; }
     }
 }

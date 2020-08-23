@@ -167,6 +167,7 @@
     <Compile Include="UndoRedo\UndoRedoEngine.cs" />
     <Compile Include="UndoRedo\UndoRedoEventArgs.cs" />
     <Compile Include="UndoRedo\UndoRedoListBoxItem.cs" />
+    <Compile Include="UndoRedo\UndoRedoSource.cs" />
     <Compile Include="UndoRedo\UndoRedoType.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,6 @@ namespace NClass.Core.UndoRedo
 {
     public interface IUndoRedoVisualizer
     {
-        void SetItems(IEnumerable<UndoRedoListBoxItem> item);
+        void SetItems(IEnumerable<UndoRedoListBoxItem> item, UndoRedoSource source);
     }
 }

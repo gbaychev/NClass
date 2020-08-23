@@ -15,10 +15,13 @@
 
 namespace NClass.Core.UndoRedo
 {
-    public enum UndoRedoType : short
+    /// <summary>
+    /// Whether the file is new or opened
+    /// Used to show the first element in the undo/redo list view
+    /// </summary>
+    public enum UndoRedoSource
     {
-        Undo,
-        Redo,
-        Source
+        FileOpen,
+        FileNew
     }
 }

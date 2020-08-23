@@ -1270,4 +1270,10 @@ Do you still want to continue?</value>
   <data name="ButtonDetails" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="UndoRedoNewFile" xml:space="preserve">
+    <value>New File</value>
+  </data>
+  <data name="UndoRedoOpenFile" xml:space="preserve">
+    <value>Open File</value>
+  </data>
 </root>

@@ -2168,6 +2168,8 @@ namespace NClass.DiagramEditor.Diagrams
                 this.name = null;
             else
                 this.name = nameElement.InnerText;
+
+            undoRedoEngine.Source = UndoRedoSource.FileOpen;
         }
 
         protected virtual void OnRenamed(EventArgs e)

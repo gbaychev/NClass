@@ -3208,6 +3208,24 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New File.
+        /// </summary>
+        public static string UndoRedoNewFile {
+            get {
+                return ResourceManager.GetString("UndoRedoNewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open File.
+        /// </summary>
+        public static string UndoRedoOpenFile {
+            get {
+                return ResourceManager.GetString("UndoRedoOpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uninstall.
         /// </summary>
         public static string Uninstall {

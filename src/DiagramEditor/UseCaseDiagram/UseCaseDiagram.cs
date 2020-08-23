@@ -218,6 +218,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             }
 
             model.Deserialize(node);
+            
         }
 
         public bool InsertIncludes(IncludesRelationship includesRelationship)

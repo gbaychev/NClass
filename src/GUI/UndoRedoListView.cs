@@ -4,9 +4,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using NClass.Core.UndoRedo;
 using NClass.DiagramEditor;
 using NClass.GUI.Properties;
+using NClass.Translations;
 
 namespace NClass.GUI
 {
@@ -105,7 +107,7 @@ namespace NClass.GUI
                 e.Graphics.DrawImage(Resources.Play, points);
             }
 
-            using (var brush = new SolidBrush(item.Type == UndoRedoType.Undo ? SystemColors.ControlText : SystemColors.GrayText))
+            using (var brush = new SolidBrush(item.Type == UndoRedoType.Undo || item.Type == UndoRedoType.Source ? SystemColors.ControlText : SystemColors.GrayText))
             {
                 e.Graphics.DrawString(item.Text, e.Font, brush, bounds, StringFormat.GenericDefault);
             }
@@ -116,10 +118,12 @@ namespace NClass.GUI
             }
         }
 
-        public void SetItems(IEnumerable<UndoRedoListBoxItem> items)
+        public void SetItems(IEnumerable<UndoRedoListBoxItem> items, UndoRedoSource source)
         {
             BeginUpdate();
             Items.Clear();
+            var sourceText = source == UndoRedoSource.FileNew ? Strings.UndoRedoNewFile : Strings.UndoRedoOpenFile;
+            Items.Add(new UndoRedoListBoxItem(sourceText, UndoRedoType.Source));
             Items.AddRange(items.ToArray());
             activeIndex = Items.Count - Items.Cast<UndoRedoListBoxItem>().Count(u => u.Type == UndoRedoType.Redo) - 1;
             EndUpdate();
