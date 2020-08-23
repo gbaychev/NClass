@@ -218,6 +218,7 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             }
 
             model.Deserialize(node);
+            
         }
 
         public bool InsertIncludes(IncludesRelationship includesRelationship)
@@ -240,9 +241,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             return model.InsertRelationship(generalization);
         }
 
-        public void AddIncludes(UseCase first, UseCase second)
+        public IncludesRelationship AddIncludes(UseCase first, UseCase second)
         {
-            model.AddIncludes(first, second);
+            return model.AddIncludes(first, second);
         }
 
         private void AddIncludes(IncludesRelationship includesRelationship)
@@ -252,9 +253,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             AddConnection(new IncludesConnection(includesRelationship, startShape, endShape));
         }
 
-        public void AddExtends(UseCase first, UseCase second)
+        public ExtendsRelationship AddExtends(UseCase first, UseCase second)
         {
-            model.AddExtends(first, second);
+            return model.AddExtends(first, second);
         }
 
         private void AddExtends(ExtendsRelationship extendsRelationship)
@@ -264,9 +265,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             AddConnection(new ExtendsConnection(extendsRelationship, startShape, endShape));
         }
 
-        public void AddAssociation(IUseCaseEntity first, IUseCaseEntity second)
+        public UseCaseAssociation AddAssociation(IUseCaseEntity first, IUseCaseEntity second)
         {
-            model.AddAssociation(first, second);
+            return model.AddAssociation(first, second);
         }
 
         private void AddAssociation(UseCaseAssociation association)
@@ -276,9 +277,9 @@ namespace NClass.DiagramEditor.UseCaseDiagram
             AddConnection(new UseCaseAssociationConnection(association, startShape, endShape));
         }
 
-        public void AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
+        public UseCaseGeneralization AddGeneralization(IUseCaseEntity first, IUseCaseEntity second)
         {
-            model.AddGeneralization(first, second);
+            return model.AddGeneralization(first, second);
         }
 
         private void AddGeneralization(UseCaseGeneralization generalization)

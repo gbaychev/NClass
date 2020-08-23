@@ -19,147 +19,147 @@ using NClass.Translations;
 
 namespace NClass.CSharp
 {
-	internal sealed class CSharpDestructor : Destructor
-	{
-		/// <exception cref="ArgumentException">
-		/// The language of <paramref name="parent"/> does not equal.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="parent"/> is null.
-		/// </exception>
-		internal CSharpDestructor(CompositeType parent) : base(parent)
-		{
-			AccessModifier = AccessModifier.Default;
-		}
+    internal sealed class CSharpDestructor : Destructor
+    {
+        /// <exception cref="ArgumentException">
+        /// The language of <paramref name="parent"/> does not equal.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parent"/> is null.
+        /// </exception>
+        internal CSharpDestructor(CompositeType parent) : base(parent)
+        {
+            AccessModifier = AccessModifier.Default;
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="value"/> does not fit to the syntax.
-		/// </exception>
-		public override string Name
-		{
-			get
-			{
-				return "~" + GetNameWithoutGeneric(Parent.Name);
-			}
-			set
-			{
-				if (value != null && value != "~" + GetNameWithoutGeneric(Parent.Name))
-					throw new BadSyntaxException(Strings.ErrorDestructorName);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="value"/> does not fit to the syntax.
+        /// </exception>
+        public override string Name
+        {
+            get
+            {
+                return "~" + GetNameWithoutGeneric(Parent.Name);
+            }
+            set
+            {
+                if (value != null && value != "~" + GetNameWithoutGeneric(Parent.Name))
+                    throw new BadSyntaxException(Strings.ErrorDestructorName);
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set access visibility.
-		/// </exception>
-		public override AccessModifier AccessModifier
-		{
-			get
-			{
-				return base.AccessModifier;
-			}
-			set
-			{
-				if (value != AccessModifier.Default)
-					throw new BadSyntaxException(Strings.ErrorCannotSetAccess);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set access visibility.
+        /// </exception>
+        public override AccessModifier AccessModifier
+        {
+            get
+            {
+                return base.AccessModifier;
+            }
+            set
+            {
+                if (value != AccessModifier.Default)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetAccess);
+            }
+        }
 
-		public override AccessModifier DefaultAccess
-		{
-			get
-			{
-				return AccessModifier.Private;
-			}
-		}
+        public override AccessModifier DefaultAccess
+        {
+            get
+            {
+                return AccessModifier.Private;
+            }
+        }
 
-		public override bool IsAccessModifiable
-		{
-			get { return false; }
-		}
+        public override bool IsAccessModifiable
+        {
+            get { return false; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set virtual modifier.
-		/// </exception>
-		public override bool IsVirtual
-		{
-			get
-			{
-				return base.IsVirtual;
-			}
-			set
-			{
-				if (value)
-					throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set virtual modifier.
+        /// </exception>
+        public override bool IsVirtual
+        {
+            get
+            {
+                return base.IsVirtual;
+            }
+            set
+            {
+                if (value)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set override modifier.
-		/// </exception>
-		public override bool IsOverride
-		{
-			get
-			{
-				return base.IsOverride;
-			}
-			set
-			{
-				if (value)
-					throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set override modifier.
+        /// </exception>
+        public override bool IsOverride
+        {
+            get
+            {
+                return base.IsOverride;
+            }
+            set
+            {
+                if (value)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set sealed modifier.
-		/// </exception>
-		public override bool IsSealed
-		{
-			get
-			{
-				return base.IsSealed;
-			}
-			set
-			{
-				if (value)
-					throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set sealed modifier.
+        /// </exception>
+        public override bool IsSealed
+        {
+            get
+            {
+                return base.IsSealed;
+            }
+            set
+            {
+                if (value)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
+            }
+        }
 
-		public override Language Language
-		{
-			get { return CSharpLanguage.Instance; }
-		}
+        public override Language Language
+        {
+            get { return CSharpLanguage.Instance; }
+        }
 
-		public override void InitFromString(string declaration)
-		{
-			InitFromDeclaration(CSharpDestructorDeclaration.Create(declaration));
-		}
-			
-		public override void InitFromDeclaration(IMethodDeclaration declaration)
-		{
-			if (declaration is ICSharpDestructorDeclaration csharpDeclaration)
-			{
-				InitFromDeclaration(csharpDeclaration);
-			}
-			else
-			{
-				throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
-			}
-		}
+        public override void InitFromString(string declaration)
+        {
+            InitFromDeclaration(CSharpDestructorDeclaration.Create(declaration));
+        }
+            
+        public override void InitFromDeclaration(IMethodDeclaration declaration)
+        {
+            if (declaration is ICSharpDestructorDeclaration csharpDeclaration)
+            {
+                InitFromDeclaration(csharpDeclaration);
+            }
+            else
+            {
+                throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
+            }
+        }
 
-		public override string GetDeclaration()
-		{
-			return Name + "()";
-		}
+        public override string GetDeclaration()
+        {
+            return Name + "()";
+        }
 
-		public override Operation Clone(CompositeType newParent)
-		{
-			return new CSharpDestructor(newParent);
-		}
+        public override Operation Clone(CompositeType newParent)
+        {
+            return new CSharpDestructor(newParent);
+        }
 
-		private void InitFromDeclaration(ICSharpDestructorDeclaration declaration)
-		{
-			ValidName = declaration.Name;
-		}
-	}
+        private void InitFromDeclaration(ICSharpDestructorDeclaration declaration)
+        {
+            ValidName = declaration.Name;
+        }
+    }
 }

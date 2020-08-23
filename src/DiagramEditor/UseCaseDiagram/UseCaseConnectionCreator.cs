@@ -13,10 +13,11 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
-using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.DiagramEditor.UseCaseDiagram.Shapes;
 using NClass.Translations;
 
@@ -54,7 +55,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
             {
-                diagram.AddExtends(shape1.UseCase, shape2.UseCase);
+                Func<Relationship> _connectionFactory = () => diagram.AddExtends(shape1.UseCase, shape2.UseCase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -66,7 +70,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             if (first is UseCaseShape shape1 && second is UseCaseShape shape2)
             {
-                diagram.AddIncludes(shape1.UseCase, shape2.UseCase);
+                Func<Relationship> _connectionFactory = () => diagram.AddIncludes(shape1.UseCase, shape2.UseCase);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -78,7 +85,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             if (first is UseCaseShapeBase shape1 && second is UseCaseShapeBase shape2)
             {
-                diagram.AddAssociation(shape1.UseCaseEntity, shape2.UseCaseEntity);
+                Func<Relationship> _connectionFactory = () => diagram.AddAssociation(shape1.UseCaseEntity, shape2.UseCaseEntity);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {
@@ -90,7 +100,10 @@ namespace NClass.DiagramEditor.UseCaseDiagram
         {
             if (first is UseCaseShapeBase shape1 && second is UseCaseShapeBase shape2)
             {
-                diagram.AddGeneralization(shape1.UseCaseEntity, shape2.UseCaseEntity);
+                Func<Relationship> _connectionFactory = () => diagram.AddGeneralization(shape1.UseCaseEntity, shape2.UseCaseEntity);
+                var command = new AddConnectionCommand(diagram, _connectionFactory);
+                command.Execute();
+                diagram.TrackCommand(command);
             }
             else
             {

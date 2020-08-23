@@ -18,489 +18,487 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.Core
 {
-	public sealed class Project : IModifiable
-	{
-		string name;
-		FileInfo projectFile = null;
-		List<IProjectItem> items = new List<IProjectItem>();
-		bool isDirty = false;
-		bool isUntitled = true;
-		bool isReadOnly = false;
-		bool loading = false;
+    public sealed class Project : IModifiable
+    {
+        string name;
+        FileInfo projectFile = null;
+        List<IProjectItem> items = new List<IProjectItem>();
+        bool isDirty = false;
+        bool isUntitled = true;
+        bool isReadOnly = false;
+        bool loading = false;
 
-		public event EventHandler Modified;
-		public event EventHandler Renamed;
-		public event EventHandler FileStateChanged;
-		public event ProjectItemEventHandler ItemAdded;
-		public event ProjectItemEventHandler ItemRemoved;
+        public event ModifiedEventHandler Modified;
+        public event EventHandler Renamed;
+        public event EventHandler FileStateChanged;
+        public event ProjectItemEventHandler ItemAdded;
+        public event ProjectItemEventHandler ItemRemoved;
 
-		public Project()
-		{
-			name = Strings.Untitled;
-		}
+        public Project()
+        {
+            name = Strings.Untitled;
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="name"/> cannot be empty string.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="name"/> is null.
-		/// </exception>
-		public Project(string name)
-		{
-			if (name == null)
-				throw new ArgumentNullException("name");
-			if (name.Length == 0)
-				throw new ArgumentException("Name cannot empty string.");
+        /// <exception cref="ArgumentException">
+        /// <paramref name="name"/> cannot be empty string.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="name"/> is null.
+        /// </exception>
+        public Project(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (name.Length == 0)
+                throw new ArgumentException("Name cannot empty string.");
 
-			this.name = name;
-		}
+            this.name = name;
+        }
 
-		public string Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				if (name != value && value != null && value.Length > 0)
-				{
-					name = value;
-					isUntitled = false;
-					OnRenamed(EventArgs.Empty);
-					OnModified(EventArgs.Empty);
-				}
-			}
-		}
+        public bool RaiseChangedEvent { get; set; }
 
-		public bool IsUntitled
-		{
-			get { return isUntitled; }
-		}
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (name != value && !string.IsNullOrEmpty(value))
+                {
+                    name = value;
+                    isUntitled = false;
+                    OnRenamed(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
+                }
+            }
+        }
 
-		public bool IsReadOnly
-		{
-			get { return isReadOnly; }
-		}
+        public bool IsUntitled
+        {
+            get { return isUntitled; }
+        }
 
-		public string FilePath
-		{
-			get
-			{
-				if (projectFile != null)
-					return projectFile.FullName;
-				else
-					return null;
-			}
-			private set
-			{
-				if (value != null)
-				{
-					try
-					{
-						FileInfo file = new FileInfo(value);
+        public bool IsReadOnly
+        {
+            get { return isReadOnly; }
+        }
 
-						if (projectFile == null || projectFile.FullName != file.FullName)
-						{
-							projectFile = file;
-							OnFileStateChanged(EventArgs.Empty);
-						}
-					}
-					catch
-					{
-						if (projectFile != null)
-						{
-							projectFile = null;
-							OnFileStateChanged(EventArgs.Empty);
-						}
-					}
-				}
-				else if (projectFile != null) // value == null
-				{
-					projectFile = null;
-					OnFileStateChanged(EventArgs.Empty);
-				}
-			}
-		}
+        public string FilePath
+        {
+            get
+            {
+                if (projectFile != null)
+                    return projectFile.FullName;
+                else
+                    return null;
+            }
+            private set
+            {
+                if (value != null)
+                {
+                    try
+                    {
+                        FileInfo file = new FileInfo(value);
 
-		public string FileName
-		{
-			get
-			{
-				if (projectFile != null)
-					return projectFile.Name;
-				else
-					return Name + ".ncp";
-			}
-		}
+                        if (projectFile == null || projectFile.FullName != file.FullName)
+                        {
+                            projectFile = file;
+                            OnFileStateChanged(EventArgs.Empty);
+                        }
+                    }
+                    catch
+                    {
+                        if (projectFile != null)
+                        {
+                            projectFile = null;
+                            OnFileStateChanged(EventArgs.Empty);
+                        }
+                    }
+                }
+                else if (projectFile != null) // value == null
+                {
+                    projectFile = null;
+                    OnFileStateChanged(EventArgs.Empty);
+                }
+            }
+        }
 
-		public bool IsDirty
-		{
-			get { return isDirty; }
-		}
+        public string FileName
+        {
+            get
+            {
+                if (projectFile != null)
+                    return projectFile.Name;
+                else
+                    return Name + ".ncp";
+            }
+        }
 
-		public IEnumerable<IProjectItem> Items
-		{
-			get { return items; }
-		}
+        public bool IsDirty
+        {
+            get { return isDirty; }
+        }
 
-		public int ItemCount
-		{
-			get { return items.Count; }
-		}
+        public IEnumerable<IProjectItem> Items
+        {
+            get { return items; }
+        }
 
-		public bool IsEmpty
-		{
-			get { return ItemCount == 0; }
-		}
+        public int ItemCount
+        {
+            get { return items.Count; }
+        }
 
-		public void Clean()
-		{
-			foreach (IProjectItem item in Items)
-			{
-				item.Clean();
-			}
-			if (isDirty)
-			{
-				isDirty = false;
-				OnFileStateChanged(EventArgs.Empty);
-			}
-		}
+        public bool IsEmpty
+        {
+            get { return ItemCount == 0; }
+        }
 
-		public void CloseItems()
-		{
-			foreach (IProjectItem item in Items)
-			{
-				item.Close();
-			}
-		}
+        public void Clean()
+        {
+            foreach (IProjectItem item in Items)
+            {
+                item.Clean();
+            }
+            if (isDirty)
+            {
+                isDirty = false;
+                OnFileStateChanged(EventArgs.Empty);
+            }
+        }
 
-		/// <exception cref="ArgumentException">
-		/// <paramref name="item"/> has been already added to the project.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="item"/> is null.
-		/// </exception>
-		public void Add(IProjectItem item)
-		{
-			if (item == null)
-				throw new ArgumentNullException("item");
-			if (items.Contains(item))
-				throw new ArgumentException("The project already contains this item.");
+        public void CloseItems()
+        {
+            foreach (IProjectItem item in Items)
+            {
+                item.Close();
+            }
+        }
 
-			item.Project = this;
-			item.Modified += new EventHandler(item_Modified);
-			items.Add(item);
+        /// <exception cref="ArgumentException">
+        /// <paramref name="item"/> has been already added to the project.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="item"/> is null.
+        /// </exception>
+        public void Add(IProjectItem item)
+        {
+            if (item == null)
+                throw new ArgumentNullException("item");
+            if (items.Contains(item))
+                throw new ArgumentException("The project already contains this item.");
 
-			OnItemAdded(new ProjectItemEventArgs(item));
-			OnModified(EventArgs.Empty);
-		}
+            item.Project = this;
+            item.Modified += item_Modified;
+            items.Add(item);
 
-		public void Remove(IProjectItem item)
-		{
-			if (items.Remove(item))
-			{
-				item.Close();
-				item.Modified -= new EventHandler(item_Modified);
-				OnItemRemoved(new ProjectItemEventArgs(item));
-				OnModified(EventArgs.Empty);
-			}
-		}
+            OnItemAdded(new ProjectItemEventArgs(item));
+            OnModified(ModificationEventArgs.Empty);
+        }
 
-		private void item_Modified(object sender, EventArgs e)
-		{
-			isDirty = true;
-			OnModified(EventArgs.Empty);
-		}
+        public void Remove(IProjectItem item)
+        {
+            if (items.Remove(item))
+            {
+                item.Close();
+                item.Modified -= item_Modified;
+                OnItemRemoved(new ProjectItemEventArgs(item));
+                OnModified(ModificationEventArgs.Empty);
+            }
+        }
 
-		public string GetProjectDirectory()
-		{
-			if (projectFile != null)
-				return projectFile.DirectoryName;
-			else
-				return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-		}
+        private void item_Modified(object sender, ModificationEventArgs e)
+        {
+            isDirty = true;
+            OnModified(ModificationEventArgs.Empty);
+        }
 
-		/// <exception cref="IOException">
-		/// Could not load the project.
-		/// </exception>
-		/// <exception cref="InvalidDataException">
-		/// The save file is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentException">
-		/// <paramref name="fileName"/> is empty string.
-		/// </exception>
-		public static Project Load(string fileName)
-		{
-			if (string.IsNullOrEmpty(fileName))
-				throw new ArgumentException(Strings.ErrorBlankFilename, "fileName");
+        public string GetProjectDirectory()
+        {
+            if (projectFile != null)
+                return projectFile.DirectoryName;
+            else
+                return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        }
 
-			if (!File.Exists(fileName))
-				throw new FileNotFoundException(Strings.ErrorFileNotFound);
+        /// <exception cref="IOException">
+        /// Could not load the project.
+        /// </exception>
+        /// <exception cref="InvalidDataException">
+        /// The save file is corrupt and could not be loaded.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="fileName"/> is empty string.
+        /// </exception>
+        public static Project Load(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentException(Strings.ErrorBlankFilename, "fileName");
 
-			XmlDocument document = new XmlDocument();
-			try
-			{
-				document.Load(fileName);
-			}
-			catch (Exception ex)
-			{
-				throw new IOException(Strings.ErrorCouldNotLoadFile, ex);
-			}
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException(Strings.ErrorFileNotFound);
 
-			XmlElement root = document["Project"];
-			if (root == null)
-			{
-				root = document["ClassProject"]; // Old file format
-				if (root == null)
-				{
-					throw new InvalidDataException(Strings.ErrorCorruptSaveFile);
-				}
-				else
-				{
-					Project oldProject = LoadWithPreviousFormat(root);
-					oldProject.FilePath = fileName;
-					oldProject.name = Path.GetFileNameWithoutExtension(fileName);
-					oldProject.isUntitled = false;
-					return oldProject;
-				}
-			}
+            XmlDocument document = new XmlDocument();
+            try
+            {
+                document.Load(fileName);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException(Strings.ErrorCouldNotLoadFile, ex);
+            }
 
-			Project project = new Project();
-			project.loading = true;
-			try
-			{
-				project.Deserialize(root);
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidDataException(Strings.ErrorCorruptSaveFile, ex);
-			}
-			project.loading = false;
-			project.FilePath = fileName;
-			project.isReadOnly = project.projectFile.IsReadOnly;
+            XmlElement root = document["Project"];
+            if (root == null)
+            {
+                root = document["ClassProject"]; // Old file format
+                if (root == null)
+                {
+                    throw new InvalidDataException(Strings.ErrorCorruptSaveFile);
+                }
+                else
+                {
+                    Project oldProject = LoadWithPreviousFormat(root);
+                    oldProject.FilePath = fileName;
+                    oldProject.name = Path.GetFileNameWithoutExtension(fileName);
+                    oldProject.isUntitled = false;
+                    return oldProject;
+                }
+            }
 
-			return project;
-		}
+            Project project = new Project();
+            project.loading = true;
+            try
+            {
+                project.Deserialize(root);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException(Strings.ErrorCorruptSaveFile, ex);
+            }
+            project.loading = false;
+            project.FilePath = fileName;
+            project.isReadOnly = project.projectFile.IsReadOnly;
 
-		private static Project LoadWithPreviousFormat(XmlElement root)
-		{
-			Project project = new Project();
-			project.loading = true;
+            return project;
+        }
 
-			Assembly assembly = Assembly.Load("NClass.DiagramEditor");
-			IProjectItem projectItem = (IProjectItem) assembly.CreateInstance(
-				"NClass.DiagramEditor.ClassDiagram.Diagram", false,
-				BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-				null, null, null, null);
+        private static Project LoadWithPreviousFormat(XmlElement root)
+        {
+            Project project = new Project();
+            project.loading = true;
 
-			try
-			{
-				projectItem.Deserialize(root);
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidDataException(Strings.ErrorCorruptSaveFile, ex);
-			}
-			project.Add(projectItem);
-			project.loading = false;
-			project.isReadOnly = true;
-			return project;
-		}
+            Assembly assembly = Assembly.Load("NClass.DiagramEditor");
+            IProjectItem projectItem = (IProjectItem)assembly.CreateInstance(
+                "NClass.DiagramEditor.ClassDiagram.Diagram", false,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, null, null, null);
 
-		/// <exception cref="IOException">
-		/// Could not save the project.
-		/// </exception>
-		/// <exception cref="InvalidOperationException">
-		/// The project was not saved before by the <see cref="Save(string)"/> method.
-		/// </exception>
-		public void Save()
-		{
-			if (projectFile == null)
-				throw new InvalidOperationException(Strings.ErrorCannotSaveFile);
+            try
+            {
+                projectItem.Deserialize(root);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException(Strings.ErrorCorruptSaveFile, ex);
+            }
+            project.Add(projectItem);
+            project.loading = false;
+            project.isReadOnly = true;
+            return project;
+        }
 
-			Save(FilePath);
-		}
+        /// <exception cref="IOException">
+        /// Could not save the project.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// The project was not saved before by the <see cref="Save(string)"/> method.
+        /// </exception>
+        public void Save()
+        {
+            if (projectFile == null)
+                throw new InvalidOperationException(Strings.ErrorCannotSaveFile);
 
-		/// <exception cref="IOException">
-		/// Could not save the project.
-		/// </exception>
-		/// <exception cref="ArgumentException">
-		/// <paramref name="fileName"/> is null or empty string.
-		/// </exception>
-		public void Save(string fileName)
-		{
-			if (string.IsNullOrEmpty(fileName))
-				throw new ArgumentException(Strings.ErrorBlankFilename, "fileName");
+            Save(FilePath);
+        }
 
-			XmlDocument document = new XmlDocument();
-			XmlElement root = document.CreateElement("Project");
-			document.AppendChild(root);
+        /// <exception cref="IOException">
+        /// Could not save the project.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="fileName"/> is null or empty string.
+        /// </exception>
+        public void Save(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentException(Strings.ErrorBlankFilename, "fileName");
 
-			Serialize(root);
-			try
-			{
-				document.Save(fileName);
-			}
-			catch (Exception ex)
-			{
-				throw new IOException(Strings.ErrorCouldNotSaveFile, ex);
-			}
+            XmlDocument document = new XmlDocument();
+            XmlElement root = document.CreateElement("Project");
+            document.AppendChild(root);
 
-			isReadOnly = false;
-			FilePath = fileName;
-			Clean();
-		}
+            Serialize(root);
+            try
+            {
+                document.Save(fileName);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException(Strings.ErrorCouldNotSaveFile, ex);
+            }
 
-		private void Serialize(XmlElement node)
-		{
-			XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
-			nameElement.InnerText = this.Name;
-			node.AppendChild(nameElement);
+            isReadOnly = false;
+            FilePath = fileName;
+            Clean();
+        }
 
-			foreach (IProjectItem item in Items)
-			{
-				XmlElement itemElement = node.OwnerDocument.CreateElement("ProjectItem");
-				item.Serialize(itemElement);
+        private void Serialize(XmlElement node)
+        {
+            XmlElement nameElement = node.OwnerDocument.CreateElement("Name");
+            nameElement.InnerText = this.Name;
+            node.AppendChild(nameElement);
 
-				Type type = item.GetType();
-				XmlAttribute typeAttribute = node.OwnerDocument.CreateAttribute("type");
-				typeAttribute.InnerText = type.FullName;
-				itemElement.Attributes.Append(typeAttribute);
+            foreach (IProjectItem item in Items)
+            {
+                XmlElement itemElement = node.OwnerDocument.CreateElement("ProjectItem");
+                item.Serialize(itemElement);
 
-				XmlAttribute assemblyAttribute = node.OwnerDocument.CreateAttribute("assembly");
-				assemblyAttribute.InnerText = type.Assembly.FullName;
-				itemElement.Attributes.Append(assemblyAttribute);
+                Type type = item.GetType();
+                XmlAttribute typeAttribute = node.OwnerDocument.CreateAttribute("type");
+                typeAttribute.InnerText = type.FullName;
+                itemElement.Attributes.Append(typeAttribute);
 
-				node.AppendChild(itemElement);
-			}
-		}
+                XmlAttribute assemblyAttribute = node.OwnerDocument.CreateAttribute("assembly");
+                assemblyAttribute.InnerText = type.Assembly.FullName;
+                itemElement.Attributes.Append(assemblyAttribute);
 
-		/// <exception cref="InvalidDataException">
-		/// The save format is corrupt and could not be loaded.
-		/// </exception>
-		private void Deserialize(XmlElement node)
-		{
-			isUntitled = false;
+                node.AppendChild(itemElement);
+            }
+        }
 
-			XmlElement nameElement = node["Name"];
-			if (nameElement == null || nameElement.InnerText == "")
-				throw new InvalidDataException("Project's name cannot be empty.");
-			name = nameElement.InnerText;
+        /// <exception cref="InvalidDataException">
+        /// The save format is corrupt and could not be loaded.
+        /// </exception>
+        private void Deserialize(XmlElement node)
+        {
+            isUntitled = false;
 
-			foreach (XmlElement itemElement in node.GetElementsByTagName("ProjectItem"))
-			{
-				XmlAttribute typeAttribute = itemElement.Attributes["type"];
-				XmlAttribute assemblyAttribute = itemElement.Attributes["assembly"];
+            XmlElement nameElement = node["Name"];
+            if (nameElement == null || nameElement.InnerText == "")
+                throw new InvalidDataException("Project's name cannot be empty.");
+            name = nameElement.InnerText;
 
-				if (typeAttribute == null || assemblyAttribute == null)
-					throw new InvalidDataException("ProjectItem's type or assembly name is missing.");
+            foreach (XmlElement itemElement in node.GetElementsByTagName("ProjectItem"))
+            {
+                XmlAttribute typeAttribute = itemElement.Attributes["type"];
+                XmlAttribute assemblyAttribute = itemElement.Attributes["assembly"];
 
-				string typeName = typeAttribute.InnerText;
-				string assemblyName = assemblyAttribute.InnerText;
+                if (typeAttribute == null || assemblyAttribute == null)
+                    throw new InvalidDataException("ProjectItem's type or assembly name is missing.");
+
+                string typeName = typeAttribute.InnerText;
+                string assemblyName = assemblyAttribute.InnerText;
 
                 // This is some compatibility fix with older file formats, pre 2.5
-			    const string oldTypeName = "NClass.DiagramEditor.ClassDiagram.Diagram";
+                const string oldTypeName = "NClass.DiagramEditor.ClassDiagram.Diagram";
                 const string newTypeName = "NClass.DiagramEditor.ClassDiagram.ClassDiagram";
                 var realAssemblyName = new AssemblyName(assemblyName);
 
-			    if (realAssemblyName.Version < new Version(2, 5) &&
-			        string.CompareOrdinal(oldTypeName, typeName) == 0)
-			    {
-			        typeName = newTypeName;
-			    }
+                if (realAssemblyName.Version < new Version(2, 5) &&
+                    string.CompareOrdinal(oldTypeName, typeName) == 0)
+                {
+                    typeName = newTypeName;
+                }
 
                 try
-				{
-				    Assembly assembly = Assembly.Load(assemblyName);
-					IProjectItem projectItem = (IProjectItem) assembly.CreateInstance(
-						typeName, false,
-						BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-						null, null, null, null);
+                {
+                    Assembly assembly = Assembly.Load(assemblyName);
+                    IProjectItem projectItem = (IProjectItem)assembly.CreateInstance(
+                        typeName, false,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                        null, null, null, null);
 
-					projectItem.Deserialize(itemElement);
-					projectItem.Clean();
-					Add(projectItem);
-				}
-				catch (InvalidDataException)
-				{
-					throw;
-				}
-				catch (Exception ex)
-				{
-					throw new InvalidDataException("Invalid type or assembly of ProjectItem.", ex);
-				}
-			}
-		}
+                    projectItem.Deserialize(itemElement);
+                    projectItem.Clean();
+                    Add(projectItem);
+                }
+                catch (InvalidDataException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidDataException("Invalid type or assembly of ProjectItem.", ex);
+                }
+            }
+        }
 
-		private void OnModified(EventArgs e)
-		{
-			if (!loading)
-			{
-				isDirty = true;
-				if (Modified != null)
-					Modified(this, e);
-			}
-		}
+        private void OnModified(ModificationEventArgs e)
+        {
+            if (!loading)
+            {
+                isDirty = true;
+                Modified?.Invoke(this, e);
+            }
+        }
 
-		private void OnRenamed(EventArgs e)
-		{
-			if (Renamed != null)
-				Renamed(this, e);
-		}
+        private void OnRenamed(EventArgs e)
+        {
+            Renamed?.Invoke(this, e);
+        }
 
-		private void OnItemAdded(ProjectItemEventArgs e)
-		{
-			if (ItemAdded != null)
-				ItemAdded(this, e);
-		}
+        private void OnItemAdded(ProjectItemEventArgs e)
+        {
+            ItemAdded?.Invoke(this, e);
+        }
 
-		private void OnItemRemoved(ProjectItemEventArgs e)
-		{
-			if (ItemRemoved != null)
-				ItemRemoved(this, e);
-		}
+        private void OnItemRemoved(ProjectItemEventArgs e)
+        {
+            ItemRemoved?.Invoke(this, e);
+        }
 
-		private void OnFileStateChanged(EventArgs e)
-		{
-			if (FileStateChanged != null)
-				FileStateChanged(this, e);
-		}
+        private void OnFileStateChanged(EventArgs e)
+        {
+            FileStateChanged?.Invoke(this, e);
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (obj == null)
-				return false;
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
 
-			if (this.GetType() != obj.GetType())
-				return false;
+            if (this.GetType() != obj.GetType())
+                return false;
 
-			Project project = (Project) obj;
+            Project project = (Project)obj;
 
-			if (this.projectFile == null && project.projectFile == null)
-				return object.ReferenceEquals(this, obj);
+            if (this.projectFile == null && project.projectFile == null)
+                return object.ReferenceEquals(this, obj);
 
-			return (
-				this.projectFile != null && project.projectFile != null &&
-				this.projectFile.FullName == project.projectFile.FullName
-			);
-		}
+            return (
+                this.projectFile != null && project.projectFile != null &&
+                this.projectFile.FullName == project.projectFile.FullName
+            );
+        }
 
-		public override int GetHashCode()
-		{
-			if (projectFile != null)
-				return projectFile.GetHashCode();
-			else
-				return Name.GetHashCode();
-		}
+        public override int GetHashCode()
+        {
+            if (projectFile != null)
+                return projectFile.GetHashCode();
+            else
+                return Name.GetHashCode();
+        }
 
-		public override string ToString()
-		{
-			return $"{Name} [{FilePath}]";
-		}
-	}
+        public override string ToString()
+        {
+            return $"{Name} [{FilePath}]";
+        }
+    }
 }

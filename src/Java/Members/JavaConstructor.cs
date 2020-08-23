@@ -20,133 +20,133 @@ using System.Text;
 
 namespace NClass.Java
 {
-	internal sealed class JavaConstructor : Constructor
-	{
-		/// <exception cref="ArgumentException">
-		/// The language of <paramref name="parent"/> does not equal.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="parent"/> is null.
-		/// </exception>
-		internal JavaConstructor(CompositeType parent) : base(parent)
-		{
-		}
+    internal sealed class JavaConstructor : Constructor
+    {
+        /// <exception cref="ArgumentException">
+        /// The language of <paramref name="parent"/> does not equal.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parent"/> is null.
+        /// </exception>
+        internal JavaConstructor(CompositeType parent) : base(parent)
+        {
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="value"/> does not fit to the syntax.
-		/// </exception>
-		public sealed override string Name
-		{
-			get
-			{
-				return GetNameWithoutGeneric(Parent.Name);
-			}
-			set
-			{
-				if (value != null && value != GetNameWithoutGeneric(Parent.Name))
-					throw new BadSyntaxException(Strings.ErrorConstructorName);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="value"/> does not fit to the syntax.
+        /// </exception>
+        public sealed override string Name
+        {
+            get
+            {
+                return GetNameWithoutGeneric(Parent.Name);
+            }
+            set
+            {
+                if (value != null && value != GetNameWithoutGeneric(Parent.Name))
+                    throw new BadSyntaxException(Strings.ErrorConstructorName);
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set static modifier.
-		/// </exception>
-		public override bool IsStatic
-		{
-			get
-			{
-				return base.IsStatic;
-			}
-			set
-			{
-				if (value)
-					throw new BadSyntaxException(Strings.ErrorCannotSetStatic);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set static modifier.
+        /// </exception>
+        public override bool IsStatic
+        {
+            get
+            {
+                return base.IsStatic;
+            }
+            set
+            {
+                if (value)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetStatic);
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set sealed modifier.
-		/// </exception>
-		public override bool IsSealed
-		{
-			get
-			{
-				return false;
-			}
-			set
-			{
-				if (value)
-					throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set sealed modifier.
+        /// </exception>
+        public override bool IsSealed
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+                if (value)
+                    throw new BadSyntaxException(Strings.ErrorCannotSetModifier);
+            }
+        }
 
-		public override Language Language
-		{
-			get { return JavaLanguage.Instance; }
-		}
+        public override Language Language
+        {
+            get { return JavaLanguage.Instance; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public override void InitFromString(string declaration)
-		{
-			InitFromDeclaration(JavaConstructorDeclaration.Create(declaration));
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public override void InitFromString(string declaration)
+        {
+            InitFromDeclaration(JavaConstructorDeclaration.Create(declaration));
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public override void InitFromDeclaration(IMethodDeclaration declaration)
-		{
-			if (declaration is IJavaConstructorDeclaration javaDeclaration) 
-			{
-				InitFromDeclaration(javaDeclaration);
-			}
-			else {
-				throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public override void InitFromDeclaration(IMethodDeclaration declaration)
+        {
+            if (declaration is IJavaConstructorDeclaration javaDeclaration) 
+            {
+                InitFromDeclaration(javaDeclaration);
+            }
+            else {
+                throw new BadSyntaxException(Strings.ErrorInvalidDeclaration);
+            }
+        }
 
-		public override string GetDeclaration()
-		{
-			StringBuilder builder = new StringBuilder(50);
+        public override string GetDeclaration()
+        {
+            StringBuilder builder = new StringBuilder(50);
 
-			if (AccessModifier != AccessModifier.Default) {
-				builder.Append(Language.GetAccessString(AccessModifier, true));
-				builder.Append(" ");
-			}
+            if (AccessModifier != AccessModifier.Default) {
+                builder.Append(Language.GetAccessString(AccessModifier, true));
+                builder.Append(" ");
+            }
 
-			builder.AppendFormat("{0}(", Name);
+            builder.AppendFormat("{0}(", Name);
 
-			for (int i = 0; i < ArgumentList.Count; i++) {
-				builder.Append(ArgumentList[i]);
-				if (i < ArgumentList.Count - 1)
-					builder.Append(", ");
-			}
-			builder.Append(")");
+            for (int i = 0; i < ArgumentList.Count; i++) {
+                builder.Append(ArgumentList[i]);
+                if (i < ArgumentList.Count - 1)
+                    builder.Append(", ");
+            }
+            builder.Append(")");
 
-			return builder.ToString();
-		}
+            return builder.ToString();
+        }
 
-		public override Operation Clone(CompositeType newParent)
-		{
-			JavaConstructor constructor = new JavaConstructor(newParent);
-			constructor.CopyFrom(this);
-			return constructor;
-		}
+        public override Operation Clone(CompositeType newParent)
+        {
+            JavaConstructor constructor = new JavaConstructor(newParent);
+            constructor.CopyFrom(this);
+            return constructor;
+        }
 
-		private void InitFromDeclaration(IJavaConstructorDeclaration declaration)
-		{
-			RaiseChangedEvent = false;
+        private void InitFromDeclaration(IJavaConstructorDeclaration declaration)
+        {
+            RaiseChangedEvent = false;
 
-			try {
-				ValidName = declaration.Name;
-				AccessModifier = declaration.AccessModifier;
-				ArgumentList.InitFromDeclaration(declaration.ArgumentList);
-			}
-			finally {
-				RaiseChangedEvent = true;
-			}
-		}
-	}
+            try {
+                ValidName = declaration.Name;
+                AccessModifier = declaration.AccessModifier;
+                ArgumentList.InitFromDeclaration(declaration.ArgumentList);
+            }
+            finally {
+                RaiseChangedEvent = true;
+            }
+        }
+    }
 }

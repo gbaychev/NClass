@@ -139,9 +139,89 @@ namespace NClass.Core
         /// <exception cref="InvalidOperationException">
         /// The type does not support the given kind of member.
         /// </exception>
-        public void InsertMember(MemberType type, int index)
+        public Member InsertMember(MemberType type, int index)
         {
-            if (type == MemberType.Field)
+            index = CalculateMemberIndex(type, index);
+
+            switch (type)
+            {
+                case MemberType.Field:
+                    var field = AddField();
+                    fields.RemoveAt(FieldCount - 1);
+                    fields.Insert(index, field);
+                    return field;
+
+                case MemberType.Method:
+                    var method = AddMethod();
+                    operations.RemoveAt(OperationCount - 1);
+                    operations.Insert(index, method);
+                    return method;
+
+                case MemberType.Constructor:
+                    var constructor = AddConstructor();
+                    operations.RemoveAt(OperationCount - 1);
+                    operations.Insert(index, constructor);
+                    return constructor;
+
+                case MemberType.Destructor:
+                    var destructor = AddDestructor();
+                    operations.RemoveAt(OperationCount - 1);
+                    operations.Insert(index, destructor);
+                    return destructor;
+
+                case MemberType.Property:
+                    var property = AddProperty();
+                    operations.RemoveAt(OperationCount - 1);
+                    operations.Insert(index, property);
+                    return property;
+
+                case MemberType.Event:
+                    var _event = AddEvent();
+                    operations.RemoveAt(OperationCount - 1);
+                    operations.Insert(index, _event);
+                    return _event;
+                default:
+                    throw new ArgumentException($"{type.ToString()} is not a valid MemberType", nameof(type));
+            }
+        }
+
+
+        public void ReinsertMember(Member member, int index)
+        {
+            index = CalculateMemberIndex(member.MemberType, index);
+
+            switch (member.MemberType)
+            {
+                case MemberType.Field:
+                    fields.Insert(index, member as Field);
+                    break;
+
+                case MemberType.Method:
+                    operations.Insert(index, member as Method);
+                    break;
+
+                case MemberType.Constructor:
+                    operations.Insert(index, member as Constructor);
+                    break;
+
+                case MemberType.Destructor:
+                    operations.Insert(index, member as Destructor);
+                    break;
+
+                case MemberType.Property:
+                    operations.Insert(index, member as Property);
+                    break;
+
+                case MemberType.Event:
+                    operations.Insert(index, member as Event);
+                    break;
+            }
+            Changed();
+        }
+
+        private int CalculateMemberIndex(MemberType memberType, int index)
+        {
+            if (memberType == MemberType.Field)
             {
                 if (index > FieldCount)
                     index = FieldCount;
@@ -155,45 +235,7 @@ namespace NClass.Core
 
             if (index < 0)
                 index = 0;
-
-            switch (type)
-            {
-                case MemberType.Field:
-                    Field field = AddField();
-                    fields.RemoveAt(FieldCount - 1);
-                    fields.Insert(index, field);
-                    break;
-
-                case MemberType.Method:
-                    Method method = AddMethod();
-                    operations.RemoveAt(OperationCount - 1);
-                    operations.Insert(index, method);
-                    break;
-
-                case MemberType.Constructor:
-                    Constructor constructor = AddConstructor();
-                    operations.RemoveAt(OperationCount - 1);
-                    operations.Insert(index, constructor);
-                    break;
-
-                case MemberType.Destructor:
-                    Destructor destructor = AddDestructor();
-                    operations.RemoveAt(OperationCount - 1);
-                    operations.Insert(index, destructor);
-                    break;
-
-                case MemberType.Property:
-                    Property property = AddProperty();
-                    operations.RemoveAt(OperationCount - 1);
-                    operations.Insert(index, property);
-                    break;
-
-                case MemberType.Event:
-                    Event _event = AddEvent();
-                    operations.RemoveAt(OperationCount - 1);
-                    operations.Insert(index, _event);
-                    break;
-            }
+            return index;
         }
 
         protected void AddField(Field field)
@@ -232,18 +274,23 @@ namespace NClass.Core
                 return null;
         }
 
-        public void RemoveMember(Member member)
+        public int RemoveMember(Member member)
         {
-            if (member is Field)
+            var index = -1;
+            if (member is Field field)
             {
-                if (FieldList.Remove((Field)member))
+                index = FieldList.IndexOf(field);
+                if (FieldList.Remove(field))
                     Changed();
             }
-            else if (member is Operation)
+            else if (member is Operation operation)
             {
-                if (OperationList.Remove((Operation)member))
+                index = OperationList.IndexOf(operation);
+                if (OperationList.Remove(operation))
                     Changed();
             }
+
+            return index;
         }
 
         public Operation GetDefinedOperation(Operation operation)

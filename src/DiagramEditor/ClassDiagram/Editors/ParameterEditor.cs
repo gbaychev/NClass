@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -19,125 +19,131 @@ using System.Drawing;
 using System.Windows.Forms;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Core;
+using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
-	public partial class ParameterEditor : ItemEditor
-	{
-		DelegateShape shape = null;
+    public partial class ParameterEditor : ItemEditor
+    {
+        DelegateShape shape = null;
 
-		internal override void Init(DiagramElement element)
-		{
-			shape = (DelegateShape) element;
-			base.Init(element);
-		}
+        internal override void Init(DiagramElement element)
+        {
+            shape = (DelegateShape) element;
+            base.Init(element);
+        }
 
-		internal override void Relocate(DiagramElement element)
-		{
-			Relocate((DelegateShape) element);
-		}
+        internal override void Relocate(DiagramElement element)
+        {
+            Relocate((DelegateShape) element);
+        }
 
-		internal void Relocate(DelegateShape shape)
-		{
-			IDiagram diagram = shape.Diagram;
-			if (diagram != null)
-			{
-				Rectangle record = shape.GetMemberRectangle(shape.ActiveMemberIndex);
+        internal void Relocate(DelegateShape shape)
+        {
+            IDiagram diagram = shape.Diagram;
+            if (diagram != null)
+            {
+                Rectangle record = shape.GetMemberRectangle(shape.ActiveMemberIndex);
 
-				Point absolute = new Point(shape.Right, record.Top);
-				Size relative = new Size(
-					(int) (absolute.X * diagram.Zoom) - diagram.Offset.X + MarginSize,
-					(int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y);
-				relative.Height -= (Height - (int) (record.Height * diagram.Zoom)) / 2;
+                Point absolute = new Point(shape.Right, record.Top);
+                Size relative = new Size(
+                    (int) (absolute.X * diagram.Zoom) - diagram.Offset.X + MarginSize,
+                    (int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y);
+                relative.Height -= (Height - (int) (record.Height * diagram.Zoom)) / 2;
 
-				this.Location = ParentLocation + relative;
-			}
-		}
+                this.Location = ParentLocation + relative;
+            }
+        }
 
-		protected override void RefreshValues()
-		{
-			if (shape.ActiveParameter != null)
-			{
-				int cursorPosition = SelectionStart;
-				DeclarationText = shape.ActiveParameter.ToString();
-				SelectionStart = cursorPosition;
+        protected override void RefreshValues()
+        {
+            if (shape.ActiveParameter != null)
+            {
+                int cursorPosition = SelectionStart;
+                DeclarationText = shape.ActiveParameter.ToString();
+                SelectionStart = cursorPosition;
 
-				SetError(null);
-				NeedValidation = false;
-				RefreshMoveUpDownTools();
-			}
-		}
+                SetError(null);
+                NeedValidation = false;
+                RefreshMoveUpDownTools();
+            }
+        }
 
-		private void RefreshMoveUpDownTools()
-		{
-			int index = shape.ActiveMemberIndex;
-			int parameterCount = shape.DelegateType.ArgumentCount;
+        private void RefreshMoveUpDownTools()
+        {
+            int index = shape.ActiveMemberIndex;
+            int parameterCount = shape.DelegateType.ArgumentCount;
 
-			toolMoveUp.Enabled = (index > 0);
-			toolMoveDown.Enabled = (index < parameterCount - 1);
-		}
+            toolMoveUp.Enabled = (index > 0);
+            toolMoveDown.Enabled = (index < parameterCount - 1);
+        }
 
-		protected override bool ValidateDeclarationLine()
-		{
-			if (NeedValidation && shape.ActiveParameter != null)
-			{
-				try
-				{
-					shape.DelegateType.ModifyParameter(shape.ActiveParameter, DeclarationText);
-					RefreshValues();
-				}
-				catch (BadSyntaxException ex)
-				{
-					SetError(ex.Message);
-					return false;
-				}
-			}
-			return true;
-		}
+        protected override bool ValidateDeclarationLine()
+        {
+            if (NeedValidation && shape.ActiveParameter != null)
+            {
+                try
+                {
+                    var command = new RenameDelegateParameterCommand(shape.ActiveParameter, shape.DelegateType, DeclarationText);
+                    command.Execute();
+                    shape.Diagram.TrackCommand(command);
+                    RefreshValues();
+                }
+                catch (BadSyntaxException ex)
+                {
+                    SetError(ex.Message);
+                    return false;
+                }
+            }
+            return true;
+        }
 
-		protected override void HideEditor()
-		{
-			NeedValidation = false;
-			shape.HideEditor();
-		}
+        protected override void HideEditor()
+        {
+            NeedValidation = false;
+            shape.HideEditor();
+        }
 
-		protected override void SelectPrevious()
-		{
-			if (ValidateDeclarationLine())
-			{
-				shape.SelectPrevious();
-			}
-		}
+        protected override void SelectPrevious()
+        {
+            if (ValidateDeclarationLine())
+            {
+                shape.SelectPrevious();
+            }
+        }
 
-		protected override void SelectNext()
-		{
-			if (ValidateDeclarationLine())
-			{
-				shape.SelectNext();
-			}
-		}
+        protected override void SelectNext()
+        {
+            if (ValidateDeclarationLine())
+            {
+                shape.SelectNext();
+            }
+        }
 
-		protected override void MoveUp()
-		{
-			if (ValidateDeclarationLine())
-			{
-				shape.MoveUp();
-			}
-		}
+        protected override void MoveUp()
+        {
+            if (ValidateDeclarationLine())
+            {
+                shape.MoveUp();
+            }
+        }
 
-		protected override void MoveDown()
-		{
-			if (ValidateDeclarationLine())
-			{
-				shape.MoveDown();
-			}
-		}
+        protected override void MoveDown()
+        {
+            if (ValidateDeclarationLine())
+            {
+                shape.MoveDown();
+            }
+        }
 
-		protected override void Delete()
-		{
-			shape.DeleteActiveParameter();
-		}
-	}
+        protected override void Delete()
+        {
+            var command = new DeleteDelegateParameter(shape);
+            command.Execute();
+            shape.Diagram.TrackCommand(command);
+        }
+    }
 }

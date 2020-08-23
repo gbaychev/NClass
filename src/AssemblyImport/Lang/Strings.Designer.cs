@@ -19,7 +19,7 @@ namespace NClass.AssemblyImport.Lang {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal partial class Strings {
@@ -197,8 +197,6 @@ namespace NClass.AssemblyImport.Lang {
         
         /// <summary>
         ///   Looks up a localized string similar to Error while importing!
-        ///
-        ///{0}
         ///
         ///Note: Assemblys which are created with a fuscator might fail to import..
         /// </summary>

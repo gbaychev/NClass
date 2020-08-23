@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -21,6 +21,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.CSharp;
 using NClass.Java;
 using NClass.DiagramEditor;
@@ -383,20 +384,45 @@ namespace NClass.GUI
             toolAutoZoom.Enabled = docManager.HasDocument && !docManager.ActiveDocument.IsEmpty;
         }
 
+        private void UpdateUndoRedoVisualizer()
+        {
+            docManager.ActiveDocument?.VisualizeUndoRedo(undoRedoListView);
+            undoRedoListView.SetDocument(docManager.ActiveDocument);
+        }
+
+        private void UpdateUndoRedoButtons()
+        {
+            if (docManager.HasDocument)
+            {
+                var document = docManager.ActiveDocument;
+                toolUndo.Enabled = document.CanUndo;
+                toolRedo.Enabled = document.CanRedo;
+            }
+            else
+            {
+                toolUndo.Enabled = false;
+                toolUndo.Enabled = false;
+            }
+        }
+
         private void UpdateClipboardToolBar()
         {
             if (docManager.HasDocument)
             {
-                IDocument document = docManager.ActiveDocument;
+                var document = docManager.ActiveDocument;
                 toolCut.Enabled = document.CanCutToClipboard;
                 toolCopy.Enabled = document.CanCopyToClipboard;
                 toolPaste.Enabled = document.CanPasteFromClipboard;
+                toolUndo.Enabled = document.CanUndo;
+                toolRedo.Enabled = document.CanRedo;
             }
             else
             {
                 toolCut.Enabled = false;
                 toolCopy.Enabled = false;
                 toolPaste.Enabled = false;
+                toolUndo.Enabled = false;
+                toolUndo.Enabled = false;
             }
         }
 
@@ -465,6 +491,8 @@ namespace NClass.GUI
                 docManager.ActiveDocument.StatusChanged += ActiveDocument_StatusChanged;
                 docManager.ActiveDocument.ClipboardAvailabilityChanged +=
                     ActiveDocument_ClipboardAvailabilityChanged;
+                docManager.ActiveDocument.UndoRedoChanged += ActiveDocument_UndoRedoChanged;
+                this.tabbedWindow.Canvas.Focus();
             }
             else
             {
@@ -478,12 +506,21 @@ namespace NClass.GUI
                 oldDocument.StatusChanged -= ActiveDocument_StatusChanged;
                 oldDocument.ClipboardAvailabilityChanged -=
                     ActiveDocument_ClipboardAvailabilityChanged;
+                oldDocument.UndoRedoChanged -= ActiveDocument_UndoRedoChanged;
             }
 
             UpdateStatusBar();
             UpdateDynamicMenus();
+            UpdateUndoRedoVisualizer();
+            UpdateUndoRedoButtons();
             UpdateClipboardToolBar();
             UpdateStandardToolStrip();
+        }
+
+        private void ActiveDocument_UndoRedoChanged(object sender, UndoRedoEventArgs e)
+        {
+            UpdateUndoRedoButtons();
+            undoRedoListView.Track(e);
         }
 
         private void ActiveDocument_Modified(object sender, EventArgs e)
@@ -672,9 +709,8 @@ namespace NClass.GUI
             {
                 IDocument document = docManager.ActiveDocument;
 
-                //UNDONE:
-                //mnuUndo.Enabled = document.CanUndo;
-                //mnuRedo.Enabled = document.CanRedo;
+                mnuUndo.Enabled = document.CanUndo;
+                mnuRedo.Enabled = document.CanRedo;
                 mnuCut.Enabled = document.CanCutToClipboard;
                 mnuCopy.Enabled = document.CanCopyToClipboard;
                 mnuPaste.Enabled = document.CanPasteFromClipboard;
@@ -706,16 +742,12 @@ namespace NClass.GUI
 
         private void mnuUndo_Click(object sender, EventArgs e)
         {
-            //UNDONE: mnuUndo_Click
-            MessageBox.Show(Strings.NotImplemented, "Undo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            docManager.ActiveDocument.Undo();
         }
 
         private void mnuRedo_Click(object sender, EventArgs e)
         {
-            //UNDONE: mnuRedo_Click
-            MessageBox.Show(Strings.NotImplemented, "Redo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            docManager.ActiveDocument.Redo();
         }
 
         private void mnuCut_Click(object sender, EventArgs e)
@@ -867,10 +899,10 @@ namespace NClass.GUI
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-		private async void mnuCheckForUpdates_Click(object sender, EventArgs e)
-		{
-			await UpdatesChecker.CheckForUpdates();
-		}
+        private async void mnuCheckForUpdates_Click(object sender, EventArgs e)
+        {
+            await UpdatesChecker.CheckForUpdates();
+        }
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
@@ -949,5 +981,19 @@ namespace NClass.GUI
         }
 
         #endregion
+
+        private void toolUndo_Click(object sender, EventArgs e)
+        {
+            if (!docManager.HasDocument)
+                return;
+            docManager.ActiveDocument.Undo();
+        }
+
+        private void toolRedo_Click(object sender, EventArgs e)
+        {
+            if (!docManager.HasDocument)
+                return;
+            docManager.ActiveDocument.Redo();
+        }
     }
 }

@@ -18,232 +18,239 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public abstract class Member : LanguageElement
-	{
-		string name;
-		string type;
-		AccessModifier access = AccessModifier.Default;
-		CompositeType parent;
+    public abstract class Member : LanguageElement
+    {
+        string name;
+        string type;
+        AccessModifier access = AccessModifier.Default;
+        CompositeType parent;
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ArgumentException">
-		/// The language of <paramref name="parent"/> does not equal.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="parent"/> is null.
-		/// </exception>
-		protected Member(string name, CompositeType parent)
-		{
-			if (parent == null)
-				throw new ArgumentNullException("parent");
-			if (parent.Language != this.Language)
-				throw new ArgumentException(Strings.ErrorLanguagesDoNotEqual);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The language of <paramref name="parent"/> does not equal.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parent"/> is null.
+        /// </exception>
+        protected Member(string name, CompositeType parent)
+        {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+            if (parent.Language != this.Language)
+                throw new ArgumentException(Strings.ErrorLanguagesDoNotEqual);
 
-			Initializing = true;
-			Parent = parent;
-			Name = name;
-			ValidType = DefaultType;
-			Initializing = false;
-		}
+            Initializing = true;
+            Parent = parent;
+            Name = name;
+            ValidType = DefaultType;
+            Initializing = false;
+        }
 
-		public abstract MemberType MemberType
-		{
-			get;
-		}
+        public abstract MemberType MemberType
+        {
+            get;
+        }
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="value"/> is null.
-		/// </exception>
-		public CompositeType Parent
-		{
-			get
-			{
-				return parent;
-			}
-			set
-			{
-				if (value == null)
-					throw new ArgumentNullException("value");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="value"/> is null.
+        /// </exception>
+        public CompositeType Parent
+        {
+            get
+            {
+                return parent;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
 
-				if (parent != value) {
-					parent = value;
-					Changed();
-				}
-			}
-		}
+                if (parent != value)
+                {
+                    parent = value;
+                    Changed();
+                }
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="value"/> does not fit to the syntax.
-		/// </exception>
-		public virtual string Name
-		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				
-				string newName = Language.GetValidName(value, true);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="value"/> does not fit to the syntax.
+        /// </exception>
+        public virtual string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
 
-				if (newName != name) {
-					name = newName;
-					Changed();
-				}
-			}
-		}
+                string newName = Language.GetValidName(value, true);
 
-		protected string ValidName
-		{
-			set
-			{
-				if (name != value) {
-					name = value;
-					Changed();
-				}
-			}
-		}
+                if (newName != name)
+                {
+                    name = newName;
+                    Changed();
+                }
+            }
+        }
 
-		public virtual bool IsNameReadonly
-		{
-			get { return false; }
-		}
+        protected string ValidName
+        {
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    Changed();
+                }
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="value"/> does not fit to the syntax.
-		/// </exception>
-		public virtual string Type
-		{
-			get
-			{
-				return type;
-			}
-			set
-			{
-				string newType = Language.GetValidTypeName(value);
+        public virtual bool IsNameReadonly
+        {
+            get { return false; }
+        }
 
-				if (newType != type) {
-					type = newType;
-					Changed();
-				}
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="value"/> does not fit to the syntax.
+        /// </exception>
+        public virtual string Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                string newType = Language.GetValidTypeName(value);
 
-		protected string ValidType
-		{
-			set {
-				if (type != value) {
-					type = value;
-					Changed();
-				}
-			}
-		}
+                if (newType != type)
+                {
+                    type = newType;
+                    Changed();
+                }
+            }
+        }
 
-		public virtual bool IsTypeReadonly
-		{
-			get { return false; }
-		}
+        protected string ValidType
+        {
+            set
+            {
+                if (type != value)
+                {
+                    type = value;
+                    Changed();
+                }
+            }
+        }
 
-		protected abstract string DefaultType
-		{
-			get;
-		}
+        public virtual bool IsTypeReadonly
+        {
+            get { return false; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set access visibility.
-		/// </exception>
-		public virtual AccessModifier AccessModifier
-		{
-			get
-			{
-				return access;
-			}
-			set
-			{
-				if (!Language.IsValidModifier(value))
-					throw new BadSyntaxException(Strings.ErrorInvalidModifier);
+        protected abstract string DefaultType
+        {
+            get;
+        }
 
-				if (access != value) {
-					access = value;
-					Changed();
-				}
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set access visibility.
+        /// </exception>
+        public virtual AccessModifier AccessModifier
+        {
+            get
+            {
+                return access;
+            }
+            set
+            {
+                if (!Language.IsValidModifier(value))
+                    throw new BadSyntaxException(Strings.ErrorInvalidModifier);
 
-		public virtual AccessModifier DefaultAccess
-		{
-			get { return Parent.DefaultMemberAccess; }
-		}
+                if (access != value)
+                {
+                    access = value;
+                    Changed();
+                }
+            }
+        }
 
-		public AccessModifier Access
-		{
-			get
-			{
-				if (AccessModifier == AccessModifier.Default)
-					return DefaultAccess;
-				else
-					return AccessModifier;
-			}
-		}
+        public virtual AccessModifier DefaultAccess
+        {
+            get { return Parent.DefaultMemberAccess; }
+        }
 
-		public virtual bool IsAccessModifiable
-		{
-			get { return true; }
-		}
+        public AccessModifier Access
+        {
+            get
+            {
+                if (AccessModifier == AccessModifier.Default)
+                    return DefaultAccess;
+                else
+                    return AccessModifier;
+            }
+        }
 
-		public abstract bool IsModifierless
-		{
-			get;
-		}
+        public virtual bool IsAccessModifiable
+        {
+            get { return true; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set static modifier.
-		/// </exception>
-		public abstract bool IsStatic
-		{
-			get;
-			set;
-		}
+        public abstract bool IsModifierless
+        {
+            get;
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// Cannot set hider modifier.
-		/// </exception>
-		public abstract bool IsHider
-		{
-			get;
-			set;
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set static modifier.
+        /// </exception>
+        public abstract bool IsStatic
+        {
+            get;
+            set;
+        }
 
-		public abstract Language Language
-		{
-			get;
-		}
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set hider modifier.
+        /// </exception>
+        public abstract bool IsHider
+        {
+            get;
+            set;
+        }
 
-		public string GetUmlDescription()
-		{
-			return GetUmlDescription(true, true, true, true);
-		}
+        public abstract Language Language
+        {
+            get;
+        }
 
-		public string GetUmlDescription(bool getType, bool getParameters, bool getParameterNames)
-		{
-			return GetUmlDescription(getType, getParameters, getParameterNames, getType);
-		}
+        public string GetUmlDescription()
+        {
+            return GetUmlDescription(true, true, true, true);
+        }
 
-		public abstract string GetUmlDescription(bool getType, bool getParameters,
-			bool getParameterNames, bool getInitValue);
+        public string GetUmlDescription(bool getType, bool getParameters, bool getParameterNames)
+        {
+            return GetUmlDescription(getType, getParameters, getParameterNames, getType);
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public abstract void InitFromString(string declaration);
+        public abstract string GetUmlDescription(bool getType, bool getParameters,
+            bool getParameterNames, bool getInitValue);
 
-		protected virtual void CopyFrom(Member member)
-		{
-			name = member.name;
-			type = member.type;
-			access = member.access;
-		}
-	}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public abstract void InitFromString(string declaration);
+
+        protected virtual void CopyFrom(Member member)
+        {
+            name = member.name;
+            type = member.type;
+            access = member.access;
+        }
+    }
 }

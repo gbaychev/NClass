@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2016 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -208,12 +208,12 @@ namespace NClass.Core.Models
         }
         
         /// <exception cref="InvalidDataException">
-		/// The save format is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="root"/> is null.
-		/// </exception>
-		protected override void LoadRelationships(XmlNode root)
+        /// The save format is corrupt and could not be loaded.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="root"/> is null.
+        /// </exception>
+        protected override void LoadRelationships(XmlNode root)
         {
             if (root == null)
                 throw new ArgumentNullException("root");
@@ -265,7 +265,7 @@ namespace NClass.Core.Models
                             break;
 
                         case "Nesting":
-							relationship = AddNesting(first as INestable, second as INestableChild);
+                            relationship = AddNesting(first as INestable, second as INestableChild);
                             break;
 
                         case "Comment":

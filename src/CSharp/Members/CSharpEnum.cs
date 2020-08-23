@@ -111,10 +111,8 @@ namespace NClass.CSharp
         {
             EnumValue newValue = new CSharpEnumValue(declaration);
 
-            if (ChangeValue(value, newValue))
-                return newValue;
-            else
-                return value;
+            ChangeValue(value, newValue);
+            return value;
         }
 
         public override string GetDeclaration()

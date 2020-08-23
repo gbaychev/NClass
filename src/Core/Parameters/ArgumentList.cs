@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,72 +19,72 @@ using System.Collections.Generic;
 
 namespace NClass.Core
 {
-	public abstract class ArgumentList : CollectionBase, IEnumerable<Parameter>
-	{
-		protected ArgumentList()
-		{
-		}
+    public abstract class ArgumentList : CollectionBase, IEnumerable<Parameter>
+    {
+        protected ArgumentList()
+        {
+        }
 
-		protected ArgumentList(int capacity) : base(capacity)
-		{
-		}
+        protected ArgumentList(int capacity) : base(capacity)
+        {
+        }
 
-		public Parameter this[int index]
-		{
-			get { return (InnerList[index] as Parameter); }
-		}
+        public Parameter this[int index]
+        {
+            get { return (InnerList[index] as Parameter); }
+        }
 
-		IEnumerator<Parameter> IEnumerable<Parameter>.GetEnumerator()
-		{
-			for (int i = 0; i < InnerList.Count; i++)
-				yield return (Parameter) InnerList[i];
-		}
+        IEnumerator<Parameter> IEnumerable<Parameter>.GetEnumerator()
+        {
+            for (int i = 0; i < InnerList.Count; i++)
+                yield return (Parameter) InnerList[i];
+        }
 
-		public void Remove(Parameter parameter)
-		{
-			InnerList.Remove(parameter);
-		}
+        public void Remove(Parameter parameter)
+        {
+            InnerList.Remove(parameter);
+        }
 
-		protected bool IsReservedName(string name)
-		{
-			return IsReservedName(name, -1);
-		}
+        protected bool IsReservedName(string name)
+        {
+            return IsReservedName(name, -1);
+        }
 
-		protected bool IsReservedName(string name, int index)
-		{
-			for (int i = 0; i < Count; i++) {
-				if (((Parameter) InnerList[i]).Name == name && i != index)
-					return true;
-			}
-			return false;
-		}
+        protected bool IsReservedName(string name, int index)
+        {
+            for (int i = 0; i < Count; i++) {
+                if (((Parameter) InnerList[i]).Name == name && i != index)
+                    return true;
+            }
+            return false;
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The parameter name is already exists.
-		/// </exception>
-		public abstract Parameter Add(string declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The parameter name is already exists.
+        /// </exception>
+        public abstract Parameter Add(string declaration);
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The parameter name is already exists.
-		/// </exception>
-		public abstract Parameter ModifyParameter(Parameter parameter, string declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The parameter name is already exists.
+        /// </exception>
+        public abstract Parameter ModifyParameter(Parameter parameter, string declaration);
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public abstract void InitFromString(string declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public abstract void InitFromString(string declaration);
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="declaration"/> does not fit to the syntax.
-		/// </exception>
-		public abstract void InitFromDeclaration(IArgumentListDeclaration<IParameterDeclaration> declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="declaration"/> does not fit to the syntax.
+        /// </exception>
+        public abstract void InitFromDeclaration(IArgumentListDeclaration<IParameterDeclaration> declaration);
 
-		public abstract ArgumentList Clone();
-	}
+        public abstract ArgumentList Clone();
+    }
 }

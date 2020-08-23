@@ -14,31 +14,29 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Core.UndoRedo;
 
 namespace NClass.DiagramEditor
 {
-	public interface IEditable
-	{
-		bool IsEmpty { get; }
+    public interface IEditable
+    {
+        bool IsEmpty { get; }
+        bool CanCutToClipboard { get; }
+        bool CanCopyToClipboard { get; }
+        bool CanPasteFromClipboard { get; }
+        bool CanUndo { get; }
+        bool CanRedo { get; }
 
-		bool CanCutToClipboard { get; }
-
-		bool CanCopyToClipboard { get; }
-
-		bool CanPasteFromClipboard { get; }
-
-		
-		event EventHandler ClipboardAvailabilityChanged;
-
-		
-		void Cut();
-
-		void Copy();
-
-		void Paste();
-
-		void SelectAll();
-
-		void DeleteSelectedElements();
-	}
+        event EventHandler ClipboardAvailabilityChanged;
+        
+        void Cut();
+        void Copy();
+        void Paste();
+        void SelectAll();
+        void DeleteSelectedElements();
+        void Undo();
+        void Redo();
+        event UndoRedoHandler UndoRedoChanged;
+        void VisualizeUndoRedo(IUndoRedoVisualizer undoRedoVisualizer);
+    }
 }

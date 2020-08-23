@@ -18,37 +18,37 @@ using System.Xml;
 
 namespace NClass.Core
 {
-	public abstract class TypeRelationship : Relationship
-	{
-		TypeBase first;
-		TypeBase second;
+    public abstract class TypeRelationship : Relationship
+    {
+        TypeBase first;
+        TypeBase second;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="first"/> is null.-or-
-		/// <paramref name="second"/> is null.
-		/// </exception>
-		protected TypeRelationship(TypeBase first, TypeBase second)
-		{
-			if (first == null)
-				throw new ArgumentNullException("first");
-			if (second == null)
-				throw new ArgumentNullException("second");
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="first"/> is null.-or-
+        /// <paramref name="second"/> is null.
+        /// </exception>
+        protected TypeRelationship(TypeBase first, TypeBase second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
 
-			this.first = first;
-			this.second = second;
-		}
+            this.first = first;
+            this.second = second;
+        }
 
-		//TODO: inkább abstract property-kre hivatkozzon
-		public sealed override IEntity First
-		{
-			get { return first; }
-			protected set { first = (TypeBase) value; }
-		}
+        //TODO: inkább abstract property-kre hivatkozzon
+        public sealed override IEntity First
+        {
+            get { return first; }
+            protected set { first = (TypeBase) value; }
+        }
 
-		public sealed override IEntity Second
-		{
-			get { return second; }
-			protected set { second = (TypeBase) value; }
-		}
-	}
+        public sealed override IEntity Second
+        {
+            get { return second; }
+            protected set { second = (TypeBase) value; }
+        }
+    }
 }

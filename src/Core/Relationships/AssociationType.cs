@@ -17,10 +17,10 @@ using System;
 
 namespace NClass.Core
 {
-	public enum AssociationType
-	{
-		Association,
-		Aggregation,
-		Composition
-	}
+    public enum AssociationType
+    {
+        Association,
+        Aggregation,
+        Composition
+    }
 }

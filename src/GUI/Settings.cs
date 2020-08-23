@@ -1,5 +1,5 @@
 // NClass - Free class diagram editor
-// Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 2020 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -23,40 +23,40 @@ using NClass.Translations;
 
 namespace NClass.GUI
 {
-	public sealed partial class Settings
-	{
-		const int MaxRecentFileCount = 5;
+    public sealed partial class Settings
+    {
+        const int MaxRecentFileCount = 5;
 
-		public Language GetDefaultLanguage()
-		{
-			Language defaultLanguage = Language.GetLanguage(DefaultLanguageName);
+        public Language GetDefaultLanguage()
+        {
+            Language defaultLanguage = Language.GetLanguage(DefaultLanguageName);
 
-			return defaultLanguage ?? CSharpLanguage.Instance;
-		}
+            return defaultLanguage ?? CSharpLanguage.Instance;
+        }
 
-		public void AddRecentFile(string recentFile)
-		{
-			if (!File.Exists(recentFile))
-				return;
+        public void AddRecentFile(string recentFile)
+        {
+            if (!File.Exists(recentFile))
+                return;
 
-			int index = RecentFiles.IndexOf(recentFile);
+            int index = RecentFiles.IndexOf(recentFile);
 
-			if (index < 0)
-			{
-				if (RecentFiles.Count < MaxRecentFileCount)
-					RecentFiles.Add(string.Empty);
+            if (index < 0)
+            {
+                if (RecentFiles.Count < MaxRecentFileCount)
+                    RecentFiles.Add(string.Empty);
 
-				for (int i = RecentFiles.Count - 2; i >= 0; i--)
-					RecentFiles[i + 1] = RecentFiles[i];
-				RecentFiles[0] = recentFile;
-			}
-			else if (index > 0)
-			{
-				string temp = RecentFiles[index];
-				for (int i = index; i > 0; i--)
-					RecentFiles[i] = RecentFiles[i - 1];
-				RecentFiles[0] = temp;
-			}
-		}
-	}
+                for (int i = RecentFiles.Count - 2; i >= 0; i--)
+                    RecentFiles[i + 1] = RecentFiles[i];
+                RecentFiles[0] = recentFile;
+            }
+            else if (index > 0)
+            {
+                string temp = RecentFiles[index];
+                for (int i = index; i > 0; i--)
+                    RecentFiles[i] = RecentFiles[i - 1];
+                RecentFiles[0] = temp;
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -20,14 +20,14 @@ using NClass.Core;
 
 namespace NClass.GUI.ModelExplorer
 {
-	public abstract class ProjectItemNode : ModelNode
-	{
-		protected ProjectItemNode()
-		{
-		}
+    public abstract class ProjectItemNode : ModelNode
+    {
+        protected ProjectItemNode()
+        {
+        }
 
-		public abstract IProjectItem ProjectItem { get; }
+        public abstract IProjectItem ProjectItem { get; }
 
-		public abstract override void LabelModified(NodeLabelEditEventArgs e);
-	}
+        public abstract override void LabelModified(NodeLabelEditEventArgs e);
+    }
 }

@@ -19,87 +19,87 @@ using System.Collections.Generic;
 
 namespace NClass.Core
 {
-	public abstract class StructureType : SingleInharitanceType, INestable
-	{
+    public abstract class StructureType : SingleInharitanceType, INestable
+    {
         NestableHelper nestableHelper = null;
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		protected StructureType(string name) : base(name)
-		{
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        protected StructureType(string name) : base(name)
+        {
             nestableHelper = new NestableHelper(this);
             nestableHelper.AddedNestedChild += (s, a) => Changed();
             nestableHelper.RemovedNestedChild += (s, a) => Changed();
-		}
+        }
 
-		public sealed override EntityType EntityType
-		{
-			get { return EntityType.Structure; }
-		}
+        public sealed override EntityType EntityType
+        {
+            get { return EntityType.Structure; }
+        }
 
-		public override bool SupportsFields
-		{
-			get { return true; }
-		}
+        public override bool SupportsFields
+        {
+            get { return true; }
+        }
 
-		public override bool SupportsMethods
-		{
-			get { return true; }
-		}
+        public override bool SupportsMethods
+        {
+            get { return true; }
+        }
 
-		public override bool SupportsConstuctors
-		{
-			get { return true; }
-		}
+        public override bool SupportsConstuctors
+        {
+            get { return true; }
+        }
 
-		public override bool SupportsDestructors
-		{
-			get { return false; }
-		}
+        public override bool SupportsDestructors
+        {
+            get { return false; }
+        }
 
-		public override bool HasExplicitBase
-		{
-			get { return false; }
-		}
+        public override bool HasExplicitBase
+        {
+            get { return false; }
+        }
 
-		public override bool IsAllowedParent
-		{
-			get { return false; }
-		}
+        public override bool IsAllowedParent
+        {
+            get { return false; }
+        }
 
-		public override bool IsAllowedChild
-		{
-			get { return false; }
-		}
+        public override bool IsAllowedChild
+        {
+            get { return false; }
+        }
 
-		public override IEnumerable<Operation> OverridableOperations
-		{
-			get { return new Operation[] { } ; }
-		}
+        public override IEnumerable<Operation> OverridableOperations
+        {
+            get { return new Operation[] { } ; }
+        }
 
-		public sealed override string Signature
-		{
-			get
-			{
-				return (Language.GetAccessString(Access, false) + " Structure");
-			}
-		}
+        public sealed override string Signature
+        {
+            get
+            {
+                return (Language.GetAccessString(Access, false) + " Structure");
+            }
+        }
 
-		public override string Stereotype
-		{
-			get { return "«structure»"; }
-		}
+        public override string Stereotype
+        {
+            get { return "«structure»"; }
+        }
 
-		/// <exception cref="InvalidOperationException">
-		/// The type does not support destructors.
-		/// </exception>
-		public override Destructor AddDestructor()
-		{
-			throw new InvalidOperationException("Structures do not support destructors.");
-		}
+        /// <exception cref="InvalidOperationException">
+        /// The type does not support destructors.
+        /// </exception>
+        public override Destructor AddDestructor()
+        {
+            throw new InvalidOperationException("Structures do not support destructors.");
+        }
 
-		public abstract StructureType Clone();
+        public abstract StructureType Clone();
 
         #region INestable Implementation
 
@@ -125,5 +125,5 @@ namespace NClass.Core
 
         #endregion
 
-	}
+    }
 }

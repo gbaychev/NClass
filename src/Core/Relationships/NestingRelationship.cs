@@ -18,7 +18,7 @@ using NClass.Translations;
 
 namespace NClass.Core
 {   
-	public sealed class NestingRelationship : Relationship
+    public sealed class NestingRelationship : Relationship
     {
         INestable first;
         INestableChild second;

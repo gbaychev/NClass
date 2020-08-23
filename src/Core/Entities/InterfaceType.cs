@@ -1,4 +1,4 @@
-ï»¿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -19,154 +19,154 @@ using NClass.Translations;
 
 namespace NClass.Core
 {
-	public abstract class InterfaceType : CompositeType
-	{
-		List<InterfaceType> baseList;
+    public abstract class InterfaceType : CompositeType
+    {
+        List<InterfaceType> baseList;
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		protected InterfaceType(string name) : base(name)
-		{
-			baseList = new List<InterfaceType>();
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        protected InterfaceType(string name) : base(name)
+        {
+            baseList = new List<InterfaceType>();
+        }
 
-		public sealed override EntityType EntityType
-		{
-			get { return EntityType.Interface; }
-		}
+        public sealed override EntityType EntityType
+        {
+            get { return EntityType.Interface; }
+        }
 
-		protected List<InterfaceType> BaseList
-		{
-			get { return baseList; }
-		}
+        protected List<InterfaceType> BaseList
+        {
+            get { return baseList; }
+        }
 
-		public IEnumerable<InterfaceType> Bases
-		{
-			get { return baseList; }
-		}
+        public IEnumerable<InterfaceType> Bases
+        {
+            get { return baseList; }
+        }
 
-		public override bool SupportsFields
-		{
-			get { return false; }
-		}
+        public override bool SupportsFields
+        {
+            get { return false; }
+        }
 
-		public override bool SupportsMethods
-		{
-			get { return true; }
-		}
+        public override bool SupportsMethods
+        {
+            get { return true; }
+        }
 
-		public override bool SupportsConstuctors
-		{
-			get { return false; }
-		}
+        public override bool SupportsConstuctors
+        {
+            get { return false; }
+        }
 
-		public override bool SupportsDestructors
-		{
-			get { return false; }
-		}
+        public override bool SupportsDestructors
+        {
+            get { return false; }
+        }
 
-		public override bool HasExplicitBase
-		{
-			get { return (baseList.Count > 0); }
-		}
+        public override bool HasExplicitBase
+        {
+            get { return (baseList.Count > 0); }
+        }
 
-		public override bool IsAllowedParent
-		{
-			get { return true; }
-		}
+        public override bool IsAllowedParent
+        {
+            get { return true; }
+        }
 
-		public override bool IsAllowedChild
-		{
-			get { return true; }
-		}
+        public override bool IsAllowedChild
+        {
+            get { return true; }
+        }
 
-		public sealed override string Signature
-		{
-			get
-			{
-				return (Language.GetAccessString(Access, false) + " Interface");
-			}
-		}
+        public sealed override string Signature
+        {
+            get
+            {
+                return (Language.GetAccessString(Access, false) + " Interface");
+            }
+        }
 
-		public override string Stereotype
-		{
-			get { return "Â«interfaceÂ»"; }
-		}
+        public override string Stereotype
+        {
+            get { return "«interface»"; }
+        }
 
-		private bool IsAncestor(InterfaceType _interface)
-		{
-			foreach (InterfaceType baseInterface in baseList) {
-				if (baseInterface.IsAncestor(_interface))
-					return true;
-			}
-			return (_interface == this);
-		}
+        private bool IsAncestor(InterfaceType _interface)
+        {
+            foreach (InterfaceType baseInterface in baseList) {
+                if (baseInterface.IsAncestor(_interface))
+                    return true;
+            }
+            return (_interface == this);
+        }
 
-		/// <exception cref="RelationshipException">
-		/// The language of <paramref name="_base"/> does not equal.-or-
-		/// <paramref name="_base"/> is earlier added base.-or-
-		/// <paramref name="_base"/> is descendant of the interface.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="_base"/> is null.
-		/// </exception>
-		internal void AddBase(InterfaceType _base)
-		{
-			if (_base == null)
-				throw new ArgumentNullException("_base");
+        /// <exception cref="RelationshipException">
+        /// The language of <paramref name="_base"/> does not equal.-or-
+        /// <paramref name="_base"/> is earlier added base.-or-
+        /// <paramref name="_base"/> is descendant of the interface.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="_base"/> is null.
+        /// </exception>
+        internal void AddBase(InterfaceType _base)
+        {
+            if (_base == null)
+                throw new ArgumentNullException("_base");
 
-			if (BaseList.Contains(_base)) {
-				throw new RelationshipException(
-					Strings.ErrorCannotAddSameBaseInterface);
-			}
-			if (_base.IsAncestor(this)) {
-					throw new RelationshipException(string.Format(Strings.ErrorCyclicBase,
-						Strings.Interface));
-			}
+            if (BaseList.Contains(_base)) {
+                throw new RelationshipException(
+                    Strings.ErrorCannotAddSameBaseInterface);
+            }
+            if (_base.IsAncestor(this)) {
+                    throw new RelationshipException(string.Format(Strings.ErrorCyclicBase,
+                        Strings.Interface));
+            }
 
-			if (_base.Language != this.Language)
-				throw new RelationshipException(Strings.ErrorLanguagesDoNotEqual);
+            if (_base.Language != this.Language)
+                throw new RelationshipException(Strings.ErrorLanguagesDoNotEqual);
 
-			BaseList.Add(_base);
-			Changed();
-		}
+            BaseList.Add(_base);
+            Changed();
+        }
 
-		internal bool RemoveBase(InterfaceType _base)
-		{
-			if (BaseList.Remove(_base)) {
-				Changed();
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
+        internal bool RemoveBase(InterfaceType _base)
+        {
+            if (BaseList.Remove(_base)) {
+                Changed();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
-		/// <exception cref="InvalidOperationException">
-		/// The type does not support fields.
-		/// </exception>
-		public override Field AddField()
-		{
-			throw new InvalidOperationException("Interfaces do not support fields.");
-		}
+        /// <exception cref="InvalidOperationException">
+        /// The type does not support fields.
+        /// </exception>
+        public override Field AddField()
+        {
+            throw new InvalidOperationException("Interfaces do not support fields.");
+        }
 
-		/// <exception cref="InvalidOperationException">
-		/// The type does not support constructors.
-		/// </exception>
-		public sealed override Constructor AddConstructor()
-		{
-			throw new InvalidOperationException("Interfaces do not support constructors.");
-		}
+        /// <exception cref="InvalidOperationException">
+        /// The type does not support constructors.
+        /// </exception>
+        public sealed override Constructor AddConstructor()
+        {
+            throw new InvalidOperationException("Interfaces do not support constructors.");
+        }
 
-		/// <exception cref="InvalidOperationException">
-		/// The type does not support destructors.
-		/// </exception>
-		public sealed override Destructor AddDestructor()
-		{
-			throw new InvalidOperationException("Interfaces do not support destructors.");
-		}
+        /// <exception cref="InvalidOperationException">
+        /// The type does not support destructors.
+        /// </exception>
+        public sealed override Destructor AddDestructor()
+        {
+            throw new InvalidOperationException("Interfaces do not support destructors.");
+        }
 
-		public abstract InterfaceType Clone();
-	}
+        public abstract InterfaceType Clone();
+    }
 }

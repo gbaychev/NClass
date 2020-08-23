@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -16,17 +16,17 @@
 
 namespace NClass.DiagramEditor.Diagrams.Editors
 {
-	public abstract class EditorWindow : PopupWindow
-	{
-		internal abstract void Init(DiagramElement element);
+    public abstract class EditorWindow : PopupWindow
+    {
+        internal abstract void Init(DiagramElement element);
 
-		internal abstract void Relocate(DiagramElement element);
+        internal abstract void Relocate(DiagramElement element);
 
-		public abstract void ValidateData();
+        public abstract void ValidateData();
 
-		public override void Closing()
-		{
-			ValidateData();
-		}
-	}
+        public override void Closing()
+        {
+            ValidateData();
+        }
+    }
 }

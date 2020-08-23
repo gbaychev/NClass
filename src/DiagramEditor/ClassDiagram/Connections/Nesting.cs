@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -24,74 +24,74 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Nesting : RoutedConnection
-	{
-		const int Radius = 9;
-		const int Diameter = Radius * 2;
-		const int CrossSize = 8;
-		static Pen linePen = new Pen(Color.Black);
+    internal sealed class Nesting : RoutedConnection
+    {
+        const int Radius = 9;
+        const int Diameter = Radius * 2;
+        const int CrossSize = 8;
+        static Pen linePen = new Pen(Color.Black);
 
-		NestingRelationship nesting;
+        NestingRelationship nesting;
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="nesting"/> is null.-or-
-		/// <paramref name="startShape"/> is null.-or-
-		/// <paramref name="endShape"/> is null.
-		/// </exception>
-		public Nesting(NestingRelationship nesting, Shape startShape, Shape endShape)
-			: base(nesting, startShape, endShape)
-		{
-			this.nesting = nesting;
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="nesting"/> is null.-or-
+        /// <paramref name="startShape"/> is null.-or-
+        /// <paramref name="endShape"/> is null.
+        /// </exception>
+        public Nesting(NestingRelationship nesting, Shape startShape, Shape endShape)
+            : base(nesting, startShape, endShape)
+        {
+            this.nesting = nesting;
+        }
 
-		internal NestingRelationship NestingRelationship
-		{
-			get { return nesting; }
-		}
+        internal NestingRelationship NestingRelationship
+        {
+            get { return nesting; }
+        }
 
-		protected internal override Relationship Relationship
-		{
-			get { return nesting; }
-		}
+        protected internal override Relationship Relationship
+        {
+            get { return nesting; }
+        }
 
-		protected override Size StartCapSize
-		{
-			get { return new Size(Diameter, Diameter); }
-		}
+        protected override Size StartCapSize
+        {
+            get { return new Size(Diameter, Diameter); }
+        }
 
-		protected override int StartSelectionOffset
-		{
-			get { return Diameter; }
-		}
+        protected override int StartSelectionOffset
+        {
+            get { return Diameter; }
+        }
 
-		protected override void DrawStartCap(IGraphics g, bool onScreen, Style style)
-		{
-			linePen.Color = style.RelationshipColor;
-			linePen.Width = style.RelationshipWidth;
+        protected override void DrawStartCap(IGraphics g, bool onScreen, Style style)
+        {
+            linePen.Color = style.RelationshipColor;
+            linePen.Width = style.RelationshipWidth;
 
-			g.FillEllipse(Brushes.White, -Radius, 0, Diameter, Diameter);
-			g.DrawEllipse(linePen, -Radius, 0, Diameter, Diameter);
-			g.DrawLine(linePen, 0, Radius - CrossSize / 2, 0, Radius + CrossSize / 2);
-			g.DrawLine(linePen, -CrossSize / 2, Radius, CrossSize / 2, Radius);
-		}
+            g.FillEllipse(Brushes.White, -Radius, 0, Diameter, Diameter);
+            g.DrawEllipse(linePen, -Radius, 0, Diameter, Diameter);
+            g.DrawLine(linePen, 0, Radius - CrossSize / 2, 0, Radius + CrossSize / 2);
+            g.DrawLine(linePen, -CrossSize / 2, Radius, CrossSize / 2, Radius);
+        }
 
-		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
-		{
+        protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
+        {
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             INestable firstType = first.Entity as INestable;
-			INestableChild secondType = second.Entity as INestableChild;
-			
-			if (firstType != null && secondType != null)
-			{
-				NestingRelationship clone = nesting.Clone(firstType, secondType);
-				return ((ClassDiagram)diagram).InsertNesting(clone);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            INestableChild secondType = second.Entity as INestableChild;
+            
+            if (firstType != null && secondType != null)
+            {
+                NestingRelationship clone = nesting.Clone(firstType, secondType);
+                return ((ClassDiagram)diagram).InsertNesting(clone);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

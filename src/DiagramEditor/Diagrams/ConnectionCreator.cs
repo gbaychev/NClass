@@ -13,10 +13,13 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.DiagramEditor.Commands;
+using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.Translations;
 
@@ -165,19 +168,25 @@ namespace NClass.DiagramEditor.Diagrams
         {
             CommentShape shape1 = first as CommentShape;
             CommentShape shape2 = second as CommentShape;
+            Func<Relationship> _connectionFactory; 
 
             if (shape1 != null)
             {
-                diagram.AddCommentRelationship(shape1.Comment, second.Entity);
+                _connectionFactory = () => diagram.AddCommentRelationship(shape1.Comment, second.Entity);
             }
             else if (shape2 != null)
             {
-                diagram.AddCommentRelationship(shape2.Comment, first.Entity);
+                _connectionFactory = () => diagram.AddCommentRelationship(shape2.Comment, first.Entity);
             }
             else
             {
                 MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+                return;
             }
+
+            var command = new AddConnectionCommand(diagram, _connectionFactory);
+            command.Execute();
+            diagram.TrackCommand(command);
         }
     }
 }

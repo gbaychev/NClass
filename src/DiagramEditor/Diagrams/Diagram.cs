@@ -23,11 +23,13 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
+using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
 using NClass.Translations;
@@ -72,7 +74,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected SizeF positionChangeCumulation = SizeF.Empty;
         protected SizeF sizeChangeCumulation = SizeF.Empty;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
         public event EventHandler OffsetChanged;
         public event EventHandler SizeChanged;
         public event EventHandler ZoomChanged;
@@ -80,6 +82,7 @@ namespace NClass.DiagramEditor.Diagrams
         public event EventHandler SelectionChanged;
         public event EventHandler NeedsRedraw;
         public event EventHandler ClipboardAvailabilityChanged;
+        public event UndoRedoHandler UndoRedoChanged;
         public event PopupWindowEventHandler ShowingWindow;
         public event PopupWindowEventHandler HidingWindow;
         public event EventHandler Renamed;
@@ -90,11 +93,31 @@ namespace NClass.DiagramEditor.Diagrams
         protected string name;
 
         public DiagramType DiagramType { get; protected set; }
+        private readonly UndoRedoEngine undoRedoEngine;
 
+        private int dontRaiseRequestCount = 0;
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
+        }
 
         // ReSharper disable once UnusedMember.Global
         // hide the public ctor
         protected Diagram()
+        {
+            this.Modified += OnModified;
+            undoRedoEngine = new UndoRedoEngine();
+            undoRedoEngine.UndoRedoChanged += (o, e) => UndoRedoChanged?.Invoke(this, e);
+        }
+
+        protected void OnModified(object sender, ModificationEventArgs e)
         {
         }
 
@@ -164,6 +187,21 @@ namespace NClass.DiagramEditor.Diagrams
             {
                 Paste();
             }
+            // Ctrl + Z
+            else if (e.KeyCode == Keys.Z && e.Modifiers == Keys.Control)
+            {
+                Undo();
+            }
+            // Ctrl + Y
+            else if (e.KeyCode == Keys.Y && e.Modifiers == Keys.Control)
+            {
+                Redo();
+            }
+        }
+
+        public void DeleteElements(List<Shape> shapes)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual void CreateShape(EntityType type, Point? where = null)
@@ -174,6 +212,7 @@ namespace NClass.DiagramEditor.Diagrams
         }
 
         public abstract Shape AddShape(EntityType type);
+
         protected abstract void OnEntityAdded(object sender, EntityEventArgs e);
         protected abstract void OnRelationAdded(object sender, RelationshipEventArgs e);
         #endregion
@@ -196,7 +235,7 @@ namespace NClass.DiagramEditor.Diagrams
                     name = value;
                     model.Name = value;
                     OnRenamed(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
@@ -575,40 +614,43 @@ namespace NClass.DiagramEditor.Diagrams
 
         public void Cut()
         {
-            if (CanCutToClipboard)
-            {
-                Copy();
-                DeleteSelectedElements(false);
-            }
+            if (!CanCutToClipboard) return;
+
+            Copy(ClipboardCommand.Cut);
+            DeleteSelectedElements(false);
         }
 
         public void Copy()
         {
-            if (CanCopyToClipboard)
+            Copy(ClipboardCommand.Copy);
+        }
+
+        private void Copy(ClipboardCommand clipboardCommand)
+        {
+            if (!CanCopyToClipboard) return;
+
+            var elements = new ElementContainer(this.DiagramType, clipboardCommand);
+            foreach (var shape in GetSelectedShapes())
             {
-                ElementContainer elements = new ElementContainer(this.DiagramType);
-                foreach (Shape shape in GetSelectedShapes())
-                {
-                    elements.AddShape(shape);
-                }
-                foreach (var connection in GetSelectedConnections())
-                {
-                    elements.AddConnection(connection);
-                }
-                Clipboard.Item = elements;
+                elements.AddShape(shape);
             }
+            foreach (var connection in GetSelectedConnections())
+            {
+                elements.AddConnection(connection);
+            }
+            Clipboard.Item = elements;
         }
 
         public void Paste()
         {
-            if (CanPasteFromClipboard)
-            {
-                DeselectAll();
-                RedrawSuspended = true;
-                Clipboard.Paste(this);
-                RedrawSuspended = false;
-                OnClipboardAvailabilityChanged(EventArgs.Empty);
-            }
+            if (!CanPasteFromClipboard) return;
+
+            RedrawSuspended = true;
+            var command = new PasteCommand(this);
+            command.Execute();
+            TrackCommand(command);
+            RedrawSuspended = false;
+            OnClipboardAvailabilityChanged(EventArgs.Empty);
         }
 
         public void Display(Graphics g)
@@ -1051,31 +1093,33 @@ namespace NClass.DiagramEditor.Diagrams
 
         public void DeleteSelectedElements()
         {
-            DeleteSelectedElements(true);
+            DeleteSelectedElements(false);
         }
 
-        private void DeleteSelectedElements(bool showConfirmation)
+        protected void DeleteSelectedElements(bool showConfirmation)
         {
-            if (HasSelectedElement && (!showConfirmation || ConfirmDelete()))
+            var toBeRemovedShapes = new List<Shape>();
+            var toBeRemovedConnections = new List<AbstractConnection>();
+
+            bool ShouldRemoveConnection(AbstractConnection c)
             {
-                if (selectedShapeCount > 0)
-                {
-                    foreach (Shape shape in shapes.GetModifiableList())
-                    {
-                        if (shape.IsSelected)
-                            RemoveEntity(shape.Entity);
-                    }
-                }
-                if (selectedConnectionCount > 0)
-                {
-                    foreach (var connection in connections.GetModifiableList())
-                    {
-                        if (connection.IsSelected)
-                            RemoveRelationship(connection.Relationship);
-                    }
-                }
-                Redraw();
+                return c.IsSelected
+                       || toBeRemovedShapes.Contains(c.StartShape)
+                       || toBeRemovedShapes.Contains(c.EndShape);
             }
+            
+            if (!HasSelectedElement || (showConfirmation && !ConfirmDelete())) return;
+
+            if (selectedShapeCount > 0)
+            {
+                toBeRemovedShapes.AddRange(shapes.GetModifiableList().Where(s => s.IsSelected));
+            }
+
+            toBeRemovedConnections.AddRange(connections.GetModifiableList().Where(ShouldRemoveConnection));
+            
+            var command = new DeleteElementsCommand(toBeRemovedShapes, toBeRemovedConnections, this);
+            command.Execute();
+            TrackCommand(command);
         }
 
         public void Redraw()
@@ -1265,23 +1309,17 @@ namespace NClass.DiagramEditor.Diagrams
                 ActiveElement = null;
             }
 
+            mousePreviousLocation = e.Location;
             RedrawSuspended = false;
         }
 
         private void AddCreatedShape()
         {
-            DeselectAll();
-            Shape shape = AddShape(shapeType);
-            shape.Location = shapeOutline.Location;
+            var command = new AddShapeCommand(shapeType, this, shapeOutline.Location);
+            command.Execute();
+            TrackCommand(command);
             RecalculateSize();
             state = State.Normal;
-
-            shape.IsSelected = true;
-            shape.IsActive = true;
-            if (shapes.Where(s => s is ShapeContainer).FirstOrDefault(s => s.Contains(shape.Location)) is ShapeContainer container)
-                container.AttachShapes(new List<Shape> { shape });
-            if (shape is TypeShape) //TODO: nem szép
-                shape.ShowEditor();
         }
 
         private void SelectElements(AbsoluteMouseEventArgs e)
@@ -1365,34 +1403,9 @@ namespace NClass.DiagramEditor.Diagrams
             }
             else if (state == State.Dragging)
             {
-                var dropTarget = shapes.GetUnselectedElements()
-                                       .Where(s => s is ShapeContainer)
-                                       .Cast<ShapeContainer>()
-                                       .OrderByDescending(s => s.SortOrder)
-                                       .FirstOrDefault(s => s.Contains(GetSelectedShapes().First().Location));
-
-                if (dropTarget == null)
-                {
-                    foreach (var selectedShape in GetSelectedShapes())
-                    {
-                        if (selectedShape.ParentShape is ShapeContainer parentShape && !parentShape.IsSelected)
-                        {
-                            parentShape?.DetachShapes(new List<Shape> { selectedShape });
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var selectedShape in GetSelectedShapes())
-                    {
-                        var oldParent = selectedShape.ParentShape as ShapeContainer;
-                        if (oldParent != dropTarget)
-                        {
-                            oldParent?.DetachShapes(new List<Shape> { selectedShape });
-                            dropTarget.AttachShapes(new List<Shape> { selectedShape });
-                        }
-                    }
-                }
+                var command = new MoveElementsCommand(GetSelectedShapes().ToList(), this);
+                command.Execute();
+                TrackCommand(command);
 
                 foreach (var diagramElement in GetElementsInDisplayOrder())
                 {
@@ -1401,9 +1414,9 @@ namespace NClass.DiagramEditor.Diagrams
                         container.ExitHover();
                         diagramElement.NeedsRedraw = true;
                     }
+
                     diagramElement.MouseUpped(e);
                 }
-
                 state = State.Normal;
             }
             else
@@ -1415,6 +1428,32 @@ namespace NClass.DiagramEditor.Diagrams
             }
 
             RedrawSuspended = false;
+        }
+
+        public void ReattachShapes(List<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+            {
+                var dropTarget = this.shapes
+                    .Where(s => s is ShapeContainer && s != shape)
+                    .Cast<ShapeContainer>()
+                    .OrderByDescending(s => s.SortOrder)
+                    .FirstOrDefault(s => s.Contains(shape.Location));
+
+                if (dropTarget == null)
+                {
+                    ((ShapeContainer)shape.ParentShape)?.DetachShapes(new List<Shape> { shape });
+                }
+                else
+                {
+                    var oldParent = shape.ParentShape as ShapeContainer;
+                    if (oldParent != dropTarget)
+                    {
+                        oldParent?.DetachShapes(new List<Shape> { shape });
+                        dropTarget.AttachShapes(new List<Shape> { shape });
+                    }
+                }
+            }
         }
 
         private void TrySelectElements()
@@ -1531,7 +1570,7 @@ namespace NClass.DiagramEditor.Diagrams
         {
             if (!RedrawSuspended)
                 RequestRedrawIfNeeded();
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         private void element_Activating(object sender, EventArgs e)
@@ -2086,7 +2125,7 @@ namespace NClass.DiagramEditor.Diagrams
             model.RemoveRelationship(relationship);
         }
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);
@@ -2129,6 +2168,8 @@ namespace NClass.DiagramEditor.Diagrams
                 this.name = null;
             else
                 this.name = nameElement.InnerText;
+
+            undoRedoEngine.Source = UndoRedoSource.FileOpen;
         }
 
         protected virtual void OnRenamed(EventArgs e)
@@ -2168,12 +2209,78 @@ namespace NClass.DiagramEditor.Diagrams
             return model.AddCommentRelationship(comment, entity);
         }
 
+        public void TrackCommand(ICommand command)
+        {
+            undoRedoEngine.TrackCommand(command);
+        }
+
+        public void ReinsertShape(Shape shape, bool redraw = true)
+        {
+            Debug.Assert(shape.Entity != null);
+            model.ReinsertEntity(shape.Entity);
+            AddShape(shape);
+
+            if(redraw)
+                Redraw();
+        }
+
+        public void ReinsertShapes(List<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+            {
+                ReinsertShape(shape, false);
+            }
+
+            Redraw();
+        }
+
+        public void ReinsertConnection(AbstractConnection connection, bool redraw = true)
+        {
+            Debug.Assert(connection.Relationship != null);
+            Debug.Assert(connection.StartShape != null && Shapes.Contains(connection.StartShape));
+            Debug.Assert(connection.EndShape != null && Shapes.Contains(connection.StartShape));
+            model.ReinsertRelationship(connection.Relationship);
+            AddConnection(connection);
+            connection.Reattach();
+
+            if(redraw)
+                Redraw();
+        }
+
+        public void ReinsertConnections(List<AbstractConnection> connections)
+        {
+            foreach (var connection in connections)
+            {
+                ReinsertConnection(connection, false);
+            }
+
+            Redraw();
+        }
+
         protected CommentRelationship AddCommentRelationship(CommentRelationship commentRelationship)
         {
             Shape startShape = GetShape(commentRelationship.First);
             Shape endShape = GetShape(commentRelationship.Second);
             AddConnection(new CommentConnection(commentRelationship, startShape, endShape));
             return commentRelationship;
+        }
+
+        public bool CanUndo => undoRedoEngine.CanUndo;
+        public bool CanRedo => undoRedoEngine.CanRedo;
+
+        public void Undo()
+        {
+            undoRedoEngine.Undo();
+        }
+
+        public void Redo()
+        {
+            undoRedoEngine.Redo();
+        }
+
+        public void VisualizeUndoRedo(IUndoRedoVisualizer undoRedoVisualizer)
+        {
+            undoRedoEngine.Visualize(undoRedoVisualizer);
         }
     }
 }

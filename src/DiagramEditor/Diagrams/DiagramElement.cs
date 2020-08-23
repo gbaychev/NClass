@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.Diagrams
@@ -29,14 +30,14 @@ namespace NClass.DiagramEditor.Diagrams
         protected const float UndreadableZoom = 0.25F;
         internal static Graphics Graphics = null; // Graphics object for text measuring
 
-        IDiagram diagram;
+        protected IDiagram diagram;
         bool isSelected = false;
         bool isActive = false;
         bool isDirty = true;
         bool isMousePressed = false;
         bool needsRedraw = true;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
         public event EventHandler SelectionChanged;
         public event EventHandler Activating;
         public event EventHandler Activated;
@@ -46,6 +47,19 @@ namespace NClass.DiagramEditor.Diagrams
         public event AbsoluteMouseEventHandler MouseMove;
         public event AbsoluteMouseEventHandler MouseUp;
         public event AbsoluteMouseEventHandler DoubleClick;
+
+        private int dontRaiseRequestCount = 0;
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
+        }
 
         public IDiagram Diagram
         {
@@ -239,7 +253,7 @@ namespace NClass.DiagramEditor.Diagrams
         [Obsolete]
         protected internal abstract void Deserialize(XmlElement node);
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             NeedsRedraw = true;

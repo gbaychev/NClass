@@ -69,6 +69,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
+    <Compile Include="Commands\AddConnectionCommand.cs" />
+    <Compile Include="Commands\AddDelegateParameterCommand.cs" />
+    <Compile Include="Commands\AddEnumMemberCommand.cs" />
+    <Compile Include="Commands\AddNewMemberCommand.cs" />
+    <Compile Include="Commands\DeleteDelegateParameter.cs" />
+    <Compile Include="Commands\DeleteEnumMemberCommand.cs" />
+    <Compile Include="Commands\DeleteFromEnumTypeCommand.cs" />
+    <Compile Include="Commands\InsertMemberCommand.cs" />
+    <Compile Include="Commands\AddShapeCommand.cs" />
+    <Compile Include="Commands\ChangePropertyCommand.cs" />
+    <Compile Include="Commands\MoveElementsCommand.cs" />
+    <Compile Include="Commands\PasteCommand.cs" />
+    <Compile Include="Commands\DeleteMemberCommand.cs" />
+    <Compile Include="Commands\DeleteElementsCommand.cs" />
+    <Compile Include="Commands\RenameDelegateParameterCommand.cs" />
+    <Compile Include="Commands\RenameEnumMemberCommand.cs" />
+    <Compile Include="Commands\RenameMemberCommand.cs" />
+    <Compile Include="Diagrams\PasteResult.cs" />
     <Compile Include="RoundedRectangle.cs" />
     <Compile Include="ClassDiagram\ClassDiagram.cs" />
     <Compile Include="ClassDiagram\ContextMenus\PackageContextMenu.cs" />
@@ -425,8 +443,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\boundary.bmp" />
+    <None Include="Resources\undo.png" />
+    <None Include="Resources\redo.png" />
     <Content Include="Resources\usecase_diagram.bmp" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

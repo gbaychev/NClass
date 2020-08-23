@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -19,20 +19,20 @@ using System.Drawing;
 
 namespace NClass.DiagramEditor.Diagrams
 {
-	public delegate void MoveEventHandler(object sender, MoveEventArgs e);
+    public delegate void MoveEventHandler(object sender, MoveEventArgs e);
 
-	public class MoveEventArgs : EventArgs
-	{
-		SizeF offset;
+    public class MoveEventArgs : EventArgs
+    {
+        SizeF offset;
 
-		public MoveEventArgs(SizeF offset)
-		{
-			this.offset = offset;
-		}
+        public MoveEventArgs(SizeF offset)
+        {
+            this.offset = offset;
+        }
 
-		public SizeF Offset
-		{
-			get { return offset; }
-		}
-	}
+        public SizeF Offset
+        {
+            get { return offset; }
+        }
+    }
 }

@@ -26,52 +26,52 @@ using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
 {
-	internal sealed class ConnectionContextMenu : DiagramContextMenu
-	{
-		static ConnectionContextMenu _default = new ConnectionContextMenu();
+    internal sealed class ConnectionContextMenu : DiagramContextMenu
+    {
+        static ConnectionContextMenu _default = new ConnectionContextMenu();
 
-		ToolStripMenuItem mnuAutoRouting;
+        ToolStripMenuItem mnuAutoRouting;
 
-		private ConnectionContextMenu()
-		{
-			InitMenuItems();
-		}
+        private ConnectionContextMenu()
+        {
+            InitMenuItems();
+        }
 
-		public static ConnectionContextMenu Default
-		{
-			get { return _default; }
-		}
+        public static ConnectionContextMenu Default
+        {
+            get { return _default; }
+        }
 
-		private void UpdateTexts()
-		{
-			mnuAutoRouting.Text = Strings.MenuAutoRouting;
-		}
+        private void UpdateTexts()
+        {
+            mnuAutoRouting.Text = Strings.MenuAutoRouting;
+        }
 
-		public override void ValidateMenuItems(IDiagram diagram)
-		{
-			base.ValidateMenuItems(diagram);
-			GeneralContextMenu.Default.ValidateMenuItems(diagram);
-		}
+        public override void ValidateMenuItems(IDiagram diagram)
+        {
+            base.ValidateMenuItems(diagram);
+            GeneralContextMenu.Default.ValidateMenuItems(diagram);
+        }
 
-		private void InitMenuItems()
-		{
-			mnuAutoRouting = new ToolStripMenuItem(Strings.MenuAutoRouting,
-				null, mnuAutoRouting_Click);
+        private void InitMenuItems()
+        {
+            mnuAutoRouting = new ToolStripMenuItem(Strings.MenuAutoRouting,
+                null, mnuAutoRouting_Click);
 
-			MenuList.AddRange(GeneralContextMenu.Default.MenuItems);
-			MenuList.AddRange(new ToolStripItem[] {
-				new ToolStripSeparator(),
-				mnuAutoRouting,
-			});
-		}
+            MenuList.AddRange(GeneralContextMenu.Default.MenuItems);
+            MenuList.AddRange(new ToolStripItem[] {
+                new ToolStripSeparator(),
+                mnuAutoRouting,
+            });
+        }
 
-		private void mnuAutoRouting_Click(object sender, EventArgs e)
-		{
-			if (Diagram != null)
-			{
-				foreach (var connection in Diagram.GetSelectedConnections().OfType<RoutedConnection>())
-					connection.AutoRoute();
-			}
-		}
-	}
+        private void mnuAutoRouting_Click(object sender, EventArgs e)
+        {
+            if (Diagram != null)
+            {
+                foreach (var connection in Diagram.GetSelectedConnections().OfType<RoutedConnection>())
+                    connection.AutoRoute();
+            }
+        }
+    }
 }

@@ -33,12 +33,13 @@ namespace NClass.DiagramEditor.Diagrams
         List<Shape> shapes = new List<Shape>();
         List<AbstractConnection> connections = new List<AbstractConnection>();
         Dictionary<Shape, Shape> pastedShapes = new Dictionary<Shape, Shape>();
+        Dictionary<AbstractConnection, AbstractConnection> pastedConnections = new Dictionary<AbstractConnection, AbstractConnection>();
         int currentOffset = 0;
-        private DiagramType sourceDiagramType;
 
-        public ElementContainer(DiagramType sourceDiagramType)
+        public ElementContainer(DiagramType sourceDiagramType, ClipboardCommand clipboardCommand)
         {
-            this.sourceDiagramType = sourceDiagramType;
+            this.SourceDiagramType = sourceDiagramType;
+            this.ClipboardCommand = clipboardCommand;
         }
 
         public void AddShape(Shape shape)
@@ -52,20 +53,23 @@ namespace NClass.DiagramEditor.Diagrams
             connections.Add(connection);
         }
 
-        void IClipboardItem.Paste(IDocument document)
+        public IEnumerable<Shape> Shapes => shapes;
+        public IEnumerable<AbstractConnection> Connections => connections;
+
+        PasteResult IClipboardItem.Paste(IDocument document)
         {
             IDiagram diagram = (IDiagram)document;
-            if (diagram == null) return;
+            if (diagram == null) return null;
             bool success = false;
 
             currentOffset += BaseOffset;
-            Size offset = new Size(
-                (int)((diagram.Offset.X + currentOffset) / diagram.Zoom),
-                (int)((diagram.Offset.Y + currentOffset) / diagram.Zoom));
+            //Size offset = new Size(
+            //    (int)((diagram.Offset.X + currentOffset) / diagram.Zoom),
+            //    (int)((diagram.Offset.Y + currentOffset) / diagram.Zoom));
 
             foreach (Shape shape in shapes)
             {
-                Shape pasted = shape.Paste(diagram, offset);
+                Shape pasted = shape.Paste(diagram, new Size(currentOffset, currentOffset));
                 pastedShapes[shape] = pasted;
                 success |= (pasted != null);
             }
@@ -95,7 +99,8 @@ namespace NClass.DiagramEditor.Diagrams
                     second != null && pastedShapes[second] != null)
                 {
                     var pasted = connection.Paste(
-                        diagram, offset, pastedShapes[first], pastedShapes[second]);
+                        diagram, new Size(currentOffset, currentOffset), pastedShapes[first], pastedShapes[second]);
+                    pastedConnections[connection] = pasted;
                     success |= (pasted != null);
                 }
             }
@@ -104,12 +109,13 @@ namespace NClass.DiagramEditor.Diagrams
             {
                 Clipboard.Clear();
             }
+
+            return new PasteResult(pastedConnections, pastedShapes);
         }
 
-        public DiagramType SourceDiagramType
-        {
-            get { return sourceDiagramType; }
-        }
+        public ClipboardCommand ClipboardCommand { get; }
+
+        public DiagramType SourceDiagramType { get; }
 
         //TODO: legyenek inkább hivatkozások a shape-ekhez
         public Shape GetShape(IEntity entity)

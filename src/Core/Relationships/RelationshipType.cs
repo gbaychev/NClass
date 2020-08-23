@@ -16,21 +16,21 @@
 
 namespace NClass.Core
 {
-	public enum RelationshipType
-	{
-		Association,
-		Composition,
-		Aggregation,
-		Generalization,
-		Realization,
-		Dependency,
-		Nesting,
-		Comment,
+    public enum RelationshipType
+    {
+        Association,
+        Composition,
+        Aggregation,
+        Generalization,
+        Realization,
+        Dependency,
+        Nesting,
+        Comment,
 
         Extension,
         Inclusion,
         ActorGeneralization,
         UseCaseGeneralization,
-	    UseCaseAssociation
-	}
+        UseCaseAssociation
+    }
 }

@@ -23,28 +23,28 @@ using NClass.CSharp;
 
 namespace NClass.CodeGenerator
 {
-	internal sealed class JavaProjectGenerator : ProjectGenerator
-	{
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="model"/> is null.
-		/// </exception>
-		public JavaProjectGenerator(ClassModel model) : base(model)
-		{
-		}
+    internal sealed class JavaProjectGenerator : ProjectGenerator
+    {
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="model"/> is null.
+        /// </exception>
+        public JavaProjectGenerator(ClassModel model) : base(model)
+        {
+        }
 
-		public override string RelativeProjectFileName
-		{
-			get { return null; }
-		}
+        public override string RelativeProjectFileName
+        {
+            get { return null; }
+        }
 
-		protected override SourceFileGenerator CreateSourceFileGenerator(TypeBase type)
-		{
-			return new JavaSourceFileGenerator(type, RootNamespace);
-		}
+        protected override SourceFileGenerator CreateSourceFileGenerator(TypeBase type)
+        {
+            return new JavaSourceFileGenerator(type, RootNamespace);
+        }
 
-		protected override bool GenerateProjectFiles(string location)
-		{
-			return true;
-		}
-	}
+        protected override bool GenerateProjectFiles(string location)
+        {
+            return true;
+        }
+    }
 }

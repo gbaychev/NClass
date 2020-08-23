@@ -1,48 +1,48 @@
-ï»¿using System.Windows.Forms;
+using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace NClass.GUI.ModelExplorer
 {
-	partial class ModelView
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-		private ContextMenuStrip contextMenu;
-		private ToolStripMenuItem mnuNewProject;
-		private ToolStripMenuItem mnuOpen;
-		private ToolStripMenuItem mnuOpenFile;
-		private ToolStripSeparator mnuSepOpenFile;
-		private ToolStripMenuItem mnuRecentFile1;
-		private ToolStripMenuItem mnuRecentFile2;
-		private ToolStripMenuItem mnuRecentFile3;
-		private ToolStripMenuItem mnuRecentFile4;
-		private ToolStripMenuItem mnuRecentFile5;
-		private ToolStripMenuItem mnuSaveAll;
-		private ToolStripMenuItem mnuCloseAll;
-		private ImageList imageList;
+    partial class ModelView
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+        private ContextMenuStrip contextMenu;
+        private ToolStripMenuItem mnuNewProject;
+        private ToolStripMenuItem mnuOpen;
+        private ToolStripMenuItem mnuOpenFile;
+        private ToolStripSeparator mnuSepOpenFile;
+        private ToolStripMenuItem mnuRecentFile1;
+        private ToolStripMenuItem mnuRecentFile2;
+        private ToolStripMenuItem mnuRecentFile3;
+        private ToolStripMenuItem mnuRecentFile4;
+        private ToolStripMenuItem mnuRecentFile5;
+        private ToolStripMenuItem mnuSaveAll;
+        private ToolStripMenuItem mnuCloseAll;
+        private ImageList imageList;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			if (disposing)
-			{
-				normalFont.Dispose();
-				boldFont.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            if (disposing)
+            {
+                normalFont.Dispose();
+                boldFont.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		private void InitializeComponent()
-		{
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModelView));
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -190,7 +190,7 @@ namespace NClass.GUI.ModelExplorer
             this.lblAddProject.Name = "lblAddProject";
             this.lblAddProject.Size = new System.Drawing.Size(100, 23);
             this.lblAddProject.TabIndex = 0;
-            this.lblAddProject.Text = "Â« Double click here to add new project Â»";
+            this.lblAddProject.Text = "« Double click here to add new project »";
             this.lblAddProject.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblAddProject.Visible = false;
             this.lblAddProject.DoubleClick += new System.EventHandler(this.lblAddProject_DoubleClick);
@@ -207,9 +207,9 @@ namespace NClass.GUI.ModelExplorer
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-		private Label lblAddProject;
-		private ToolStripSeparator mnuSepOpen;
-	}
+        private Label lblAddProject;
+        private ToolStripSeparator mnuSepOpen;
+    }
 }

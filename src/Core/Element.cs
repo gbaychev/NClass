@@ -14,7 +14,10 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Xml;
+using NClass.Core.UndoRedo;
 
 namespace NClass.Core
 {
@@ -23,7 +26,7 @@ namespace NClass.Core
         bool isDirty = false;
         int dontRaiseRequestCount = 0;
 
-        public event EventHandler Modified;
+        public event ModifiedEventHandler Modified;
 
         public bool IsDirty
         {
@@ -38,7 +41,7 @@ namespace NClass.Core
 
         protected bool Initializing { get; set; }
 
-        protected bool RaiseChangedEvent
+        public bool RaiseChangedEvent
         {
             get => (dontRaiseRequestCount == 0);
             set
@@ -49,22 +52,26 @@ namespace NClass.Core
                     dontRaiseRequestCount--;
 
                 if (RaiseChangedEvent && isDirty)
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
             }
         }
 
         protected void Changed()
         {
-            if (!Initializing)
-            {
-                if (RaiseChangedEvent)
-                    OnModified(EventArgs.Empty);
-                else
-                    isDirty = true;
-            }
+            Changed(ModificationEventArgs.Empty);
         }
 
-        private void OnModified(EventArgs e)
+        protected void Changed(ModificationEventArgs args)
+        {
+            if (Initializing) return;
+
+            if (RaiseChangedEvent)
+                OnModified(args);
+            else
+                isDirty = true;
+        }
+
+        private void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);

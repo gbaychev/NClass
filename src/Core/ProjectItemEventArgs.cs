@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -17,20 +17,20 @@ using System;
 
 namespace NClass.Core
 {
-	public delegate void ProjectItemEventHandler(object sender, ProjectItemEventArgs e);
+    public delegate void ProjectItemEventHandler(object sender, ProjectItemEventArgs e);
 
-	public class ProjectItemEventArgs
-	{
-		IProjectItem projectItem;
+    public class ProjectItemEventArgs
+    {
+        IProjectItem projectItem;
 
-		public ProjectItemEventArgs(IProjectItem projectItem)
-		{
-			this.projectItem = projectItem;
-		}
+        public ProjectItemEventArgs(IProjectItem projectItem)
+        {
+            this.projectItem = projectItem;
+        }
 
-		public IProjectItem ProjectItem
-		{
-			get { return projectItem; }
-		}
-	}
+        public IProjectItem ProjectItem
+        {
+            get { return projectItem; }
+        }
+    }
 }

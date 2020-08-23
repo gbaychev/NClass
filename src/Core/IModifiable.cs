@@ -1,5 +1,6 @@
 ﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
+// Copyright (C) 2020 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 
 // the terms of the GNU General Public License as published by the Free Software 
@@ -14,15 +15,18 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Core.UndoRedo;
 
 namespace NClass.Core
 {
-	public interface IModifiable
-	{
-		event EventHandler Modified;
+    public interface IModifiable
+    {
+        event ModifiedEventHandler Modified;
 
-		bool IsDirty { get; }
+        bool IsDirty { get; }
 
-		void Clean();
-	}
+        void Clean();
+
+        bool RaiseChangedEvent { get; set; }
+    }
 }

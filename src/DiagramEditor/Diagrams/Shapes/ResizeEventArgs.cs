@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -19,7 +19,7 @@ using System.Drawing;
 
 namespace NClass.DiagramEditor.Diagrams.Shapes
 {
-	public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
+    public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 
     public class ResizeEventArgs : EventArgs
     {
@@ -45,9 +45,9 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         }
 
         public SizeF SizeChange
-		{
-			get { return sizeChange; }
-			set { sizeChange = value; }
-		}
-	}
+        {
+            get { return sizeChange; }
+            set { sizeChange = value; }
+        }
+    }
 }

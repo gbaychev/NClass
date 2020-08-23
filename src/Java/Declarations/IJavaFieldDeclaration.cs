@@ -1,7 +1,7 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.Java
 {
-	public interface IJavaFieldDeclaration : IFieldDeclaration
-	{ }
+    public interface IJavaFieldDeclaration : IFieldDeclaration
+    { }
 }

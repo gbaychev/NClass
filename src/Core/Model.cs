@@ -16,9 +16,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml;
 using System.IO;
 using System.Linq;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -29,8 +31,10 @@ namespace NClass.Core
         protected List<Relationship> relationships = new List<Relationship>();
         protected bool isDirty = false;
         protected bool loading = false;
+        protected int dontRaiseRequestCount = 0;
 
-        public event EventHandler Modified;
+
+        public event ModifiedEventHandler Modified;
         public event EntityEventHandler EntityAdded;
         public event EntityEventHandler EntityRemoved;
         public event EntityEventHandler EntityNested;
@@ -45,6 +49,18 @@ namespace NClass.Core
         {
             get => name ?? Strings.Untitled;
             set => name = value;
+        }
+
+        public bool RaiseChangedEvent
+        {
+            get => (dontRaiseRequestCount == 0);
+            set
+            {
+                if (!value)
+                    dontRaiseRequestCount++;
+                else if (dontRaiseRequestCount > 0)
+                    dontRaiseRequestCount--;
+            }
         }
 
         public bool IsDirty => isDirty;
@@ -63,14 +79,16 @@ namespace NClass.Core
 
         protected void ElementChanged(object sender, EventArgs e)
         {
-            OnModified(e);
+            // TODO
+            OnModified((ModificationEventArgs)e);
         }
 
-        protected void AddEntity(IEntity entity)
+        protected void AddEntity(IEntity entity, bool notify = true)
         {
             entities.Add(entity);
             entity.Modified += ElementChanged;
-            OnEntityAdded(new EntityEventArgs(entity));
+            if(notify)
+                OnEntityAdded(new EntityEventArgs(entity));
         }
 
         public void RemoveEntity(IEntity entity)
@@ -127,11 +145,12 @@ namespace NClass.Core
             return commentRelationship;
         }
 
-        protected void AddRelationship(Relationship relationship)
+        protected void AddRelationship(Relationship relationship, bool notify = true)
         {
             relationships.Add(relationship);
             relationship.Modified += ElementChanged;
-            OnRelationAdded(new RelationshipEventArgs(relationship));
+            if(notify)
+                OnRelationAdded(new RelationshipEventArgs(relationship));
         }
 
         public virtual void Serialize(XmlElement node)
@@ -296,25 +315,25 @@ namespace NClass.Core
         protected virtual void OnEntityAdded(EntityEventArgs e)
         {
             EntityAdded?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnEntityRemoved(EntityEventArgs e)
         {
             EntityRemoved?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnRelationAdded(RelationshipEventArgs e)
         {
             RelationAdded?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnRelationRemoved(RelationshipEventArgs e)
         {
             RelationRemoved?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void OnSerializing(SerializeEventArgs e)
@@ -325,10 +344,10 @@ namespace NClass.Core
         protected virtual void OnDeserializing(SerializeEventArgs e)
         {
             Deserializing?.Invoke(this, e);
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
-        protected virtual void OnModified(EventArgs e)
+        protected virtual void OnModified(ModificationEventArgs e)
         {
             isDirty = true;
             Modified?.Invoke(this, e);
@@ -355,6 +374,32 @@ namespace NClass.Core
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Reinsert an entity to the model, without notifying the diagram.
+        /// Used by undo/redo when undoing the deletion of elements
+        /// </summary>
+        public void ReinsertEntity(IEntity entity)
+        {
+            Debug.Assert(entity != null);
+            Debug.Assert(!Entities.Contains(entity));
+
+            AddEntity(entity, false);
+        }
+
+        /// <summary>
+        /// Reinsert a relationship to the model, without notifying the diagram.
+        /// Used by undo/redo when undoing the deletion of elements
+        /// </summary>
+        public void ReinsertRelationship(Relationship relationship)
+        {
+            Debug.Assert(relationship != null);
+            Debug.Assert(!Relationships.Contains(relationship));
+            Debug.Assert(Entities.Contains(relationship.First));
+            Debug.Assert(Entities.Contains(relationship.Second));
+
+            AddRelationship(relationship, false);
         }
     }
 }

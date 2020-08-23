@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -24,75 +24,75 @@ using NClass.DiagramEditor.Diagrams.Shapes;
 
 namespace NClass.DiagramEditor.ClassDiagram.Connections
 {
-	internal sealed class Generalization : RoutedConnection
-	{
-		static Pen linePen = new Pen(Color.Black);
+    internal sealed class Generalization : RoutedConnection
+    {
+        static Pen linePen = new Pen(Color.Black);
 
-		GeneralizationRelationship generalization;
+        GeneralizationRelationship generalization;
 
-		static Generalization()
-		{
-			linePen.MiterLimit = 2.0F;
-			linePen.LineJoin = LineJoin.MiterClipped;
-		}
+        static Generalization()
+        {
+            linePen.MiterLimit = 2.0F;
+            linePen.LineJoin = LineJoin.MiterClipped;
+        }
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="generalization"/> is null.-or-
-		/// <paramref name="startShape"/> is null.-or-
-		/// <paramref name="endShape"/> is null.
-		/// </exception>
-		public Generalization(GeneralizationRelationship generalization, Shape startShape, Shape endShape)
-			: base(generalization, startShape, endShape)
-		{
-			this.generalization = generalization;
-		}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="generalization"/> is null.-or-
+        /// <paramref name="startShape"/> is null.-or-
+        /// <paramref name="endShape"/> is null.
+        /// </exception>
+        public Generalization(GeneralizationRelationship generalization, Shape startShape, Shape endShape)
+            : base(generalization, startShape, endShape)
+        {
+            this.generalization = generalization;
+        }
 
-		internal GeneralizationRelationship GeneralizationRelationship
-		{
-			get { return generalization; }
-		}
+        internal GeneralizationRelationship GeneralizationRelationship
+        {
+            get { return generalization; }
+        }
 
-		protected internal override Relationship Relationship
-		{
-			get { return generalization; }
-		}
+        protected internal override Relationship Relationship
+        {
+            get { return generalization; }
+        }
 
-		protected override Size EndCapSize
-		{
-			get { return Arrowhead.ClosedArrowSize; }
-		}
+        protected override Size EndCapSize
+        {
+            get { return Arrowhead.ClosedArrowSize; }
+        }
 
-		protected override int EndSelectionOffset
-		{
-			get { return Arrowhead.ClosedArrowHeight; }
-		}
+        protected override int EndSelectionOffset
+        {
+            get { return Arrowhead.ClosedArrowHeight; }
+        }
 
-		protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
-		{
-			linePen.Color = style.RelationshipColor;
-			linePen.Width = style.RelationshipWidth;
+        protected override void DrawEndCap(IGraphics g, bool onScreen, Style style)
+        {
+            linePen.Color = style.RelationshipColor;
+            linePen.Width = style.RelationshipWidth;
 
-			g.FillPath(Brushes.White, Arrowhead.ClosedArrowPath);
-			g.DrawPath(linePen, Arrowhead.ClosedArrowPath);
-		}
+            g.FillPath(Brushes.White, Arrowhead.ClosedArrowPath);
+            g.DrawPath(linePen, Arrowhead.ClosedArrowPath);
+        }
 
-		protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
-		{
+        protected override bool CloneRelationship(IDiagram diagram, Shape first, Shape second)
+        {
             if (diagram.DiagramType != DiagramType.ClassDiagram)
                 return false;
 
             CompositeType firstType = first.Entity as CompositeType;
-			CompositeType secondType = second.Entity as CompositeType;
+            CompositeType secondType = second.Entity as CompositeType;
 
-			if (firstType != null && secondType != null)
-			{
-				GeneralizationRelationship clone = generalization.Clone(firstType, secondType);
-				return ((ClassDiagram)diagram).InsertGeneralization(clone);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            if (firstType != null && secondType != null)
+            {
+                GeneralizationRelationship clone = generalization.Clone(firstType, secondType);
+                return ((ClassDiagram)diagram).InsertGeneralization(clone);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

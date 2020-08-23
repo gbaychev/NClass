@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -17,20 +17,20 @@ using System;
 
 namespace NClass.DiagramEditor
 {
-	public delegate void DocumentEventHandler(object sender, DocumentEventArgs e);
+    public delegate void DocumentEventHandler(object sender, DocumentEventArgs e);
 
-	public class DocumentEventArgs
-	{
-		IDocument document;
+    public class DocumentEventArgs
+    {
+        IDocument document;
 
-		public DocumentEventArgs(IDocument document)
-		{
-			this.document = document;
-		}
+        public DocumentEventArgs(IDocument document)
+        {
+            this.document = document;
+        }
 
-		public IDocument Document
-		{
-			get { return document; }
-		}
-	}
+        public IDocument Document
+        {
+            get { return document; }
+        }
+    }
 }

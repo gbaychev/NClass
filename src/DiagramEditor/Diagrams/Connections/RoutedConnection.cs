@@ -1,4 +1,4 @@
-ï»¿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016-2018 Georgi Baychev
 // 
@@ -21,6 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
@@ -251,7 +252,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (!bendPoint.RelativeToStartShape)
                     break;
-				bendPoint.ShapeResized(e.SizeChange.ToSize());
+                bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -265,7 +266,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 if (bendPoint.RelativeToStartShape)
                     break;
-				bendPoint.ShapeResized(e.SizeChange.ToSize());
+                bendPoint.ShapeResized(e.SizeChange.ToSize());
             }
 
             Reroute();
@@ -280,7 +281,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                 ClearBendPoints();
                 Reroute();
                 OnRouteChanged(EventArgs.Empty);
-                OnModified(EventArgs.Empty);
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
@@ -1227,7 +1228,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     point.AutoPosition = false;
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
                 return true;
             }
@@ -1256,7 +1257,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
                     }
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
                 e.Handled = true;
                 return true;
@@ -1371,7 +1372,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
         {
             base.OnMouseMove(e);
 
-            //TODO: szebb lenne kÃ¼lÃ¶n eljÃ¡rÃ¡sba tenni
+            //TODO: szebb lenne külön eljárásba tenni
             if (e.Button == MouseButtons.Left && selectedBendPoint != null)
             {
                 Point newLocation = Point.Truncate(e.Location);
@@ -1398,7 +1399,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
                     Reroute();
                     OnRouteChanged(EventArgs.Empty);
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace NClass.Translations {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public partial class Strings {
@@ -394,6 +394,15 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string ButtonDetails {
+            get {
+                return ResourceManager.GetString("ButtonDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Generate.
         /// </summary>
         public static string ButtonGenerate {
@@ -548,11 +557,155 @@ namespace NClass.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Connection.
+        /// </summary>
+        public static string CommandAddConnection {
+            get {
+                return ResourceManager.GetString("CommandAddConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Delegate Parameter.
+        /// </summary>
+        public static string CommandAddDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandAddDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Enum Member.
+        /// </summary>
+        public static string CommandAddEnumMember {
+            get {
+                return ResourceManager.GetString("CommandAddEnumMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Member.
+        /// </summary>
+        public static string CommandAddMember {
+            get {
+                return ResourceManager.GetString("CommandAddMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New Member.
+        /// </summary>
+        public static string CommandAddNewMember {
+            get {
+                return ResourceManager.GetString("CommandAddNewMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Shape.
+        /// </summary>
+        public static string CommandAddShape {
+            get {
+                return ResourceManager.GetString("CommandAddShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Property.
+        /// </summary>
+        public static string CommandChangeProperty {
+            get {
+                return ResourceManager.GetString("CommandChangeProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Delegate Parameter.
+        /// </summary>
+        public static string CommandDeleteDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandDeleteDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Elements.
+        /// </summary>
+        public static string CommandDeleteElements {
+            get {
+                return ResourceManager.GetString("CommandDeleteElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Enum Member.
+        /// </summary>
+        public static string CommandDeleteEnumMember {
+            get {
+                return ResourceManager.GetString("CommandDeleteEnumMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Member.
+        /// </summary>
+        public static string CommandDeleteMember {
+            get {
+                return ResourceManager.GetString("CommandDeleteMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command failed..
         /// </summary>
         public static string CommandFailed {
             get {
                 return ResourceManager.GetString("CommandFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Elements.
+        /// </summary>
+        public static string CommandMoveElements {
+            get {
+                return ResourceManager.GetString("CommandMoveElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Elements.
+        /// </summary>
+        public static string CommandPaste {
+            get {
+                return ResourceManager.GetString("CommandPaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Delegate Parameter.
+        /// </summary>
+        public static string CommandRenameDelegateParameter {
+            get {
+                return ResourceManager.GetString("CommandRenameDelegateParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Enum Member.
+        /// </summary>
+        public static string CommandRenameEnumMember {
+            get {
+                return ResourceManager.GetString("CommandRenameEnumMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Member.
+        /// </summary>
+        public static string CommandRenameMember {
+            get {
+                return ResourceManager.GetString("CommandRenameMember", resourceCulture);
             }
         }
         
@@ -3051,6 +3204,24 @@ namespace NClass.Translations {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New File.
+        /// </summary>
+        public static string UndoRedoNewFile {
+            get {
+                return ResourceManager.GetString("UndoRedoNewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open File.
+        /// </summary>
+        public static string UndoRedoOpenFile {
+            get {
+                return ResourceManager.GetString("UndoRedoOpenFile", resourceCulture);
             }
         }
         

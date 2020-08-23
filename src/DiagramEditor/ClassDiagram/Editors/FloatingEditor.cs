@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -23,30 +23,30 @@ using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
-	public abstract class FloatingEditor : EditorWindow
-	{
-		protected const int MarginSize = 20;
-		static readonly Color beginColor = SystemColors.ControlLight;
-		static readonly Color endColor = SystemColors.Control;
+    public abstract class FloatingEditor : EditorWindow
+    {
+        protected const int MarginSize = 20;
+        static readonly Color beginColor = SystemColors.ControlLight;
+        static readonly Color endColor = SystemColors.Control;
 
-		static MemberType newMemberType = MemberType.Method;
+        static MemberType newMemberType = MemberType.Method;
 
-		protected FloatingEditor()
-		{
-			this.BackColor = System.Drawing.SystemColors.Control;
-			this.Padding = new Padding(1);
-		}
+        protected FloatingEditor()
+        {
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.Padding = new Padding(1);
+        }
 
-		protected static MemberType NewMemberType
-		{
-			get { return newMemberType; }
-			set { newMemberType = value; }
-		}
+        protected static MemberType NewMemberType
+        {
+            get { return newMemberType; }
+            set { newMemberType = value; }
+        }
 
-		protected override void OnPaintBackground(PaintEventArgs e)
-		{
-			base.OnPaintBackground(e);
-			e.Graphics.DrawRectangle(SystemPens.ControlDark, 0, 0, Width - 1, Height - 1);
-		}
-	}
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            e.Graphics.DrawRectangle(SystemPens.ControlDark, 0, 0, Width - 1, Height - 1);
+        }
+    }
 }

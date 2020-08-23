@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -24,68 +24,68 @@ using NClass.DiagramEditor.Diagrams.Editors;
 
 namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
-	public sealed partial class PackageEditor :
+    public sealed partial class PackageEditor :
 #if DEBUG
     DesignerHelperWindow
 #else
     EditorWindow
 #endif
     {
-		PackageShape shape = null;
+        PackageShape shape = null;
 
-		public PackageEditor()
-		{
-			InitializeComponent();
+        public PackageEditor()
+        {
+            InitializeComponent();
             errorProvider.SetIconAlignment(this, ErrorIconAlignment.TopLeft);
-		}
+        }
 
-		protected override void OnLocationChanged(EventArgs e)
-		{
-			base.OnLocationChanged(e);
-		}
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+        }
 
-		internal override void Init(DiagramElement element)
-		{
-			shape = (PackageShape) element;
+        internal override void Init(DiagramElement element)
+        {
+            shape = (PackageShape) element;
 
             errorProvider.SetError(this, null);
-			
-			txtName.BackColor = Style.CurrentStyle.PackageBackColor;
-			txtName.ForeColor = Style.CurrentStyle.PackageTextColor;
-			txtName.Text = shape.Name;
+            
+            txtName.BackColor = Style.CurrentStyle.PackageBackColor;
+            txtName.ForeColor = Style.CurrentStyle.PackageTextColor;
+            txtName.Text = shape.Name;
 
-			Font font = Style.CurrentStyle.PackageFont;
-			txtName.Font = new Font(font.FontFamily,
-				font.SizeInPoints * shape.Diagram.Zoom, font.Style);
-		}
+            Font font = Style.CurrentStyle.PackageFont;
+            txtName.Font = new Font(font.FontFamily,
+                font.SizeInPoints * shape.Diagram.Zoom, font.Style);
+        }
 
-		internal override void Relocate(DiagramElement element)
-		{
-			Relocate((PackageShape) element);
-		}
+        internal override void Relocate(DiagramElement element)
+        {
+            Relocate((PackageShape) element);
+        }
 
-		internal void Relocate(PackageShape shape)
-		{
-			IDiagram diagram = shape.Diagram;
-			if (diagram != null)
-			{
-				Rectangle absolute = shape.GetNameRectangle();
-	
-				this.SetBounds(
-					(int) (absolute.X * diagram.Zoom) - diagram.Offset.X + ParentLocation.X,
-					(int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y + ParentLocation.Y,
-					(int) (absolute.Width * diagram.Zoom),
-					(int) (absolute.Height * diagram.Zoom * 1.05f));
+        internal void Relocate(PackageShape shape)
+        {
+            IDiagram diagram = shape.Diagram;
+            if (diagram != null)
+            {
+                Rectangle absolute = shape.GetNameRectangle();
+    
+                this.SetBounds(
+                    (int) (absolute.X * diagram.Zoom) - diagram.Offset.X + ParentLocation.X,
+                    (int) (absolute.Y * diagram.Zoom) - diagram.Offset.Y + ParentLocation.Y,
+                    (int) (absolute.Width * diagram.Zoom),
+                    (int) (absolute.Height * diagram.Zoom * 1.05f));
 
                 this.txtName.Width = (int)(absolute.Width * diagram.Zoom);
                 this.txtName.Height = (int)(absolute.Height * diagram.Zoom * 1.05f);
             }
-		}
+        }
 
-		public override void ValidateData()
-		{
-		    TryValidateData();
-		}
+        public override void ValidateData()
+        {
+            TryValidateData();
+        }
 
         private bool TryValidateData()
         {
@@ -102,23 +102,23 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             }
         }
 
-		private void txtPackage_KeyDown(object sender, KeyEventArgs e)
-		{
-		    switch (e.KeyCode)
-		    {
-		        case Keys.Enter:
-		            e.Handled = true;
+        private void txtPackage_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    e.Handled = true;
                     if (TryValidateData())
-		            {
-		                shape.HideEditor();
-		            }
-		            break;
+                    {
+                        shape.HideEditor();
+                    }
+                    break;
 
-		        case Keys.Escape:
-		            shape.HideEditor();
-		            e.Handled = true;
-		            break;
-		    }
-		}
-	}
+                case Keys.Escape:
+                    shape.HideEditor();
+                    e.Handled = true;
+                    break;
+            }
+        }
+    }
 }

@@ -15,11 +15,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 using NClass.DiagramEditor.Diagrams.Shapes;
 
@@ -54,7 +56,7 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             endShape.Move += ShapeMoving;
             endShape.Resize += EndShapeResizing;
 
-            relationship.Modified += delegate { OnModified(EventArgs.Empty); };
+            relationship.Modified += delegate { OnModified(ModificationEventArgs.Empty); };
 
             relationship.Detaching += delegate
             {
@@ -71,6 +73,20 @@ namespace NClass.DiagramEditor.Diagrams.Connections
             {
                 OnDeserializing(e);
             };
+        }
+
+        /// <summary>
+        /// Called when reinserting shapes via undo/redo
+        /// </summary>
+        internal void Reattach()
+        {
+            Debug.Assert(startShape != null);
+            Debug.Assert(endShape != null);
+
+            startShape.Move += ShapeMoving;
+            startShape.Resize += StartShapeResizing;
+            endShape.Move += ShapeMoving;
+            endShape.Resize += EndShapeResizing;
         }
 
         protected virtual Size StartCapSize => Size.Empty;
@@ -96,17 +112,17 @@ namespace NClass.DiagramEditor.Diagrams.Connections
 
         protected virtual void ShapeMoving(object sender, MoveEventArgs e)
         {
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void StartShapeResizing(object sender, ResizeEventArgs e)
         {
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected virtual void EndShapeResizing(object sender, ResizeEventArgs e)
         {
-            OnModified(EventArgs.Empty);
+            OnModified(ModificationEventArgs.Empty);
         }
 
         protected abstract void OnSerializing(SerializeEventArgs e);

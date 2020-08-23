@@ -54,6 +54,9 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
         ToolStripMenuItem mnuShowParameterNames;
         ToolStripMenuItem mnuShowInitialValue;
 
+        ToolStripMenuItem mnuUndo;
+        ToolStripMenuItem mnuRedo;
+
         ToolStripMenuItem mnuPaste;
         ToolStripMenuItem mnuSaveAsImage;
         ToolStripMenuItem mnuSelectAll;
@@ -85,6 +88,9 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
             mnuShowInitialValue.Checked = DiagramEditor.Settings.Default.ShowInitialValue;
 
             mnuSaveAsImage.Enabled = !diagram.IsEmpty;
+
+            mnuUndo.Enabled = diagram.CanUndo;
+            mnuRedo.Enabled = diagram.CanRedo;
         }
 
         private void InitMenuItems()
@@ -121,6 +127,9 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
             mnuShowInitialValue.CheckedChanged += mnuShowInitialValue_CheckedChanged;
             mnuShowInitialValue.CheckOnClick = true;
 
+            mnuUndo = new ToolStripMenuItem(Strings.MenuUndo, Resources.Undo, mnuUndo_Click);
+            mnuRedo = new ToolStripMenuItem(Strings.MenuRedo, Resources.Redo, mnuRedo_Click);
+
             mnuPaste = new ToolStripMenuItem(Strings.MenuPaste, Resources.Paste, mnuPaste_Click);
             mnuSaveAsImage = new ToolStripMenuItem(Strings.MenuSaveAsImage, Resources.Image, mnuSaveAsImage_Click);
             mnuSelectAll = new ToolStripMenuItem(Strings.MenuSelectAll, null, mnuSelectAll_Click);
@@ -152,6 +161,9 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
             MenuList.AddRange(new ToolStripItem[] {
                 mnuAddNewElement,
                 mnuMembersFormat,
+                new ToolStripSeparator(),
+                mnuUndo,
+                mnuRedo,
                 new ToolStripSeparator(),
                 mnuPaste,
                 mnuSaveAsImage,
@@ -255,8 +267,7 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
         private void mnuShowInitialValue_CheckedChanged(object sender, EventArgs e)
         {
             DiagramEditor.Settings.Default.ShowInitialValue = ((ToolStripMenuItem)sender).Checked;
-            if (Diagram != null)
-                Diagram.Redraw();
+            Diagram?.Redraw();
         }
 
         private void mnuPaste_Click(object sender, EventArgs e)
@@ -273,6 +284,16 @@ namespace NClass.DiagramEditor.ClassDiagram.ContextMenus
         private void mnuSelectAll_Click(object sender, EventArgs e)
         {
             Diagram?.SelectAll();
+        }
+
+        private void mnuUndo_Click(object sender, EventArgs e)
+        {
+            Diagram?.Undo();
+        }
+
+        private void mnuRedo_Click(object sender, EventArgs e)
+        {
+            Diagram?.Redo();
         }
     }
 }

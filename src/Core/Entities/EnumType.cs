@@ -20,192 +20,206 @@ using System.Xml;
 
 namespace NClass.Core
 {
-	public abstract class EnumType : TypeBase
-	{
-		List<EnumValue> values = new List<EnumValue>();
+    public abstract class EnumType : TypeBase
+    {
+        List<EnumValue> values = new List<EnumValue>();
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="name"/> does not fit to the syntax.
-		/// </exception>
-		protected EnumType(string name) : base(name)
-		{
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="name"/> does not fit to the syntax.
+        /// </exception>
+        protected EnumType(string name) : base(name)
+        {
+        }
 
-		public sealed override EntityType EntityType
-		{
-			get { return EntityType.Enum; }
-		}
+        public sealed override EntityType EntityType
+        {
+            get { return EntityType.Enum; }
+        }
 
-		public IEnumerable<EnumValue> Values
-		{
-			get { return values; }
-		}
+        public IEnumerable<EnumValue> Values
+        {
+            get { return values; }
+        }
 
-		public int ValueCount
-		{
-			get { return values.Count; }
-		}
+        public int ValueCount
+        {
+            get { return values.Count; }
+        }
 
-		public sealed override string Signature
-		{
-			get
-			{
-				return (Language.GetAccessString(Access, false) + " Enum");
-			}
-		}
+        public sealed override string Signature
+        {
+            get
+            {
+                return (Language.GetAccessString(Access, false) + " Enum");
+            }
+        }
 
-		public override string Stereotype
-		{
-			get { return "«enumeration»"; }
-		}
+        public override string Stereotype
+        {
+            get { return "«enumeration»"; }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The name does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The name is a reserved name.
-		/// </exception>
-		public abstract EnumValue AddValue(string declaration);
+        /// <exception cref="BadSyntaxException">
+        /// The name does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The name is a reserved name.
+        /// </exception>
+        public abstract EnumValue AddValue(string declaration);
 
-		/// <exception cref="ReservedNameException">
-		/// The name is a reserved name.
-		/// </exception>
-		protected void AddValue(EnumValue newValue)
-		{
-			if (newValue != null) {
-				foreach (EnumValue value in Values) {
-					if (value.Name == newValue.Name)
-						throw new ReservedNameException(newValue.Name);
-				}
+        /// <exception cref="ReservedNameException">
+        /// The name is a reserved name.
+        /// </exception>
+        protected void AddValue(EnumValue newValue)
+        {
+            if (newValue != null)
+            {
+                foreach (EnumValue value in Values)
+                {
+                    if (value.Name == newValue.Name)
+                        throw new ReservedNameException(newValue.Name);
+                }
 
-				values.Add(newValue);
-				newValue.Modified += delegate { Changed(); };
-				Changed();
-			}
-		}
+                values.Add(newValue);
+                newValue.Modified += delegate { Changed(); };
+                Changed();
+            }
+        }
 
-		public EnumValue GetValue(int index)
-		{
-			if (index >= 0 && index < values.Count)
-				return values[index];
-			else
-				return null;
-		}
+        public void ReinsertValue(EnumValue newValue)
+        {
+            if (newValue == null) return;
 
-		/// <exception cref="BadSyntaxException">
-		/// The name does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The name is a reserved name.
-		/// </exception>
-		public abstract EnumValue ModifyValue(EnumValue value, string declaration);
+            foreach (var value in Values)
+            {
+                if (value.Name == newValue.Name)
+                    throw new ReservedNameException(newValue.Name);
+            }
 
-		/// <exception cref="ReservedNameException">
-		/// The new name is a reserved name.
-		/// </exception>
-		protected bool ChangeValue(EnumValue oldValue, EnumValue newValue)
-		{
-			if (oldValue == null || newValue == null)
-				return false;
+            values.Add(newValue);
+            Changed();
+        }
 
-			int index = -1;
-			for (int i = 0; i < values.Count; i++) {
-				if (values[i] == oldValue)
-					index = i;
-				else if (values[i].Name == newValue.Name)
-					throw new ReservedNameException(newValue.Name);
-			}
+        public EnumValue GetValue(int index)
+        {
+            if (index >= 0 && index < values.Count)
+                return values[index];
+            else
+                return null;
+        }
 
-			if (index == -1) {
-				return false;
-			}
-			else {
-				values[index] = newValue;
-				Changed();
-				return true;
-			}
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The name does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The name is a reserved name.
+        /// </exception>
+        public abstract EnumValue ModifyValue(EnumValue value, string declaration);
 
-		public void RemoveValue(EnumValue value)
-		{
-			if (values.Remove(value))
-				Changed();
-		}
+        /// <exception cref="ReservedNameException">
+        /// The new name is a reserved name.
+        /// </exception>
+        protected void ChangeValue(EnumValue oldValue, EnumValue newValue)
+        {
+            if (oldValue == null || newValue == null)
+                return;
 
-		public override bool MoveUpItem(object item)
-		{
-			if (item is EnumValue && MoveUp(values, item))
-			{
-				Changed();
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            int index = -1;
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (values[i] == oldValue)
+                    index = i;
+                else if (values[i].Name == newValue.Name)
+                    throw new ReservedNameException(newValue.Name);
+            }
 
-		public override bool MoveDownItem(object item)
-		{
-			if (item is EnumValue && MoveDown(values, item))
-			{
-				Changed();
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            if (index == -1) return;
 
-		protected override void CopyFrom(TypeBase type)
-		{
-			base.CopyFrom(type);
+            values[index].Name = newValue.Name;
+            Changed();
+        }
 
-			EnumType enumType = (EnumType) type;
-			values.Clear();
-			values.Capacity = enumType.values.Capacity;
-			foreach (EnumValue value in enumType.values)
-			{
-				values.Add(value.Clone());
-			}
-		}
+        public void RemoveValue(EnumValue value)
+        {
+            if (values.Remove(value))
+                Changed();
+        }
 
-		public abstract EnumType Clone();
+        public override bool MoveUpItem(object item)
+        {
+            if (item is EnumValue && MoveUp(values, item))
+            {
+                Changed();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		protected internal override void Serialize(XmlElement node)
-		{
-			base.Serialize(node);
+        public override bool MoveDownItem(object item)
+        {
+            if (item is EnumValue && MoveDown(values, item))
+            {
+                Changed();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-			foreach (EnumValue value in values) {
-				XmlElement child = node.OwnerDocument.CreateElement("Value");
-				child.InnerText = value.ToString();
-				node.AppendChild(child);
-			}
-		}
+        protected override void CopyFrom(TypeBase type)
+        {
+            base.CopyFrom(type);
 
-		/// <exception cref="BadSyntaxException">
-		/// An error occured while deserializing.
-		/// </exception>
-		/// <exception cref="InvalidOperationException">
-		/// The XML document is corrupt.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		protected internal override void Deserialize(XmlElement node)
-		{
-			RaiseChangedEvent = false;
+            EnumType enumType = (EnumType)type;
+            values.Clear();
+            values.Capacity = enumType.values.Capacity;
+            foreach (EnumValue value in enumType.values)
+            {
+                values.Add(value.Clone());
+            }
+        }
 
-			XmlNodeList nodeList = node.SelectNodes("Value");
-			foreach (XmlNode valueNode in nodeList)
-				AddValue(valueNode.InnerText);
+        public abstract EnumType Clone();
 
-			base.Deserialize(node);
-			RaiseChangedEvent = true;
-		}
-	}
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="node"/> is null.
+        /// </exception>
+        protected internal override void Serialize(XmlElement node)
+        {
+            base.Serialize(node);
+
+            foreach (EnumValue value in values)
+            {
+                XmlElement child = node.OwnerDocument.CreateElement("Value");
+                child.InnerText = value.ToString();
+                node.AppendChild(child);
+            }
+        }
+
+        /// <exception cref="BadSyntaxException">
+        /// An error occured while deserializing.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// The XML document is corrupt.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="node"/> is null.
+        /// </exception>
+        protected internal override void Deserialize(XmlElement node)
+        {
+            RaiseChangedEvent = false;
+
+            XmlNodeList nodeList = node.SelectNodes("Value");
+            foreach (XmlNode valueNode in nodeList)
+                AddValue(valueNode.InnerText);
+
+            base.Deserialize(node);
+            RaiseChangedEvent = true;
+        }
+    }
 }

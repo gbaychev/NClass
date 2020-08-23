@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // 
 // This program is free software; you can redistribute it and/or modify it under 
@@ -15,10 +15,10 @@
 
 namespace NClass.CodeGenerator
 {
-	public enum GenerationResult
-	{
-		Success,
-		Error,
-		Cancelled
-	}
+    public enum GenerationResult
+    {
+        Success,
+        Error,
+        Cancelled
+    }
 }

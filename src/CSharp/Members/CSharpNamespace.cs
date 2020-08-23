@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +10,7 @@ namespace NClass.CSharp
     internal sealed class CSharpNamespace : Package
     {
         internal CSharpNamespace() : this("NewNamespace")
-		{
+        {
         }
 
         /// <exception cref="BadSyntaxException">
@@ -27,7 +27,7 @@ namespace NClass.CSharp
 
         public override string Stereotype
         {
-            get { return "Â«namespaceÂ»"; }
+            get { return "«namespace»"; }
         }
 
         public override string FullName

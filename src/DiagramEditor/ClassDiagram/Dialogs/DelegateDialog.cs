@@ -18,85 +18,97 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
+using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
-	public class DelegateDialog : ListDialog
-	{
-		DelegateType parent = null;
+    public class DelegateDialog : ListDialog
+    {
+        private IDiagram diagram;
+        DelegateType parent = null;
 
-		protected override void FillList()
-		{
-			lstItems.Items.Clear();
-			foreach (Parameter value in parent.Arguments) {
-				ListViewItem item = lstItems.Items.Add(value.ToString());
+        protected override void FillList()
+        {
+            lstItems.Items.Clear();
+            foreach (Parameter value in parent.Arguments)
+            {
+                ListViewItem item = lstItems.Items.Add(value.ToString());
 
-				item.Tag = value;
-				item.ImageIndex = Icons.ParameterImageIndex;
-			}
-		}
+                item.Tag = value;
+                item.ImageIndex = Icons.ParameterImageIndex;
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void AddToList(string text)
-		{
-			Parameter value = parent.AddParameter(text);
-			ListViewItem item = lstItems.Items.Add(value.ToString());
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void AddToList(string text)
+        {
+            var command = new AddDelegateParameterCommand(parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
 
-			item.Tag = value;
-			item.ImageIndex = Icons.ParameterImageIndex;
-		}
+            var value = command.Parameter;
+            var item = lstItems.Items.Add(value.ToString());
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void Modify(ListViewItem item, string text)
-		{
-			if (item.Tag is Parameter) {
-				Parameter parameter = parent.ModifyParameter((Parameter) item.Tag, text);
-				item.Tag = parameter;
-				item.Text = parameter.ToString();
-			}
-		}
+            item.Tag = value;
+            item.ImageIndex = Icons.ParameterImageIndex;
+        }
 
-		protected override void MoveUpItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveUpItem(item.Tag);
-			base.MoveUpItem(item);
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void Modify(ListViewItem item, string text)
+        {
+            if (!(item.Tag is Parameter tag)) return;
 
-		protected override void MoveDownItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveDownItem(item.Tag);
-			base.MoveDownItem(item);
-		}
+            var command = new RenameDelegateParameterCommand(tag, parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
 
-		protected override void Remove(ListViewItem item)
-		{
-			if (item != null && item.Tag is Parameter)
-				parent.RemoveParameter((Parameter) item.Tag);
-			base.Remove(item);
-		}
+            item.Tag = command.Parameter;
+            item.Text = command.Parameter.ToString();
+        }
 
-		public void ShowDialog(DelegateType parent)
-		{
-			if (parent != null) {
-				this.parent = parent;
-				this.Text = string.Format(Strings.ItemsOfType, parent.Name);
-				FillList();
+        protected override void MoveUpItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveUpItem(item.Tag);
+            base.MoveUpItem(item);
+        }
 
-				base.ShowDialog();
-			}
-		}
-	}
+        protected override void MoveDownItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveDownItem(item.Tag);
+            base.MoveDownItem(item);
+        }
+
+        protected override void Remove(ListViewItem item)
+        {
+            if (item != null && item.Tag is Parameter)
+                parent.RemoveParameter((Parameter)item.Tag);
+            base.Remove(item);
+        }
+
+        public void ShowDialog(IDiagram diagram, DelegateType parent)
+        {
+            if (parent == null || diagram == null) return;
+
+            this.diagram = diagram;
+            this.parent = parent;
+            this.Text = string.Format(Strings.ItemsOfType, parent.Name);
+            FillList();
+
+            base.ShowDialog();
+        }
+    }
 }

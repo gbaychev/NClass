@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.ClassDiagram.ContextMenus;
 
@@ -43,11 +44,19 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
         protected static readonly Size defaultMinSize = new Size(50, 50);
 
         Point location;
+        private Point oldLocation;
         protected Size size;
         ResizeMode resizeMode = ResizeMode.None;
         Size minimumSize = defaultMinSize;
         bool mouseLeft = true;
         Cursor cursor = Cursors.Default;
+        /// <summary>
+        /// For some unknown reasons, windows sends multiple
+        /// MOUSE_DOWN messages (with btn_left), when the user right clicks
+        /// and then left clicks in the shape, which leads to starting drag
+        /// and drop. This is a workaround for this behavior
+        /// </summary>
+        private bool preDrag;
         private bool isBeingDragged;
 
         public event MoveEventHandler Move;
@@ -65,11 +74,12 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            location = Point.Empty;
+            oldLocation = location = Point.Empty;
             size = DefaultSize;
+            preDrag = false;
             isBeingDragged = false;
 
-            entity.Modified += delegate { OnModified(EventArgs.Empty); };
+            entity.Modified += (s, e) => OnModified(e);
 
             entity.Serializing += delegate (object sender, SerializeEventArgs e)
             {
@@ -107,6 +117,16 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             get;
         }
 
+        public Point OldLocation
+        {
+            get => oldLocation;
+            set
+            {
+                if (oldLocation != value)
+                    oldLocation = value;
+            }
+        }
+
         public Point Location
         {
             get
@@ -120,53 +140,42 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size offset = new Size(value.X - X, value.Y - Y);
                     location = value;
                     OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
 
         public int X
         {
-            get
-            {
-                return location.X;
-            }
+            get => location.X;
             set
             {
-                if (location.X != value)
-                {
-                    Size offset = new Size(value - X, 0);
-                    location.X = value;
-                    OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
-                }
+                if (location.X == value) return;
+
+                var offset = new Size(value - X, 0);
+                location.X = value;
+                OnMove(new MoveEventArgs(offset));
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
         public int Y
         {
-            get
-            {
-                return location.Y;
-            }
+            get => location.Y;
             set
             {
-                if (location.Y != value)
-                {
-                    Size offset = new Size(0, value - Y);
-                    location.Y = value;
-                    OnMove(new MoveEventArgs(offset));
-                    OnModified(EventArgs.Empty);
-                }
+                if (location.Y == value) return;
+
+                var offset = new Size(0, value - Y);
+                location.Y = value;
+                OnMove(new MoveEventArgs(offset));
+                OnModified(ModificationEventArgs.Empty);
             }
         }
 
         public virtual Size Size
         {
-            get
-            {
-                return size;
-            }
+            get => size;
             set
             {
                 if (value.Width < MinimumSize.Width)
@@ -179,17 +188,14 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(value.Width - Width, value.Height - Height);
                     size = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
 
         public virtual int Width
         {
-            get
-            {
-                return size.Width;
-            }
+            get => size.Width;
             set
             {
                 if (value < MinimumSize.Width)
@@ -200,17 +206,14 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(value - Width, 0);
                     size.Width = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
 
         public virtual int Height
         {
-            get
-            {
-                return size.Height;
-            }
+            get => size.Height;
             set
             {
                 if (value < MinimumSize.Height)
@@ -221,60 +224,42 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                     Size change = new Size(0, value - Height);
                     size.Height = value;
                     OnResize(new ResizeEventArgs(change));
-                    OnModified(EventArgs.Empty);
+                    OnModified(ModificationEventArgs.Empty);
                 }
             }
         }
 
         public int Left
         {
-            get { return X; }
-            set { X = value; }
+            get => X;
+            set => X = value;
         }
 
         public int Right
         {
-            get { return X + Width; }
-            set { X = value - Width; }
+            get => X + Width;
+            set => X = value - Width;
         }
 
         public int Top
         {
-            get { return Y; }
-            set { Y = value; }
+            get => Y;
+            set => Y = value;
         }
 
         public int Bottom
         {
-            get { return Y + Height; }
-            set { Y = value - Height; }
+            get => Y + Height;
+            set => Y = value - Height;
         }
 
-        public virtual Rectangle BorderRectangle
-        {
-            get { return new Rectangle(Location, Size); }
-        }
+        public virtual Rectangle BorderRectangle => new Rectangle(Location, Size);
 
-        public Point CenterPoint
-        {
-            get { return new Point(HorizontalCenter, VerticalCenter); }
-        }
+        public Point CenterPoint => new Point(HorizontalCenter, VerticalCenter);
 
-        public int HorizontalCenter
-        {
-            get
-            {
-                return ((Left + Right) / 2);
-            }
-        }
+        public int HorizontalCenter => ((Left + Right) / 2);
 
-        public int VerticalCenter
-        {
-            get
-            {
-                return ((Top + Bottom) / 2);
-            }
-        }
+        public int VerticalCenter => ((Top + Bottom) / 2);
 
         protected abstract int GetBorderWidth(Style style);
 
@@ -305,10 +290,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             }
         }
 
-        internal bool IsResizing
-        {
-            get { return (resizeMode != ResizeMode.None); }
-        }
+        internal bool IsResizing => (resizeMode != ResizeMode.None);
 
         public virtual void Collapse()
         {
@@ -566,6 +548,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 var shapeList = (ElementList<Shape>)diagram.Shapes;
                 Shape shape = shapeList.FirstValue;
                 shape.Location = this.Location + offset;
+                shape.OldLocation = this.Location + offset;
                 shape.Size = this.Size;
                 shape.IsSelected = true;
                 return shape;
@@ -611,6 +594,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
                 int.TryParse(locationNode.GetAttribute("left"), out var left);
                 int.TryParse(locationNode.GetAttribute("top"), out var top);
                 this.Location = new Point(left, top);
+                this.oldLocation = new Point(left, top);  
             }
 
             XmlElement sizeNode = e.Node["Size"];
@@ -762,6 +746,7 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
 
         protected override void OnMouseDown(AbsoluteMouseEventArgs e)
         {
+            e.Handled = true;
             base.OnMouseDown(e);
         }
 
@@ -775,7 +760,9 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             }
             else if (IsMousePressed && e.Button == MouseButtons.Left)
             {
-                PerformDragging(e.Offset);
+                if(preDrag)
+                    PerformDragging(e.Offset);
+                preDrag = true;
             }
         }
 
@@ -786,6 +773,8 @@ namespace NClass.DiagramEditor.Diagrams.Shapes
             {
                 OnDrop();
             }
+
+            preDrag = false;
             resizeMode = ResizeMode.None;
         }
 

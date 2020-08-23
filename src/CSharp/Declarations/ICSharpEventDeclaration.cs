@@ -1,9 +1,9 @@
-﻿using NClass.Core;
+using NClass.Core;
 
 namespace NClass.CSharp
 {
-	public interface ICSharpEventDeclaration : IEventDeclaration
-	{
-		bool IsExplicitImplementation { get; }
-	}
+    public interface ICSharpEventDeclaration : IEventDeclaration
+    {
+        bool IsExplicitImplementation { get; }
+    }
 }

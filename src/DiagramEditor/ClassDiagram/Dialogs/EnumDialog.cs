@@ -17,85 +17,118 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.DiagramEditor.Commands;
+using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
 
 namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
-	public class EnumDialog : ListDialog
-	{
-		EnumType parent = null;
+    public class EnumDialog : ListDialog
+    {
+        private IDiagram diagram;
+        private EnumType parent = null;
 
-		protected override void FillList()
-		{
-			lstItems.Items.Clear();
-			foreach (EnumValue value in parent.Values) {
-				ListViewItem item = lstItems.Items.Add(value.ToString());
+        protected override void FillList()
+        {
+            lstItems.Items.Clear();
+            foreach (EnumValue value in parent.Values)
+            {
+                ListViewItem item = lstItems.Items.Add(value.ToString());
 
-				item.Tag = value;
-				item.ImageIndex = Icons.EnumItemImageIndex;
-			}
-		}
+                item.Tag = value;
+                item.ImageIndex = Icons.EnumItemImageIndex;
+            }
+        }
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void AddToList(string text)
-		{
-			EnumValue value = parent.AddValue(text);
-			ListViewItem item = lstItems.Items.Add(value.ToString());
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void AddToList(string text)
+        {
+            var command = new AddEnumMemberCommand(parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
 
-			item.Tag = value;
-			item.ImageIndex = Icons.EnumItemImageIndex;
-		}
+            var value = command.EnumValue;
+            var item = lstItems.Items.Add(value.ToString());
 
-		/// <exception cref="BadSyntaxException">
-		/// The <paramref name="text"/> does not fit to the syntax.
-		/// </exception>
-		/// <exception cref="ReservedNameException">
-		/// The <paramref name="text"/> contains a reserved name.
-		/// </exception>
-		protected override void Modify(ListViewItem item, string text)
-		{
-			if (item.Tag is EnumValue) {
-				EnumValue enumItem = parent.ModifyValue((EnumValue) item.Tag, text);
-				item.Tag = enumItem;
-				item.Text = enumItem.ToString();
-			}
-		}
+            item.Tag = value;
+            item.ImageIndex = Icons.EnumItemImageIndex;
+        }
 
-		protected override void MoveUpItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveUpItem(item.Tag);
-			base.MoveUpItem(item);
-		}
+        /// <exception cref="BadSyntaxException">
+        /// The <paramref name="text"/> does not fit to the syntax.
+        /// </exception>
+        /// <exception cref="ReservedNameException">
+        /// The <paramref name="text"/> contains a reserved name.
+        /// </exception>
+        protected override void Modify(ListViewItem item, string text)
+        {
+            if (!(item.Tag is EnumValue tag)) return;
 
-		protected override void MoveDownItem(ListViewItem item)
-		{
-			if (item != null)
-				parent.MoveDownItem(item.Tag);
-			base.MoveDownItem(item);
-		}
+            var command = new RenameEnumMemberCommand(tag, parent, text);
+            command.Execute();
+            diagram.TrackCommand(command);
 
-		protected override void Remove(ListViewItem item)
-		{
-			if (item != null && item.Tag is EnumValue)
-				parent.RemoveValue((EnumValue) item.Tag);
-			base.Remove(item);
-		}
+            item.Tag = command.EnumValue;
+            item.Text = command.EnumValue.ToString();
+        }
 
-		public void ShowDialog(EnumType parent)
-		{
-			if (parent != null) {
-				this.parent = parent;
-				this.Text = string.Format(Strings.ItemsOfType, parent.Name);
-				FillList();
+        protected override void MoveUpItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveUpItem(item.Tag);
+            base.MoveUpItem(item);
+        }
 
-				base.ShowDialog();
-			}
-		}
-	}
+        protected override void MoveDownItem(ListViewItem item)
+        {
+            if (item != null)
+                parent.MoveDownItem(item.Tag);
+            base.MoveDownItem(item);
+        }
+
+        protected override void Remove(ListViewItem item)
+        {
+            if (item != null && item.Tag is EnumValue tag)
+            {
+                var command = new DeleteFromEnumTypeCommand(parent, tag);
+                command.Execute();
+                diagram.TrackCommand(command);
+            }
+            base.Remove(item);
+        }
+
+        public void ShowDialog(IDiagram diagram, EnumType parent)
+        {
+            if (parent == null || diagram == null) return;
+
+            this.diagram = diagram;
+            this.parent = parent;
+            this.Text = string.Format(Strings.ItemsOfType, parent.Name);
+            FillList();
+
+            base.ShowDialog();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Z when e.Modifiers == Keys.Control:
+                    diagram.Undo();
+                    FillList();
+                    break;
+                case Keys.Y when e.Modifiers == Keys.Control:
+                    diagram.Redo();
+                    FillList();
+                    break;
+            }
+
+            base.OnKeyDown(e);
+        }
+    }
 }

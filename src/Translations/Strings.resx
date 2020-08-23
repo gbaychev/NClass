@@ -1219,4 +1219,61 @@ Do you still want to continue?</value>
   <data name="GitCommitHash" xml:space="preserve">
     <value>Git commit hash:</value>
   </data>
+  <data name="CommandAddConnection" xml:space="preserve">
+    <value>Add Connection</value>
+  </data>
+  <data name="CommandAddMember" xml:space="preserve">
+    <value>Add Member</value>
+  </data>
+  <data name="CommandAddShape" xml:space="preserve">
+    <value>Add Shape</value>
+  </data>
+  <data name="CommandChangeProperty" xml:space="preserve">
+    <value>Change Property</value>
+  </data>
+  <data name="CommandDeleteElements" xml:space="preserve">
+    <value>Delete Elements</value>
+  </data>
+  <data name="CommandDeleteMember" xml:space="preserve">
+    <value>Delete Member</value>
+  </data>
+  <data name="CommandMoveElements" xml:space="preserve">
+    <value>Move Elements</value>
+  </data>
+  <data name="CommandPaste" xml:space="preserve">
+    <value>Paste Elements</value>
+  </data>
+  <data name="CommandAddEnumMember" xml:space="preserve">
+    <value>Add Enum Member</value>
+  </data>
+  <data name="CommandDeleteEnumMember" xml:space="preserve">
+    <value>Delete Enum Member</value>
+  </data>
+  <data name="CommandRenameEnumMember" xml:space="preserve">
+    <value>Rename Enum Member</value>
+  </data>
+  <data name="CommandRenameDelegateParameter" xml:space="preserve">
+    <value>Rename Delegate Parameter</value>
+  </data>
+  <data name="CommandAddDelegateParameter" xml:space="preserve">
+    <value>Add Delegate Parameter</value>
+  </data>
+  <data name="CommandDeleteDelegateParameter" xml:space="preserve">
+    <value>Delete Delegate Parameter</value>
+  </data>
+  <data name="CommandAddNewMember" xml:space="preserve">
+    <value>Add New Member</value>
+  </data>
+  <data name="CommandRenameMember" xml:space="preserve">
+    <value>Rename Member</value>
+  </data>
+  <data name="ButtonDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="UndoRedoNewFile" xml:space="preserve">
+    <value>New File</value>
+  </data>
+  <data name="UndoRedoOpenFile" xml:space="preserve">
+    <value>Open File</value>
+  </data>
 </root>

@@ -17,6 +17,7 @@ using System;
 using System.Xml;
 using System.Collections;
 using System.Text.RegularExpressions;
+using NClass.Core.UndoRedo;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -37,7 +38,7 @@ namespace NClass.Core
         protected TypeBase(string name)
         {
             Initializing = true;
-            Name = name;
+            this.name = name;
             nestableChildHelper = new NestableChildHelper(this);
             nestableChildHelper.NestingParentChanged += (s, a) => Changed();
             Initializing = false;
@@ -48,20 +49,23 @@ namespace NClass.Core
         /// </exception>
         public virtual string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             set
             {
                 string newName = Language.GetValidName(value, true);
-
+                
                 if (newName != name)
                 {
+                    var modification = Modification.TrackPropertyModification(this,(TypeBase t) => t.Name, name, newName);
                     name = newName;
-                    Changed();
+                    Changed(new ModificationEventArgs(modification));
                 }
             }
+        }
+
+        public string ValidateName(string newName)
+        {
+            return Language.GetValidName(newName, true);
         }
 
         public abstract EntityType EntityType

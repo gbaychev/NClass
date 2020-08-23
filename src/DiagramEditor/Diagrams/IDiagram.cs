@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.ClassDiagram.Connections;
 using NClass.DiagramEditor.Diagrams.Connections;
 using NClass.DiagramEditor.Diagrams.Shapes;
@@ -31,6 +32,7 @@ namespace NClass.DiagramEditor.Diagrams
         DiagramType DiagramType { get; }
         int SelectedElementCount { get; }
         DiagramElement TopSelectedElement { get; }
+        void DeselectAll();
         void ShowWindow(PopupWindow window);
         void HideWindow(PopupWindow window);
         IEnumerable<AbstractConnection> GetSelectedConnections();
@@ -60,9 +62,17 @@ namespace NClass.DiagramEditor.Diagrams
         int SelectedShapeCount { get; }
         event EventHandler SelectionChanged;
         IEnumerable<Shape> GetShapesInDisplayOrder();
-        void AddComment();
         bool InsertComment(Comment comment);
         bool InsertCommentRelationship(CommentRelationship commentRelationship);
         CommentRelationship AddCommentRelationship(Comment comment, IEntity entity);
+        void TrackCommand(ICommand command);
+        void ReinsertShape(Shape shape, bool redraw = true);
+        void ReinsertShapes(List<Shape> shapes);
+        void ReinsertConnection(AbstractConnection connection, bool redraw = true);
+        void ReinsertConnections(List<AbstractConnection> connections);
+        void RemoveEntity(IEntity entity);
+        void RemoveRelationship(Relationship relationship);
+        void ReattachShapes(List<Shape> shapes);
+        Shape AddShape(EntityType shapeType);
     }
 }

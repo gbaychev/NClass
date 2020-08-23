@@ -1,4 +1,4 @@
-﻿// NClass - Free class diagram editor
+// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016 Georgi Baychev
 // 
@@ -19,32 +19,32 @@ using System.Xml;
 
 namespace NClass.Core
 {
-	public interface IProjectItem : IModifiable
-	{
-		event EventHandler Renamed;
-		event EventHandler Closing;
+    public interface IProjectItem : IModifiable
+    {
+        event EventHandler Renamed;
+        event EventHandler Closing;
 
-		string Name { get; set; }
+        string Name { get; set; }
 
-		Project Project { get; set; }
+        Project Project { get; set; }
 
-		bool IsUntitled { get; }
+        bool IsUntitled { get; }
 
 
-		void Close();
+        void Close();
 
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		void Serialize(XmlElement node);
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="node"/> is null.
+        /// </exception>
+        void Serialize(XmlElement node);
 
-		/// <exception cref="InvalidDataException">
-		/// The serialized format is corrupt and could not be loaded.
-		/// </exception>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="node"/> is null.
-		/// </exception>
-		void Deserialize(XmlElement node);
+        /// <exception cref="InvalidDataException">
+        /// The serialized format is corrupt and could not be loaded.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="node"/> is null.
+        /// </exception>
+        void Deserialize(XmlElement node);
         Model Model { get; }
-	}
+    }
 }
