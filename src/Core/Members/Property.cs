@@ -103,7 +103,7 @@ namespace NClass.Core
             }
             protected set
             {
-                if (value == readAccess)
+                if (value == readAccess || value == Access)
                     return;
 
                 if (value == AccessModifier.Default || (value != Access &&
@@ -129,7 +129,7 @@ namespace NClass.Core
             }
             protected set
             {
-                if (value == writeAccess)
+                if (value == writeAccess || value == Access)
                     return;
 
                 if (value == AccessModifier.Default || (value != Access &&
