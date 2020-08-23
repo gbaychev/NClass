@@ -69,8 +69,8 @@ namespace NClass.Core.UndoRedo
 
         public void Visualize(IUndoRedoVisualizer undoRedoVisualizer)
         {
-            var items = UndoStack.Select(command => new UndoRedoListBoxItem(command.ToString(), UndoRedoType.Undo))
-                                 .Concat(RedoStack.Select(c => new UndoRedoListBoxItem(c.ToString(), UndoRedoType.Redo))).ToArray();
+            var items = UndoStack.Select(command => new UndoRedoListBoxItem(command.DisplayText, UndoRedoType.Undo))
+                                 .Concat(RedoStack.Select(c => new UndoRedoListBoxItem(c.DisplayText, UndoRedoType.Redo))).ToArray();
             undoRedoVisualizer.SetItems(items, Source);
         }
 
