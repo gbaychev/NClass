@@ -17,6 +17,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
+using NClass.GUI.Properties;
 using NClass.Translations;
 
 namespace NClass.GUI.Dialogs
@@ -75,9 +76,9 @@ namespace NClass.GUI.Dialogs
 
             public DetailsErrorDialog(MessageBoxIcon icon = MessageBoxIcon.Warning)
             {
-                expandImage = new Bitmap(typeof(ThreadExceptionDialog), "down.bmp");
+                expandImage = Resources.Down;
                 expandImage.MakeTransparent();
-                collapseImage = new Bitmap(typeof(ThreadExceptionDialog), "up.bmp");
+                collapseImage = Resources.Up;
                 collapseImage.MakeTransparent();
 
                 InitializeComponent();
