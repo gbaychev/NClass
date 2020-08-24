@@ -1,5 +1,25 @@
 Add-Type -Assembly "System.Io.Compression.FileSystem"
 
+$unixEncoderSource = @"
+    using System.Text;
+    public class UnixEncoder : UTF8Encoding
+        {
+            public UnixEncoder() : base(true)
+            {
+            
+            }
+
+            public override byte[] GetBytes(string s)
+            {
+                s = s.Replace("\\", "/");
+                return base.GetBytes(s);
+            }
+    }
+"@
+
+Add-Type -TypeDefinition $unixEncoderSource
+$unixEncoder = New-Object UnixEncoder
+
 function Copy-New-Item {
   $SourceFilePath = $args[0]
   $DestinationFilePath = $args[1]
@@ -41,7 +61,7 @@ Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\de\PDFExport.resources.dll dist\b
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\csproj.template dist\bin\Templates\csproj.template
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\sln.template dist\bin\Templates\sln.template
 Copy-New-Item ..\..\..\..\doc\changelog.txt dist\doc\changelog.txt
-Copy-New-Item ..\..\..\..\doc\commonmark.net.txt dist\doc\commonmark.net.txt
+Copy-New-Item ..\..\..\..\doc\commonmark.net.license.txt dist\doc\commonmark.net.license.txt
 Copy-New-Item ..\..\..\..\doc\ocktokit.license.txt dist\doc\ocktokit.license.txt
 Copy-New-Item ..\..\..\..\doc\pdfsharp.license.txt dist\doc\pdfsharp.license.txt
 Copy-New-Item ..\..\..\..\doc\license.txt dist\doc\license.txt
@@ -49,7 +69,7 @@ Copy-New-Item ..\..\..\..\doc\readme.txt dist\doc\readme.txt
 Copy-New-Item ..\..\..\..\examples\shapes.ncp dist\examples\shapes.ncp
 Copy-New-Item "..\..\..\..\styles\Visual Studio Class Designer (ClearType).dst" "dist\styles\Visual Studio Class Designer (ClearType).dst"
 Copy-New-Item "..\..\..\..\styles\Visual Studio Class Designer.dst" "dist\styles\Visual Studio Class Designer.dst"
-
+Copy-New-Item ..\..\..\GUI\bin\Release\CommonMark.dll dist\bin\CommonMark.dll
 
 $source = Join-Path $currentPath "dist"
 $destinationFile = Join-Path $currentPath "nclass.zip"
@@ -58,7 +78,7 @@ if(Test-Path $destinationFile) {
     Remove-Item $destinationFile
 }
 
-[io.compression.zipfile]::CreateFromDirectory($source, $destinationFile) 
+[io.compression.zipfile]::CreateFromDirectory($source, $destinationFile, [io.compression.CompressionLevel]::Fastest, $false, $unixEncoder) 
 Remove-Item $source -Recurse -Force
 
 Write-Host "Done"

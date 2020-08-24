@@ -34,6 +34,9 @@
       <Component Id="C_Octokit.dll">
         <File Source="$(var.GUI.TargetDir)Octokit.dll" />
       </Component>
+      <Component Id="C_CommonMark.dll">
+        <File Source="$(var.GUI.TargetDir)CommonMark.dll" />
+      </Component>
 
       <ComponentGroupRef Id="CG_CodeGenerator"/>
     </ComponentGroup>
