@@ -119,7 +119,7 @@ namespace NClass.GUI
         {
             LoadPlugins();
             LoadWindowSettings();
-            await UpdatesChecker.CheckForUpdates();
+            await UpdatesChecker.CheckForUpdates(true);
         }
 
         private void LoadPlugins()
