@@ -1,5 +1,25 @@
 Add-Type -Assembly "System.Io.Compression.FileSystem"
 
+$unixEncoderSource = @"
+    using System.Text;
+    public class UnixEncoder : UTF8Encoding
+        {
+            public UnixEncoder() : base(true)
+            {
+            
+            }
+
+            public override byte[] GetBytes(string s)
+            {
+                s = s.Replace("\\", "/");
+                return base.GetBytes(s);
+            }
+    }
+"@
+
+Add-Type -TypeDefinition $unixEncoderSource
+$unixEncoder = New-Object UnixEncoder
+
 function Copy-New-Item {
   $SourceFilePath = $args[0]
   $DestinationFilePath = $args[1]
@@ -58,7 +78,7 @@ if(Test-Path $destinationFile) {
     Remove-Item $destinationFile
 }
 
-[io.compression.zipfile]::CreateFromDirectory($source, $destinationFile) 
+[io.compression.zipfile]::CreateFromDirectory($source, $destinationFile, [io.compression.CompressionLevel]::Fastest, $false, $unixEncoder) 
 Remove-Item $source -Recurse -Force
 
 Write-Host "Done"
