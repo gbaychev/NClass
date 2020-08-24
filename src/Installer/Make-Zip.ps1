@@ -61,7 +61,7 @@ Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\de\PDFExport.resources.dll dist\b
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\csproj.template dist\bin\Templates\csproj.template
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\sln.template dist\bin\Templates\sln.template
 Copy-New-Item ..\..\..\..\doc\changelog.txt dist\doc\changelog.txt
-Copy-New-Item ..\..\..\..\doc\commonmark.net.txt dist\doc\commonmark.net.txt
+Copy-New-Item ..\..\..\..\doc\commonmark.net.license.txt dist\doc\commonmark.net.license.txt
 Copy-New-Item ..\..\..\..\doc\ocktokit.license.txt dist\doc\ocktokit.license.txt
 Copy-New-Item ..\..\..\..\doc\pdfsharp.license.txt dist\doc\pdfsharp.license.txt
 Copy-New-Item ..\..\..\..\doc\license.txt dist\doc\license.txt
@@ -69,7 +69,7 @@ Copy-New-Item ..\..\..\..\doc\readme.txt dist\doc\readme.txt
 Copy-New-Item ..\..\..\..\examples\shapes.ncp dist\examples\shapes.ncp
 Copy-New-Item "..\..\..\..\styles\Visual Studio Class Designer (ClearType).dst" "dist\styles\Visual Studio Class Designer (ClearType).dst"
 Copy-New-Item "..\..\..\..\styles\Visual Studio Class Designer.dst" "dist\styles\Visual Studio Class Designer.dst"
-
+Copy-New-Item ..\..\..\GUI\bin\Release\CommonMark.dll dist\bin\CommonMark.dll
 
 $source = Join-Path $currentPath "dist"
 $destinationFile = Join-Path $currentPath "nclass.zip"
