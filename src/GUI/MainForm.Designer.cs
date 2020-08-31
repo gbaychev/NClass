@@ -970,7 +970,8 @@ namespace NClass.GUI
             this.toolZoomValue.AutoSize = false;
             this.toolZoomValue.Enabled = false;
             this.toolZoomValue.Name = "toolZoomValue";
-            this.toolZoomValue.Size = new System.Drawing.Size(36, 22);
+            this.toolZoomValue.Font = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 8);
+            this.toolZoomValue.Size = new System.Drawing.Size(50, this.standardToolStrip.ClientSize.Height);
             this.toolZoomValue.Text = "100%";
             this.toolZoomValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
