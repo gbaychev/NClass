@@ -1325,7 +1325,7 @@ namespace NClass.DiagramEditor.Diagrams
         private void SelectElements(AbsoluteMouseEventArgs e)
         {
             DiagramElement firstElement = null;
-            bool multiSelection = (Control.ModifierKeys == Keys.Control);
+            bool multiSelection = (Control.ModifierKeys == Keys.Control || Control.ModifierKeys == Keys.Shift);
 
             foreach (DiagramElement element in GetElementsInDisplayOrder())
             {
@@ -1334,8 +1334,12 @@ namespace NClass.DiagramEditor.Diagrams
                 if (e.Handled && firstElement == null)
                 {
                     firstElement = element;
-                    if (isSelected)
-                        multiSelection = true;
+
+                    // allow to deselect elements when in multiselection
+                    if(multiSelection && isSelected)
+                    {
+                        element.IsSelected = false;
+                    }
                 }
             }
 
