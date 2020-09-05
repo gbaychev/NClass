@@ -458,7 +458,6 @@ namespace PDFExport
             return new XStringFormat
             {
                 Alignment = StringAlignmentToXStringAlignment(format.Alignment),
-                FormatFlags = StringFormatFlagsToXStringFormatFlags(format.FormatFlags),
                 LineAlignment = StringAlignmentToXLineAlignment(format.LineAlignment)
             };
         }
@@ -481,17 +480,6 @@ namespace PDFExport
                 default:
                     throw new ArgumentOutOfRangeException("stringAlignment");
             }
-        }
-
-        /// <summary>
-        /// Converts a GDI-StringFormatFlags to a PDF-XStringFormatFlags.
-        /// </summary>
-        /// <param name="stringFormatFlags">The GDI-StringFormatFlags to convert.</param>
-        /// <returns>The converted PDF-XStringFormatFlags.</returns>
-        private static XStringFormatFlags StringFormatFlagsToXStringFormatFlags(StringFormatFlags stringFormatFlags)
-        {
-            //Nothing else is implemented...
-            return XStringFormatFlags.MeasureTrailingSpaces;
         }
 
         /// <summary>
