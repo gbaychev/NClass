@@ -84,7 +84,7 @@ namespace PDFExport
         /// given in <see cref="fileName"/>. If selectedOnly is true, only the selected
         /// elements of the diagram get exported.
         /// </summary>
-        public void Export()
+        public void Export(Graphics g)
         {
             if (MonoHelper.IsRunningOnMono)
             {
@@ -104,7 +104,7 @@ namespace PDFExport
             graphics.TranslateTransform(padding.Left, padding.Top);
 
             //Do some scaling to get from pixels to dots...
-            Graphics gdiGraphics = (new Control()).CreateGraphics();
+            Graphics gdiGraphics = g;
             graphics.ScaleTransform(72.0f / gdiGraphics.DpiX, 72.0f / gdiGraphics.DpiY);
             //Fonts are already mesured in dots but the size of them is also scaled by the above
             //transformation. So we have to applay an opposite transformation on the fonts first.

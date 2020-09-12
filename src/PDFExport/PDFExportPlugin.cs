@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using NClass.DiagramEditor;
 using NClass.DiagramEditor.Diagrams;
 using NClass.GUI;
 using NClass.GUI.Dialogs;
@@ -145,6 +146,7 @@ namespace PDFExport
                                           (int)new XUnit(optionsForm.PDFPadding.Bottom, optionsForm.Unit).Point);
 
             MainForm mainForm = Application.OpenForms.OfType<MainForm>().FirstOrDefault();
+            var g = mainForm.CreateGraphics();
 
             PDFExportProgress.ShowAsync(mainForm);
 
@@ -152,7 +154,7 @@ namespace PDFExport
             Application.DoEvents();
             try
             {
-                exporter.Export();
+                exporter.Export(g);
                 // Running the exporter within an extra thread isn't a good idea since
                 // the exporter uses GDI+. NClass uses GDI+ also if it has to redraw the
                 // diagram. GDI+ can't be used by two threads at the same time.
@@ -176,11 +178,24 @@ namespace PDFExport
                 DetailsErrorDialog.Show("Error", $"Export failed: {e.Message}", e.StackTrace, MessageBoxIcon.Error, true);
             }
 
-            if (exporter.Successful)
+            if (!exporter.Successful) return;
+
+            if (new PDFExportFinished().ShowDialog(mainForm) == DialogResult.OK)
             {
-                if (new PDFExportFinished().ShowDialog(mainForm) == DialogResult.OK)
+                try
                 {
-                    Process.Start(fileName);
+                    if (MonoHelper.IsRunningOnMono)
+                    {
+                        Process.Start("xdg-open", fileName);
+                    }
+                    else
+                    {
+                        Process.Start(fileName);
+                    }
+                }
+                catch (Exception e)
+                {
+                    DetailsErrorDialog.Show("PDF Export", e.Message, e.StackTrace, MessageBoxIcon.Error, true);
                 }
             }
         }
