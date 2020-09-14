@@ -473,9 +473,7 @@ namespace NClass.GUI.Dialogs
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
-            //this.MinimumSize = new System.Drawing.Size(360, 532);
-            this.MinimumSize = this.Size;
+            this.PerformLayout();           
         }
 
         #endregion
