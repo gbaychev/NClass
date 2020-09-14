@@ -44,7 +44,11 @@ namespace PDFExport
     public PDFExportOptions()
     {
       InitializeComponent();
-
+      
+      // Minimum size
+      this.Size = new System.Drawing.Size(370, 270);
+      this.MinimumSize = this.Size;
+      
       LocalizeComponents();
       LoadSettings();
     }

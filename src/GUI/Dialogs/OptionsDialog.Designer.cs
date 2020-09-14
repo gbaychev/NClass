@@ -451,7 +451,6 @@ namespace NClass.GUI.Dialogs
             this.Controls.Add(this.tabOptions);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(360, 532);
             this.Name = "OptionsDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -475,7 +474,8 @@ namespace NClass.GUI.Dialogs
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            //this.MinimumSize = new System.Drawing.Size(360, 532);
+            this.MinimumSize = this.Size;
         }
 
         #endregion
