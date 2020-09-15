@@ -34,6 +34,7 @@ namespace NClass.GUI.Dialogs
         public OptionsDialog()
         {
             InitializeComponent();
+            this.MinimumSize = this.Size;
         }
 
         private void UpdateTexts()

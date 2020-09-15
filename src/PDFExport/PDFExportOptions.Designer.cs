@@ -172,7 +172,7 @@
       // 
       this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.cmdCancel.Location = new System.Drawing.Point(205, 189);
+      this.cmdCancel.Location = new System.Drawing.Point(205, 170);
       this.cmdCancel.Name = "cmdCancel";
       this.cmdCancel.Size = new System.Drawing.Size(75, 23);
       this.cmdCancel.TabIndex = 3;
@@ -183,7 +183,7 @@
       // 
       this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-      this.cmdOK.Location = new System.Drawing.Point(124, 189);
+      this.cmdOK.Location = new System.Drawing.Point(124, 170);
       this.cmdOK.Name = "cmdOK";
       this.cmdOK.Size = new System.Drawing.Size(75, 23);
       this.cmdOK.TabIndex = 3;
