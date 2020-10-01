@@ -180,7 +180,7 @@ namespace NClass.DiagramEditor
 
         public void ScaleTransform(float sx, float sy)
         {
-            graphics.TranslateTransform(sx, sy);
+            graphics.ScaleTransform(sx, sy);
         }
 
         public void TranslateTransform(float dx, float dy)
