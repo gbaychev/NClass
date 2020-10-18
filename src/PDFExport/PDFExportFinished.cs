@@ -15,6 +15,8 @@ namespace PDFExport
     {
       InitializeComponent();
 
+      this.MinimumSize = new Size(450, 125);
+
       LocalizeComponents();
     }
 
