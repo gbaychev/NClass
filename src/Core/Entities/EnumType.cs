@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+ï»¿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -57,7 +57,7 @@ namespace NClass.Core
 
         public override string Stereotype
         {
-            get { return "«enumeration»"; }
+            get { return "Â«enumerationÂ»"; }
         }
 
         /// <exception cref="BadSyntaxException">

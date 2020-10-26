@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 // 
@@ -1853,7 +1853,7 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-        //TODO: legyenek inkább hivatkozások a shape-ekhez
+        //TODO: legyenek inkÃ¡bb hivatkozÃ¡sok a shape-ekhez
         protected Shape GetShape(IEntity entity)
         {
             foreach (Shape shape in shapes)

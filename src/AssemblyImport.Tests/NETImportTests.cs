@@ -1,4 +1,4 @@
-using NClass.AssemblyImport;
+﻿using NClass.AssemblyImport;
 using NClass.CSharp;
 using NClass.DiagramEditor.ClassDiagram;
 using NReflect.Filter;

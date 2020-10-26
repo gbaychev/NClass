@@ -1,4 +1,4 @@
-namespace NClass.GUI.Dialogs
+﻿namespace NClass.GUI.Dialogs
 {
     sealed partial class OptionsDialog
     {

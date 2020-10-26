@@ -1,4 +1,4 @@
-namespace AssemblyImport.Tests
+﻿namespace AssemblyImport.Tests
 {
     public class ImportFields
     {

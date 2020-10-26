@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -42,7 +42,7 @@ namespace NClass.AssemblyImport.Controls
     /// Gets or sets the index of the hosting cell's parent row.
     /// </summary>
     /// <returns>
-    /// The index of the row that contains the cell, or �1 if there is no parent row.
+    /// The index of the row that contains the cell, or –1 if there is no parent row.
     /// </returns>
     public int EditingControlRowIndex { get; set; }
 

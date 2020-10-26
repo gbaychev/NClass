@@ -1,4 +1,4 @@
-namespace NClass.GUI
+﻿namespace NClass.GUI
 {
     partial class TabBar
     {

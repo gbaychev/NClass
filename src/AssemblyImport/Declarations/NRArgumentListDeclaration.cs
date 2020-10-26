@@ -1,4 +1,4 @@
-using NClass.CSharp;
+﻿using NClass.CSharp;
 using NReflect.NRParameters;
 using System.Collections;
 using System.Collections.Generic;

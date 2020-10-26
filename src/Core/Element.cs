@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+Ôªø// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -37,7 +37,7 @@ namespace NClass.Core
         public virtual void Clean()
         {
             isDirty = false;
-            //TODO: tagok tisztÌt·sa
+            //TODO: tagok tiszt√≠t√°sa
         }
 
         protected bool Initializing { get; set; }

@@ -1,4 +1,4 @@
-namespace NClass.DiagramEditor.ClassDiagram.Editors
+﻿namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
     partial class DelegateEditor
     {

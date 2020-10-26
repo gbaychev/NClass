@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+ï»¿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -186,7 +186,7 @@ namespace NClass.Core
 
         public void Reverse()
         {
-            //TODO: ne az õsosztályon kereszül érje el, egyszerûbb lenne saját taggal
+            //TODO: ne az ÃµsosztÃ¡lyon kereszÃ¼l Ã©rje el, egyszerÃ»bb lenne sajÃ¡t taggal
             IEntity first = First;
             First = Second;
             Second = first;

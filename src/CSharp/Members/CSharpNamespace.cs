@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +27,7 @@ namespace NClass.CSharp
 
         public override string Stereotype
         {
-            get { return "«namespace»"; }
+            get { return "Â«namespaceÂ»"; }
         }
 
         public override string FullName

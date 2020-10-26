@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+ï»¿using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace NClass.GUI.ModelExplorer
@@ -190,7 +190,7 @@ namespace NClass.GUI.ModelExplorer
             this.lblAddProject.Name = "lblAddProject";
             this.lblAddProject.Size = new System.Drawing.Size(100, 23);
             this.lblAddProject.TabIndex = 0;
-            this.lblAddProject.Text = "« Double click here to add new project »";
+            this.lblAddProject.Text = "Â« Double click here to add new project Â»";
             this.lblAddProject.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblAddProject.Visible = false;
             this.lblAddProject.DoubleClick += new System.EventHandler(this.lblAddProject_DoubleClick);

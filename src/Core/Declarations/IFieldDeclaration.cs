@@ -1,4 +1,4 @@
-namespace NClass.Core
+﻿namespace NClass.Core
 {
     public interface IFieldDeclaration : IMemberDeclaration
     {
