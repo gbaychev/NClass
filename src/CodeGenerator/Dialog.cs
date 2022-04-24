@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+Ôªø// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -72,7 +72,7 @@ namespace NClass.CodeGenerator
         {
             Language language = null;
 
-            //TODO: ezt le kellene kÈrdezni egy LanguageManager-tol
+            //TODO: ezt le kellene k√©rdezni egy LanguageManager-tol
             if (object.Equals(cboLanguage.SelectedItem, "C#"))
                 language = CSharpLanguage.Instance;
             else if (object.Equals(cboLanguage.SelectedItem, "Java"))
@@ -93,7 +93,7 @@ namespace NClass.CodeGenerator
             foreach (object import in lstImportList.Items)
                 importList.Add(import.ToString());
 
-            //TODO: ezt is m·skÈpp kÈne
+            //TODO: ezt is m√°sk√©pp k√©ne
             if (object.Equals(cboLanguage.SelectedItem, "C#"))
                 Settings.Default.CSharpImportList = importList;
             else if (object.Equals(cboLanguage.SelectedItem, "Java"))

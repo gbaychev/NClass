@@ -1,4 +1,4 @@
-namespace NClass.DiagramEditor.ClassDiagram.Dialogs
+﻿namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
     partial class DiagramPrintDialog
     {

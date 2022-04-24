@@ -1,4 +1,4 @@
-using NClass.Core.UndoRedo;
+﻿using NClass.Core.UndoRedo;
 using NClass.DiagramEditor.Diagrams;
 
 namespace NClass.DiagramEditor.Commands

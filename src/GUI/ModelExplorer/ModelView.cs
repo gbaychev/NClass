@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+ï»¿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2016-2017 Georgi Baychev
 // 
@@ -230,7 +230,7 @@ namespace NClass.GUI.ModelExplorer
             }
         }
 
-        //TODO: ez így nem szép! nem kéne internal!
+        //TODO: ez Ã­gy nem szÃ©p! nem kÃ©ne internal!
         protected internal virtual void OnDocumentOpening(DocumentEventArgs e)
         {
             if (DocumentOpening != null)

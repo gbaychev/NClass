@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+ï»¿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -27,7 +27,7 @@ namespace NClass.Core
             return GetDeclaration();
         }
 
-        [Obsolete] //TODO: ezt a metódust meg kell szüntetni
+        [Obsolete] //TODO: ezt a metÃ³dust meg kell szÃ¼ntetni
         protected static string GetNameWithoutGeneric(string name)
         {
             int index = name.IndexOf('<');

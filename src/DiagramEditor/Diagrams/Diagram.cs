@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 // 
@@ -1325,7 +1325,7 @@ namespace NClass.DiagramEditor.Diagrams
         private void SelectElements(AbsoluteMouseEventArgs e)
         {
             DiagramElement firstElement = null;
-            bool multiSelection = (Control.ModifierKeys == Keys.Control);
+            bool multiSelection = (Control.ModifierKeys == Keys.Control || Control.ModifierKeys == Keys.Shift);
 
             foreach (DiagramElement element in GetElementsInDisplayOrder())
             {
@@ -1334,8 +1334,12 @@ namespace NClass.DiagramEditor.Diagrams
                 if (e.Handled && firstElement == null)
                 {
                     firstElement = element;
-                    if (isSelected)
-                        multiSelection = true;
+
+                    // allow to deselect elements when in multiselection
+                    if(multiSelection && isSelected)
+                    {
+                        element.IsSelected = false;
+                    }
                 }
             }
 
@@ -1849,7 +1853,7 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-        //TODO: legyenek inkább hivatkozások a shape-ekhez
+        //TODO: legyenek inkÃ¡bb hivatkozÃ¡sok a shape-ekhez
         protected Shape GetShape(IEntity entity)
         {
             foreach (Shape shape in shapes)

@@ -26,10 +26,10 @@
         <File Source="$(var.PDFExport.TargetPath)" />
       </Component>
       <Component Id="C_PdfSharp.dll" Directory="PLUGINS_FOLDER">
-        <File Source="$(var.GUI.TargetDir)Plugins\PdfSharp.dll" />
+        <File Source="$(var.GUI.TargetDir)Plugins\PdfSharp-gdi.dll" />
       </Component>
       <Component Id="C_PdfSharp.Charting.dll" Directory="PLUGINS_FOLDER">
-        <File Source="$(var.GUI.TargetDir)Plugins\PdfSharp.Charting.dll" />
+        <File Source="$(var.GUI.TargetDir)Plugins\PdfSharp.Charting-gdi.dll" />
       </Component>
     </ComponentGroup>
   </Fragment>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace NClass.GUI
 {
@@ -969,10 +969,12 @@ namespace NClass.GUI
             // 
             this.toolZoomValue.AutoSize = false;
             this.toolZoomValue.Enabled = false;
+            //this.toolZoomValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolZoomValue.Name = "toolZoomValue";
-            this.toolZoomValue.Size = new System.Drawing.Size(36, 22);
+            this.toolZoomValue.Font = new System.Drawing.Font(this.Font.FontFamily, 10);
+            this.toolZoomValue.Size = new System.Drawing.Size(50, this.standardToolStrip.ClientSize.Height);
             this.toolZoomValue.Text = "100%";
-            this.toolZoomValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolZoomValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // toolZoomOut
             // 
