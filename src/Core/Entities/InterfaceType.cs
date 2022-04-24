@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+ï»¿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -92,7 +92,7 @@ namespace NClass.Core
 
         public override string Stereotype
         {
-            get { return "«interface»"; }
+            get { return "Â«interfaceÂ»"; }
         }
 
         private bool IsAncestor(InterfaceType _interface)

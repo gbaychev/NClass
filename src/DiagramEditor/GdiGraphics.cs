@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -180,7 +180,7 @@ namespace NClass.DiagramEditor
 
         public void ScaleTransform(float sx, float sy)
         {
-            graphics.TranslateTransform(sx, sy);
+            graphics.ScaleTransform(sx, sy);
         }
 
         public void TranslateTransform(float dx, float dy)

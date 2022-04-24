@@ -54,8 +54,8 @@ Copy-New-Item ..\..\..\GUI\bin\Release\zh-CN\NClass.Translations.resources.dll d
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\AssemblyImport.dll dist\bin\Plugins\AssemblyImport.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\NReflect.dll dist\bin\Plugins\NReflect.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\PDFExport.dll dist\bin\Plugins\PDFExport.dll
-Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\PdfSharp.dll dist\bin\Plugins\PdfSharp.dll
-Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\PdfSharp.Charting.dll dist\bin\Plugins\PdfSharp.Charting.dll
+Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\PdfSharp-gdi.dll dist\bin\Plugins\PdfSharp-gdi.dll
+Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\PdfSharp.Charting-gdi.dll dist\bin\Plugins\PdfSharp.Charting-gdi.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\de\AssemblyImport.resources.dll dist\bin\Plugins\de\AssemblyImport.resources.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\de\PDFExport.resources.dll dist\bin\Plugins\de\PDFExport.resources.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\Plugins\Templates\csproj.template dist\bin\Templates\csproj.template

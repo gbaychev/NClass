@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="NClass" Manufacturer="NClass" Language="1033" Version="2.0.4.0" UpgradeCode="5a74ead8-4152-4fd6-9382-4b4e58252e52">
+  <Product Id="*" Name="NClass" Manufacturer="NClass" Language="1033" Version="2.8.2.0" UpgradeCode="5a74ead8-4152-4fd6-9382-4b4e58252e52">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of NClass is already installed." />

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NClass.Core;
 using NClass.Core.UndoRedo;
 

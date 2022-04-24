@@ -1,4 +1,4 @@
-using NClass.Core;
+﻿using NClass.Core;
 using NReflect;
 using NReflect.NRCode;
 

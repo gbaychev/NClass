@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using PDFExport.Lang;
 
 namespace PDFExport
@@ -14,6 +15,8 @@ namespace PDFExport
     public PDFExportFinished()
     {
       InitializeComponent();
+
+      this.MinimumSize = new Size(450, 125);
 
       LocalizeComponents();
     }

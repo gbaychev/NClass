@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+Ôªø// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 
@@ -75,7 +75,7 @@ namespace NClass.GUI
 
         private void visualizer_VisibleAreaChanged(object sender, EventArgs e)
         {
-            this.Invalidate(); //TODO: ezt lehetne t·n optimaliz·lni, hogy ne hÌvja meg annyiszor...
+            this.Invalidate(); //TODO: ezt lehetne t√°n optimaliz√°lni, hogy ne h√≠vja meg annyiszor...
         }
 
         protected override void OnMouseDown(MouseEventArgs e)

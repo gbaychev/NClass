@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using NClass.Core;
 using NClass.Translations;

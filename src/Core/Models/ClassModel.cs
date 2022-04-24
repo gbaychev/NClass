@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+﻿// NClass - Free class diagram editor
 // Copyright (C) 2020 Georgi Baychev
 // 
 // This program is free software; you can redistribute it and/or modify it under 

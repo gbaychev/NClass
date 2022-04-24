@@ -1,4 +1,4 @@
-// NClass - Free class diagram editor
+﻿// NClass - Free class diagram editor
 // Copyright (C) 2006-2009 Balazs Tihanyi
 // Copyright (C) 2020 Georgi Baychev
 // 
@@ -34,6 +34,7 @@ namespace NClass.GUI.Dialogs
         public OptionsDialog()
         {
             InitializeComponent();
+            this.MinimumSize = this.Size;
         }
 
         private void UpdateTexts()

@@ -1,4 +1,4 @@
-namespace NClass.DiagramEditor.ClassDiagram.Dialogs
+﻿namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
     partial class MembersDialog
     {
@@ -257,7 +257,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 9;
-            this.btnClose.Text = "Bez�r";
+            this.btnClose.Text = "Bezár";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 

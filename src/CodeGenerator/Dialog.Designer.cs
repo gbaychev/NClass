@@ -1,4 +1,4 @@
-namespace NClass.CodeGenerator
+﻿namespace NClass.CodeGenerator
 {
     partial class Dialog
     {
