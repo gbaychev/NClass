@@ -53,7 +53,7 @@ namespace NClass.GUI.Dialogs
 
         private string GetAuthorText()
         {
-            var sb = new StringBuilder($"Copyright (C) 2016-2019 {Strings.Author}");
+            var sb = new StringBuilder($"Copyright (C) 2016-2022 {Strings.Author}");
             sb.Append($"\r\nCopyright (C) 2006-2009 {Strings.AuthorRetired}");
             return sb.ToString();
         }
