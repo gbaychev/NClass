@@ -29,6 +29,8 @@ namespace NClass.DiagramEditor
                     return Resources.CSharp; 
                 if (classDiagram.Language == Language.GetLanguage("java"))
                     return Resources.Java;
+                if (classDiagram.Language == Language.GetLanguage("dart"))
+                    return Resources.Dart;
             }
 
             if (document is UseCaseDiagram.UseCaseDiagram)

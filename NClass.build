@@ -16,6 +16,7 @@
         <nant buildfile="src/Core/Core.build" target="compile" />
         <nant buildfile="src/CSharp/CSharp.build" target="compile" />
         <nant buildfile="src/Java/Java.build" target="compile" />
+        <nant buildfile="src/Dart/Dart.build" target="compile" />
         <nant buildfile="src/CodeGenerator/CodeGenerator.build" target="compile" />
         <nant buildfile="src/DiagramEditor/DiagramEditor.build" target="compile" />
         <nant buildfile="src/GUI/GUI.build" target="compile" />

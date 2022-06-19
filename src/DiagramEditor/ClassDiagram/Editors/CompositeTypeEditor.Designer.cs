@@ -41,6 +41,7 @@
             this.toolNone = new System.Windows.Forms.ToolStripMenuItem();
             this.toolAbstract = new System.Windows.Forms.ToolStripMenuItem();
             this.toolSealed = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMixin = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStatic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolSortByName = new System.Windows.Forms.ToolStripButton();
             this.toolSortByAccess = new System.Windows.Forms.ToolStripButton();
@@ -152,6 +153,7 @@
             this.toolNone,
             this.toolAbstract,
             this.toolSealed,
+            this.toolMixin,
             this.toolStatic});
             this.toolModifier.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolModifier.Name = "toolModifier";
@@ -178,6 +180,13 @@
             this.toolSealed.Size = new System.Drawing.Size(126, 22);
             this.toolSealed.Text = "Sealed";
             this.toolSealed.Click += new System.EventHandler(this.toolSealed_Click);
+            // 
+            // toolMixin
+            // 
+            this.toolMixin.Name = "toolMixin";
+            this.toolMixin.Size = new System.Drawing.Size(126, 22);
+            this.toolMixin.Text = "Mixin";
+            this.toolMixin.Click += new System.EventHandler(this.toolMixin_Click);
             // 
             // toolStatic
             // 
@@ -356,6 +365,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolNone;
         private System.Windows.Forms.ToolStripMenuItem toolAbstract;
         private System.Windows.Forms.ToolStripMenuItem toolSealed;
+        private System.Windows.Forms.ToolStripMenuItem toolMixin;
         private System.Windows.Forms.ToolStripMenuItem toolStatic;
         private System.Windows.Forms.ToolStripMenuItem toolDefault;
         private BorderedTextBox txtName;

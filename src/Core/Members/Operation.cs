@@ -281,12 +281,47 @@ namespace NClass.Core
             }
         }
 
+
+        /// <exception cref="BadSyntaxException">
+        /// Cannot set factory modifier.
+        /// </exception>
+        public virtual bool IsFactory
+        {
+            get
+            {
+                return ((modifier & OperationModifier.Factory) != 0);
+            }
+            set
+            {
+                if (value == IsFactory)
+                    return;
+
+                OperationModifier previousModifier = modifier;
+
+                try
+                {
+                    if (value)
+                        modifier |= OperationModifier.Factory;
+                    else
+                        modifier &= ~OperationModifier.Factory;
+                    Language.ValidateOperation(this);
+                    Changed();
+                }
+                catch
+                {
+                    modifier = previousModifier;
+                    throw;
+                }
+            }
+        }
+
         public virtual bool HasBody
         {
             get
             {
                 return (!IsAbstract && !(Parent is InterfaceType));
             }
+
         }
 
         public virtual bool Overridable

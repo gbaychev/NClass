@@ -9,6 +9,9 @@
       <Component Id="C_NClass.CSharp.dll">
         <File Source="$(var.CSharp.TargetPath)" />
       </Component>
+	    <Component Id="C_NClass.Dart.dll">
+		    <File Source="$(var.Dart.TargetPath)" />
+	    </Component>
       <Component Id="C_NClass.DiagramEditor.dll">
         <File Source="$(var.DiagramEditor.TargetPath)" />
       </Component>

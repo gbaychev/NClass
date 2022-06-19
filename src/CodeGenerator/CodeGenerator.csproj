@@ -69,9 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DartProjectGenerator.cs" />
+    <Compile Include="DartSourceFileGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GenerationResult.cs" />
     <Compile Include="ToolStripSimplifiedRenderer.cs" />
+    <Compile Include="DartSolutionGenerator.cs" />
     <Compile Include="VSSolutionGenerator.cs" />
     <Compile Include="SolutionType.cs" />
     <Compile Include="SolutionGenerator.cs" />
@@ -110,6 +113,10 @@
       <Project>{755B2714-62DB-419C-9097-49C08439E7E3}</Project>
       <Name>CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dart\Dart.csproj">
+      <Project>{2af0f529-333a-4ef2-aa17-2e353133fe78}</Project>
+      <Name>Dart</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Java\Java.csproj">
       <Project>{255565B1-3246-4184-9F71-19178FE0BA65}</Project>
       <Name>Java</Name>
@@ -138,6 +145,9 @@
     <None Include="Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\pubspec.yaml.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\sln.template">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -19,6 +19,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
@@ -28,8 +29,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
     public partial class MemberEditor : FloatingEditor
     {
-        CompositeTypeShape shape = null;
-        bool needValidation = false;
+        CompositeTypeShape shape;
+        bool needValidation;
 
         public MemberEditor()
         {
@@ -109,7 +110,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
                 {
                     OperationModifier modifier = operation.Modifier &
                         (OperationModifier.Abstract | OperationModifier.Override |
-                        OperationModifier.Sealed | OperationModifier.Virtual);
+                        OperationModifier.Sealed | OperationModifier.Virtual | OperationModifier.Factory);
 
                     if (modifier == OperationModifier.None)
                         toolOperationModifiers.Text = Strings.None;

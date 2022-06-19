@@ -18,6 +18,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.Translations;
 
 namespace NClass.CSharp

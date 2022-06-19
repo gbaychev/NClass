@@ -1120,4 +1120,7 @@ Szeretné most letölteni a szükséges keretrendszert a Microsoft honlapjáról
   <data name="AuthorRetired" xml:space="preserve">
     <value>Balazs Tihanyi</value>
   </data>
+  <data name="MenuDartDiagram" xml:space="preserve">
+    <value>&amp;Dart diagram</value>
+  </data>
 </root>

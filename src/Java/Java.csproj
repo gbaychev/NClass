@@ -82,7 +82,7 @@
     <Compile Include="Members\JavaEnum.cs" />
     <Compile Include="Members\JavaField.cs" />
     <Compile Include="Members\JavaInterface.cs" />
-    <Compile Include="Members\JavaLanguage.cs" />
+    <Compile Include="JavaLanguage.cs" />
     <Compile Include="Members\JavaMethod.cs" />
     <Compile Include="Members\JavaPackage.cs" />
     <Compile Include="Members\JavaParameter.cs" />

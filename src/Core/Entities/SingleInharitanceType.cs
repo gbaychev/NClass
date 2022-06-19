@@ -18,11 +18,11 @@ using System;
 using System.Collections.Generic;
 using NClass.Translations;
 
-namespace NClass.Core
+namespace NClass.Core.Entities
 {
     public abstract class SingleInharitanceType : CompositeType, IInterfaceImplementer
     {
-        List<InterfaceType> interfaceList = new List<InterfaceType>();
+        readonly List<CompositeType> interfaceList = new List<CompositeType>();
 
         /// <exception cref="BadSyntaxException">
         /// The <paramref name="name"/> does not fit to the syntax.
@@ -46,12 +46,12 @@ namespace NClass.Core
             get;
         }
 
-        protected List<InterfaceType> InterfaceList
+        protected List<CompositeType> InterfaceList
         {
             get { return interfaceList; }
         }
 
-        public IEnumerable<InterfaceType> Interfaces
+        public IEnumerable<CompositeType> Interfaces
         {
             get { return interfaceList; }
         }
@@ -76,7 +76,7 @@ namespace NClass.Core
             if (interfaceType == null)
                 throw new ArgumentNullException("interfaceType");
 
-            foreach (InterfaceType implementedInterface in InterfaceList) {
+            foreach (var implementedInterface in InterfaceList) {
                 if (interfaceType == implementedInterface)
                     throw new RelationshipException(Strings.ErrorCannotAddSameInterface);
             }
@@ -85,7 +85,36 @@ namespace NClass.Core
             Changed();
         }
 
+        /// <exception cref="RelationshipException">
+        /// The language of <paramref name="interfaceType"/> does not equal.-or-
+        /// <paramref name="interfaceType"/> is earlier implemented interface.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="interfaceType"/> is null.
+        /// </exception>
+        public virtual void AddInterface(ClassType interfaceType)
+        {
+            if (interfaceType == null)
+                throw new ArgumentNullException("interfaceType");
+
+            foreach (var compositeType in InterfaceList)
+            {
+                var implementedInterface = (ClassType) compositeType;
+                if (interfaceType == implementedInterface)
+                    throw new RelationshipException(Strings.ErrorCannotAddSameInterface);
+            }
+
+            InterfaceList.Add(interfaceType);
+            Changed();
+        }
+
         public void RemoveInterface(InterfaceType interfaceType)
+        {
+            if (InterfaceList.Remove(interfaceType))
+                Changed();
+        }
+
+        public void RemoveInterface(ClassType interfaceType)
         {
             if (InterfaceList.Remove(interfaceType))
                 Changed();

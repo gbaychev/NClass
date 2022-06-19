@@ -1,4 +1,5 @@
 ﻿using NClass.Core;
+using NClass.Core.Entities;
 using NReflect;
 using NReflect.NRCode;
 

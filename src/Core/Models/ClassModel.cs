@@ -16,7 +16,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Configuration;
 using System.Xml;
 using NClass.Translations;
 
@@ -182,6 +181,23 @@ namespace NClass.Core.Models
             return realization;
         }
 
+        /// <exception cref="RelationshipException">
+        /// Cannot create relationship between the two types.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="implementer"/> or <paramref name="baseType"/> is null.
+        /// </exception>
+        /// Foor Dart support the mixin class can also be used as an interface.
+        public RealizationRelationship AddRealization(TypeBase implementer,
+            ClassType baseType)
+        {
+            RealizationRelationship realization = new RealizationRelationship(
+                implementer, baseType);
+
+            AddRelationship(realization);
+            return realization;
+        }
+
         /// <exception cref="ArgumentNullException">
         /// <paramref name="first"/> or <paramref name="second"/> is null.
         /// </exception>
@@ -221,76 +237,102 @@ namespace NClass.Core.Models
             XmlNodeList nodeList = root.SelectNodes(
                 "Relationships/Relationship|Relations/Relation"); // old file format
 
-            foreach (XmlElement node in nodeList)
-            {
-                string type = node.GetAttribute("type");
-                string firstString = node.GetAttribute("first");
-                string secondString = node.GetAttribute("second");
-                int firstIndex, secondIndex;
-
-                if (!int.TryParse(firstString, out firstIndex) ||
-                    !int.TryParse(secondString, out secondIndex))
+            if (nodeList != null)
+                foreach (XmlElement node in nodeList)
                 {
-                    throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
-                }
-                if (firstIndex < 0 || firstIndex >= entities.Count ||
-                    secondIndex < 0 || secondIndex >= entities.Count)
-                {
-                    throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
-                }
+                    string type = node.GetAttribute("type");
+                    string firstString = node.GetAttribute("first");
+                    string secondString = node.GetAttribute("second");
+                    int firstIndex, secondIndex;
 
-                try
-                {
-                    IEntity first = entities[firstIndex];
-                    IEntity second = entities[secondIndex];
-                    Relationship relationship;
-
-                    switch (type)
+                    if (!int.TryParse(firstString, out firstIndex) ||
+                        !int.TryParse(secondString, out secondIndex))
                     {
-                        case "Association":
-                            relationship = AddAssociation(first as TypeBase, second as TypeBase);
-                            break;
-
-                        case "Generalization":
-                            relationship = AddGeneralization(
-                                first as CompositeType, second as CompositeType);
-                            break;
-
-                        case "Realization":
-                            relationship = AddRealization(first as TypeBase, second as InterfaceType);
-                            break;
-
-                        case "Dependency":
-                            relationship = AddDependency(first as TypeBase, second as TypeBase);
-                            break;
-
-                        case "Nesting":
-                            relationship = AddNesting(first as INestable, second as INestableChild);
-                            break;
-
-                        case "Comment":
-                        case "CommentRelationship": // Old file format
-                            if (first is Comment)
-                                relationship = AddCommentRelationship(first as Comment, second);
-                            else
-                                relationship = AddCommentRelationship(second as Comment, first);
-                            break;
-
-                        default:
-                            throw new InvalidDataException(
-                                Strings.ErrorCorruptSaveFormat);
+                        throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
                     }
-                    relationship.Deserialize(node);
+
+                    if (firstIndex < 0 || firstIndex >= entities.Count ||
+                        secondIndex < 0 || secondIndex >= entities.Count)
+                    {
+                        throw new InvalidDataException(Strings.ErrorCorruptSaveFormat);
+                    }
+
+                    try
+                    {
+                        IEntity first = entities[firstIndex];
+                        IEntity second = entities[secondIndex];
+                        Relationship relationship;
+
+                        switch (type)
+                        {
+                            case "Association":
+                                relationship = AddAssociation(first as TypeBase, second as TypeBase);
+                                break;
+
+                            case "Generalization":
+                                relationship = AddGeneralization(
+                                    first as CompositeType, second as CompositeType);
+                                break;
+
+                            case "Realization":
+                                // For Dart support check for the mixin class as it can be used either as a
+                                // class or as an interface
+                                var interfaceType = second as InterfaceType;
+                                if (interfaceType != null)
+                                {
+                                    relationship = AddRealization(first as TypeBase, interfaceType);
+                                    break;
+                                }
+
+                                var compositeType = second as CompositeType;
+                                if (compositeType != null)
+                                {
+                                    var classType = compositeType as ClassType;
+                                    if (classType != null)
+                                    {
+                                        relationship = AddRealization(first as TypeBase, classType);
+                                        break;
+                                    }
+                                }
+
+                                relationship = null;
+                                break;
+
+                            case "Dependency":
+                                relationship = AddDependency(first as TypeBase, second as TypeBase);
+                                break;
+
+                            case "Nesting":
+                                relationship = AddNesting(first as INestable, second as INestableChild);
+                                break;
+
+                            case "Comment":
+                            case "CommentRelationship": // Old file format
+                                if (first is Comment)
+                                    relationship = AddCommentRelationship(first as Comment, second);
+                                else
+                                    relationship = AddCommentRelationship(second as Comment, first);
+                                break;
+
+                            default:
+                                throw new InvalidDataException(
+                                    Strings.ErrorCorruptSaveFormat);
+                        }
+
+                        if (relationship != null)
+                        {
+                            relationship.Deserialize(node);
+                        }
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        throw new InvalidDataException("Invalid relationship.", ex);
+                    }
+                    catch (RelationshipException ex)
+                    {
+                        throw new InvalidDataException("Invalid relationship.", ex);
+                    }
                 }
-                catch (ArgumentNullException ex)
-                {
-                    throw new InvalidDataException("Invalid relationship.", ex);
-                }
-                catch (RelationshipException ex)
-                {
-                    throw new InvalidDataException("Invalid relationship.", ex);
-                }
-            }
         }
 
         protected override IEntity GetEntity(string type)
@@ -331,9 +373,12 @@ namespace NClass.Core.Models
 
         public override void Serialize(XmlElement node)
         {
-            XmlElement languageElement = node.OwnerDocument.CreateElement("Language");
-            languageElement.InnerText = Language.AssemblyName;
-            node.AppendChild(languageElement);
+            if (node.OwnerDocument != null)
+            {
+                XmlElement languageElement = node.OwnerDocument.CreateElement("Language");
+                languageElement.InnerText = Language.AssemblyName;
+                node.AppendChild(languageElement);
+            }
 
             base.Serialize(node);
         }

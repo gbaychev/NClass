@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace NClass.Core
+namespace NClass.Core.Entities
 {
     public interface IInterfaceImplementer
     {
-        IEnumerable<InterfaceType> Interfaces
+        IEnumerable<CompositeType> Interfaces
         {
             get;        
         }
@@ -61,5 +61,17 @@ namespace NClass.Core
         void AddInterface(InterfaceType interfaceType);
 
         void RemoveInterface(InterfaceType interfaceType);
+
+        /// <exception cref="RelationshipException">
+        /// The language of <paramref name="interfaceType"/> does not equal.-or-
+        /// <paramref name="interfaceType"/> is earlier implemented interface.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="interfaceType"/> is null.
+        /// </exception>
+        /// For Dart support the mixin class can alos be used as an interface.
+        void AddInterface(ClassType interfaceType);
+
+        void RemoveInterface(ClassType interfaceType);
     }
 }

@@ -14,9 +14,7 @@
 // this program; if not, write to the Free Software Foundation, Inc., 
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-
-namespace NClass.Core
+namespace NClass.Core.Entities
 {
     public enum ClassModifier
     {
@@ -35,6 +33,12 @@ namespace NClass.Core
         /// <summary>
         /// Indicates that a class contains only static members.
         /// </summary>
-        Static
+        Static,
+
+
+        /// <summary>
+        /// Indicates that a class is a Mixin(Dart only).
+        /// </summary>
+        Mixin
     }
 }

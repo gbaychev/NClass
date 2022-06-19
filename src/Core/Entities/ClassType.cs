@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using NClass.Core.Entities;
 using NClass.Translations;
 
 namespace NClass.Core

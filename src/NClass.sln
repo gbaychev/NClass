@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyImport.Tests", "Ass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dart", "Dart\Dart.csproj", "{2AF0F529-333A-4EF2-AA17-2E353133FE78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,6 +172,18 @@ Global
 		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3B77F1B-1309-4E44-BE70-E9BAE9F511DB}.Release|x86.Build.0 = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AF0F529-333A-4EF2-AA17-2E353133FE78}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

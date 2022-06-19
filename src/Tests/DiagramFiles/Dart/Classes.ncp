@@ -1,0 +1,142 @@
+<Project>
+  <Name>Classes</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Access</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Public</Name>
+        <Access>Public</Access>
+        <Location left="47" top="27" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Private</Name>
+        <Access>Private</Access>
+        <Location left="245" top="30" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Abstract</Name>
+        <Access>Public</Access>
+        <Location left="449" top="27" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Mixin</Name>
+        <Access>Public</Access>
+        <Location left="53" top="294" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>Mixin</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Fields</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Book</Name>
+        <Access>Public</Access>
+        <Location left="86" top="76" />
+        <Size width="584" height="404" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int id</Member>
+        <Member type="Field">public String name</Member>
+        <Member type="Field">bool read</Member>
+        <Member type="Field">public const int hashCode = 200</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Methods</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Book</Name>
+        <Access>Public</Access>
+        <Location left="70" top="71" />
+        <Size width="584" height="404" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int id</Member>
+        <Member type="Field">public String name</Member>
+        <Member type="Field">bool read</Member>
+        <Member type="Field">public const int hashCode = 200</Member>
+        <Member type="Method">public bool hasBeenRead()</Member>
+        <Member type="Method">public void printDetails()</Member>
+        <Member type="Method">public static void testStatic()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Animal</Name>
+        <Access>Public</Access>
+        <Location left="786" top="71" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract bool hasWings()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Constructors</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Book</Name>
+        <Access>Public</Access>
+        <Location left="94" top="91" />
+        <Size width="584" height="404" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int id</Member>
+        <Member type="Field">public String name</Member>
+        <Member type="Field">bool read</Member>
+        <Member type="Field">public const int hashCode = 200</Member>
+        <Member type="Method">public bool hasBeenRead()</Member>
+        <Member type="Method">public void printDetails()</Member>
+        <Member type="Constructor">Book()</Member>
+        <Member type="Constructor">Book()</Member>
+        <Member type="Constructor">Book.named()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Shoe</Name>
+        <Access>Public</Access>
+        <Location left="94" top="517" />
+        <Size width="374" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">Shoe.named()</Member>
+        <Member type="Constructor">Shoe()</Member>
+        <Member type="Constructor">Shoe.anotherName()</Member>
+        <Member type="Constructor">Shoe.yetAnotherNamed()</Member>
+        <Member type="Property">public int Size { get; }</Member>
+        <Member type="Property">public int LaceHoles { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Animal</Name>
+        <Access>Public</Access>
+        <Location left="805" top="91" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+</Project>

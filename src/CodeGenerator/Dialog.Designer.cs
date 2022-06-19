@@ -268,7 +268,9 @@
             this.cboSolutionType.FormattingEnabled = true;
             this.cboSolutionType.Items.AddRange(new object[] {
             "Visual Studio 2017",
-            "Visual Studio 2019"});
+            "Visual Studio 2019",
+            "Dart"
+            });
             this.cboSolutionType.Location = new System.Drawing.Point(311, 83);
             this.cboSolutionType.Name = "cboSolutionType";
             this.cboSolutionType.Size = new System.Drawing.Size(271, 21);
@@ -280,7 +282,9 @@
             this.cboLanguage.FormattingEnabled = true;
             this.cboLanguage.Items.AddRange(new object[] {
             "C#",
-            "Java"});
+            "Java",
+            "Dart"
+            });
             this.cboLanguage.Location = new System.Drawing.Point(12, 64);
             this.cboLanguage.Name = "cboLanguage";
             this.cboLanguage.Size = new System.Drawing.Size(60, 21);

@@ -1147,4 +1147,7 @@ Un log del problema y ficheros de recuperación han sido creados en el directori
   <data name="AuthorRetired" xml:space="preserve">
     <value>Balazs Tihanyi</value>
   </data>
+  <data name="MenuDartDiagram" xml:space="preserve">
+    <value>Diagrama &amp;Dart</value>
+  </data>
 </root>

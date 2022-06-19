@@ -39,11 +39,11 @@
             this.txtInitialValue = new System.Windows.Forms.TextBox();
             this.lblInitValue = new System.Windows.Forms.Label();
             this.lstMembers = new System.Windows.Forms.ListView();
-            this.icon = new System.Windows.Forms.ColumnHeader();
-            this.name = new System.Windows.Forms.ColumnHeader();
-            this.type = new System.Windows.Forms.ColumnHeader();
-            this.access = new System.Windows.Forms.ColumnHeader();
-            this.modifier = new System.Windows.Forms.ColumnHeader();
+            this.icon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.access = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.modifier = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cboType = new System.Windows.Forms.ComboBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -75,9 +75,10 @@
             this.chkAbstract = new System.Windows.Forms.CheckBox();
             this.chkOverride = new System.Windows.Forms.CheckBox();
             this.chkSealed = new System.Windows.Forms.CheckBox();
+            this.chkFactory = new System.Windows.Forms.CheckBox();
             this.chkOperationHider = new System.Windows.Forms.CheckBox();
             this.grpOperationModifiers = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.grpFieldModifiers.SuspendLayout();
             this.grpOperationModifiers.SuspendLayout();
@@ -89,8 +90,8 @@
             // 
             // txtSyntax
             // 
-            this.txtSyntax.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSyntax.Location = new System.Drawing.Point(71, 12);
             this.txtSyntax.Name = "txtSyntax";
             this.txtSyntax.Size = new System.Drawing.Size(367, 20);
@@ -118,8 +119,8 @@
             // 
             // txtName
             // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(71, 44);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(187, 20);
@@ -146,8 +147,8 @@
             // 
             // cboAccess
             // 
-            this.cboAccess.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboAccess.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboAccess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAccess.FormattingEnabled = true;
             this.cboAccess.Items.AddRange(new object[] {
@@ -166,9 +167,9 @@
             // 
             // txtInitialValue
             // 
-            this.txtInitialValue.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInitialValue.Location = new System.Drawing.Point(71, 134);
+            this.txtInitialValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInitialValue.Location = new System.Drawing.Point(71, 153);
             this.txtInitialValue.Name = "txtInitialValue";
             this.txtInitialValue.Size = new System.Drawing.Size(367, 20);
             this.txtInitialValue.TabIndex = 4;
@@ -176,7 +177,7 @@
             // 
             // lblInitValue
             // 
-            this.lblInitValue.Location = new System.Drawing.Point(0, 137);
+            this.lblInitValue.Location = new System.Drawing.Point(0, 156);
             this.lblInitValue.Name = "lblInitValue";
             this.lblInitValue.Size = new System.Drawing.Size(65, 13);
             this.lblInitValue.TabIndex = 14;
@@ -185,9 +186,9 @@
             // 
             // lstMembers
             // 
-            this.lstMembers.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstMembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstMembers.AutoArrange = false;
             this.lstMembers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.icon,
@@ -195,15 +196,15 @@
             this.type,
             this.access,
             this.modifier});
-            this.lstMembers.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
+            this.lstMembers.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lstMembers.FullRowSelect = true;
             this.lstMembers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstMembers.HideSelection = false;
-            this.lstMembers.Location = new System.Drawing.Point(12, 200);
+            this.lstMembers.Location = new System.Drawing.Point(12, 224);
             this.lstMembers.MultiSelect = false;
             this.lstMembers.Name = "lstMembers";
             this.lstMembers.ShowGroups = false;
-            this.lstMembers.Size = new System.Drawing.Size(445, 255);
+            this.lstMembers.Size = new System.Drawing.Size(445, 221);
             this.lstMembers.TabIndex = 8;
             this.lstMembers.UseCompatibleStateImageBehavior = false;
             this.lstMembers.View = System.Windows.Forms.View.Details;
@@ -237,8 +238,8 @@
             // 
             // cboType
             // 
-            this.cboType.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cboType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboType.FormattingEnabled = true;
@@ -251,7 +252,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(382, 461);
             this.btnClose.Name = "btnClose";
@@ -263,8 +264,8 @@
             // 
             // toolStrip
             // 
-            this.toolStrip.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.toolStrip.AutoSize = false;
             this.toolStrip.BackColor = System.Drawing.SystemColors.Control;
             this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
@@ -287,7 +288,7 @@
             this.toolSepAddNew,
             this.toolOverrideList,
             this.toolImplementList});
-            this.toolStrip.Location = new System.Drawing.Point(12, 175);
+            this.toolStrip.Location = new System.Drawing.Point(15, 196);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip.Size = new System.Drawing.Size(445, 25);
@@ -459,7 +460,7 @@
             // 
             // grpFieldModifiers
             // 
-            this.grpFieldModifiers.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpFieldModifiers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpFieldModifiers.Controls.Add(this.chkVolatile);
             this.grpFieldModifiers.Controls.Add(this.chkFieldHider);
             this.grpFieldModifiers.Controls.Add(this.chkConstant);
@@ -583,6 +584,17 @@
             this.chkSealed.UseVisualStyleBackColor = true;
             this.chkSealed.CheckedChanged += new System.EventHandler(this.chkSealed_CheckedChanged);
             // 
+            // chkFactory
+            // 
+            this.chkFactory.AutoSize = true;
+            this.chkFactory.Location = new System.Drawing.Point(11, 90);
+            this.chkFactory.Name = "chkFactory";
+            this.chkFactory.Size = new System.Drawing.Size(61, 17);
+            this.chkFactory.TabIndex = 7;
+            this.chkFactory.Text = "Factory";
+            this.chkFactory.UseVisualStyleBackColor = true;
+            this.chkFactory.CheckedChanged += new System.EventHandler(this.chkFactory_CheckedChanged);
+            // 
             // chkOperationHider
             // 
             this.chkOperationHider.AutoSize = true;
@@ -596,7 +608,8 @@
             // 
             // grpOperationModifiers
             // 
-            this.grpOperationModifiers.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpOperationModifiers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpOperationModifiers.Controls.Add(this.chkFactory);
             this.grpOperationModifiers.Controls.Add(this.chkOperationHider);
             this.grpOperationModifiers.Controls.Add(this.chkSealed);
             this.grpOperationModifiers.Controls.Add(this.chkOverride);
@@ -605,7 +618,7 @@
             this.grpOperationModifiers.Controls.Add(this.chkOperationStatic);
             this.grpOperationModifiers.Location = new System.Drawing.Point(280, 37);
             this.grpOperationModifiers.Name = "grpOperationModifiers";
-            this.grpOperationModifiers.Size = new System.Drawing.Size(158, 88);
+            this.grpOperationModifiers.Size = new System.Drawing.Size(177, 113);
             this.grpOperationModifiers.TabIndex = 5;
             this.grpOperationModifiers.TabStop = false;
             this.grpOperationModifiers.Text = "Modifiers";
@@ -643,7 +656,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Members";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PropertiesDialog_KeyDown);
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.grpFieldModifiers.ResumeLayout(false);
@@ -706,6 +719,7 @@
         private System.Windows.Forms.CheckBox chkAbstract;
         private System.Windows.Forms.CheckBox chkVirtual;
         private System.Windows.Forms.CheckBox chkOperationStatic;
+        private System.Windows.Forms.CheckBox chkFactory;
     }
 }
 

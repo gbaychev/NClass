@@ -126,9 +126,7 @@
     </Compile>
     <Compile Include="Diagrams\DiagramConstants.cs" />
     <Compile Include="Diagrams\DiagramType.cs" />
-    <Compile Include="Diagrams\Editors\DesignerHelperWindow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Diagrams\Editors\DesignerHelperWindow.cs" />
     <Compile Include="Diagrams\Editors\DesignerHelperWindow.Designer.cs">
       <DependentUpon>DesignerHelperWindow.cs</DependentUpon>
     </Compile>
@@ -445,6 +443,8 @@
     <None Include="Resources\boundary.bmp" />
     <None Include="Resources\undo.png" />
     <None Include="Resources\redo.png" />
+    <Content Include="Resources\Bitmap1.bmp" />
+    <Content Include="Resources\dart.bmp" />
     <Content Include="Resources\usecase_diagram.bmp" />
   </ItemGroup>
   <ItemGroup />

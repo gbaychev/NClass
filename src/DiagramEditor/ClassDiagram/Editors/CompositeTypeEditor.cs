@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using NClass.Translations;
 using NClass.DiagramEditor.ClassDiagram.Dialogs;
@@ -28,8 +29,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
     public partial class CompositeTypeEditor : TypeEditor
     {
-        CompositeTypeShape shape = null;
-        bool needValidation = false;
+        CompositeTypeShape shape;
+        bool needValidation;
 
         public CompositeTypeEditor()
         {
@@ -82,7 +83,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
         private void RefreshValues()
         {
             CompositeType type = shape.CompositeType;
-            Language language = type.Language;
             SuspendLayout();
 
             int cursorPosition = txtName.SelectionStart;
@@ -167,6 +167,17 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             {
                 toolPrivate.Visible = false;
             }
+            // Private for Dart
+            if (language.ValidAccessModifiers.ContainsKey(AccessModifier.Private) && language.Name == "Dart")
+            {
+                toolPrivate.Visible = true;
+                toolPrivate.Text = language.ValidAccessModifiers[AccessModifier.Private];
+                toolPrivate.Image = Icons.GetImage(type.EntityType, AccessModifier.Private);
+            }
+            else
+            {
+                toolPrivate.Visible = false;
+            }
             // Default
             if (language.ValidAccessModifiers.ContainsKey(AccessModifier.Default))
             {
@@ -212,6 +223,16 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
                 else
                 {
                     toolSealed.Visible = false;
+                }
+                // Mixin modifier
+                if (language.ValidClassModifiers.ContainsKey(ClassModifier.Mixin))
+                {
+                    toolMixin.Visible = true;
+                    toolMixin.Text = language.ValidClassModifiers[ClassModifier.Mixin];
+                }
+                else
+                {
+                    toolMixin.Visible = false;
                 }
                 // Static modifier
                 if (language.ValidClassModifiers.ContainsKey(ClassModifier.Static))
@@ -525,6 +546,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
         private void toolStatic_Click(object sender, EventArgs e)
         {
             ChangeModifier(ClassModifier.Static);
+        }
+
+        private void toolMixin_Click(object sender, EventArgs e)
+        {
+            ChangeModifier(ClassModifier.Mixin);
         }
 
         private void AddNewMember()
