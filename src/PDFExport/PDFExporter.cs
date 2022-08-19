@@ -7,6 +7,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PDFExport.Lang;
 using PdfSharp.Fonts;
+using System.Text;
 
 namespace PDFExport
 {
@@ -53,6 +54,7 @@ namespace PDFExport
         /// <param name="padding">The size of the border arround the diagram.</param>
         public PDFExporter(string fileName, IDocument nclassDocument, bool selectedOnly, Padding padding)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             this.fileName = fileName;
             this.nclassDocument = nclassDocument;
             this.selectedOnly = selectedOnly;

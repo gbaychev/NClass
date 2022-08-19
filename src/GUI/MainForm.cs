@@ -29,6 +29,7 @@ using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.UseCaseDiagram;
 using NClass.GUI.Dialogs;
 using NClass.Translations;
+using System.Linq;
 
 namespace NClass.GUI
 {
@@ -119,17 +120,16 @@ namespace NClass.GUI
         {
             LoadPlugins();
             LoadWindowSettings();
-            await UpdatesChecker.CheckForUpdates(true);
+            //await UpdatesChecker.CheckForUpdates(true);
         }
 
         private void LoadPlugins()
         {
             try
             {
-                string pluginsPath = Path.Combine(Application.StartupPath, "Plugins");
-                if (!Directory.Exists(pluginsPath))
-                    return;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+                string pluginsPath = Path.Combine(Application.StartupPath, "Plugins");
                 DirectoryInfo directory = new DirectoryInfo(pluginsPath);
 
                 foreach (FileInfo file in directory.GetFiles("*.dll"))
@@ -137,6 +137,7 @@ namespace NClass.GUI
                     Assembly assembly = Assembly.LoadFile(file.FullName);
                     LoadPlugin(assembly);
                 }
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             }
             catch (Exception ex)
             {
@@ -154,6 +155,32 @@ namespace NClass.GUI
                     mnuPlugins.DropDownItems.Add(plugin.MenuItem);
                     plugin.MenuItem.Tag = plugin;
                 }
+            }
+        }
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // Ignore missing resources
+            if (args.Name.Contains(".resources"))
+                return null;
+
+            // check for assemblies already loaded
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly != null)
+                return assembly;
+
+            // Try to load by filename - split out the filename of the full assembly name
+            // and append the base path of the original assembly (ie. look in the same dir)
+            string filename = args.Name.Split(',')[0] + ".dll".ToLower();
+
+            string asmFile = Path.Combine(@".\Plugins\", filename);
+
+            try
+            {
+                return System.Reflection.Assembly.LoadFrom(asmFile);
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

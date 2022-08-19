@@ -28,7 +28,7 @@ namespace PDFExport
     /// Implements the 'glorious' mechanism of
     /// PdfSharp to resolve fonts
     /// </summary>
-   public class NClassFontResolver : IFontResolver
+    public class NClassFontResolver : IFontResolver
     {
         /// <summary>
         /// General information about font, including filename
@@ -96,7 +96,6 @@ namespace PDFExport
         /// Contains the actual binary data of the font files
         /// </summary>
         private readonly IDictionary<string, byte[]> fontDataCache;
-
         /// <summary>
         /// Ok, since fonts under linux/unix is such clusterfuck,
         /// the only hope is to call fc-list from fontconfig
@@ -108,7 +107,7 @@ namespace PDFExport
         {
             var p = new Process
             {
-                StartInfo = {FileName = "fc-list", RedirectStandardOutput = true, UseShellExecute = false}
+                StartInfo = { FileName = "fc-list", RedirectStandardOutput = true, UseShellExecute = false }
             };
 
             var cache = new Dictionary<string, FontInfo>(25);
