@@ -1,5 +1,3 @@
 [submodule "NReflect"]
 	path = libs/NReflect
-	url = https://github.com/gbaychev/NReflect.git
-[submodule "libs/NReflect"]
-	url = https://github.com/syntacs/NReflect
+	url = https://github.com/syntacs/NReflect.git
