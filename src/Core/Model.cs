@@ -274,9 +274,14 @@ namespace NClass.Core
 
                 foreach (var childEntity in ((INestable)entity).NestedChilds)
                 {
-                    var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
-                    childEntityNode.InnerText = entities.IndexOf(childEntity).ToString();
-                    child.AppendChild(childEntityNode);
+                    int childEntityIndexNum = entities.IndexOf(childEntity);
+
+                    if (childEntityIndexNum >= 0) // made to rule out any cases where the child entity has an index of -1
+                    {
+                        var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
+                        childEntityNode.InnerText = childEntityIndexNum.ToString();
+                        child.AppendChild(childEntityNode);
+                    }
                 }
 
                 containersNode.AppendChild(child);
