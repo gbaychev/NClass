@@ -218,10 +218,12 @@ namespace NClass.Core
                 var container = entities[containerIndex] as INestable;
                 foreach (XmlElement childNode in node.ChildNodes)
                 {
-                    int.TryParse(childNode.InnerText, out var childIndex);
-                    var childEntity = entities[childIndex] as INestableChild;
-                    container.AddNestedChild(childEntity);
-                    EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+                    if (int.TryParse(childNode.InnerText, out var childIndex) && childIndex >= 0) // to un-corrupt old "corrupted" files
+                    {
+                        var childEntity = entities[childIndex] as INestableChild;
+                        container.AddNestedChild(childEntity);
+                        EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+                    }
                 }
             }
         }
