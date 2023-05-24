@@ -59,6 +59,11 @@ namespace NClass.Core
         /// <summary>
         /// The derived class member hides the base class member.
         /// </summary>
-        Hider = 32
+        Hider = 32,
+
+        /// <summary>
+        /// The derived class member hides the base class member.
+        /// </summary>
+        Factory = 64
     }
 }

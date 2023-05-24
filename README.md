@@ -12,13 +12,13 @@ The feature branch currently worked on is undo/redo
 
 ## About
 
-NClass is a free tool to easily create UML class diagrams with C# and Java language support. The user interface is designed to be simple and user-friendly for easy and fast development. Initially the project was developed by the great Balasz Tihanyi on [sourceforge](http://nclass.sourceforge.net/), but the project has gone inactive due the lack of time. 
+NClass is a free tool to easily create UML class diagrams with C#, Java and Dart language support. The user interface is designed to be simple and user-friendly for easy and fast development. Initially the project was developed by the great Balasz Tihanyi on [sourceforge](http://nclass.sourceforge.net/), but the project has gone inactive due the lack of time. 
 
 Still, NClass is a great tool, although it is missing some important features. The goal of this project is to restart the development of NClass, adding the missing features. 
 
 ## :computer: Existing features
 
- - C# and Java support with many language specific elements
+ - C#, Java and Dart support with many language specific elements
  - Simple and easy to use user interface
  - Inline class editors with syntactic parsers for easy and fast editing
  - Source code generation

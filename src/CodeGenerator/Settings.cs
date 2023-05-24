@@ -43,10 +43,13 @@ namespace NClass.CodeGenerator
                 CSharpImportList = new StringCollection();
             if (JavaImportList == null)
                 JavaImportList = new StringCollection();
+            if (DartImportList == null)
+                DartImportList = new StringCollection();
 
             ImportList.Clear();
             ImportList.Add(CSharp.CSharpLanguage.Instance, CSharpImportList);
             ImportList.Add(Java.JavaLanguage.Instance, JavaImportList);
+            ImportList.Add(Dart.DartLanguage.Instance, DartImportList);
 
             if (string.IsNullOrEmpty(DestinationPath))
             {

@@ -16,10 +16,10 @@
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.DiagramEditor.Commands;
 using NClass.DiagramEditor.Diagrams;
 using NClass.Translations;
@@ -28,12 +28,12 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 {
     public partial class MembersDialog : Form
     {
-        private IDiagram diagram = null;
-        CompositeType parent = null;
-        Member member = null;
-        bool locked = false;
-        int attributeCount = 0;
-        bool error = false;
+        private IDiagram diagram;
+        CompositeType parent;
+        Member member;
+        bool locked;
+        int attributeCount;
+        bool error;
 
         public event EventHandler ContentsChanged;
 
@@ -242,6 +242,18 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
                 chkSealed.Enabled = false;
                 chkSealed.Text = "Sealed";
             }
+            // chkFactory
+            if (language.IsValidModifier(OperationModifier.Factory))
+            {
+                chkFactory.Enabled = true;
+                chkFactory.Text =
+                    language.ValidOperationModifiers[OperationModifier.Factory];
+            }
+            else
+            {
+                chkFactory.Enabled = false;
+                chkFactory.Text = "Factory";
+            }
             // chkOperationHider
             if (language.IsValidModifier(OperationModifier.Hider))
             {
@@ -382,6 +394,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
                 chkAbstract.Checked = operation.IsAbstract;
                 chkOverride.Checked = operation.IsOverride;
                 chkSealed.Checked = operation.IsSealed;
+                chkFactory.Checked = operation.IsFactory;
                 chkOperationHider.Checked = operation.IsHider;
                 txtInitialValue.Text = string.Empty;
             }
@@ -639,7 +652,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
 
         private void cboAccess_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = cboAccess.SelectedIndex;
 
             if (!locked && member != null)
             {
@@ -907,6 +919,27 @@ namespace NClass.DiagramEditor.ClassDiagram.Dialogs
                 try
                 {
                     ((Operation)member).IsSealed = chkSealed.Checked;
+                    RefreshValues();
+                    errorProvider.SetError(grpOperationModifiers, null);
+                    error = false;
+                    OnContentsChanged(EventArgs.Empty);
+                }
+                catch (BadSyntaxException ex)
+                {
+                    RefreshValues();
+                    errorProvider.SetError(grpOperationModifiers, ex.Message);
+                    error = true;
+                }
+            }
+        }
+
+        private void chkFactory_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!locked && member is Operation)
+            {
+                try
+                {
+                    ((Operation)member).IsFactory = chkFactory.Checked;
                     RefreshValues();
                     errorProvider.SetError(grpOperationModifiers, null);
                     error = false;

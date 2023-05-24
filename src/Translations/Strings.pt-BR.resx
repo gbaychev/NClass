@@ -1142,4 +1142,7 @@ Do you want to download the framework now?</value>
   <data name="AuthorRetired" xml:space="preserve">
     <value>Balazs Tihanyi</value>
   </data>
+  <data name="MenuDartDiagram" xml:space="preserve">
+    <value>&amp;Dart diagrama</value>
+  </data>
 </root>

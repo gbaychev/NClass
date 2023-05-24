@@ -17,6 +17,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using NClass.Core.Entities;
 
 namespace NClass.Core
 {

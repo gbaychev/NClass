@@ -15,6 +15,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using NClass.Core.Entities;
 using NClass.Translations;
 
 namespace NClass.Core
@@ -36,6 +37,21 @@ namespace NClass.Core
             Attach();
         }
 
+
+        /// <exception cref="RelationshipException">
+        /// Cannot create realization.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="implementer"/> is null.-or-
+        /// <paramref name="baseType"/> is null.
+        /// </exception>
+        /// For Dart support the mixin class can also be an interface
+        internal RealizationRelationship(TypeBase implementer, ClassType baseType)
+           : base(implementer, baseType)
+        {
+            Attach();
+        }
+
         public override RelationshipType RelationshipType
         {
             get { return RelationshipType.Realization; }
@@ -46,9 +62,9 @@ namespace NClass.Core
             get { return (IInterfaceImplementer) First; }
         }
 
-        private InterfaceType BaseType
+        private CompositeType BaseType
         {
-            get { return (InterfaceType) Second; }
+            get { return (CompositeType) Second; }
         }
 
         public RealizationRelationship Clone(TypeBase implementer, InterfaceType baseType)
@@ -63,12 +79,28 @@ namespace NClass.Core
         /// </exception>
         protected override void OnAttaching(EventArgs e)
         {
-            Implementer.AddInterface(BaseType);
+            if (BaseType is InterfaceType type)
+            {
+                Implementer.AddInterface(type);
+            }
+
+            if (BaseType is ClassType type1)
+            {
+                Implementer.AddInterface(type1);
+            }
         }
 
         protected override void OnDetaching(EventArgs e)
         {
-            Implementer.RemoveInterface(BaseType);
+            if (BaseType is InterfaceType type)
+            {
+                Implementer.RemoveInterface(type);
+            }
+
+            if (BaseType is ClassType type1)
+            {
+                Implementer.RemoveInterface(type1);
+            }
         }
 
         public override string ToString()

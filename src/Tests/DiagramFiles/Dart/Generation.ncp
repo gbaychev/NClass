@@ -1,0 +1,186 @@
+<Project>
+  <Name>Generation</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Simple</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Shoe</Name>
+        <Access>Public</Access>
+        <Location left="52" top="46" />
+        <Size width="622" height="461" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int privateField</Member>
+        <Member type="Field">public int publicField</Member>
+        <Member type="Constructor">Shoe()</Member>
+        <Member type="Constructor">factory Shoe.IsFactory()</Member>
+        <Member type="Constructor">Shoe.withSize(int size )</Member>
+        <Member type="Property">public int Size { get; }</Member>
+        <Member type="Method">public bool willFit(int footSize )</Member>
+        <Member type="Property">public int LaceLength { get; set; }</Member>
+        <Member type="Method">private void privateMethod()</Member>
+        <Member type="Method">public static void StaticMethod()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Enum</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Enum">
+        <Name>Colour</Name>
+        <Access>Public</Access>
+        <Location left="42" top="15" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>red</Value>
+        <Value>blue</Value>
+        <Value>green</Value>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Interface</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>Interface</Name>
+        <Access>Public</Access>
+        <Location left="30" top="23" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">int add(int a , int b )</Member>
+        <Member type="Method">void writeLine()</Member>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Package</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Package">
+        <Name>DartPackage</Name>
+        <Location left="72" top="21" />
+        <Size width="320" height="350" />
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.ClassDiagram" assembly="NClass.DiagramEditor, Version=2.8.0.2, Culture=neutral, PublicKeyToken=null">
+    <Name>Complex</Name>
+    <Language>Dart</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Bird</Name>
+        <Access>Public</Access>
+        <Location left="918" top="64" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public abstract bool hasWings()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Eagle</Name>
+        <Access>Public</Access>
+        <Location left="417" top="457" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public override bool hasWings()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Hawk</Name>
+        <Access>Public</Access>
+        <Location left="797" top="466" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public override bool hasWings()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Emu</Name>
+        <Access>Public</Access>
+        <Location left="1156" top="466" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool hasWings()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Flyer</Name>
+        <Access>Public</Access>
+        <Location left="405" top="821" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool canFly()</Member>
+        <Modifier>Mixin</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NonFlyer</Name>
+        <Access>Public</Access>
+        <Location left="1336" top="820" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public bool canFly()</Member>
+        <Modifier>Mixin</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>NZBirds</Name>
+        <Access>Public</Access>
+        <Location left="1384" top="74" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+      <Entity type="Interface">
+        <Name>FunnyBirds</Name>
+        <Access>Public</Access>
+        <Location left="1460" top="473" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+      </Entity>
+    </Entities>
+    <Containers />
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="1" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="3" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="2" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="3" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="3" second="7">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

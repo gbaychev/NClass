@@ -21,7 +21,7 @@ namespace NClass.Core
 {
     public abstract class Member : LanguageElement
     {
-        string name;
+        protected string name;
         string type;
         AccessModifier access = AccessModifier.Default;
         CompositeType parent;

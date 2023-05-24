@@ -15,32 +15,36 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.Translations;
 
-namespace NClass.Java
+namespace NClass.Dart
 {
-    public sealed class JavaLanguage : Language
+    public sealed class DartLanguage : Language
     {
-        static JavaLanguage instance = new JavaLanguage();
+        static DartLanguage instance = new DartLanguage();
 
         #region Regex patterns
 
-        internal const string InitialChar = @"[\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Pc}\p{Lm}]";
+        internal const string InitialChar = @"[@\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Pc}\p{Lm}]";
         internal const string DeclarationEnding = @"\s*(;\s*)?$";
 
         // System.String
         private const string TypeNamePattern = InitialChar + @"(\w|\." + InitialChar + @")*";
 
-        // [,][][,,]
-        private const string ArrayPattern = @"(\s*\[\s*\])*";
+        // get
+        public const string GetPattern = @"\s*get\s*";
+
+        // get
+        public const string SetPattern = @"\s*set\s*";
 
         // System.String[]
-        internal const string BaseTypePattern = TypeNamePattern + ArrayPattern;
+        internal const string BaseTypePattern = TypeNamePattern + @"\??" + GetPattern;
 
         // <System.String[], System.String[]>
         private const string GenericPattern =
@@ -48,7 +52,7 @@ namespace NClass.Java
         
         // System.Collections.Generic.List<System.String[], System.String[]>[]
         internal const string GenericTypePattern =
-            TypeNamePattern + @"(\s*" + GenericPattern + @")?(\s*\[\s*\])?";
+            TypeNamePattern + @"(\s*" + GenericPattern + @")?\??";
         
         // <List<int>[], List<string>>
         private const string GenericPattern2 =
@@ -56,12 +60,15 @@ namespace NClass.Java
         
         // System.Collections.Generic.List<List<int>[]>[]
         internal const string GenericTypePattern2 =
-            TypeNamePattern + @"(\s*" + GenericPattern2 + @")?(\s*\[\s*\])?";
+            TypeNamePattern + @"(\s*" + GenericPattern2 + @")?\??";
 
 
         // Name
         internal const string NamePattern = InitialChar + @"\w*";
         
+        // Named constructor
+        internal const string NamedConstructorPattern = InitialChar + @"\w*[.]?\w*";
+
         // <T, K>
         private const string BaseGenericPattern =
             @"<\s*" + NamePattern + @"(\s*,\s*" + NamePattern + @")*\s*>";
@@ -70,13 +77,21 @@ namespace NClass.Java
         internal const string GenericNamePattern =
             NamePattern + @"(\s*" + BaseGenericPattern + ")?";
 
-        // [abstract | final]
+        // Interface.Method
+        private const string OperationNamePattern =
+            "(" + GenericTypePattern + @"(?<namedot>\.))?" + NamePattern;
+
+        // Interface.Method<T>
+        internal const string GenericOperationNamePattern =
+            OperationNamePattern + @"(\s*" + BaseGenericPattern + ")?";
+
+
+        // [static | abstract | get | set]
         internal const string OperationModifiersPattern =
-            @"((?<modifier>static|final|abstract)\s+)*";
+            @"((?<modifier>static|abstract|override)\s+)*";
 
-        // [public | protected | private]
-        internal const string AccessPattern = @"((?<access>public|protected|private)\s+)*";
-
+        // [ private]
+        internal const string AccessPattern =@"((?<access>private|public)\s+)*";
 
         // For validating identifier names.
         private const string ClosedNamePattern = @"^\s*(?<name>" + NamePattern + @")\s*$";
@@ -93,127 +108,86 @@ namespace NClass.Java
         static Regex genericNameRegex = new Regex(ClosedGenericNamePattern, RegexOptions.ExplicitCapture);
         static Regex typeRegex = new Regex(ClosedTypePattern, RegexOptions.ExplicitCapture);
 
-        static readonly string[] reservedNames = {
-            "abstract", "assert", "break","case", "catch", "class", "const", "continue", 
-            "default", "do", "else", "enum", "extends", "false", "final", "finally", 
-            "for", "goto", "if", "implements", "import", "instanceof", "interface", 
-            "native", "new", "null", "package", "private", "protected", "public", 
-            "return", "static", "strictfp", "super", "switch", "synchronized", "this", 
-            "throw", "throws", "transient", "true", "try", "volatile", "while"
-        };
-        static readonly string[] typeKeywords = {
-            "boolean", "byte", "char", "double", "float", "int", "long", "short", "void"
-        };
-        static readonly Dictionary<AccessModifier, string> validAccessModifiers;
-        static readonly Dictionary<ClassModifier, string> validClassModifiers;
-        static readonly Dictionary<FieldModifier, string> validFieldModifiers;
-        static readonly Dictionary<OperationModifier, string> validOperationModifiers;
+        private static readonly string[] reservedNames = {
+            "assert", "break", "case", "catch", "class", "const", "continue", "default", "do", "else", "enum", "extends", "false", "final", "finally", "for", "if", "in", "is", "new", "null", "rethrow", "return", "super", "switch", 
+            "this", "throw", "true", "try", "var", "while", "with", "abstract", "as", "covariant", "deferred", "export", "extension", "external", "factory", "function", "get", "implements", "import", 
+            "interface", "library", "mixin", "operator", "part", "set", "static", "typedef"
+    };
 
-        static JavaClass objectClass;
+        private static readonly string[] typeKeywords = {
+            "bool", "double", "int", "num", "Object", "String", "void", "Map", "List, dynamic, null"
+        };
 
-        static JavaLanguage()
+        private static readonly Dictionary<AccessModifier, string> validAccessModifiers;
+        private static readonly Dictionary<ClassModifier, string> validClassModifiers;
+        private static readonly Dictionary<FieldModifier, string> validFieldModifiers;
+        private static readonly Dictionary<OperationModifier, string> validOperationModifiers;
+
+        static DartClass objectClass;
+
+        static DartLanguage()
         {
+            // objectClass initialization
             string[] objectMethods = {
-                "protected Object clone()",
-                "public boolean equals(Object obj)",
-                "protected void finalize()",
-                "public final Class getClass()",
-                "public int hashCode()",
-                "public final void notify()",
-                "public final void notifyAll()",
-                "public String toString()",
-                "public final void wait()",
-                "public final void wait(long timeout)",
-                "public final void wait(long timeout, int nanos)"
+                "bool operator ==(object other)",
+                "int get hashCode",
+                "String get runTimeType",
+                "dynamic noSuchMethod(Invocation invocation)",
+                "String toString()"
             };
-            objectClass = new JavaClass("Object");
+
+            objectClass = new DartClass("Object");
             objectClass.AddConstructor();
             foreach (string methodDeclaration in objectMethods)
                 objectClass.AddMethod().InitFromString(methodDeclaration);
 
             // validAccessModifiers initialization
-            validAccessModifiers = new Dictionary<AccessModifier, string>(4);
-            validAccessModifiers.Add(AccessModifier.Default, "Default");
+            validAccessModifiers = new Dictionary<AccessModifier, string>(6);
             validAccessModifiers.Add(AccessModifier.Public, "Public");
-            validAccessModifiers.Add(AccessModifier.Protected, "Protected");
             validAccessModifiers.Add(AccessModifier.Private, "Private");
+            validAccessModifiers.Add(AccessModifier.Default, "Default");
 
             // validClassModifiers initialization
             validClassModifiers = new Dictionary<ClassModifier, string>(3);
             validClassModifiers.Add(ClassModifier.Abstract, "Abstract");
-            validClassModifiers.Add(ClassModifier.Sealed, "Final");
-            validClassModifiers.Add(ClassModifier.Static, "Static");
+            validClassModifiers.Add(ClassModifier.Mixin, "Mixin");
 
             // validFieldModifiers initialization
-            validFieldModifiers = new Dictionary<FieldModifier, string>(3);
+            validFieldModifiers = new Dictionary<FieldModifier, string>(5);
             validFieldModifiers.Add(FieldModifier.Static, "Static");
-            validFieldModifiers.Add(FieldModifier.Readonly, "Final");
-            validFieldModifiers.Add(FieldModifier.Volatile, "Volatile");
+            validFieldModifiers.Add(FieldModifier.Constant, "Const");
+
 
             // validOperationModifiers initialization
-            validOperationModifiers = new Dictionary<OperationModifier, string>(3);
+            validOperationModifiers = new Dictionary<OperationModifier, string>(8);
             validOperationModifiers.Add(OperationModifier.Static, "Static");
             validOperationModifiers.Add(OperationModifier.Abstract, "Abstract");
-            validOperationModifiers.Add(OperationModifier.Sealed, "Final");
+            validOperationModifiers.Add(OperationModifier.Override, "Override");
+            validOperationModifiers.Add(OperationModifier.Factory, "Factory");
         }
 
-        private JavaLanguage()
+        private DartLanguage()
         {
         }
 
-        public static JavaLanguage Instance
+        public static DartLanguage Instance
         {
             get { return instance; }
         }
 
-        internal static JavaClass ObjectClass
+        internal static DartClass ObjectClass
         {
             get { return objectClass; }
         }
 
         public override string Name
         {
-            get { return "Java"; }
+            get { return "Dart"; }
         }
 
         public override string AssemblyName
         {
-            get { return "Java"; }
-        }
-
-        public override bool SupportsInterfaces
-        {
-            get { return true; }
-        }
-
-        public override bool SupportsStructures
-        {
-            get { return false; }
-        }
-
-        public override bool SupportsEnums
-        {
-            get { return true; }
-        }
-
-        public override bool SupportsDelegates
-        {
-            get { return false; }
-        }
-
-        public override bool SupportsExplicitImplementation
-        {
-            get { return false; }
-        }
-
-        public override bool SupportsAssemblyImport
-        {
-            get { return false; }
-        }
-
-        public override bool ExplicitVirtualMethods
-        {
-            get { return false; }
+            get { return "Dart"; }
         }
 
         [XmlIgnore]
@@ -252,35 +226,46 @@ namespace NClass.Java
 
         public override string DefaultFileExtension
         {
-            get { return ".jd"; }
+            get { return ".dart"; }
         }
 
         public override bool IsValidModifier(AccessModifier modifier)
         {
-            return (
-                modifier == AccessModifier.Public ||
-                modifier == AccessModifier.Protected ||
-                modifier == AccessModifier.Default ||
-                modifier == AccessModifier.Private
-            );
+            if ((modifier == AccessModifier.Default) ||
+                (modifier == AccessModifier.Private) ||
+                (modifier == AccessModifier.Public))
+            {
+                return true;
+            }
+
+            return false;
         }
+
 
         public override bool IsValidModifier(FieldModifier modifier)
         {
-            return (
-                modifier == FieldModifier.Static ||
-                modifier == FieldModifier.Readonly ||
-                modifier == FieldModifier.Volatile
-            );
+            if ((modifier == FieldModifier.Static) ||
+                (modifier == FieldModifier.Constant) ||
+                (modifier == FieldModifier.None))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public override bool IsValidModifier(OperationModifier modifier)
         {
-            return (
-                modifier == OperationModifier.Static ||
-                modifier == OperationModifier.Abstract ||
-                modifier == OperationModifier.Sealed
-            );
+            if ((modifier == OperationModifier.Abstract) ||
+                (modifier == OperationModifier.None) ||
+                (modifier == OperationModifier.Override) ||
+                (modifier == OperationModifier.Static) ||
+                (modifier == OperationModifier.Factory))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <exception cref="BadSyntaxException">
@@ -288,20 +273,17 @@ namespace NClass.Java
         /// </exception>
         protected override void ValidateOperation(Operation operation)
         {
-            if (operation.IsAbstract) {
-                if (operation.IsStatic) {
+            ValidateAccessModifiers(operation);
+            ValidateOperationModifiers(operation);
+        }
+
+        private static void ValidateOperationModifiers(Operation operation)
+        {
+            if (operation.IsStatic) {
+                if (operation.IsAbstract) {
                     throw new BadSyntaxException(string.Format(
                         Strings.ErrorInvalidModifierCombination, "abstract", "static"));
                 }
-                if (operation.IsSealed) {
-                    throw new BadSyntaxException(string.Format(
-                    Strings.ErrorInvalidModifierCombination, "sealed", "abstract"));
-                }
-            }
-
-            if (operation.Access == AccessModifier.Private && operation.IsAbstract) {
-                throw new BadSyntaxException(string.Format(
-                    Strings.ErrorInvalidModifierCombination, "private", "abstract"));
             }
 
             if (operation.IsAbstract) {
@@ -311,6 +293,17 @@ namespace NClass.Java
                 else
                     parent.Modifier = ClassModifier.Abstract;
             }
+
+        }
+
+        private static void ValidateAccessModifiers(Operation operation)
+        {
+            if (operation.AccessModifier != AccessModifier.Default &&
+                operation.Parent is InterfaceType)
+            {
+                throw new BadSyntaxException(
+                    Strings.ErrorInterfaceMemberAccess);
+            }
         }
 
         /// <exception cref="BadSyntaxException">
@@ -318,9 +311,11 @@ namespace NClass.Java
         /// </exception>
         protected override void ValidateField(Field field)
         {
-            if (field.IsReadonly && field.IsVolatile) {
-                throw new BadSyntaxException(string.Format(
-                    Strings.ErrorInvalidModifierCombination, "volatile", "readonly"));
+            if (field.IsConstant) {
+                if (field.IsStatic) {
+                    throw new BadSyntaxException(string.Format(
+                        Strings.ErrorInvalidModifierCombination, "const", "static"));
+                }
             }
         }
 
@@ -334,21 +329,21 @@ namespace NClass.Java
         protected override Operation Implement(Operation operation,
             CompositeType newParent, bool explicitly)
         {
-            if (operation == null)
-                throw new ArgumentNullException("operation");
             if (newParent == null)
                 throw new ArgumentNullException("newParent");
-
-            if (explicitly) {
-                throw new ArgumentException("Java does not support explicit" +
-                    "interface implementation.", "explicitly");
-            }
+            if (operation == null)
+                throw new ArgumentNullException("operation");
 
             Operation newOperation = operation.Clone(newParent);
 
-            newOperation.AccessModifier = AccessModifier.Default;
+            newOperation.AccessModifier = AccessModifier.Public;
             newOperation.ClearModifiers();
             newOperation.IsStatic = false;
+
+            if (explicitly) {
+                newOperation.Name = string.Format("{0}.{1}",
+                    ((InterfaceType) operation.Parent).Name, newOperation.Name);
+            }
 
             return newOperation;
         }
@@ -364,13 +359,17 @@ namespace NClass.Java
             if (operation == null)
                 throw new ArgumentNullException("operation");
 
-            if (operation.Modifier == OperationModifier.Sealed) {
+            if (!operation.IsVirtual && !operation.IsAbstract && !operation.IsOverride ||
+                operation.IsSealed)
+            {
                 throw new ArgumentException(
                     Strings.ErrorCannotOverride, "operation");
             }
 
             Operation newOperation = operation.Clone(newParent);
-            newOperation.ClearModifiers();
+            newOperation.IsVirtual = false;
+            newOperation.IsAbstract = false;
+            newOperation.IsOverride = true;
 
             return newOperation;
         }
@@ -380,7 +379,7 @@ namespace NClass.Java
         /// </exception>
         public override string GetValidName(string name, bool isGenericName)
         {
-            Match match = (isGenericName ? nameRegex.Match(name) : genericNameRegex.Match(name));
+            Match match = (isGenericName ? genericNameRegex.Match(name) : nameRegex.Match(name));
 
             if (match.Success) {
                 string validName = match.Groups["name"].Value;
@@ -404,15 +403,7 @@ namespace NClass.Java
             }
             else {
                 throw new BadSyntaxException(Strings.ErrorInvalidTypeName);
-            }            
-        }
-
-        public override OperationModifier TryParseOperationModifier(string value)
-        {
-            if (value == "final")
-                return OperationModifier.Sealed;
-            else
-                return base.TryParseOperationModifier(value);
+            }
         }
 
         public override string GetAccessString(AccessModifier access, bool forCode)
@@ -423,12 +414,6 @@ namespace NClass.Java
                         return "";
                     else
                         return "Default";
-
-                case AccessModifier.Internal:
-                    if (forCode)
-                        return "";
-                    else
-                        return "Package";
 
                 default:
                     if (forCode)
@@ -447,13 +432,11 @@ namespace NClass.Java
                     return "None";
             }
 
-            StringBuilder builder = new StringBuilder(20);
+            StringBuilder builder = new StringBuilder(30);
+            if ((modifier & FieldModifier.Constant) != 0)
+                builder.Append(forCode ? "const " : "const, ");
             if ((modifier & FieldModifier.Static) != 0)
-                builder.Append(forCode ? "static " : "Static, ");
-            if ((modifier & FieldModifier.Readonly) != 0)
-                builder.Append(forCode ? "readonly " : "Readonly, ");
-            if ((modifier & FieldModifier.Volatile) != 0)
-                builder.Append(forCode ? "volatile " : "Volatile, ");
+                builder.Append(forCode ? "static " : "static, ");
 
             if (forCode)
                 builder.Remove(builder.Length - 1, 1);
@@ -472,13 +455,15 @@ namespace NClass.Java
                     return "None";
             }
 
-            StringBuilder builder = new StringBuilder(20);
+            StringBuilder builder = new StringBuilder(30);
             if ((modifier & OperationModifier.Static) != 0)
-                builder.Append(forCode ? "static " : "Static, ");
-            if ((modifier & OperationModifier.Sealed) != 0)
-                builder.Append(forCode ? "final " : "Final, ");
+                builder.Append(forCode ? "static " : "static, ");
             if ((modifier & OperationModifier.Abstract) != 0)
-                builder.Append(forCode ? "abstract " : "Abstract, ");
+                builder.Append(forCode ? "abstract " : "abstract, ");
+            if ((modifier & OperationModifier.Factory) != 0)
+                builder.Append(forCode ? "factory " : "factory, ");
+            if ((modifier & OperationModifier.Override) != 0)
+                builder.Append(forCode ? "override " : "override, ");
 
             if (forCode)
                 builder.Remove(builder.Length - 1, 1);
@@ -490,63 +475,82 @@ namespace NClass.Java
 
         public override string GetClassModifierString(ClassModifier modifier, bool forCode)
         {
-            if (validClassModifiers.ContainsKey(modifier))
-            {
-                if (forCode)
-                    return validClassModifiers[modifier].ToLower();
-                else
-                    return validClassModifiers[modifier];
-            }
+            if (!forCode)
+                return modifier.ToString();
+            else if (modifier == ClassModifier.None)
+                return "";
             else
-            {
-                if (modifier == ClassModifier.None)
-                    return Strings.None;
-                else
-                    return string.Empty;
-            }
+                return modifier.ToString().ToLower();
         }
 
         protected override Package CreatePackage()
         {
-            return new JavaPackage();
+            return new DartNamespace();
         }
 
         protected override ClassType CreateClass()
         {
-            return new JavaClass();
+            return new DartClass();
         }
 
-        /// <exception cref="InvalidOperationException">
-        /// The language does not support structures.
-        /// </exception>
         protected override StructureType CreateStructure()
         {
-            throw new InvalidOperationException(
-                string.Format(Strings.ErrorCannotCreateStructure, Name));
+            return null;
         }
 
         protected override InterfaceType CreateInterface()
         {
-            return new JavaInterface();
+            return new DartInterface();
         }
 
         protected override EnumType CreateEnum()
         {
-            return new JavaEnum();
+            return new DartEnum();
         }
 
-        /// <exception cref="InvalidOperationException">
-        /// The language does not support delegates.
-        /// </exception>
         protected override DelegateType CreateDelegate()
         {
-            throw new InvalidOperationException(
-                string.Format(Strings.ErrorCannotCrateDelegate, Name));
+            return null;
         }
 
         protected override ArgumentList CreateParameterCollection()
         {
-            return new JavaArgumentList();
+            return new DartArgumentList();
+        }
+
+        public override bool SupportsAssemblyImport
+        {
+            get { return false; }
+        }
+
+        public override bool SupportsInterfaces
+        {
+            get { return true; }
+        }
+
+        public override bool SupportsStructures
+        {
+            get { return false; }
+        }
+
+        public override bool SupportsEnums
+        {
+            get { return true; }
+        }
+
+        public override bool SupportsDelegates
+        {
+            get { return false; }
+        }
+
+        public override bool SupportsExplicitImplementation
+        {
+            get { return true; }
+        }
+
+        public override bool ExplicitVirtualMethods
+        {
+            get { return false; }
         }
     }
 }

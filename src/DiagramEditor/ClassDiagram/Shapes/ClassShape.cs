@@ -17,6 +17,7 @@
 using System;
 using System.Drawing;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.DiagramEditor.Diagrams;
 
 

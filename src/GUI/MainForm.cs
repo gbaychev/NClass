@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using NClass.Core;
 using NClass.Core.UndoRedo;
 using NClass.CSharp;
+using NClass.Dart;
 using NClass.Java;
 using NClass.DiagramEditor;
 using NClass.DiagramEditor.ClassDiagram;
@@ -37,7 +38,7 @@ namespace NClass.GUI
         DocumentManager docManager = new DocumentManager();
         bool showModelExplorer = true;
         bool showNavigator = true;
-        DynamicMenu dynamicMenu = null;
+        DynamicMenu dynamicMenu;
         List<Plugin> plugins = new List<Plugin>();
 
         public MainForm()
@@ -243,6 +244,7 @@ namespace NClass.GUI
             mnuNewProject.Text = Strings.MenuProject;
             mnuNewCSharpDiagram.Text = Strings.MenuCSharpDiagram;
             mnuNewJavaDiagram.Text = Strings.MenuJavaDiagram;
+            mnuNewDartDiagram.Text = Strings.MenuDartDiagram;
             mnuNewUseCaseDiagram.Text = Strings.MenuUseCaseDiagram;
             mnuOpen.Text = Strings.MenuOpen;
             mnuOpenFile.Text = Strings.MenuOpenFile;
@@ -285,6 +287,7 @@ namespace NClass.GUI
             // Toolbar
             toolNewCSharpDiagram.Text = Strings.MenuCSharpDiagram;
             toolNewJavaDiagram.Text = Strings.MenuJavaDiagram;
+            toolNewDartDiagram.Text = Strings.MenuDartDiagram;
             toolSave.Text = Strings.Save;
             toolPrint.Text = Strings.Print;
             toolCut.Text = Strings.Cut;
@@ -357,6 +360,7 @@ namespace NClass.GUI
         {
             toolNewCSharpDiagram.Enabled = Workspace.Default.HasActiveProject;
             toolNewJavaDiagram.Enabled = Workspace.Default.HasActiveProject;
+            toolNewDartDiagram.Enabled = Workspace.Default.HasActiveProject;
             toolSave.Enabled = Workspace.Default.HasActiveProject;
             toolPrint.Enabled = docManager.HasDocument;
             toolZoom.Enabled = docManager.HasDocument;
@@ -573,6 +577,7 @@ namespace NClass.GUI
         {
             mnuNewCSharpDiagram.Enabled = Workspace.Default.HasActiveProject;
             mnuNewJavaDiagram.Enabled = Workspace.Default.HasActiveProject;
+            mnuNewDartDiagram.Enabled = Workspace.Default.HasActiveProject;
             mnuNewUseCaseDiagram.Enabled = Workspace.Default.HasActiveProject;
         }
 
@@ -590,6 +595,17 @@ namespace NClass.GUI
                 var diagram = new ClassDiagram(CSharpLanguage.Instance);
                 Workspace.Default.ActiveProject.Add(diagram);
                 Settings.Default.DefaultLanguageName = CSharpLanguage.Instance.AssemblyName;
+            }
+        }
+
+        private void mnuNewDartDiagram_Click(object sender, EventArgs e)
+        {
+            if (Workspace.Default.HasActiveProject)
+            {
+                ShowModelExplorer = true;
+                var diagram = new ClassDiagram(DartLanguage.Instance);
+                Workspace.Default.ActiveProject.Add(diagram);
+                Settings.Default.DefaultLanguageName = DartLanguage.Instance.AssemblyName;
             }
         }
 
@@ -900,6 +916,7 @@ namespace NClass.GUI
         {
             toolNewCSharpDiagram.Enabled = Workspace.Default.HasActiveProject;
             toolNewJavaDiagram.Enabled = Workspace.Default.HasActiveProject;
+            toolNewDartDiagram.Enabled = Workspace.Default.HasActiveProject;
         }
 
         private void toolOpen_DropDownOpening(object sender, EventArgs e)

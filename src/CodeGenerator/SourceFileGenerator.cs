@@ -19,18 +19,19 @@ using System.IO;
 using System.Text;
 using NClass.Core;
 using System.Text.RegularExpressions;
+using NClass.Dart;
 
 namespace NClass.CodeGenerator
 {
     public abstract class SourceFileGenerator
     {
         // This builder object is static to increase performance
-        static StringBuilder codeBuilder;
+        static StringBuilder _codeBuilder;
         const int DefaultBuilderCapacity = 10240; // 10 KB
 
         TypeBase type;
-        string rootNamespace;
-        int indentLevel = 0;
+        readonly string rootNamespace;
+        int indentLevel;
 
         /// <exception cref="ArgumentNullException">
         /// <paramref name="type"/> is null.
@@ -38,7 +39,7 @@ namespace NClass.CodeGenerator
         protected SourceFileGenerator(TypeBase type, string rootNamespace)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             this.type = type;
             this.rootNamespace = rootNamespace;
@@ -73,7 +74,7 @@ namespace NClass.CodeGenerator
         }
 
         /// <exception cref="FileGenerationException">
-        /// An error has occured while generating the source file.
+        /// An error has occurred while generating the source file.
         /// </exception>
         public string Generate(string directory)
         {
@@ -83,6 +84,13 @@ namespace NClass.CodeGenerator
                     Directory.CreateDirectory(directory);
 
                 string fileName = Type.Name + Extension;
+
+                // Lowercase file names for Dart
+                if (Type.Language == DartLanguage.Instance)
+                {
+                    fileName = Type.Name.ToLower() + Extension;
+                }
+
                 fileName = Regex.Replace(fileName, @"\<(?<type>.+)\>", @"[${type}]");
                 string path = Path.Combine(directory, fileName);
 
@@ -106,20 +114,20 @@ namespace NClass.CodeGenerator
         /// </exception>
         private void WriteFileContent(TextWriter writer)
         {
-            if (codeBuilder == null)
-                codeBuilder = new StringBuilder(DefaultBuilderCapacity);
+            if (_codeBuilder == null)
+                _codeBuilder = new StringBuilder(DefaultBuilderCapacity);
             else
-                codeBuilder.Length = 0;
+                _codeBuilder.Length = 0;
 
             WriteFileContent();
-            writer.Write(codeBuilder.ToString());
+            writer.Write(_codeBuilder.ToString());
         }
 
         protected abstract void WriteFileContent();
 
         internal static void FinishWork()
         {
-            codeBuilder = null;
+            _codeBuilder = null;
         }
 
         protected void AddBlankLine()
@@ -131,7 +139,7 @@ namespace NClass.CodeGenerator
         {
             if (indentation)
                 AddIndent();
-            codeBuilder.AppendLine();
+            _codeBuilder.AppendLine();
         }
 
         protected void WriteLine(string text)
@@ -143,7 +151,7 @@ namespace NClass.CodeGenerator
         {
             if (indentation)
                 AddIndent();
-            codeBuilder.AppendLine(text);
+            _codeBuilder.AppendLine(text);
         }
 
         private void AddIndent()
@@ -154,7 +162,7 @@ namespace NClass.CodeGenerator
             else
                 indentString = new string(' ', IndentLevel * Settings.Default.IndentSize);
 
-            codeBuilder.Append(indentString);
+            _codeBuilder.Append(indentString);
         }
     }
 }

@@ -214,6 +214,10 @@
       <Project>{755B2714-62DB-419C-9097-49C08439E7E3}</Project>
       <Name>CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dart\Dart.csproj">
+      <Project>{2af0f529-333a-4ef2-aa17-2e353133fe78}</Project>
+      <Name>Dart</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DiagramEditor\DiagramEditor.csproj">
       <Project>{F52A7548-E60A-485B-9C84-1D2871416DB7}</Project>
       <Name>DiagramEditor</Name>

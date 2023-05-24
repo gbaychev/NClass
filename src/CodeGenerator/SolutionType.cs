@@ -19,6 +19,7 @@ namespace NClass.CodeGenerator
     public enum SolutionType
     {
         VisualStudio2017,
-        VisualStudio2019
+        VisualStudio2019,
+        Dart
     }
 }

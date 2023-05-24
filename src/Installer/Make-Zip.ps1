@@ -39,6 +39,7 @@ Copy-New-Item ..\..\..\icons\diagram.ico dist\bin\diagram.ico
 Copy-New-Item ..\..\..\GUI\bin\Release\NClass.CodeGenerator.dll dist\bin\NClass.CodeGenerator.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\NClass.Core.dll dist\bin\NClass.Core.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\NClass.CSharp.dll dist\bin\NClass.CSharp.dll
+Copy-New-Item ..\..\..\GUI\bin\Release\NClass.Dart.dll dist\bin\NClass.Dart.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\NClass.DiagramEditor.dll dist\bin\NClass.DiagramEditor.dll
 Copy-New-Item ..\..\..\GUI\bin\Release\NClass.exe dist\bin\NClass.exe
 Copy-New-Item ..\..\..\GUI\bin\Release\Octokit.dll dist\bin\Octokit.dll

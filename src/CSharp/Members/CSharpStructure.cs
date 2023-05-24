@@ -17,6 +17,7 @@
 using System;
 using System.Text;
 using NClass.Core;
+using NClass.Core.Entities;
 using NClass.Translations;
 
 namespace NClass.CSharp

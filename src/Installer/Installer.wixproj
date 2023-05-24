@@ -92,6 +92,14 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\Dart\Dart.csproj">
+      <Name>Dart</Name>
+      <Project>{2af0f529-333a-4ef2-aa17-2e353133fe78}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\DiagramEditor\DiagramEditor.csproj">
       <Name>DiagramEditor</Name>
       <Project>{f52a7548-e60a-485b-9c84-1d2871416db7}</Project>

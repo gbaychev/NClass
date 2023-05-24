@@ -18,6 +18,7 @@ using System;
 using System.Windows.Forms;
 using NClass.Core;
 using NClass.CSharp;
+using NClass.Dart;
 using NClass.DiagramEditor;
 using NClass.DiagramEditor.ClassDiagram;
 using NClass.DiagramEditor.Diagrams;
@@ -71,6 +72,8 @@ namespace NClass.GUI.ModelExplorer
                         return "csharp";
                     else if (doc.Language == JavaLanguage.Instance)
                         return "java";
+                    else if (doc.Language == DartLanguage.Instance)
+                        return "dart";
                     break;
                 case DiagramType.UseCaseDiagram:
                     return "usecase";

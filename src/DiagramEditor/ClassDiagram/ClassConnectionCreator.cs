@@ -18,6 +18,7 @@ using System;
 using NClass.Core;
 using NClass.DiagramEditor.ClassDiagram.Shapes;
 using System.Windows.Forms;
+using NClass.Core.Entities;
 using NClass.DiagramEditor.Commands;
 using NClass.Translations;
 using NClass.DiagramEditor.Diagrams;
@@ -144,16 +145,37 @@ namespace NClass.DiagramEditor.ClassDiagram
                     var command = new AddConnectionCommand(diagram, _connectionFactory);
                     command.Execute();
                     diagram.TrackCommand(command);
+                    return;
                 }
                 catch (RelationshipException)
                 {
                     MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+                    return;
+                } 
+            }
+
+            // Allow the Dart mixin class to be realized as well as interfaces as it can be used either as
+            // a class or an interface.
+            if (first is TypeShape shape3 && 
+                ((ClassShape)second).ClassType.Modifier == ClassModifier.Mixin)
+            {
+                try
+                {
+                    Func<Relationship> _connectionFactory = () =>
+                            diagram.AddRealization(shape3.TypeBase, ((ClassShape)second).ClassType);
+                    var command = new AddConnectionCommand(diagram, _connectionFactory);
+                    command.Execute();
+                    diagram.TrackCommand(command);
+                    return;
+                }
+                catch (RelationshipException)
+                {
+                    MessageBox.Show(Strings.ErrorCannotCreateRelationship);
+                    return;
                 }
             }
-            else
-            {
-                MessageBox.Show(Strings.ErrorCannotCreateRelationship);
-            }
+
+            MessageBox.Show(Strings.ErrorCannotCreateRelationship);
         }
 
         private void CreateDependency()
@@ -191,7 +213,7 @@ namespace NClass.DiagramEditor.ClassDiagram
             }
             catch (RelationshipException ex)
             {
-                MessageBox.Show(Strings.ErrorCannotCreateRelationship + " " + ex.Message);
+                MessageBox.Show($"{Strings.ErrorCannotCreateRelationship} {ex.Message}");
             }
         }
     }
