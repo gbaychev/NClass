@@ -517,7 +517,7 @@ namespace PDFExport
             LinearGradientBrush lgBrush;
             if ((solidBrush = brush as SolidBrush) != null)
             {
-                xbrush = new XSolidBrush(solidBrush.Color);
+                xbrush = new XSolidBrush(XColor.FromArgb(solidBrush.Color));
             }
             else if ((lgBrush = brush as LinearGradientBrush) != null)
             {
@@ -540,7 +540,7 @@ namespace PDFExport
                 //outside the rectangle. To determine this gap we have to use some trigonometry.
                 //This will happily never the case in NClass. So we don't have to do this here.
 
-                xbrush = new XLinearGradientBrush(p1, p2, lgBrush.LinearColors[0], lgBrush.LinearColors[1]);
+                xbrush = new XLinearGradientBrush(Point.Round(p1), Point.Round(p2), XColor.FromArgb(lgBrush.LinearColors[0]), XColor.FromArgb(lgBrush.LinearColors[1]));
             }
             else
             {
@@ -630,7 +630,7 @@ namespace PDFExport
         /// <returns>The converted PDF-XPen.</returns>
         private static XPen PenToXPen(Pen pen)
         {
-            XPen xPen = new XPen(pen.Color, pen.Width)
+            XPen xPen = new XPen(XColor.FromArgb(pen.Color), pen.Width)
             {
                 DashOffset = pen.DashOffset,
                 DashStyle = DashStyleToXDashStyle(pen.DashStyle),

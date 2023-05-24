@@ -42,7 +42,7 @@ namespace NClass.Translations
 
                 foreach (DirectoryInfo directory in directories)
                 {
-                    if (directory.Name != "Plugins" && directory.Name != "Templates")
+                    if (directory.Name != "Plugins" && directory.Name != "Templates" && directory.Name != "styles")
                     {
                         string cultureName = directory.Name;
                         UILanguage language = CreateUILanguage(cultureName);
