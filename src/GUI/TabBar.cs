@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using NClass.DiagramEditor;
 using NClass.Translations;
@@ -33,14 +34,13 @@ namespace NClass.GUI
             const int TextMargin = 20;
             public const int IconMargin = 20;
 
-            IDocument document;
-            TabBar parent;
+            readonly TabBar parent;
             string text;
             float textWidth;
 
             public Tab(IDocument document, TabBar parent)
             {
-                this.document = document;
+                this.Document = document;
                 this.parent = parent;
                 document.Renamed += document_Renamed;
                 text = document.Name;
@@ -49,59 +49,38 @@ namespace NClass.GUI
 
             private void document_Renamed(object sender, EventArgs e)
             {
-                Text = document.Name;
+                Text = Document.Name;
             }
 
-            public IDocument Document
-            {
-                get { return document; }
-            }
+            public IDocument Document { get; }
 
             public string Text
             {
-                get
-                {
-                    return text;
-                }
+                get => text;
                 private set
                 {
-                    if (text != value)
-                    {
-                        text = value;
-                        textWidth = MeasureWidth(text);
-                        parent.Invalidate();
-                    }
+                    if (text == value) return;
+
+                    text = value;
+                    textWidth = MeasureWidth(text);
+                    parent.Invalidate();
                 }
             }
 
-            public float TextWidth
-            {
-                get { return textWidth; }
-            }
-
-            public int Width
-            {
-                get
-                {
-                    return Math.Max(MinWidth, (int) TextWidth + TextMargin + IconMargin);
-                }
-            }
-
-            public bool IsActive
-            {
-                get { return (Document == parent.docManager.ActiveDocument); }
-            }
+            public float TextWidth => textWidth;
+            public int Width => Math.Max(MinWidth, (int) TextWidth + TextMargin + IconMargin);
+            public bool IsActive => (Document == parent.docManager.ActiveDocument);
 
             public void Detached()
             {
-                document.Renamed -= document_Renamed;
+                Document.Renamed -= document_Renamed;
             }
 
-            private float MeasureWidth(string text)
+            private float MeasureWidth(string textToMeasure)
             {
-                Graphics g = parent.CreateGraphics();
+                var g = parent.CreateGraphics();
 
-                SizeF textSize = g.MeasureString(text, parent.activeTabFont,
+                var textSize = g.MeasureString(textToMeasure, parent.activeTabFont,
                     parent.MaxTabWidth, parent.stringFormat);
                 g.Dispose();
 
@@ -174,18 +153,15 @@ namespace NClass.GUI
 
 
         DocumentManager docManager = null;
-        List<Tab> tabs = new List<Tab>();
-        Tab activeTab = null;
-        Tab grabbedTab = null;
-        int originalPosition = 0;
-        bool activeCloseButton = false;
+        private readonly List<Tab> tabs = new List<Tab>();
+        private Tab activeTab = null;
+        private Tab grabbedTab = null;
+        private int originalPosition = 0;
+        private bool activeCloseButton = false;
 
-        StringFormat stringFormat;
-        Font activeTabFont;
-        Color borderColor = SystemColors.ControlDark;
-        Color activeTabColor = Color.White;
-        Color inactiveTabColor = SystemColors.ControlLight;
-        int maxTabWidth = 200;
+        private readonly StringFormat stringFormat;
+        private Font activeTabFont;
+        private int maxTabWidth = 200;
 
         const int LeftMargin = 3;
         const int TopMargin = 3;
@@ -219,10 +195,7 @@ namespace NClass.GUI
         [Browsable(false)]
         public DocumentManager DocumentManager
         {
-            get
-            {
-                return docManager;
-            }
+            get => docManager;
             set
             {
                 if (docManager != value)
@@ -263,40 +236,22 @@ namespace NClass.GUI
                     return base.BackColor;
                 }
             }
-            set
-            {
-                base.BackColor = value;
-            }
+            set => base.BackColor = value;
         }
 
         [DefaultValue(typeof(Color), "ControlDark")]
-        public Color BorderColor
-        {
-            get { return borderColor; }
-            set { borderColor = value; }
-        }
+        public Color BorderColor { get; set; } = SystemColors.ControlDark;
 
         [DefaultValue(typeof(Color), "White")]
-        public Color ActiveTabColor
-        {
-            get { return activeTabColor; }
-            set { activeTabColor = value; }
-        }
+        public Color ActiveTabColor { get; set; } = Color.White;
 
         [DefaultValue(typeof(Color), "ControlLight")]
-        public Color InactiveTabColor
-        {
-            get { return inactiveTabColor; }
-            set { inactiveTabColor = value; }
-        }
+        public Color InactiveTabColor { get; set; } = SystemColors.ControlLight;
 
         [DefaultValue(200)]
         public int MaxTabWidth
         {
-            get
-            {
-                return maxTabWidth;
-            }
+            get => maxTabWidth;
             set
             {
                 maxTabWidth = value;
@@ -305,17 +260,11 @@ namespace NClass.GUI
             }
         }
 
-        protected override Size DefaultSize
-        {
-            get
-            {
-                return new Size(100, 25);
-            }
-        }
+        protected override Size DefaultSize => new Size(100, 25);
 
         private void CreateTabs()
         {
-            foreach (IDocument doc in docManager.Documents)
+            foreach (var doc in docManager.Documents)
             {
                 Tab tab = new Tab(doc, this);
                 tabs.Add(tab);
@@ -326,7 +275,7 @@ namespace NClass.GUI
 
         private void ClearTabs()
         {
-            foreach (Tab tab in tabs)
+            foreach (var tab in tabs)
                 tab.Detached();
             tabs.Clear();
             activeTab = null;
@@ -334,20 +283,18 @@ namespace NClass.GUI
 
         private void docManager_ActiveDocumentChanged(object sender, DocumentEventArgs e)
         {
-            foreach (Tab tab in tabs)
+            foreach (var tab in tabs.Where(tab => tab.Document == docManager.ActiveDocument))
             {
-                if (tab.Document == docManager.ActiveDocument)
-                {
-                    activeTab = tab;
-                    break;
-                }
+                activeTab = tab;
+                break;
             }
+
             this.Invalidate();
         }
 
         private void docManager_DocumentAdded(object sender, DocumentEventArgs e)
         {
-            Tab tab = new Tab(e.Document, this);
+            var tab = new Tab(e.Document, this);
             tabs.Add(tab);
         }
 
@@ -366,7 +313,7 @@ namespace NClass.GUI
 
         private void docManager_DocumentMoved(object sender, DocumentMovedEventArgs e)
         {
-            Tab tab = tabs[e.OldPosition];
+            var tab = tabs[e.OldPosition];
 
             if (e.NewPosition > e.OldPosition)
             {
@@ -386,7 +333,7 @@ namespace NClass.GUI
         {
             base.OnMouseDown(e);
 
-            Tab selectedTab = PickTab(e.Location);
+            var selectedTab = PickTab(e.Location);
             if (selectedTab != null)
             {
                 if (e.Button == MouseButtons.Middle || selectedTab.IsClosingSignActive)
@@ -406,7 +353,7 @@ namespace NClass.GUI
         {
             base.OnMouseDoubleClick(e);
 
-            Tab selectedTab = PickTab(e.Location);
+            var selectedTab = PickTab(e.Location);
             if (selectedTab != null && e.Button == MouseButtons.Left)
             {
                 docManager.Close(selectedTab.Document);
@@ -464,7 +411,7 @@ namespace NClass.GUI
         {
             int x = LeftMargin;
 
-            foreach (Tab tab in tabs)
+            foreach (var tab in tabs)
             {
                 if (point.X >= x && point.X < x + tab.Width)
                     return tab;
@@ -475,7 +422,7 @@ namespace NClass.GUI
 
         private void MoveTab(Tab grabbedTab, Point destination)
         {
-            Tab newNeighbourTab = PickTab(destination);
+            var newNeighbourTab = PickTab(destination);
 
             if (newNeighbourTab == grabbedTab)
             {
@@ -511,7 +458,7 @@ namespace NClass.GUI
             var textBrush = ForeColor.IsKnownColor ? SystemBrushes.FromSystemColor(ForeColor) : new SolidBrush(ForeColor);
 
             g.DrawLine(borderPen, 0, Height - 1, left, Height - 1);
-            foreach (Tab tab in tabs)
+            foreach (var tab in tabs)
             {
                 var top = (tab.IsActive ? TopMargin : TopMargin + 2);
                 var tabRectangle = new Rectangle(left, top, tab.Width, Height - top);
@@ -545,8 +492,7 @@ namespace NClass.GUI
 
         private void mnuCloseAll_Click(object sender, EventArgs e)
         {
-            if (docManager != null)
-                docManager.CloseAll();
+            docManager?.CloseAll();
         }
 
         private void mnuCloseAllButThis_Click(object sender, EventArgs e)
