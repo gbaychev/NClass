@@ -22,24 +22,15 @@ namespace NClass.DiagramEditor
 
     public class DocumentMovedEventArgs : DocumentEventArgs
     {
-        int oldPostion;
-        int newPosition;
-
-        public DocumentMovedEventArgs(IDocument document, int oldPostion, int newPosition)
+        public DocumentMovedEventArgs(IDocument document, int oldPosition, int newPosition)
             : base(document)
         {
-            this.oldPostion = oldPostion;
-            this.newPosition = newPosition;
+            this.OldPosition = oldPosition;
+            this.NewPosition = newPosition;
         }
 
-        public int OldPostion
-        {
-            get { return oldPostion; }
-        }
+        public int OldPosition { get; }
 
-        public int NewPosition
-        {
-            get { return newPosition; }
-        }
+        public int NewPosition { get; }
     }
 }

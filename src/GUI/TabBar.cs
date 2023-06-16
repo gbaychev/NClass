@@ -366,16 +366,16 @@ namespace NClass.GUI
 
         private void docManager_DocumentMoved(object sender, DocumentMovedEventArgs e)
         {
-            Tab tab = tabs[e.OldPostion];
+            Tab tab = tabs[e.OldPosition];
 
-            if (e.NewPosition > e.OldPostion)
+            if (e.NewPosition > e.OldPosition)
             {
-                for (int i = e.OldPostion; i < e.NewPosition; i++)
+                for (int i = e.OldPosition; i < e.NewPosition; i++)
                     tabs[i] = tabs[i + 1];
             }
-            else // e.NewPosition < e.OldPostion
+            else // e.NewPosition < e.OldPosition
             {
-                for (int i = e.OldPostion; i > e.NewPosition; i--)
+                for (int i = e.OldPosition; i > e.NewPosition; i--)
                     tabs[i] = tabs[i - 1];
             }
             tabs[e.NewPosition] = tab;
