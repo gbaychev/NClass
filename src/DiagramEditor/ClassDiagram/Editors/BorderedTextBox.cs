@@ -25,6 +25,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
     {
         private class TabTextBox : TextBox
         {
+            [DefaultValue(true)]
+            public bool AllowSelectAll { get; set; }
+
             protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
             {
                 if (keyData == Keys.Enter && AcceptsReturn)
@@ -35,6 +38,11 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
                 else if (keyData == Keys.Tab && AcceptsTab)
                 {
                     OnKeyDown(new KeyEventArgs(keyData));
+                    return true;
+                }
+                else if (keyData == (Keys.A | Keys.Control) && AllowSelectAll)
+                {
+                    SelectAll();
                     return true;
                 }
                 else
@@ -53,6 +61,7 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             textBox.BorderStyle = BorderStyle.FixedSingle;
             textBox.Location = new Point(-1, -1);
             textBox.AcceptsReturn = true;
+            textBox.AllowSelectAll = true;
             panel.Dock = DockStyle.Fill;
             panel.Size = textBox.Size - new Size(2, 0);
             panel.Controls.Add(textBox);
@@ -107,6 +116,9 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             get { return textBox.AcceptsTab; }
             set { textBox.AcceptsTab = value; }
         }
+
+        [DefaultValue(true)]
+        public bool AllowSelectAll { get; set; }
 
         /// <exception cref="ArgumentOutOfRangeException">
         /// The assigned value is less than zero.
