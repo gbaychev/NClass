@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using NClass.DiagramEditor.ClassDiagram.Editors;
 
 namespace NClass.DiagramEditor.Diagrams.Editors
 {
@@ -31,7 +32,8 @@ namespace NClass.DiagramEditor.Diagrams.Editors
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.txtName = new TextBox();
+            this.txtName = new TabTextBox();
+            this.txtName.AllowSelectAll = true;
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -68,7 +70,7 @@ namespace NClass.DiagramEditor.Diagrams.Editors
 
         #endregion
 
-        private TextBox txtName;
+        private TabTextBox txtName;
         private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
