@@ -44,7 +44,6 @@ namespace NClass.DiagramEditor
         public event EventHandler ZoomChanged;
         public event EventHandler DocumentRedrawed;
         public event EventHandler VisibleAreaChanged;
-        public event EventHandler MouseHWheel;
 
         //Mouse location in document coordinates from last OnMouseMove event
         PointF mouseDocPrevLocation = PointF.Empty;

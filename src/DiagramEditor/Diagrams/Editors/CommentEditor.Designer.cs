@@ -1,4 +1,6 @@
-﻿namespace NClass.DiagramEditor.Diagrams.Editors
+﻿using NClass.DiagramEditor.ClassDiagram.Editors;
+
+namespace NClass.DiagramEditor.Diagrams.Editors
 {
     partial class CommentEditor
     {
@@ -28,7 +30,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtComment = new System.Windows.Forms.TextBox();
+            this.txtComment = new TabTextBox();
+            this.txtComment.AllowSelectAll = true;
             this.SuspendLayout();
             // 
             // txtComment
@@ -55,6 +58,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtComment;
+        private TabTextBox txtComment;
     }
 }
