@@ -52,8 +52,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
             }
         }
 
-        TabTextBox textBox = new TabTextBox();
-        Panel panel = new Panel();
+        readonly TabTextBox textBox = new TabTextBox();
+        readonly Panel panel = new Panel();
 
         public BorderedTextBox()
         {
@@ -80,41 +80,41 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
         [DefaultValue(typeof(Color), "ControlDark")]
         public Color BorderColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => base.BackColor;
+            set => base.BackColor = value;
         }
 
         [DefaultValue(typeof(Color), "Window")]
         public new Color BackColor
         {
-            get { return textBox.BackColor; }
-            set { textBox.BackColor = value; }
+            get => textBox.BackColor;
+            set => textBox.BackColor = value;
         }
 
         public bool ReadOnly
         {
-            get { return textBox.ReadOnly; }
-            set { textBox.ReadOnly = value; }
+            get => textBox.ReadOnly;
+            set => textBox.ReadOnly = value;
         }
 
         public override string Text
         {
-            get { return textBox.Text; }
-            set { textBox.Text = value; }
+            get => textBox.Text;
+            set => textBox.Text = value;
         }
 
         [DefaultValue(true)]
         public bool AcceptsReturn
         {
-            get { return textBox.AcceptsReturn; }
-            set { textBox.AcceptsReturn = value; }
+            get => textBox.AcceptsReturn;
+            set => textBox.AcceptsReturn = value;
         }
 
         [DefaultValue(false)]
         public bool AcceptsTab
         {
-            get { return textBox.AcceptsTab; }
-            set { textBox.AcceptsTab = value; }
+            get => textBox.AcceptsTab;
+            set => textBox.AcceptsTab = value;
         }
 
         [DefaultValue(true)]
@@ -125,8 +125,8 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
         /// </exception>
         public int SelectionStart
         {
-            get { return textBox.SelectionStart; }
-            set { textBox.SelectionStart = value; }
+            get => textBox.SelectionStart;
+            set => textBox.SelectionStart = value;
         }
 
         private void textBox_KeyDown(object sender, KeyEventArgs e)
