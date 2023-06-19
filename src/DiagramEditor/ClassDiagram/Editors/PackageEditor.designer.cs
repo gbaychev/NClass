@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtName = new TabTextBox();
+            this.txtName.AllowSelectAll = true;
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +63,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtName;
+        private TabTextBox txtName;
         private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
