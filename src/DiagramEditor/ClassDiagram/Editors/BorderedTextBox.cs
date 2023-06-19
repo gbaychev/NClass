@@ -23,35 +23,6 @@ namespace NClass.DiagramEditor.ClassDiagram.Editors
 {
     public class BorderedTextBox : UserControl
     {
-        private class TabTextBox : TextBox
-        {
-            [DefaultValue(true)]
-            public bool AllowSelectAll { get; set; }
-
-            protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-            {
-                if (keyData == Keys.Enter && AcceptsReturn)
-                {
-                    OnKeyDown(new KeyEventArgs(keyData));
-                    return true;
-                }
-                else if (keyData == Keys.Tab && AcceptsTab)
-                {
-                    OnKeyDown(new KeyEventArgs(keyData));
-                    return true;
-                }
-                else if (keyData == (Keys.A | Keys.Control) && AllowSelectAll)
-                {
-                    SelectAll();
-                    return true;
-                }
-                else
-                {
-                    return base.ProcessCmdKey(ref msg, keyData);
-                }
-            }
-        }
-
         readonly TabTextBox textBox = new TabTextBox();
         readonly Panel panel = new Panel();
 

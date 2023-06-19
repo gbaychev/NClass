@@ -69,6 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteMouseEventArgs.cs" />
+    <Compile Include="ClassDiagram\Editors\TabTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Commands\AddConnectionCommand.cs" />
     <Compile Include="Commands\AddDelegateParameterCommand.cs" />
     <Compile Include="Commands\AddEnumMemberCommand.cs" />
