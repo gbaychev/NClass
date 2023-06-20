@@ -1309,28 +1309,51 @@ namespace NClass.DiagramEditor.Diagrams
 
         private void SelectElements(AbsoluteMouseEventArgs e)
         {
-            DiagramElement firstElement = null;
+            DiagramElement clickedElement = null;
+            bool wasClickedElementSelected = false;
             bool multiSelection = (Control.ModifierKeys == Keys.Control || Control.ModifierKeys == Keys.Shift);
+            bool hasMultiple = false;
 
             foreach (DiagramElement element in GetElementsInDisplayOrder())
             {
+                /*
+                 * Need to remember the selected state here
+                 * After processing the MousePressed event the element
+                 * will have IsSelected = true
+                 */
                 bool isSelected = element.IsSelected;
                 element.MousePressed(e);
-                if (e.Handled && firstElement == null)
+                if (e.Handled && clickedElement == null)
                 {
-                    firstElement = element;
-
-                    // allow to deselect elements when in multiselection
-                    if(multiSelection && isSelected)
-                    {
-                        element.IsSelected = false;
-                    }
+                    clickedElement = element;
+                    wasClickedElementSelected = isSelected;
+                    if (isSelected)
+                        hasMultiple = true;
                 }
             }
 
-            if (firstElement != null && !multiSelection)
+            if (clickedElement != null && !hasMultiple && !multiSelection)
             {
-                DeselectAllOthers(firstElement);
+                DeselectAllOthers(clickedElement);
+            }
+            else if (SelectedElementCount > 1 && multiSelection && clickedElement != null) 
+            {
+                /*
+                 * When selecting multiple elements allow do deselect or select the current element
+                 * the user clicked with shift ctrl
+                 */
+                if (wasClickedElementSelected)
+                {
+                    clickedElement.IsSelected = false;
+                    clickedElement.IsActive = false;
+                    var newActiveElement = GetSelectedElements().First();
+                    newActiveElement.IsActive = true;
+                }
+                else
+                {
+                    clickedElement.IsSelected = true;
+                    clickedElement.IsActive = true;
+                }
             }
 
             if (!e.Handled)
