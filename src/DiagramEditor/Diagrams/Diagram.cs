@@ -243,7 +243,7 @@ namespace NClass.DiagramEditor.Diagrams
         protected Project project;
         public Project Project
         {
-            get { return project; }
+            get => project;
             set
             {
                 if (this.project != value)
@@ -264,10 +264,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         public Point Offset
         {
-            get
-            {
-                return offset;
-            }
+            get => offset;
             set
             {
                 if (value.X < 0) value.X = 0;
@@ -283,10 +280,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         public Size Size
         {
-            get
-            {
-                return size;
-            }
+            get => size;
             protected set
             {
                 if (value.Width < DiagramConstants.MinSize.Width)
@@ -304,10 +298,7 @@ namespace NClass.DiagramEditor.Diagrams
 
         public float Zoom
         {
-            get
-            {
-                return zoom;
-            }
+            get => zoom;
             set
             {
                 if (value < Canvas.MinZoom) value = Canvas.MinZoom;
@@ -321,17 +312,11 @@ namespace NClass.DiagramEditor.Diagrams
             }
         }
 
-        public Color BackColor
-        {
-            get { return Style.CurrentStyle.BackgroundColor; }
-        }
+        public Color BackColor => Style.CurrentStyle.BackgroundColor;
 
         public bool RedrawSuspended
         {
-            get
-            {
-                return redrawSuspended;
-            }
+            get => redrawSuspended;
             set
             {
                 if (redrawSuspended != value)
@@ -384,10 +369,10 @@ namespace NClass.DiagramEditor.Diagrams
             {
                 if (SelectedConnectionCount > 0)
                     return connections.FirstValue;
-                else if (SelectedShapeCount > 0)
+                if (SelectedShapeCount > 0)
                     return shapes.FirstValue;
-                else
-                    return null;
+
+                return null;
             }
         }
 
@@ -400,13 +385,13 @@ namespace NClass.DiagramEditor.Diagrams
         public int SelectedConnectionCount => selectedConnectionCount;
         public string GetSelectedElementName()
         {
-            if (HasSelectedElement && SelectedElementCount == 1)
+            if (!HasSelectedElement || SelectedElementCount != 1) 
+                return null;
+
+            foreach (Shape shape in shapes)
             {
-                foreach (Shape shape in shapes)
-                {
-                    if (shape.IsSelected)
-                        return shape.Entity.Name;
-                }
+                if (shape.IsSelected)
+                    return shape.Entity.Name;
             }
 
             return null;
@@ -1961,24 +1946,24 @@ namespace NClass.DiagramEditor.Diagrams
 
         private void connection_SelectionChanged(object sender, EventArgs e)
         {
-            if (!selectioning)
+            if (selectioning) 
+                return;
+
+            var connection = (AbstractConnection)sender;
+
+            if (connection.IsSelected)
             {
-                var connection = (AbstractConnection)sender;
-
-                if (connection.IsSelected)
-                {
-                    selectedConnectionCount++;
-                    connections.ShiftToFirstPlace(connection);
-                }
-                else
-                {
-                    selectedConnectionCount--;
-                }
-
-                OnSelectionChanged(EventArgs.Empty);
-                OnClipboardAvailabilityChanged(EventArgs.Empty);
-                OnStatusChanged(EventArgs.Empty);
+                selectedConnectionCount++;
+                connections.ShiftToFirstPlace(connection);
             }
+            else
+            {
+                selectedConnectionCount--;
+            }
+
+            OnSelectionChanged(EventArgs.Empty);
+            OnClipboardAvailabilityChanged(EventArgs.Empty);
+            OnStatusChanged(EventArgs.Empty);
         }
 
         private void connection_RouteChanged(object sender, EventArgs e)
