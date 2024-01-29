@@ -6,10 +6,11 @@ namespace NClass.CSharp
 {
     public class CSharpConstructorDeclaration : ICSharpConstructorDeclaration
     {
-        // [<access>] [static] <name>([<args>])
+        // [<access>] [static] <name>[<T>]([<args>])
         const string ConstructorPattern =
             @"^\s*" + CSharpLanguage.AccessPattern + @"(?<static>static\s+)?" +
             @"(?<name>" + CSharpLanguage.NamePattern + ")" +
+            @"(<\w+>)?" +
             @"\((?(static)|(?<args>.*))\)" + CSharpLanguage.DeclarationEnding;
 
         static readonly Regex constructorRegex =
