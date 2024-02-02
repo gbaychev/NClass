@@ -218,10 +218,12 @@ namespace NClass.Core
                 var container = entities[containerIndex] as INestable;
                 foreach (XmlElement childNode in node.ChildNodes)
                 {
-                    int.TryParse(childNode.InnerText, out var childIndex);
-                    var childEntity = entities[childIndex] as INestableChild;
-                    container.AddNestedChild(childEntity);
-                    EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+                    if (int.TryParse(childNode.InnerText, out var childIndex) && childIndex >= 0) // to un-corrupt old "corrupted" files
+                    {
+                        var childEntity = entities[childIndex] as INestableChild;
+                        container.AddNestedChild(childEntity);
+                        EntityNested?.Invoke(container, new EntityEventArgs(childEntity));
+                    }
                 }
             }
         }
@@ -274,9 +276,14 @@ namespace NClass.Core
 
                 foreach (var childEntity in ((INestable)entity).NestedChilds)
                 {
-                    var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
-                    childEntityNode.InnerText = entities.IndexOf(childEntity).ToString();
-                    child.AppendChild(childEntityNode);
+                    int childEntityIndexNum = entities.IndexOf(childEntity);
+
+                    if (childEntityIndexNum >= 0) // made to rule out any cases where the child entity has an index of -1
+                    {
+                        var childEntityNode = node.OwnerDocument.CreateElement("ChildEntity");
+                        childEntityNode.InnerText = childEntityIndexNum.ToString();
+                        child.AppendChild(childEntityNode);
+                    }
                 }
 
                 containersNode.AppendChild(child);
