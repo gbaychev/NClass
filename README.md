@@ -5,10 +5,6 @@
 | -----  | -----  |
 | Master | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-master)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=3) |
 | Stable | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/NClass-stable)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=4) |
-| topics/undoredo | [![Build status](https://baychev.visualstudio.com/NClass/_apis/build/status/Features/NClass-UndoRedo)](https://baychev.visualstudio.com/NClass/_build/latest?definitionId=5) |
-
-The feature branch currently worked on is undo/redo
-
 
 ## About
 
@@ -32,18 +28,11 @@ Still, NClass is a great tool, although it is missing some important features. T
 
   - Bringing the NClass' support of C# and Java up-to-date with current version of the languages
   - Sequence diagrams
-  - Use Case diagrams
-  - Undo/Redo
+  - Use Case diagrams -> done ✔️
+  - Undo/Redo -> done ✔️
   - Many more to come. If you have an idea, don't hesitate to open an issue
 
-## :speech_balloon: Slack 
-
-If you have a discussion or talk about NClass, you can do it now on Slack too.
-Drop an email to nclass dot editor at gmail dot com with subject NClass to get an invite.
-
-Please bear in mind that currently the response times on Slack are slow.
-
-## How to build
+## 🛠️ How to build
 - at root folder level run:
 
         git submodule sync --recursive
